@@ -1,0 +1,422 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+
+	<meta charset="UTF-8">
+	<title>Admin</title>
+	<link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
+</head>
+
+<body ng-app>
+
+	<section class="container">
+		<h1>ADMIN</h1>
+		
+		<form name="formAdmin">
+			
+			<!--Logo-->
+			<section>
+				<h2>Logo</h2>
+				
+				<div class="form-group">
+					<label for="logo">Upload Logo</label>
+					<input type="file" name="logo" accept="image/*">
+					<button class="btn btn-success">Upload Logo</button>
+				</div>
+			</section>
+			
+			<hr>
+			
+			<!--BIOGRAPHY-->
+			<section>
+				<h2>Biography</h2>
+				
+				<div class="form-group">
+					<label for="bandBio">Name</label>
+					<textarea id="bandBio" name="bandBio" rows="4" class="form-control">
+					</textarea>
+					<button class="btn btn-success">Save</button>
+				</div>
+			</section>
+			
+			<hr>
+			
+			<!--MEMBERS-->
+			<section>
+				<h2>Members</h2>
+				
+				<section>
+					<div class="form-group">
+						<label for="memberName">Name</label>
+						<input type="text" id="memberName" name="memberName" class="form-control" placeholder="Name" />
+					</div>
+					
+					<div class="form-group">	
+						<label class="radio-inline"><input type="radio" name="memberGenre" class="form-control">Male</label>
+						<label class="radio-inline"><input type="radio" name="memberGenre" class="form-control">Female</label>
+					</div>
+					
+					<label for="memberPhoto">Upload Photo</label>
+					<input type="file" name="memberPhoto" accept="image/*">
+					<button class="btn btn-success">Upload Photo</button>
+					
+					<div class="form-group">
+						<label for="memberEmail">Email</label>
+						<input type="email" id="memberEmail" name="memberEmail" class="form-control" placeholder="Email"/>
+					</div>
+					
+					<div class="form-group">
+						<label for="cbRole">Role</label>
+						<select id="cbRole" name = "cbRole" class="form-control" placeholder="Role">
+							<option value="">Please select a role</option>
+						</select>
+					</div>
+					
+					<div class="form-group">
+						<label for="cbInstrument">Instrument</label>
+						<select id="cbInstrument" name = "cbInstrument" class="form-control" placeholder="Instrument">
+							<option value="">Please select an instrument</option>
+						</select>
+					</div>
+					
+					<div class="form-group">
+						<label for="taMemberProfile">Profile</label>
+						<textarea id="taMemberProfile" name = "taMemberProfile" rows="4" class="form-control">
+						</textarea>
+					</div>
+					
+					<button class="btn btn-success">Save</button>
+					
+				</section>
+				
+				<section>
+					<p>TODO Members List</p>
+				</section>
+			</section>
+			
+			<hr>
+			
+			<!--DISCOGRAPHY-->
+			<section>
+				
+				<h2>Discography</h2>				
+				
+				<div class="form-group">
+					<label for="albumName">Album Name</label>
+					<input type="text" id="albumName" name="albumName" class="form-control" placeholder="Album name" />
+				</div>
+				
+				<div class="form-group">
+					<label for="cbYear">Year</label>
+					<select id="cbYear" name = "cbYear" class="form-control" placeholder="Year">
+						<option value="">Please select a year</option>
+					</select>
+				</div>
+				
+				<div class="form-group">
+					<label for="labelName">Label</label>
+					<input type="text" id="labelName" name="labelName" class="form-control" placeholder="Label name" />
+				</div>
+				
+				<div class="form-group">
+					<label for="albumPrice">Price</label>
+					<input type="text" id="albumPrice" name="albumPrice" class="form-control" placeholder="Price" />
+				</div>
+				
+				<div class="form-group">
+					<label for="cbFormat">Format</label>
+					<select id="cbFormat" name = "cbFormat" class="form-control" placeholder="Format">
+						<option value="">Please select a format</option>
+					</select>
+				</div>
+				
+				<label for="albumCover">Upload Image</label>
+				<input type="file" name="albumCover" accept="image/*">
+				<button class="btn btn-success">Upload Image</button>
+				
+				<p>TODO More Album Images</p>
+				
+				<div class="form-group">
+					<label for="releaseDate">Release Date</label>
+					<input type="date" id="releaseDate" name="releaseDate" class="form-control" placeholder="Release Date" />
+				</div>
+				
+				
+				
+				<h3>Songs</h3>
+				
+				
+				<div class="form-group">
+					<label for="songName">Song Name</label>
+					<input type="text" id="songName" name="songName" class="form-control" placeholder="Song name" />
+				</div>
+				
+				<div class="form-group">
+					<label for="composer">Composer</label>
+					<input type="text" id="composer" name="composer" class="form-control" placeholder="Composer" />
+				</div>
+				
+				<div class="form-group">
+					<label for="taLyric">Lyric</label>
+					<textarea id="taLyric" name = "taLyric" rows="4" class="form-control">
+					</textarea>
+				</div>
+				
+				<div class="form-group">
+					<label for="releaseDateSong">Release Date</label>
+					<input type="date" id="releaseDateSong" name="releaseDateSong" class="form-control" placeholder="Release Date" />
+				</div>
+				
+				<p>TODO Song tablature</p>
+				
+				<label for="uploadSong">Upload Song</label>
+				<input type="file" name="uploadSong" accept="audio/*">
+				<button class="btn btn-success">Upload Song</button>
+				
+				<section>
+					<p>TODO Songs List</p>
+				</section>
+				
+				<p>TODO Discography List</p>
+				
+			</section>			
+			
+			<section>
+				<h2>VIDEOS</h2>
+				
+				<div class="form-group">
+					<label for="videoName">Video Name</label>
+					<input type="text" id="videoName" name="videoName" class="form-control" placeholder="Video Name" />
+				</div>
+				
+				<div class="form-group">
+					<label for="videoDate">Date</label>
+					<input type="date" id="videoDate" name="videoDate" class="form-control" placeholder="Date" />
+				</div>
+				
+				<div class="form-group">
+					<label for="videoProducer">Producer</label>
+					<input type="text" id="videoProducer" name="videoProducer" class="form-control" placeholder="Producer" />
+				</div>
+				
+				<div class="form-group">
+					<label for="taVideoLyric">Lyric</label>
+					<textarea id="taVideoLyric" name = "taVideoLyric" rows="4" class="form-control">
+					</textarea>
+				</div>
+				
+				<div class="form-group">
+					<label for="videoURL">URL</label>
+					<input type="text" id="videoURL" name="videoURL" class="form-control" placeholder="URL" />
+				</div>
+				
+				<label for="uploadVideoImage">Upload Video Image</label>
+				<input type="file" name="uploadVideoImage" accept="image/*">
+				<button class="btn btn-success">Upload Video Image</button>
+				
+				<button class="btn btn-success">Save</button>
+				
+				<section>
+					<p>TODO Video List</p>
+				</section>
+				
+			</section>
+			
+			<section>
+				<h2>EVENTS</h2>
+			
+				<div class="form-group">
+					<label for="eventName">Event Name</label>
+					<input type="text" id="eventName" name="eventName" class="form-control" placeholder="Event Name" />
+				</div>
+				
+				<div class="form-group">
+					<label for="cbEventType">Type</label>
+					<select id="cbEventType" name = "cbEventType" class="form-control" placeholder="Type">
+						<option value="">Please select an event type</option>
+					</select>
+				</div>
+				
+				<div class="form-group">
+					<label for="eventDate">Date</label>
+					<input type="date" id="eventDate" name="eventDate" class="form-control" placeholder="Date" />
+				</div>
+				
+				<div class="form-group">
+					<label for="cbEventCountry">Type</label>
+					<select id="cbEventCountry" name = "cbEventCountry" class="form-control" placeholder="Country">
+						<option value="">Please select an event country</option>
+					</select>
+				</div>
+				
+				<div class="form-group">
+					<label for="cbEventCity">Type</label>
+					<select id="cbEventCity" name = "cbEventCity" class="form-control" placeholder="City">
+						<option value="">Please select an event city</option>
+					</select>
+				</div>
+				
+				<div class="form-group">
+					<label for="eventPlace">Place</label>
+					<input type="text" id="eventPlace" name="eventPlace" class="form-control" placeholder="Place" />
+				</div>
+				
+				<div class="form-group">
+					<label for="eventBeginHour">Begin Hour</label>
+					<input type="text" id="eventBeginHour" name="eventBeginHour" class="form-control" placeholder="Begin Hour" />
+				</div>
+				
+				<div class="form-group">
+					<label for="eventEndHour">End Hour</label>
+					<input type="text" id="eventEndHour" name="eventEndHour" class="form-control" placeholder="End Hour" />
+				</div>
+				
+				<p>TODO Map</p>
+				
+				<div class="form-group">
+					<label for="eventPrice">Price</label>
+					<input type="text" id="eventPrice" name="eventPrice" class="form-control" placeholder="Price" />
+				</div>
+				
+				<div class="form-group">
+					<label for="eventArticle">Article</label>
+					<input type="text" id="eventArticle" name="eventArticle" class="form-control" placeholder="Article" />
+				</div>
+				
+				<label for="uploadEventImage">Upload Event Image</label>
+				<input type="file" name="uploadEventImage" accept="image/*">
+				<button class="btn btn-success">Upload Event Image</button>
+				
+				<p>TODO Invited Bands</p>
+				
+				<div class="form-group">
+					<label for="eventVideoURL">URL</label>
+					<input type="text" id="eventVideoURL" name="eventVideoURL" class="form-control" placeholder="URL" />
+				</div>
+				
+				<div class="form-group">
+					<label for="cbEventStatus">Status</label>
+					<select id="cbEventStatus" name = "cbEventStatus" class="form-control" placeholder="Status">
+						<option value="">Please select an event status</option>
+					</select>
+				</div>
+				
+				<button class="btn btn-success">Save</button>
+				
+				<section>
+					<p>TODO Event List</p>
+				</section>
+				
+			</section>			
+			
+			<section>
+				<h2>INFLUENCES</h2>
+				<p>TODO Influences</p>
+			</section>
+			
+			
+			<section>
+				<h2>TECHNICAL RIDER</h2>
+				<p>TODO Technical Rider</p>
+			</section>
+			
+			<section>
+				<h2>MERCHANDISE</h2>
+				
+				<div class="form-group">
+					<label for="articleName">Article</label>
+					<input type="text" id="articleName" name="articleName" class="form-control" placeholder="Article" />
+				</div>
+				
+				<div class="form-group">
+					<label for="articleFormat">Format</label>
+					<select id="articleFormat" name = "articleFormat" class="form-control" placeholder="Format">
+						<option value="">Please select an article format</option>
+					</select>
+				</div>
+				
+				<label for="uploadArticleImage">Upload Article Image</label>
+				<input type="file" name="uploadArticleImage" accept="image/*">
+				<button class="btn btn-success">Upload Article Image</button>
+				
+				<div class="form-group">
+					<label for="articlePrice">Price</label>
+					<input type="text" id="articlePrice" name="articlePrice" class="form-control" placeholder="Price" />
+				</div>
+				
+				<div class="form-group">
+					<label for="articleInventory">Inventory</label>
+					<input type="text" id="articleInventory" name="articleInventory" class="form-control" placeholder="Inventory" />
+				</div>
+				
+				<div class="form-group">
+					<label for="articleStatus">Status</label>
+					<select id="articleStatus" name = "articleStatus" class="form-control" placeholder="Status">
+						<option value="">Please select an article status</option>
+					</select>
+				</div>
+				
+				<button class="btn btn-success">Save</button>
+				
+				<section>
+					<p>TODO Articles List</p>
+				</section>
+				
+			</section> 
+			
+			<section>
+				<h2>GALLERY</h2>
+				
+				<div class="form-group">
+					<label for="albumName">Article</label>
+					<input type="text" id="albumName" name="albumName" class="form-control" placeholder="Album" />
+				</div>
+				
+				<label for="uploadGalleryImage">Upload Image</label>
+				<input type="file" name="uploadGalleryImage" accept="image/*">
+				<button class="btn btn-success">Upload Image</button>
+				
+				<section>
+					<p>TODO Gallery List</p>
+				</section>
+			</section>
+			
+			<section>
+				<h2>FORUM</h2>
+				
+				<div class="form-group">
+					<label for="forumName">Name</label>
+					<input type="text" id="forumName" name="forumName" class="form-control" placeholder="Name" />
+				</div>
+				
+				<div class="form-group">
+					<label for="forumDescription">Description</label>
+					<input type="text" id="forumDescription" name="forumDescription" class="form-control" placeholder="Description" />
+				</div>
+				
+				<div class="form-group">
+					<label for="eventForumBegin">Begin Date</label>
+					<input type="text" id="eventForumBegin" name="eventForumBegin" class="form-control" placeholder="Begin Date" />
+				</div>
+				
+				<div class="form-group">
+					<label for="eventForumEnd">End Date</label>
+					<input type="text" id="eventForumEnd" name="eventForumEnd" class="form-control" placeholder="End Date" />
+				</div>
+				
+				<section>
+					<p>TODO Forum List</p>
+				</section>
+			</section>
+			
+			<section>
+				<h2>CHAT</h2>
+				
+				<p>TODO Forum List</p>
+				
+			</section>
+		</form>
+	</section>
+</body>
+</html>

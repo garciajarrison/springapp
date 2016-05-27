@@ -1,0 +1,74 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+
+	<meta charset="UTF-8">
+	<title>Admin</title>
+	<link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
+</head>
+
+<body ng-app>
+
+	<section class="container">
+		<h1>ADMIN</h1>
+		
+		<form name="formAdmin">
+			
+			<!--MEMBERS-->
+			<section>
+				<h2>Members</h2>
+				
+				<section>
+					<div class="form-group">
+						<label for="memberName">Name</label>
+						<input type="text" id="memberName" name="memberName" class="form-control" placeholder="Name" />
+					</div>
+					
+					<div class="form-group">	
+						<label class="radio-inline"><input type="radio" name="memberGenre" class="form-control">Male</label>
+						<label class="radio-inline"><input type="radio" name="memberGenre" class="form-control">Female</label>
+					</div>
+					
+					<label for="memberPhoto">Upload Photo</label>
+					<input type="file" name="memberPhoto" accept="image/*">
+					<button class="btn btn-success">Upload Photo</button>
+					
+					<div class="form-group">
+						<label for="memberEmail">Email</label>
+						<input type="email" id="memberEmail" name="memberEmail" class="form-control" placeholder="Email"/>
+					</div>
+					
+					<div class="form-group">
+						<label for="cbRole">Role</label>
+						<select id="cbRole" name = "cbRole" class="form-control" placeholder="Role">
+							<option value="">Please select a role</option>
+						</select>
+					</div>
+					
+					<div class="form-group">
+						<label for="cbInstrument">Instrument</label>
+						<select id="cbInstrument" name = "cbInstrument" class="form-control" placeholder="Instrument">
+							<option value="">Please select an instrument</option>
+						</select>
+					</div>
+					
+					<div class="form-group">
+						<label for="taMemberProfile">Profile</label>
+						<textarea id="taMemberProfile" name = "taMemberProfile" rows="4" class="form-control">
+						</textarea>
+					</div>
+					
+					<button class="btn btn-success">Save</button>
+					
+				</section>
+				
+				<section>
+					<p>TODO Members List</p>
+				</section>
+			</section>
+			
+		</form>
+	</section>
+</body>
+</html>

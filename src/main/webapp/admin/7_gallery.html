@@ -1,0 +1,38 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+
+	<meta charset="UTF-8">
+	<title>Admin</title>
+	<link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
+</head>
+
+<body ng-app>
+
+	<section class="container">
+		<h1>ADMIN</h1>
+		
+		<form name="formAdmin">
+			
+			<section>
+				<h2>GALLERY</h2>
+				
+				<div class="form-group">
+					<label for="albumName">Article</label>
+					<input type="text" id="albumName" name="albumName" class="form-control" placeholder="Album" />
+				</div>
+				
+				<label for="uploadGalleryImage">Upload Image</label>
+				<input type="file" name="uploadGalleryImage" accept="image/*">
+				<button class="btn btn-success">Upload Image</button>
+				
+				<section>
+					<p>TODO Gallery List</p>
+				</section>
+			</section>
+			
+		</form>
+	</section>
+</body>
+</html>

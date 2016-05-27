@@ -1,0 +1,590 @@
+-- -----------------------------------------------------
+-- Table role
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS role (
+  id_role SERIAL NOT NULL,
+  name VARCHAR(45) NOT NULL,
+  status VARCHAR(1) NOT NULL,
+  PRIMARY KEY (id_role))
+;
+
+
+-- -----------------------------------------------------
+-- Table gender
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS gender (
+  id_gender SERIAL NOT NULL,
+  name VARCHAR(45) NOT NULL,
+  status VARCHAR(1) NOT NULL,
+  PRIMARY KEY (id_gender))
+;
+
+
+-- -----------------------------------------------------
+-- Table configure
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS configure (
+  id_configure SERIAL NOT NULL,
+  language VARCHAR(2) NOT NULL,
+  name VARCHAR(40) NOT NULL,
+  status VARCHAR(1) NOT NULL,
+  PRIMARY KEY (id_configure))
+;
+
+
+-- -----------------------------------------------------
+-- Table country
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS country (
+  id_country SERIAL NOT NULL,
+  code VARCHAR(15) NOT NULL,
+  PRIMARY KEY (id_country))
+;
+
+
+-- -----------------------------------------------------
+-- Table state
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS state (
+  id_state SERIAL NOT NULL,
+  code VARCHAR(15) NOT NULL,
+  id_country INT NOT NULL,
+  PRIMARY KEY (id_state),
+  CONSTRAINT fk_state_country
+    FOREIGN KEY (id_country)
+    REFERENCES country (id_country)
+    
+    )
+;
+
+CREATE INDEX fk_state_country_idx ON state (id_country ASC);
+
+
+
+-- -----------------------------------------------------
+-- Table city
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS city (
+  id_city SERIAL NOT NULL,
+  code VARCHAR(15) NOT NULL,
+  id_state INT NOT NULL,
+  PRIMARY KEY (id_city),
+  CONSTRAINT fk_city_state
+    FOREIGN KEY (id_state)
+    REFERENCES state (id_state)
+    
+    )
+;
+
+CREATE INDEX fk_city_state_idx ON city (id_state ASC);
+
+
+-- -----------------------------------------------------
+-- Table member
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS member (
+  id_member SERIAL NOT NULL,
+  username VARCHAR(30) NOT NULL,
+  password VARCHAR(200) NOT NULL,
+  first_name VARCHAR(45) NOT NULL,
+  last_name VARCHAR(45) NOT NULL,
+  email VARCHAR(50) NOT NULL,
+  address VARCHAR(45) NULL,
+  phone VARCHAR(45) NULL,
+  cellphone VARCHAR(45) NULL,
+  profile VARCHAR(300) NULL,
+  picture BYTEA NULL,
+  creation_date DATE NOT NULL,
+  status VARCHAR(1) NOT NULL,
+  id_role INT NOT NULL,
+  id_gender INT NOT NULL,
+  id_configure INT NOT NULL,
+  id_city INT NOT NULL,
+  PRIMARY KEY (id_member),
+  CONSTRAINT fk_user_role
+    FOREIGN KEY (id_role)
+    REFERENCES role (id_role)
+    
+    ,
+  CONSTRAINT fk_user_gender
+    FOREIGN KEY (id_gender)
+    REFERENCES gender (id_gender)
+    
+    ,
+  CONSTRAINT fk_user_configure
+    FOREIGN KEY (id_configure)
+    REFERENCES configure (id_configure)
+    
+    ,
+  CONSTRAINT fk_member_city
+    FOREIGN KEY (id_city)
+    REFERENCES city (id_city)
+    
+    )
+;
+
+CREATE INDEX fk_user_role_idx ON member (id_role ASC);
+
+CREATE INDEX fk_user_gender_idx ON member (id_gender ASC);
+
+CREATE INDEX fk_user_configure_idx ON member (id_configure ASC);
+
+CREATE INDEX fk_member_city_idx ON member (id_city ASC);
+
+
+-- -----------------------------------------------------
+-- Table genre
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS genre (
+  id_genre SERIAL NOT NULL,
+  name VARCHAR(30) NOT NULL,
+  status VARCHAR(1) NOT NULL,
+  PRIMARY KEY (id_genre))
+;
+
+
+-- -----------------------------------------------------
+-- Table band
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS band (
+  id_band SERIAL NOT NULL,
+  name VARCHAR(80) NOT NULL,
+  status VARCHAR(1) NOT NULL,
+  address VARCHAR(150) NULL,
+  postal_code VARCHAR(10) NULL,
+  phone VARCHAR(20) NULL,
+  cellphone VARCHAR(20) NULL,
+  email VARCHAR(50) NOT NULL,
+  web_page VARCHAR(60) NULL,
+  label VARCHAR(50) NULL,
+  logo BYTEA NULL,
+  picture BYTEA NULL,
+  creation_date DATE NOT NULL,
+  history VARCHAR(500) NULL,
+  id_genre INT NOT NULL,
+  id_city INT NOT NULL,
+  PRIMARY KEY (id_band),
+  CONSTRAINT fk_band_genre
+    FOREIGN KEY (id_genre)
+    REFERENCES genre (id_genre)
+    
+    ,
+  CONSTRAINT fk_band_city
+    FOREIGN KEY (id_city)
+    REFERENCES city (id_city)
+    
+    )
+;
+
+CREATE INDEX fk_band_genre_idx ON band (id_genre ASC);
+
+CREATE INDEX fk_band_city_idx ON band (id_city ASC);
+
+
+-- -----------------------------------------------------
+-- Table member_has_band
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS member_has_band (
+  id_member INT NOT NULL,
+  id_band INT NOT NULL,
+  PRIMARY KEY (id_member, id_band),
+  CONSTRAINT fk_user_has_band_user
+    FOREIGN KEY (id_member)
+    REFERENCES member (id_member)
+    
+    ,
+  CONSTRAINT fk_user_has_band_band
+    FOREIGN KEY (id_band)
+    REFERENCES band (id_band)
+    
+    )
+;
+
+CREATE INDEX fk_user_has_band_band_idx ON member_has_band (id_band ASC);
+
+CREATE INDEX fk_user_has_band_user_idx ON member_has_band (id_member ASC);
+
+-- -----------------------------------------------------
+-- Table language_name
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS language_name (
+  id_language SERIAL NOT NULL,
+  name VARCHAR(100) NOT NULL,
+  type_table VARCHAR(2) NOT NULL,
+  id_table INT NOT NULL,
+  id_configure INT NOT NULL,
+  PRIMARY KEY (id_language),
+  CONSTRAINT fk_language_name_configure
+    FOREIGN KEY (id_configure)
+    REFERENCES configure (id_configure)
+    
+    )
+;
+
+CREATE INDEX fk_language_name_configure_idx ON language_name (id_configure ASC);
+
+
+-- -----------------------------------------------------
+-- Table company
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS company (
+  id_company INT NOT NULL,
+  business_name VARCHAR(45) NULL,
+  address VARCHAR(45) NULL,
+  phone VARCHAR(45) NULL,
+  cellphone VARCHAR(45) NULL,
+  nit VARCHAR(45) NULL,
+  web_page VARCHAR(45) NULL,
+  PRIMARY KEY (id_company))
+;
+
+
+-- -----------------------------------------------------
+-- Table social
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS social (
+  id_social SERIAL NOT NULL,
+  name VARCHAR(45) NOT NULL,
+  url VARCHAR(100) NOT NULL,
+  status VARCHAR(1) NOT NULL,
+  id_company INT NOT NULL,
+  PRIMARY KEY (id_social),
+  CONSTRAINT fk_social_company
+    FOREIGN KEY (id_company)
+    REFERENCES company (id_company)
+    
+    )
+;
+
+CREATE INDEX fk_social_company_idx ON social (id_company ASC);
+
+
+-- -----------------------------------------------------
+-- Table instrument
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS instrument (
+  id_instrument SERIAL NOT NULL,
+  name VARCHAR(45) NOT NULL,
+  PRIMARY KEY (id_instrument))
+;
+
+
+-- -----------------------------------------------------
+-- Table member_has_instrument
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS member_has_instrument (
+  id_member INT NOT NULL,
+  id_instrument INT NOT NULL,
+  id_band INT NOT NULL,
+  CONSTRAINT fk_member_has_instrument_member
+    FOREIGN KEY (id_member)
+    REFERENCES member (id_member)
+    
+    ,
+  CONSTRAINT fk_member_has_instrument_instrument
+    FOREIGN KEY (id_instrument)
+    REFERENCES instrument (id_instrument)
+    
+    ,
+  CONSTRAINT fk_member_has_instrument_band
+    FOREIGN KEY (id_band)
+    REFERENCES band (id_band)
+    
+    )
+;
+
+CREATE INDEX fk_member_has_instrument_member_idx ON member_has_instrument (id_member ASC);
+
+CREATE INDEX fk_member_has_instrument_instrument_idx ON member_has_instrument (id_instrument ASC);
+
+CREATE INDEX fk_member_has_instrument_band_idx ON member_has_instrument (id_band ASC);
+
+
+
+
+
+-- -----------------------------------------------------
+-- Table format
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS format (
+  id_format SERIAL NOT NULL,
+  name VARCHAR(50) NOT NULL,
+  status VARCHAR(1) NOT NULL,
+  PRIMARY KEY (id_format))
+;
+
+
+-- -----------------------------------------------------
+-- Table media_status
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS media_status (
+  id_media_status SERIAL NOT NULL,
+  status VARCHAR(1) NOT NULL,
+  PRIMARY KEY (id_media_status))
+;
+
+
+-- -----------------------------------------------------
+-- Table album
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS album (
+  id_album SERIAL NOT NULL,
+  name VARCHAR(45) NOT NULL,
+  album_date DATE NULL,
+  label VARCHAR(45) NULL,
+  picture BYTEA NULL,
+  release_date DATE NULL,
+  price DECIMAL(15,2) NULL,
+  id_format INT NOT NULL,
+  id_band INT NOT NULL,
+  id_media_status INT NOT NULL,
+  PRIMARY KEY (id_album),
+  CONSTRAINT fk_album_format
+    FOREIGN KEY (id_format)
+    REFERENCES format (id_format)
+    
+    ,
+  CONSTRAINT fk_album_band
+    FOREIGN KEY (id_band)
+    REFERENCES band (id_band)
+    
+    ,
+  CONSTRAINT fk_album_media_status
+    FOREIGN KEY (id_media_status)
+    REFERENCES media_status (id_media_status)
+    
+    )
+;
+
+CREATE INDEX fk_album_format_idx ON album (id_format ASC);
+
+CREATE INDEX fk_album_band_idx ON album (id_band ASC);
+
+CREATE INDEX fk_album_media_status_idx ON album (id_media_status ASC);
+
+
+-- -----------------------------------------------------
+-- Table picture_album
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS picture_album (
+  id_picture_album SERIAL NOT NULL,
+  url VARCHAR(200) NULL,
+  picture BYTEA NULL,
+  name VARCHAR(50) NULL,
+  id_album INT NOT NULL,
+  PRIMARY KEY (id_picture_album),
+  CONSTRAINT fk_picture_album_album
+    FOREIGN KEY (id_album)
+    REFERENCES album (id_album)
+    
+    )
+;
+
+CREATE INDEX fk_picture_album_album_idx ON picture_album (id_album ASC);
+
+
+-- -----------------------------------------------------
+-- Table song
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS song (
+  id_song SERIAL NOT NULL,
+  name VARCHAR(45) NOT NULL,
+  compositer VARCHAR(45) NOT NULL,
+  lyric VARCHAR(300) NULL,
+  tablature BYTEA NULL,
+  partiture BYTEA NULL,
+  release_date DATE NULL,
+  song BYTEA NOT NULL,
+  price DECIMAL(15,2) NULL,
+  id_media_status INT NOT NULL,
+  id_album INT NOT NULL,
+  PRIMARY KEY (id_song),
+  CONSTRAINT fk_song_media_status
+    FOREIGN KEY (id_media_status)
+    REFERENCES media_status (id_media_status)
+    
+    ,
+  CONSTRAINT fk_song_album
+    FOREIGN KEY (id_album)
+    REFERENCES album (id_album)
+    
+    )
+;
+
+CREATE INDEX fk_song_media_status_idx ON song (id_media_status ASC);
+
+CREATE INDEX fk_song_album_idx ON song (id_album ASC);
+
+
+-- -----------------------------------------------------
+-- Table concert
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS concert (
+  id_concert SERIAL NOT NULL,
+  name VARCHAR(45) NOT NULL,
+  date VARCHAR(45) NOT NULL,
+  address VARCHAR(45) NOT NULL,
+  partner VARCHAR(45) NULL,
+  url_maps VARCHAR(45) NULL,
+  price VARCHAR(45) NOT NULL,
+  articule VARCHAR(45) NULL,
+  flyer BYTEA NULL,
+  description VARCHAR(500) NULL,
+  status VARCHAR(1) NOT NULL,
+  PRIMARY KEY (id_concert))
+;
+
+
+
+
+-- -----------------------------------------------------
+-- Table video
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS video (
+  id_video INT NOT NULL,
+  name VARCHAR(45) NULL,
+  video_date DATE NULL,
+  release_date VARCHAR(45) NULL,
+  producer VARCHAR(45) NULL,
+  lyric VARCHAR(300) NULL,
+  url VARCHAR(100) NULL,
+  official VARCHAR(1) NOT NULL,
+  id_media_status INT NOT NULL,
+  id_concert INT NOT NULL,
+  id_song INT NOT NULL,
+  PRIMARY KEY (id_video, id_media_status),
+  CONSTRAINT fk_video_media_status
+    FOREIGN KEY (id_media_status)
+    REFERENCES media_status (id_media_status)
+    
+    ,
+  CONSTRAINT fk_video_concert
+    FOREIGN KEY (id_concert)
+    REFERENCES concert (id_concert)
+    
+    ,
+  CONSTRAINT fk_video_song
+    FOREIGN KEY (id_song)
+    REFERENCES song (id_song)
+    
+    )
+;
+
+CREATE INDEX fk_video_media_status_idx ON video (id_media_status ASC);
+
+CREATE INDEX fk_video_concert_idx ON video (id_concert ASC);
+
+CREATE INDEX fk_video_song_idx ON video (id_song ASC);
+
+
+-- -----------------------------------------------------
+-- Table member_has_company
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS member_has_company (
+  member_id_member INT NOT NULL,
+  company_id_company INT NOT NULL,
+  PRIMARY KEY (member_id_member, company_id_company),
+  CONSTRAINT fk_member_has_company_member
+    FOREIGN KEY (member_id_member)
+    REFERENCES member (id_member)
+    
+    ,
+  CONSTRAINT fk_member_has_company_company
+    FOREIGN KEY (company_id_company)
+    REFERENCES company (id_company)
+    
+    )
+;
+
+CREATE INDEX fk_member_has_company_company_idx ON member_has_company (company_id_company ASC);
+
+CREATE INDEX fk_member_has_company_member_idx ON member_has_company (member_id_member ASC);
+
+
+-- -----------------------------------------------------
+-- Table company_city
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS company_city (
+  id_company INT NOT NULL,
+  id_city INT NOT NULL,
+  address VARCHAR(200) NULL,
+  url_maps VARCHAR(300) NULL,
+  phone VARCHAR(45) NULL,
+  PRIMARY KEY (id_company, id_city),
+  CONSTRAINT fk_company_city_company
+    FOREIGN KEY (id_company)
+    REFERENCES company (id_company)
+    
+    ,
+  CONSTRAINT fk_company_city_city
+    FOREIGN KEY (id_city)
+    REFERENCES city (id_city)
+    
+    )
+;
+
+CREATE INDEX fk_company_city_company_idx ON company_city (id_company ASC);
+
+CREATE INDEX fk_company_city_city_idx ON company_city (id_city ASC);
+
+
+-- -----------------------------------------------------
+-- Table merchandising
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS merchandising (
+  id_merchandising SERIAL NOT NULL,
+  picture BYTEA NULL,
+  status VARCHAR(1) NOT NULL,
+  price DECIMAL(15,2) NOT NULL,
+  quantity INT NOT NULL,
+  id_band INT NOT NULL,
+  PRIMARY KEY (id_merchandising),
+  CONSTRAINT fk_merchandising_band
+    FOREIGN KEY (id_band)
+    REFERENCES band (id_band)
+    
+    )
+;
+
+CREATE INDEX fk_merchandising_band_idx ON merchandising (id_band ASC);
+
+
+-- -----------------------------------------------------
+-- Table album_gallery
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS album_gallery (
+  id_album_gallery SERIAL NOT NULL,
+  name VARCHAR(100) NOT NULL,
+  status VARCHAR(1) NOT NULL,
+  id_band INT NOT NULL,
+  PRIMARY KEY (id_album_gallery),
+  CONSTRAINT fk_album_gallery_band
+    FOREIGN KEY (id_band)
+    REFERENCES band (id_band)
+    
+    )
+;
+
+CREATE INDEX fk_album_gallery_band_idx ON album_gallery (id_band ASC);
+
+-- -----------------------------------------------------
+-- Table galery
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS gallery (
+  id_gallery INT NOT NULL,
+  name VARCHAR(45) NOT NULL,
+  status VARCHAR(45) NOT NULL,
+  picture BYTEA NULL,
+  url_picture VARCHAR(30) NULL,
+  name_picture VARCHAR(50) NULL,
+  id_album_gallery INT NOT NULL,
+  PRIMARY KEY (id_gallery),
+  CONSTRAINT fk_galery_album_gallery
+    FOREIGN KEY (id_album_gallery)
+    REFERENCES album_gallery (id_album_gallery)
+    
+    )
+;
+
+CREATE INDEX fk_galery_album_gallery_idx ON gallery (id_album_gallery ASC);
+
