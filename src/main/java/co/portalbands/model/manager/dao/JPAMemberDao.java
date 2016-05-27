@@ -1,4 +1,4 @@
-package com.companyname.springapp.repository;
+package co.portalbands.model.manager.dao;
 
 import java.util.List;
 
@@ -8,10 +8,11 @@ import javax.persistence.PersistenceContext;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.companyname.springapp.domain.Product;
+import co.portalbands.model.bo.Member;
 
-@Repository(value = "productDao")
-public class JPAProductDao implements ProductDao {
+
+@Repository(value = "memberDao")
+public class JPAMemberDao implements MemberDao {
 
     private EntityManager em = null;
 
@@ -25,12 +26,12 @@ public class JPAProductDao implements ProductDao {
 
     @Transactional(readOnly = true)
     @SuppressWarnings("unchecked")
-    public List<Product> getProductList() {
-        return em.createQuery("select p from Product p order by p.id").getResultList();
+    public List<Member> getProductList() {
+        return em.createQuery("select p from Member p order by p.id").getResultList();
     }
 
     @Transactional(readOnly = false)
-    public void saveProduct(Product prod) {
+    public void saveProduct(Member prod) {
         em.merge(prod);
     }
 

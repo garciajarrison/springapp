@@ -42,7 +42,7 @@
     <tx:annotation-driven transaction-manager="transactionManager"/>
 
     <!-- Scans the classpath of this application for @Components to deploy as beans -->
-    <context:component-scan base-package="com.companyname.springapp.repository" />
-    <context:component-scan base-package="com.companyname.springapp.service" />
+    <context:component-scan base-package="co.portalbands.model.manager.dao" />
+    <context:component-scan base-package="co.portalbands.model.manager" />
 	
 </beans>
