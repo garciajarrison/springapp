@@ -1,4 +1,4 @@
-package co.portalbands.controller;
+package co.bandsportal.controller;
 
 import java.io.IOException;
 import java.util.Date;
@@ -16,7 +16,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import co.portalbands.model.manager.MemberManager;
+import co.bandsportal.model.manager.MemberManager;
+import co.bandsportal.model.bo.Member;
 
 @Controller
 public class LoginController {
@@ -26,7 +27,7 @@ public class LoginController {
     @Autowired
     private MemberManager memberManager;
     
-    @RequestMapping(value="/hello.htm")
+    @RequestMapping(value="/login.htm")
     public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
@@ -35,7 +36,7 @@ public class LoginController {
 
         Map<String, Object> myModel = new HashMap<String, Object>();
         myModel.put("now", now);
-        myModel.put("products", this.memberManager.getProducts());
+        myModel.put("products", new Member());
 
         return new ModelAndView("hello", "model", myModel);
     }

@@ -1,4 +1,4 @@
-package co.portalbands.model.bo;
+package co.bandsportal.model.bo;
 
 import java.io.Serializable;
 import java.util.Date;

@@ -1,1 +1,6 @@
+/ApplicationResources.properties
+/MessageBundle.properties
 /co/
+/jdbc.properties
+/log4j.properties
+/test-context.xml

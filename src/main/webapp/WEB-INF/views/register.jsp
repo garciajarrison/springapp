@@ -1,4 +1,5 @@
-<!DOCTYPE HTML>
+<%@ include file="/WEB-INF/views/general/include.jsp" %>
+
 <html>
 <head>
 

@@ -1,4 +1,4 @@
-package co.portalbands.model.bo;
+package co.bandsportal.model.bo;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -21,7 +21,7 @@ public class Member implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
     @Column(name = "username")
-    private String userName;
+    private String username;
     @Column(name = "password")
     private String password;
     @Column(name = "first_name")
@@ -50,11 +50,11 @@ public class Member implements Serializable {
 	public void setId(int id) {
 		this.id = id;
 	}
-	public String getUserName() {
-		return userName;
+	public String getUsername() {
+		return username;
 	}
-	public void setUserName(String userName) {
-		this.userName = userName;
+	public void setUsername(String username) {
+		this.username = username;
 	}
 	public String getPassword() {
 		return password;
