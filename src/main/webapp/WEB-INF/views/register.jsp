@@ -1,15 +1,5 @@
 <%@ include file="/WEB-INF/views/general/include.jsp" %>
 
-<html>
-<head>
-
-	<meta charset="UTF-8">
-	<title>Register</title>
-	<link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
-	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
-</head>
-
-<body ng-app>
 
 	<section class="container">
 		<h1>REGISTER</h1>
