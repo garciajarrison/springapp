@@ -2,7 +2,7 @@
 -- CREATE DATA BASE PORTALBANDS DB
 -- -----------------------------------------------------
 
-CREATE DATABASE portalbandsdb
+CREATE DATABASE bandsportaldb
   WITH OWNER = postgres
        ENCODING = 'UTF8'
        TABLESPACE = pg_default
