@@ -12,7 +12,7 @@
     
     </div>
     
-      <a href="<c:url value="register.htm"/>">Increase Prices</a>
+      <!-- a href="<c:url value="register.htm"/>">Increase Prices</a -->
     <br>
   </body>
 </html>

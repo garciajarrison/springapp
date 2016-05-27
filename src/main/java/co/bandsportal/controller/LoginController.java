@@ -38,8 +38,9 @@ public class LoginController {
         myModel.put("now", now);
         myModel.put("products", new Member());
 
-        return new ModelAndView("hello", "model", myModel);
+        return new ModelAndView("login", "model", myModel);
     }
+
     
     public void setMemberManager(MemberManager memberManager) {
         this.memberManager = memberManager;

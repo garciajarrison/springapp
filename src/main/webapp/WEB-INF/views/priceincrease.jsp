@@ -1,5 +1,5 @@
 <%@ include file="/WEB-INF/views/general/include.jsp" %>
-
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <html>
 <head>
   <title><fmt:message key="title"/></title>
