@@ -8,7 +8,7 @@
 	    <!--  <c:out value="${model.now}"/> -->
 	    <section class="container">
 		
-		<form name="formLogin">
+		<form:form method="post" commandName="login">
 			
 			<div class="form-group" ng-class="{'has-error': formLogin.name.$invalid, 'has-success': formLogin.name.$valid}">
 				<label for="name"></label>
@@ -22,7 +22,7 @@
 			
 			<button class="btn btn-success" ng-disabled="formLogin.$invalid"><fmt:message key="login.singin"/></button>
 			<a href="<c:url value="register.htm"/>"><fmt:message key="login.register"/></button></a>
-		</form>
+		</form:form>
 		</section>
 	    <br>
     

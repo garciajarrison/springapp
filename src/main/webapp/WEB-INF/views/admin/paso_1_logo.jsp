@@ -1,14 +1,5 @@
-<!DOCTYPE HTML>
-<html>
-<head>
+<%@ include file="/WEB-INF/views/general/include.jsp" %>
 
-	<meta charset="UTF-8">
-	<title>Admin</title>
-	<link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
-	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
-</head>
-
-<body ng-app>
 
 	<section class="container">
 		<h1>ADMIN</h1>

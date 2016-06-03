@@ -288,6 +288,7 @@ CREATE TABLE IF NOT EXISTS member_has_instrument (
   id_member INT NOT NULL,
   id_instrument INT NOT NULL,
   id_band INT NOT NULL,
+  PRIMARY KEY (id_member, id_instrument, id_band),
   CONSTRAINT fk_member_has_instrument_member
     FOREIGN KEY (id_member)
     REFERENCES member (id_member)
@@ -493,8 +494,8 @@ CREATE INDEX fk_video_song_idx ON video (id_song ASC);
 -- Table member_has_company
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS member_has_company (
-  member_id_member INT NOT NULL,
-  company_id_company INT NOT NULL,
+  id_member INT NOT NULL,
+  id_company INT NOT NULL,
   PRIMARY KEY (member_id_member, company_id_company),
   CONSTRAINT fk_member_has_company_member
     FOREIGN KEY (member_id_member)
@@ -599,4 +600,38 @@ CREATE TABLE IF NOT EXISTS gallery (
 ;
 
 CREATE INDEX fk_galery_album_gallery_idx ON gallery (id_album_gallery ASC);
+
+-----------------------------------------------------------------------------------------------------------------------------------------
+-----------------------------*********************** INSERCION DE DATOS              **********************************-----------------
+-----------------------------------------------------------------------------------------------------------------------------------------
+
+INSERT INTO configure (id_configure SERIAL NOT NULL,
+  language VARCHAR(2) NOT NULL,
+  name VARCHAR(40) NOT NULL,
+  status VARCHAR(1) NOT NULL,
+  PRIMARY KEY (id_configure))
+;
+
+
+
+
+INSERT INTO language_name (
+  id_language,
+  name,
+  type_table,
+  id_table,
+  id_configure,
+  PRIMARY KEY (id_language),
+  CONSTRAINT fk_language_name_configure
+    FOREIGN KEY (id_configure)
+    REFERENCES configure (id_configure)
+    
+    )
+	
+	
+	
+;
+
+
+
 

@@ -27,6 +27,9 @@ public class LoginController {
     @Autowired
     private MemberManager memberManager;
     
+    /**
+     * Metodo que inicia la aplicacion y carga el login
+     */
     @RequestMapping(value="/login.htm")
     public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -41,9 +44,22 @@ public class LoginController {
         return new ModelAndView("login", "model", myModel);
     }
     
+    /**
+     * Metodo que redirecciona a la pantalla de registro
+     */
     @RequestMapping(value="/register.htm")
     public ModelAndView register(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            						throws ServletException, IOException {
+
+        return new ModelAndView("register", "model",  new HashMap<String, Object>());
+    }
+
+    /**
+     * Metodo que registra una banda
+     */
+    @RequestMapping(value="/registerBand.htm")
+    public ModelAndView registerBand(HttpServletRequest request, HttpServletResponse response)
+            						throws ServletException, IOException {
 
         String now = (new Date()).toString();
         logger.info("Returning hello view with " + now);
@@ -51,7 +67,7 @@ public class LoginController {
         Map<String, Object> myModel = new HashMap<String, Object>();
         myModel.put("now", now);
 
-        return new ModelAndView("register", "model", myModel);
+        return new ModelAndView("paso_1_logo", "model", myModel);
     }
 
     
