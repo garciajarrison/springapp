@@ -1,14 +1,3 @@
--- -----------------------------------------------------
--- CREATE DATA BASE PORTALBANDS DB
--- -----------------------------------------------------
-
-CREATE DATABASE bandsportaldb
-  WITH OWNER = postgres
-       ENCODING = 'UTF8'
-       TABLESPACE = pg_default
-       LC_COLLATE = 'Spanish_Spain.1252'
-       LC_CTYPE = 'Spanish_Spain.1252'
-       CONNECTION LIMIT = -1;
 
 -- -----------------------------------------------------
 -- Table role
@@ -496,22 +485,22 @@ CREATE INDEX fk_video_song_idx ON video (id_song ASC);
 CREATE TABLE IF NOT EXISTS member_has_company (
   id_member INT NOT NULL,
   id_company INT NOT NULL,
-  PRIMARY KEY (member_id_member, company_id_company),
+  PRIMARY KEY (id_member, id_company),
   CONSTRAINT fk_member_has_company_member
-    FOREIGN KEY (member_id_member)
+    FOREIGN KEY (id_member)
     REFERENCES member (id_member)
     
     ,
   CONSTRAINT fk_member_has_company_company
-    FOREIGN KEY (company_id_company)
+    FOREIGN KEY (id_company)
     REFERENCES company (id_company)
     
     )
 ;
 
-CREATE INDEX fk_member_has_company_company_idx ON member_has_company (company_id_company ASC);
+CREATE INDEX fk_member_has_company_company_idx ON member_has_company (id_company ASC);
 
-CREATE INDEX fk_member_has_company_member_idx ON member_has_company (member_id_member ASC);
+CREATE INDEX fk_member_has_company_member_idx ON member_has_company (id_member ASC);
 
 
 -- -----------------------------------------------------
@@ -600,38 +589,3 @@ CREATE TABLE IF NOT EXISTS gallery (
 ;
 
 CREATE INDEX fk_galery_album_gallery_idx ON gallery (id_album_gallery ASC);
-
------------------------------------------------------------------------------------------------------------------------------------------
------------------------------*********************** INSERCION DE DATOS              **********************************-----------------
------------------------------------------------------------------------------------------------------------------------------------------
-
-INSERT INTO configure (id_configure SERIAL NOT NULL,
-  language VARCHAR(2) NOT NULL,
-  name VARCHAR(40) NOT NULL,
-  status VARCHAR(1) NOT NULL,
-  PRIMARY KEY (id_configure))
-;
-
-
-
-
-INSERT INTO language_name (
-  id_language,
-  name,
-  type_table,
-  id_table,
-  id_configure,
-  PRIMARY KEY (id_language),
-  CONSTRAINT fk_language_name_configure
-    FOREIGN KEY (id_configure)
-    REFERENCES configure (id_configure)
-    
-    )
-	
-	
-	
-;
-
-
-
-
