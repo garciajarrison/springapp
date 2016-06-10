@@ -13,9 +13,8 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="company") 
-@NamedNativeQuery(name="implicitSample", 
-					query="select * from SpaceShip", 
-					resultSetMapping="implicit")
+@NamedNativeQuery(name="listarTodos", 
+					query="select c from company as c order by c.bussinessName")
 public class Company implements Serializable {
 
 	private static final long serialVersionUID = 1L;
