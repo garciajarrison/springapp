@@ -117,7 +117,7 @@
  INSERT INTO configure (language, name, status) VALUES ('NR','SOUTHERN NDEBELE', 'A');
  INSERT INTO configure (language, name, status) VALUES ('OC','OCCITAN', 'A');
  INSERT INTO configure (language, name, status) VALUES ('OJ','OJIBWE, OJIBWA', 'A');
- INSERT INTO configure (language, name, status) VALUES ('CU','OLD CHURCH SLAVONIC, CHURCH SLAVONIC, OLD BULGARIAN', 'A');
+-- INSERT INTO configure (language, name, status) VALUES ('CU','OLD CHURCH SLAVONIC, CHURCH SLAVONIC, OLD BULGARIAN', 'A');
  INSERT INTO configure (language, name, status) VALUES ('OM','OROMO', 'A');
  INSERT INTO configure (language, name, status) VALUES ('OR','ORIYA', 'A');
  INSERT INTO configure (language, name, status) VALUES ('OS','OSSETIAN, OSSETIC', 'A');

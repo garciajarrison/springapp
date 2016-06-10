@@ -10,6 +10,7 @@ import co.bandsportal.model.bo.City;
 import co.bandsportal.model.bo.Country;
 import co.bandsportal.model.bo.Genre;
 import co.bandsportal.model.bo.Member;
+import co.bandsportal.model.bo.State;
 import co.bandsportal.model.manager.dao.ListaValoresDao;
 import co.bandsportal.model.manager.dao.MemberDao;
 
@@ -30,12 +31,16 @@ public class ListaValoresManager implements IListaValoresManager {
 		return listaValoresDao.loadGenres();
 	}
 
-	public List<City> loadCities() throws Exception {
-		return listaValoresDao.loadCities();
-	}
-
 	public List<Country> loadCountries() throws Exception {
 		return listaValoresDao.loadCountries();
+	}
+
+	public List<State> loadState(int countryCod){
+		return listaValoresDao.loadState(countryCod);
+	}
+	
+	public List<City> loadCities(int stateCod){
+		return listaValoresDao.loadCities(stateCod);
 	}
 
 }

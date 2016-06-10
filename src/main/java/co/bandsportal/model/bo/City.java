@@ -9,6 +9,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Formula;
+
 @Entity
 @Table(name="city") 
 public class City  implements Serializable{
@@ -21,6 +23,8 @@ public class City  implements Serializable{
 	private int id;
 	@Column(name = "code")
 	private String code;
+	@Formula("SELECT name FROM LanguageName WHERE typeTable = 'CITY' AND idConfigure = 1 AND idTable = ID")
+	private String name;
 	
 	public int getId() {
 		return id;
@@ -33,6 +37,12 @@ public class City  implements Serializable{
 	}
 	public void setCode(String code) {
 		this.code = code;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
 	}
 
 }

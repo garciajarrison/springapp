@@ -7,14 +7,14 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.NamedNativeQuery;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 
 @Entity
 @Table(name="company") 
-@NamedNativeQuery(name="listarTodos", 
-					query="select c from company as c order by c.bussinessName")
+@NamedQuery(name="listarTodos", 
+					query="select c from Company as c order by c.bussinessName")
 public class Company implements Serializable {
 
 	private static final long serialVersionUID = 1L;

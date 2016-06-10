@@ -17,7 +17,6 @@ public class ListaValores implements Serializable{
     private ListaValoresManager listaValoresManager;
 	
 	private List<Genre> genreList;
-	private List<City> cityList;
 	private List<Country> countryList;
 
 	private ListaValores(){
@@ -34,7 +33,10 @@ public class ListaValores implements Serializable{
 	private void loadList(){
 		this.loadGenres();
 		this.loadCountries();
-		this.loadCities();
+	}
+	
+	public void resetLists(){
+		loadList();
 	}
 	
 	/**
@@ -48,15 +50,7 @@ public class ListaValores implements Serializable{
 			
 		}
 	}
-	
-	private void loadCities(){
-		try{
-			cityList = listaValoresManager.loadCities();
-		}catch(Exception e){
-			
-		}
-	}
-	
+
 	private void loadCountries(){
 		try{
 			countryList = listaValoresManager.loadCountries();
@@ -74,16 +68,17 @@ public class ListaValores implements Serializable{
 	public List<Genre> getGenreList(){
 		return this.genreList;
 	}
-	
-	public List<City> getCityList(){
-		return this.cityList;
-	}
-	
 	public List<Country> getCountryList(){
 		return this.countryList;
 	}
-
 	
+	public List<City> getCityList(int stateCod){
+		return listaValoresManager.loadCities(stateCod);
+	}
+	public List<State> getStateList(int countryCod){
+		return listaValoresManager.loadState(countryCod);
+	}
+
 	public void setListaValoresManager(ListaValoresManager listaValoresManager) {
         this.listaValoresManager = listaValoresManager;
     }

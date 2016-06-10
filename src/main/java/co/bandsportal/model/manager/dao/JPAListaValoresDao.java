@@ -15,6 +15,7 @@ import co.bandsportal.model.bo.City;
 import co.bandsportal.model.bo.Country;
 import co.bandsportal.model.bo.Genre;
 import co.bandsportal.model.bo.Member;
+import co.bandsportal.model.bo.State;
 
 
 @Repository(value = "listaValoresDao")
@@ -53,7 +54,7 @@ public class JPAListaValoresDao implements ListaValoresDao {
 
 	@Override
 	@Transactional(readOnly = false)
-	public List<City> loadCities() throws Exception {
+	public List<City> loadCities(int stateCod) {
 		List<City> retorno = new ArrayList<City>();;
     	
     	try{
@@ -75,6 +76,25 @@ public class JPAListaValoresDao implements ListaValoresDao {
 	@Transactional(readOnly = false)
 	public List<Country> loadCountries() throws Exception {
 		List<Country> retorno = new ArrayList<Country>();;
+    	
+    	try{
+    		
+    		Query q = em.createQuery("select m from Member m "
+            						+ "WHERE m.password = :password"
+            						+ "AND m.username = :username");
+    		
+    		Member mem = (Member)q.getSingleResult();
+        
+    	}catch(Exception e){
+    		throw e;
+    	}
+    	return retorno;
+	}
+
+
+	@Override
+	public List<State> loadState(int countryCod){
+		List<State> retorno = new ArrayList<State>();
     	
     	try{
     		
