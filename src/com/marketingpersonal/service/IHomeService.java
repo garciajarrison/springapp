@@ -15,5 +15,5 @@ public interface IHomeService {
 	
 	Home getHomeById(int id);
 	
-	List<Home> getHomes();
+	List<Home> getHomes(boolean activo);
 }

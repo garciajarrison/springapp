@@ -8,7 +8,7 @@
     <ui:define name="title">Variables Macroeconomicas</ui:define>
 
     <ui:define name="content">
-	<h:form>
+	<h:form enctype="multipart/form-data">
 			<p:growl id="growl" sticky="true" autoUpdate="true" />
             <div class="ui-fluid">
                 <div class="ui-g">
@@ -26,9 +26,21 @@
                                 <p:outputLabel for="txtFechaFin" value="Fecha fin"/>
                                 <p:calendar id="txtFechaFin" value="#{homeBB.home.fechaFin}" />
                                 
+                                <p:outputLabel for="txtImagen" value="Imagen"/>
+                                <p:fileUpload id="txtImagen" value="#{homeBB.imagen}"  mode="simple" skinSimple="true"
+                                	dragDropSupport="false" process="@form"
+           							update="@form" sizeLimit="100000" fileLimit="3" allowTypes="/(\.|\/)(gif|jpe?g|png)$/"
+           							invalidFileMessage="El archivo no es valido"  
+          							invalidSizeMessage="El archivo pesa mucho" 
+          							fileLimitMessage="Supero el limite de archivos" 
+          							uploadLabel="Guardar" label="Imagen" 
+          							requiredMessage="El campo foto de perfil es requerido" />
+          							
+          						<p:commandButton id="btnGuardar" value="Guardar" ajax="false"
+          								actionListener="#{homeBB.addHome}"
+          								icon="ui-icon-check fa fa-check Fs14 White" style="max-width:150px;"/>
+          							
                                 
-                                
-                                <p:commandButton id="btnGuardar" value="Guardar" actionListener="#{homeBB.addHome}" update="@form" icon="ui-icon-check fa fa-check Fs14 White" style="max-width:150px;"/>
                             </p:panelGrid>
                             
                         </div>
@@ -48,30 +60,30 @@
                                     Variables Macroeconomicas
                                 </f:facet>
 
-                                <p:column headerText="Nombre" sortBy="#{home.nombre}"
+                                <p:column headerText="Nombre" sortBy="#{home.nombre}" width="30%"
                                 		 filterMatchMode="contains" filterBy="#{home.nombre}">
                                     <h:outputText value="#{home.nombre}" />
                                 </p:column>
                                 
-                                <p:column headerText="Fecha inicio" sortBy="#{home.fechaInicio}"
+                                <p:column headerText="Fecha inicio" sortBy="#{home.fechaInicio}" width="15%"
                                 		 filterMatchMode="contains" filterBy="#{home.fechaInicio}">
                                     <h:outputText value="#{home.fechaInicio}" />
                                 </p:column>
                                 
-                                <p:column headerText="Fecha fin" sortBy="#{home.fechaFin}"
+                                <p:column headerText="Fecha fin" sortBy="#{home.fechaFin}" width="15%"
                                 		 filterMatchMode="contains" filterBy="#{home.fechaFin}">
                                     <h:outputText value="#{home.fechaFin}" />
                                 </p:column>
 
-                                <p:column headerText="Estado" sortBy="#{home.estado}">
+                                <p:column headerText="Estado" sortBy="#{home.estado}" width="10%">
                                      <h:outputText value="#{home.estado ? 'Activo' : 'Inactivo'}" />
                                 </p:column>
                                 
-                                <p:column headerText="Imagen" sortBy="#{home.url}">
-                                     <h:outputText value="#{home.url}" />
+                                <p:column headerText="Imagen" sortBy="#{home.url}" width="20%">
+                                	 <center><img src="#{home.url}" width="150px" height="150px"/></center>
                                 </p:column>
                                 
-                                <p:column headerText="Acciones">
+                                <p:column headerText="Acciones" width="10%">
                                     <p:splitButton value="Accion" icon="fa fa-edit">
 								        <p:menuitem value="Actualizar" actionListener="#{homeBB.setSelectedHome(home)}"  
 								        			update=":#{p:component('dlgActualizar')} :#{p:component('tblHomes')}" oncomplete="PF('dlgActualizar').show();"

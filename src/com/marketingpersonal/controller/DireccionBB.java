@@ -37,7 +37,7 @@ public class DireccionBB extends SpringBeanAutowiringSupport implements Serializ
 	public void addDireccion() {
 		try {
 			if(direccion == null && direccion.getNombre() == null || 
-					"".equals(direccion.getNombre())) {
+					"".equals(direccion.getNombre().trim())) {
 				util.mostrarError("El campo Nombre es requerido.");
 			}else {
 				getDireccionService().addDireccion(direccion);
@@ -55,7 +55,7 @@ public class DireccionBB extends SpringBeanAutowiringSupport implements Serializ
 	public void updateDireccion() {
 		try {
 			if(selectedDireccion == null && selectedDireccion.getNombre() == null || 
-					"".equals(selectedDireccion.getNombre())) {
+					"".equals(selectedDireccion.getNombre().trim())) {
 				util.mostrarError("El campo Nombre es requerido.");
 			}else {
 				getDireccionService().updateDireccion(selectedDireccion);

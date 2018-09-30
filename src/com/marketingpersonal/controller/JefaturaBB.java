@@ -37,7 +37,7 @@ public class JefaturaBB extends SpringBeanAutowiringSupport implements Serializa
 	public void addJefatura() {
 		try {
 			if(jefatura == null && jefatura.getNombre() == null || 
-					"".equals(jefatura.getNombre())) {
+					"".equals(jefatura.getNombre().trim())) {
 				util.mostrarError("El campo Nombre es requerido.");
 			}else {
 				getJefaturaService().addJefatura(jefatura);
@@ -55,7 +55,7 @@ public class JefaturaBB extends SpringBeanAutowiringSupport implements Serializa
 	public void updateJefatura() {
 		try {
 			if(selectedJefatura == null && selectedJefatura.getNombre() == null || 
-					"".equals(selectedJefatura.getNombre())) {
+					"".equals(selectedJefatura.getNombre().trim())) {
 				util.mostrarError("El campo Nombre es requerido.");
 			}else {
 				getJefaturaService().updateJefatura(selectedJefatura);

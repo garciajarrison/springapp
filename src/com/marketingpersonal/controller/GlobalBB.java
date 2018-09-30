@@ -2,6 +2,7 @@ package com.marketingpersonal.controller;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.List;
 import java.util.Locale;
 
 import javax.annotation.PostConstruct;
@@ -18,7 +19,9 @@ import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 import com.marketingpersonal.common.EnumSessionAttributes;
 import com.marketingpersonal.common.ListasGenericas;
 import com.marketingpersonal.common.Util;
+import com.marketingpersonal.model.entity.Home;
 import com.marketingpersonal.model.entity.Usuario;
+import com.marketingpersonal.service.IHomeService;
 import com.marketingpersonal.service.IUsuarioService;
 
 
@@ -29,12 +32,16 @@ public class GlobalBB extends SpringBeanAutowiringSupport implements Serializabl
 	private static final long serialVersionUID = 1L;
 	@Autowired
 	private IUsuarioService usuarioService;
+	@Autowired
+	private IHomeService homeService;
 	private Usuario usuario;
 	private Locale locale;
 	private Util util;
 	private UploadedFile foto;
 	private String urlFotoPerfil;
 	private ListasGenericas listasGenericas;
+	private List<Home> variablesMacroeconomicas;
+	private boolean variasVariables;
 	
 	public GlobalBB() {
 		util = Util.getInstance();
@@ -42,12 +49,25 @@ public class GlobalBB extends SpringBeanAutowiringSupport implements Serializabl
 		if(usuario != null) {
 			listasGenericas = ListasGenericas.getInstance();
 	        cargarFotoPerfil();
+	        cargarVariablesMacroeconomicas();
 		}
 	}
 	
 	@PostConstruct
 	public void validarSession() {
 		util.validarSession();
+	}
+	
+	private void cargarVariablesMacroeconomicas() {
+		try {
+			variablesMacroeconomicas = getHomeService().getHomes(true);
+			if(variablesMacroeconomicas != null && !variablesMacroeconomicas.isEmpty()) {
+				variasVariables = variablesMacroeconomicas.size() > 1;
+			}
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public void upload(FileUploadEvent event) {
@@ -138,6 +158,30 @@ public class GlobalBB extends SpringBeanAutowiringSupport implements Serializabl
 
 	public void setListasGenericas(ListasGenericas listasGenericas) {
 		this.listasGenericas = listasGenericas;
+	}
+
+	public IHomeService getHomeService() {
+		return homeService;
+	}
+
+	public void setHomeService(IHomeService homeService) {
+		this.homeService = homeService;
+	}
+
+	public List<Home> getVariablesMacroeconomicas() {
+		return variablesMacroeconomicas;
+	}
+
+	public void setVariablesMacroeconomicas(List<Home> variablesMacroeconomicas) {
+		this.variablesMacroeconomicas = variablesMacroeconomicas;
+	}
+
+	public boolean isVariasVariables() {
+		return variasVariables;
+	}
+
+	public void setVariasVariables(boolean variasVariables) {
+		this.variasVariables = variasVariables;
 	}
 
  }

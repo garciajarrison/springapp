@@ -15,6 +15,6 @@ public interface IHomeDAO {
 	
 	Home getHomeById(int id);
 
-	List<Home> getHomes();
+	List<Home> getHomes(boolean activo);
 
 }

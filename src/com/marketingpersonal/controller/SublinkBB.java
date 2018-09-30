@@ -37,7 +37,7 @@ public class SublinkBB extends SpringBeanAutowiringSupport implements Serializab
 	public void addSublink() {
 		try {
 			if(sublink == null && sublink.getNombre() == null || 
-					"".equals(sublink.getNombre())) {
+					"".equals(sublink.getNombre().trim())) {
 				util.mostrarError("El campo Nombre es requerido.");
 			}else {
 				getSublinkService().addSublink(sublink);
@@ -55,7 +55,7 @@ public class SublinkBB extends SpringBeanAutowiringSupport implements Serializab
 	public void updateSublink() {
 		try {
 			if(selectedSublink == null && selectedSublink.getNombre() == null || 
-					"".equals(selectedSublink.getNombre())) {
+					"".equals(selectedSublink.getNombre().trim())) {
 				util.mostrarError("El campo Nombre es requerido.");
 			}else {
 				getSublinkService().updateSublink(selectedSublink);

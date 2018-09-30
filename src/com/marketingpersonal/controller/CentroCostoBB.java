@@ -59,7 +59,7 @@ public class CentroCostoBB extends SpringBeanAutowiringSupport implements Serial
 		boolean permiteGuardar = true;
 		
 		if(cc.getNombre() == null || 
-				"".equals(cc.getNombre())) {
+				"".equals(cc.getNombre().trim())) {
 			util.mostrarError("El campo Nombre es requerido.");
 			permiteGuardar = false;
 		}

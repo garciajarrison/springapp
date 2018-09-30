@@ -37,7 +37,7 @@ public class GerenciaBB extends SpringBeanAutowiringSupport implements Serializa
 	public void addGerencia() {
 		try {
 			if(gerencia == null && gerencia.getNombre() == null || 
-					"".equals(gerencia.getNombre())) {
+					"".equals(gerencia.getNombre().trim())) {
 				util.mostrarError("El campo Nombre es requerido.");
 			}else {
 				getGerenciaService().addGerencia(gerencia);
@@ -55,7 +55,7 @@ public class GerenciaBB extends SpringBeanAutowiringSupport implements Serializa
 	public void updateGerencia() {
 		try {
 			if(selectedGerencia == null && selectedGerencia.getNombre() == null || 
-					"".equals(selectedGerencia.getNombre())) {
+					"".equals(selectedGerencia.getNombre().trim())) {
 				util.mostrarError("El campo Nombre es requerido.");
 			}else {
 				getGerenciaService().updateGerencia(selectedGerencia);

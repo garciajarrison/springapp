@@ -1,6 +1,7 @@
 package com.marketingpersonal.controller;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
@@ -35,7 +36,7 @@ public class HomeBB extends SpringBeanAutowiringSupport implements Serializable 
 		util = Util.getInstance();
 		home = new Home();
 		selectedHome = new Home();
-		listaHomes = getHomeService().getHomes();
+		listaHomes = getHomeService().getHomes(false);
 	}
 	
 	public void upload(FileUploadEvent event) {
@@ -46,14 +47,53 @@ public class HomeBB extends SpringBeanAutowiringSupport implements Serializable 
         }
     }
 	
+	private boolean validar(Home ho, boolean validaImagen) {
+		boolean permiteGuardar = true;
+		
+		if(ho.getNombre() == null || 
+				"".equals(ho.getNombre().trim())) {
+			util.mostrarError("El campo Nombre es requerido.");
+			permiteGuardar = false;
+		}
+		
+		if(ho.getFechaInicio() == null) {
+			util.mostrarError("El campo Fecha inicio es requerido.");
+			permiteGuardar = false;
+		}
+		
+		if(ho.getFechaFin() == null) {
+			util.mostrarError("El campo Fecha fin es requerido.");
+			permiteGuardar = false;
+		}
+		
+		//Validamos que fecha inicio no sea mayor a la final
+		if(ho.getFechaInicio() != null && 
+				ho.getFechaFin() != null) {
+			try {
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+				int f1 = Integer.parseInt(sdf.format(ho.getFechaInicio()));
+				int f2 = Integer.parseInt(sdf.format(ho.getFechaFin()));
+			
+				if(f1 > f2) {
+					util.mostrarError("El campo Fecha inicio no puede ser mayor a Fecha fin.");
+					permiteGuardar = false;
+				}
+			}catch(Exception e){}
+		}
+		
+		if(validaImagen && imagen == null) {
+			util.mostrarError("El campo Imagen es requerido.");
+		}
+		
+		return permiteGuardar;
+	}
+	
 	public void addHome() {
 		try {
-			if(home == null && home.getNombre() == null || 
-					"".equals(home.getNombre())) {
-				util.mostrarError("El campo Nombre es requerido.");
-			}else {
+			if(validar(home, true)) {
+		        home.setUrl(util.crearFoto(home.getNombre(), imagen.getContents()));
 				getHomeService().addHome(home);
-				listaHomes = getHomeService().getHomes();
+				listaHomes = getHomeService().getHomes(false);
 				home = new Home();
 				util.mostrarMensaje("Registro agregado con éxito."); 
 			}
@@ -66,12 +106,9 @@ public class HomeBB extends SpringBeanAutowiringSupport implements Serializable 
 
 	public void updateHome() {
 		try {
-			if(selectedHome == null && selectedHome.getNombre() == null || 
-					"".equals(selectedHome.getNombre())) {
-				util.mostrarError("El campo Nombre es requerido.");
-			}else {
+			if(validar(selectedHome, false)) {
 				getHomeService().updateHome(selectedHome);
-				listaHomes = getHomeService().getHomes();
+				listaHomes = getHomeService().getHomes(false);
 				selectedHome = new Home();
 				util.mostrarMensaje("Registro actualizado con éxito.");
 			}
@@ -85,7 +122,7 @@ public class HomeBB extends SpringBeanAutowiringSupport implements Serializable 
 	public void deleteHome() {
 		try {
 			getHomeService().deleteHome(selectedHome);
-			listaHomes = getHomeService().getHomes();
+			listaHomes = getHomeService().getHomes(false);
 			util.mostrarMensaje("Registro eliminado con éxito.");  
 			
 		} catch (DataAccessException e) {
@@ -134,6 +171,12 @@ public class HomeBB extends SpringBeanAutowiringSupport implements Serializable 
 		this.listaHomes = listaHomes;
 	}
 
-	
+	public UploadedFile getImagen() {
+		return imagen;
+	}
+
+	public void setImagen(UploadedFile imagen) {
+		this.imagen = imagen;
+	}
 
  }

@@ -38,13 +38,13 @@ public class CuentaBB extends SpringBeanAutowiringSupport implements Serializabl
 		boolean permiteGuardar = true;
 		
 		if(cue.getNombre() == null || 
-				"".equals(cue.getNombre())) {
+				"".equals(cue.getNombre().trim())) {
 			util.mostrarError("El campo Nombre es requerido.");
 			permiteGuardar = false;
 		}
 		
 		if(cue.getGrupo() == null || 
-				"".equals(cue.getGrupo())) {
+				"".equals(cue.getGrupo().trim())) {
 			util.mostrarError("El campo Grupo es requerido.");
 			permiteGuardar = false;
 		}

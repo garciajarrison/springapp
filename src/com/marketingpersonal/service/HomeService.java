@@ -36,8 +36,8 @@ public class HomeService implements IHomeService {
 		return getEntityDAO().getHomeById(id);
 	}
 
-	public List<Home> getHomes() {	
-		return getEntityDAO().getHomes();
+	public List<Home> getHomes(boolean activo) {	
+		return getEntityDAO().getHomes(activo);
 	}
 	
 	public IHomeDAO getEntityDAO() {
