@@ -5,7 +5,7 @@
                 xmlns:p="http://primefaces.org/ui"
                 template="/WEB-INF/template.xhtml">
 
-    <ui:define name="title">Gerencias</ui:define>
+    <ui:define name="title">Cuentas</ui:define>
 
     <ui:define name="content">
 	<h:form>
@@ -14,43 +14,47 @@
                 <div class="ui-g">
                     <div class="ui-g-12">
                         <div class="card">
-                            <h1>Maestro de Gerencias</h1>
+                            <h1>Maestro de Cuentas</h1>
                             <p:panelGrid columns="2" columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4" layout="grid" styleClass="ui-panelgrid-blank" style="border:0px none; background-color:transparent;">
                                 
                                 <p:outputLabel for="txtNombre" value="Nombre"/>
-                                <p:inputText id="txtNombre" value="#{gerenciaBB.gerencia.nombre}"/>
+                                <p:inputText id="txtNombre" value="#{cuentaBB.cuenta.nombre}"/>
                                 
-                                <p:commandButton id="btnGuardar" value="Guardar" actionListener="#{gerenciaBB.addGerencia}" update="@form" icon="ui-icon-check fa fa-check Fs14 White" style="max-width:150px;"/>
+                                <p:outputLabel for="txtGrupo" value="Grupo"/>
+                                <p:inputText id="txtNombre" value="#{cuentaBB.cuenta.grupo}"/>
+                                
+                                <p:commandButton id="btnGuardar" value="Guardar" actionListener="#{cuentaBB.addCuenta}" update="@form" icon="ui-icon-check fa fa-check Fs14 White" style="max-width:150px;"/>
                             </p:panelGrid>
                             
                         </div>
                         
                         <div class="card">
-                            <h1>Listado de Gerencias</h1>
-                            <p:dataTable id="tblGerencias" var="gerencia" value="#{gerenciaBB.listaGerencias}" reflow="true" selectionMode="single" rowKey="#{gerencia.id}">
+                            <h1>Listado de Cuentas</h1>
+                            <p:dataTable id="tblCuentas" var="cuenta" value="#{cuentaBB.listaCuentas}" reflow="true" selectionMode="single" rowKey="#{cuenta.id}">
                                 <f:facet name="header">
-                                    Gerencias
+                                    Cuentas
                                 </f:facet>
-                                <p:column headerText="Id">
-                                    <h:outputText value="#{gerencia.id}" />
+
+                                <p:column headerText="Nombre" sortBy="#{cuenta.nombre}">
+                                    <h:outputText value="#{cuenta.nombre}" />
+                                </p:column>
+                                
+                                <p:column headerText="Grupo" sortBy="#{cuenta.grupo}">
+                                    <h:outputText value="#{cuenta.grupo}" />
                                 </p:column>
 
-                                <p:column headerText="Nombre">
-                                    <h:outputText value="#{gerencia.nombre}" />
-                                </p:column>
-
-                                <p:column headerText="Estado">
-                                     <h:outputText value="#{gerencia.estado ? 'Activo' : 'Inactivo'}" />
+                                <p:column headerText="Estado" sortBy="#{cuenta.estado}">
+                                     <h:outputText value="#{cuenta.estado ? 'Activo' : 'Inactivo'}" />
                                 </p:column>
                                 
                                 <p:column headerText="Acciones">
                                     <p:splitButton value="Accion" icon="fa fa-edit">
-								        <p:menuitem value="Actualizar" actionListener="#{gerenciaBB.setSelectedGerencia(gerencia)}"  
-								        			update=":#{p:component('dlgActualizar')} :#{p:component('tblGerencias')}" oncomplete="PF('dlgActualizar').show();"
+								        <p:menuitem value="Actualizar" actionListener="#{cuentaBB.setSelectedCuenta(cuenta)}"  
+								        			update=":#{p:component('dlgActualizar')} :#{p:component('tblCuentas')}" oncomplete="PF('dlgActualizar').show();"
 								        			icon="ui-icon-arrowrefresh-1-w" >
 								        	
 								        </p:menuitem>
-								        <p:menuitem value="Eliminar" actionListener="#{gerenciaBB.setSelectedGerencia(gerencia)}" 
+								        <p:menuitem value="Eliminar" actionListener="#{cuentaBB.setSelectedCuenta(cuenta)}" 
 								        			update=":#{p:component('dlgEliminar')}" oncomplete="PF('dlgEliminar').show();"
 								        			icon="ui-icon-close" >
 								        </p:menuitem>
@@ -64,15 +68,18 @@
 								<h:panelGrid columns="2" cellspacing="2" cellpadding="2">
 									
 									<h:outputLabel for="txtNombreU" value="Nombre" />
-									<p:inputText id="txtNombreU" value="#{gerenciaBB.selectedGerencia.nombre}" />
+									<p:inputText id="txtNombreU" value="#{cuentaBB.selectedCuenta.nombre}" />
+									
+									<p:outputLabel for="txtGrupoU" value="Grupo"/>
+                                	<p:inputText id="txtNombreU" value="#{cuentaBB.selectedCuenta.grupo}"/>
 							   				
 							   		<h:outputLabel for="txtNombreU" value="Estado:"/>
-							   		<p:selectBooleanButton id="sbbEstado" offLabel="Inactivo" onLabel="Activo" value="#{gerenciaBB.selectedGerencia.estado}" />
+							   		<p:selectBooleanButton id="sbbEstado" offLabel="Inactivo" onLabel="Activo" value="#{cuentaBB.selectedCuenta.estado}" />
 							   		
 							   	</h:panelGrid>
 							   	<br />
 						   	
-						   		<p:commandButton id="btnActualizarGerencia" actionListener="#{gerenciaBB.updateGerencia}" update="@form" title="Actualizar" value="Actualizar" />
+						   		<p:commandButton id="btnActualizarCuenta" actionListener="#{cuentaBB.updateCuenta}" update="@form" title="Actualizar" value="Actualizar" />
 								
 					   		</div>
 						</p:dialog>		
@@ -83,7 +90,7 @@
 								<strong>¿Está seguro de borrar el registro?</strong>
 								<br />
 								<br />
-								<p:commandButton id="btnEliminarGerencia" actionListener="#{gerenciaBB.deleteGerencia}" update="@form" title="Eliminar" value="Eliminar" />						   		
+								<p:commandButton id="btnEliminarCuenta" actionListener="#{cuentaBB.deleteCuenta}" update="@form" title="Eliminar" value="Eliminar" />						   		
 					   		</div>
 						</p:dialog>	
                         

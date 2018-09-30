@@ -1,0 +1,94 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+    <ui:define name="title">Jefaturas</ui:define>
+
+    <ui:define name="content">
+	<h:form>
+			<p:growl id="growl" sticky="true" autoUpdate="true" />
+            <div class="ui-fluid">
+                <div class="ui-g">
+                    <div class="ui-g-12">
+                        <div class="card">
+                            <h1>Maestro de Jefaturas</h1>
+                            <p:panelGrid columns="2" columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4" layout="grid" styleClass="ui-panelgrid-blank" style="border:0px none; background-color:transparent;">
+                                
+                                <p:outputLabel for="txtNombre" value="Nombre"/>
+                                <p:inputText id="txtNombre" value="#{jefaturaBB.jefatura.nombre}"/>
+                                
+                                <p:commandButton id="btnGuardar" value="Guardar" actionListener="#{jefaturaBB.addJefatura}" update="@form" icon="ui-icon-check fa fa-check Fs14 White" style="max-width:150px;"/>
+                            </p:panelGrid>
+                            
+                        </div>
+                        
+                        <div class="card">
+                            <h1>Listado de Jefaturas</h1>
+                            <p:dataTable id="tblJefaturas" var="jefatura" value="#{jefaturaBB.listaJefaturas}" reflow="true" selectionMode="single" rowKey="#{jefatura.id}">
+                                <f:facet name="header">
+                                    Jefaturas
+                                </f:facet>
+
+                                <p:column headerText="Nombre" sortBy="#{jefatura.nombre}">
+                                    <h:outputText value="#{jefatura.nombre}" />
+                                </p:column>
+
+                                <p:column headerText="Estado" sortBy="#{jefatura.estado}">
+                                     <h:outputText value="#{jefatura.estado ? 'Activo' : 'Inactivo'}" />
+                                </p:column>
+                                
+                                <p:column headerText="Acciones">
+                                    <p:splitButton value="Accion" icon="fa fa-edit">
+								        <p:menuitem value="Actualizar" actionListener="#{jefaturaBB.setSelectedJefatura(jefatura)}"  
+								        			update=":#{p:component('dlgActualizar')} :#{p:component('tblJefaturas')}" oncomplete="PF('dlgActualizar').show();"
+								        			icon="ui-icon-arrowrefresh-1-w" >
+								        	
+								        </p:menuitem>
+								        <p:menuitem value="Eliminar" actionListener="#{jefaturaBB.setSelectedJefatura(jefatura)}" 
+								        			update=":#{p:component('dlgEliminar')}" oncomplete="PF('dlgEliminar').show();"
+								        			icon="ui-icon-close" >
+								        </p:menuitem>
+								    </p:splitButton>
+                                </p:column>
+                            </p:dataTable>
+                        </div>
+                        
+                        <p:dialog header="Actualizar" id="dlgActualizar" widgetVar="dlgActualizar" minHeight="40">
+							<div align="center">
+								<h:panelGrid columns="2" cellspacing="2" cellpadding="2">
+									
+									<h:outputLabel for="txtNombreU" value="Nombre" />
+									<p:inputText id="txtNombreU" value="#{jefaturaBB.selectedJefatura.nombre}" />
+							   				
+							   		<h:outputLabel for="txtNombreU" value="Estado:"/>
+							   		<p:selectBooleanButton id="sbbEstado" offLabel="Inactivo" onLabel="Activo" value="#{jefaturaBB.selectedJefatura.estado}" />
+							   		
+							   	</h:panelGrid>
+							   	<br />
+						   	
+						   		<p:commandButton id="btnActualizarJefatura" actionListener="#{jefaturaBB.updateJefatura}" update="@form" title="Actualizar" value="Actualizar" />
+								
+					   		</div>
+						</p:dialog>		
+		
+						<p:dialog header="Eliminar" id="dlgEliminar" widgetVar="dlgEliminar" minHeight="40">
+							<div align="center">
+								
+								<strong>¿Está seguro de borrar el registro?</strong>
+								<br />
+								<br />
+								<p:commandButton id="btnEliminarJefatura" actionListener="#{jefaturaBB.deleteJefatura}" update="@form" title="Eliminar" value="Eliminar" />						   		
+					   		</div>
+						</p:dialog>	
+                        
+                        
+                    </div>                    
+                </div>
+            </div>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

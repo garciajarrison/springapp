@@ -7,13 +7,13 @@ import com.marketingpersonal.model.entity.Gerencia;
 
 public interface IGerenciaService {
 	
-	void addGerencia(Gerencia gerencia);
+	void addGerencia(Gerencia entity);
 
-	void updateGerencia(Gerencia gerencia);
+	void updateGerencia(Gerencia entity);
 	
-	void deleteGerencia(Gerencia gerencia);
+	void deleteGerencia(Gerencia entity);
 	
 	Gerencia getGerenciaById(int id);
 	
-	List<Gerencia> getGerencias();
+	List<Gerencia> getGerencias(boolean activo);
 }

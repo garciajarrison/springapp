@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.marketingpersonal.model.entity.Usuario;
+import com.marketingpersonal.model.entity.UsuarioPorCentroCosto;
 
 @Repository
 public class UsuarioDAO implements IUsuarioDAO {
@@ -58,5 +59,34 @@ public class UsuarioDAO implements IUsuarioDAO {
 		Session session = getSessionFactory().getCurrentSession();
 		return session.createQuery("from Usuario").list();
 	}
+	
+	//Usuario por centro de costo
+	public void addUsuarioPorCentroCosto(UsuarioPorCentroCosto entity) {
+		Session session = getSessionFactory().getCurrentSession();
+		session.save(entity);
+	}
+
+	public void deleteUsuarioPorCentroCosto(UsuarioPorCentroCosto entity) {
+		Session session = getSessionFactory().getCurrentSession();
+		session.delete(entity);
+	}
+
+	public void updateUsuarioPorCentroCosto(UsuarioPorCentroCosto entity) {
+		Session session = getSessionFactory().getCurrentSession();
+		session.update(entity);
+	}
+
+	public UsuarioPorCentroCosto getUsuarioPorCentroCostoById(int id) {
+		Session session = getSessionFactory().getCurrentSession();
+		return (UsuarioPorCentroCosto) session
+				.createQuery("from UsuarioPorCentroCosto where id=?").setParameter(0, id)
+				.uniqueResult();
+	}
+
+	public List<UsuarioPorCentroCosto> getUsuarioPorCentroCostos() {
+		Session session = getSessionFactory().getCurrentSession();
+		return session.createQuery("from UsuarioPorCentroCosto").list();
+	}
+	
 	
 }

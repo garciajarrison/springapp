@@ -36,8 +36,8 @@ public class GerenciaService implements IGerenciaService {
 		return getEntityDAO().getGerenciaById(id);
 	}
 
-	public List<Gerencia> getGerencias() {	
-		return getEntityDAO().getGerencias();
+	public List<Gerencia> getGerencias(boolean activo) {	
+		return getEntityDAO().getGerencias(activo);
 	}
 	
 	public IGerenciaDAO getEntityDAO() {

@@ -15,6 +15,6 @@ public interface IGerenciaDAO {
 	
 	Gerencia getGerenciaById(int id);
 
-	List<Gerencia> getGerencias();
+	List<Gerencia> getGerencias(boolean activo);
 
 }

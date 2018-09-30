@@ -45,9 +45,13 @@ public class GerenciaDAO implements IGerenciaDAO {
 				.uniqueResult();
 	}
 
-	public List<Gerencia> getGerencias() {
+	public List<Gerencia> getGerencias(boolean activo) {
 		Session session = getSessionFactory().getCurrentSession();
-		return (List<Gerencia>) session.createQuery("from Gerencia").list();
+		if(activo) {
+			return (List<Gerencia>) session.createQuery("from Gerencia where estado = true").list();
+		}else {
+			return (List<Gerencia>) session.createQuery("from Gerencia").list();
+		}
 	}
 
 }

@@ -31,14 +31,20 @@ public class GerenciaBB extends SpringBeanAutowiringSupport implements Serializa
 		util = Util.getInstance();
 		gerencia = new Gerencia();
 		selectedGerencia = new Gerencia();
-		listaGerencias = getGerenciaService().getGerencias();
+		listaGerencias = getGerenciaService().getGerencias(false);
 	}
 	
 	public void addGerencia() {
 		try {
-			getGerenciaService().addGerencia(gerencia);
-			listaGerencias = getGerenciaService().getGerencias();
-			util.mostrarMensaje("Registro agregado con éxito."); 
+			if(gerencia == null && gerencia.getNombre() == null || 
+					"".equals(gerencia.getNombre())) {
+				util.mostrarError("El campo Nombre es requerido.");
+			}else {
+				getGerenciaService().addGerencia(gerencia);
+				listaGerencias = getGerenciaService().getGerencias(false);
+				gerencia = new Gerencia();
+				util.mostrarMensaje("Registro agregado con éxito."); 
+			}
 			
 		} catch (DataAccessException e) {
 			e.printStackTrace();
@@ -47,11 +53,16 @@ public class GerenciaBB extends SpringBeanAutowiringSupport implements Serializa
 	}
 
 	public void updateGerencia() {
-		System.out.println("updateGerencia");
 		try {
-			getGerenciaService().updateGerencia(selectedGerencia);
-			listaGerencias = getGerenciaService().getGerencias();
-			util.mostrarMensaje("Registro actualizado con éxito.");  
+			if(selectedGerencia == null && selectedGerencia.getNombre() == null || 
+					"".equals(selectedGerencia.getNombre())) {
+				util.mostrarError("El campo Nombre es requerido.");
+			}else {
+				getGerenciaService().updateGerencia(selectedGerencia);
+				listaGerencias = getGerenciaService().getGerencias(false);
+				selectedGerencia = new Gerencia();
+				util.mostrarMensaje("Registro actualizado con éxito.");
+			}
 			
 		} catch (DataAccessException e) {
 			e.printStackTrace();
@@ -62,7 +73,7 @@ public class GerenciaBB extends SpringBeanAutowiringSupport implements Serializa
 	public void deleteGerencia() {
 		try {
 			getGerenciaService().deleteGerencia(selectedGerencia);
-			listaGerencias = getGerenciaService().getGerencias();
+			listaGerencias = getGerenciaService().getGerencias(false);
 			util.mostrarMensaje("Registro eliminado con éxito.");  
 			
 		} catch (DataAccessException e) {
@@ -70,7 +81,6 @@ public class GerenciaBB extends SpringBeanAutowiringSupport implements Serializa
 			util.mostrarError("Error eliminando el registro.");
 		} 	
 	}
-
 	
 	public IGerenciaService getGerenciaService() {
 		return gerenciaService;

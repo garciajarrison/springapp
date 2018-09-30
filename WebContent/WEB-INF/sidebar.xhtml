@@ -16,7 +16,7 @@
                 <div class="profile">
                     <p:graphicImage name="images/profile.png" library="omega-layout" />
                     <a id="profile-button" href="#">
-                        <span class="username">Lizeth Doria</span>
+                        <span class="username">#{globalBB.usuario.nombre}</span>
                         <i class="fa fa-fw fa-cog"></i>
                     </a>
                     <ul>
@@ -32,15 +32,14 @@
                         
                          <p:submenu id="submenu_administracion" label="Administración" icon="fa fa-fw fa-cog">
                             <p:submenu id="submenu_maestros" label="Maestros" icon="fa fa-table">
-                                    <p:menuitem id="menuitem_usuarios" value="Usuarios" icon="fa fa-user" outcome="/usuarios" />
-                                    <p:menuitem id="menuitem_roles" value="Roles" icon="fa fa-gg" outcome="/roles" />
-                                    <p:menuitem id="menuitem_gerencias" value="Gerencias" icon="fa fa-anchor" outcome="/gerencias" />
-                                    <p:menuitem id="menuitem_direcciones" value="Direcciones" icon="fa fa-paper-plane-o" outcome="/direcciones" />
-                                    <p:menuitem id="menuitem_jefaturas" value="Jefaturas" icon="fa fa-sitemap" outcome="/jefaturas" />
-                                    <p:menuitem id="menuitem_cuentas" value="Cuentas" icon="fa fa-bank" outcome="/cuentas" />
-                                    <p:menuitem id="menuitem_centros_costo" value="Centros de Costo" icon="fa fa-money" outcome="/centros_costo" />
-                                    <p:menuitem id="menuitem_cuentas_por_centros_costo" value="Cuentas por Centros de Costo" icon="fa fa-leaf" outcome="/cuentas_por_centro" />
-                                    <p:menuitem id="menuitem_usuarios_por_centros_costo" value="Usuarios por Centros de Costo" icon="fa fa-asterisk" outcome="/usuarios_por_centro" />
+                                    <p:menuitem id="menuitem_usuarios" value="Usuarios" icon="fa fa-user" outcome="/maestros/usuarios" />
+                                    <p:menuitem id="menuitem_gerencias" value="Gerencias" icon="fa fa-anchor" outcome="/maestros/gerencias" />
+                                    <p:menuitem id="menuitem_direcciones" value="Direcciones" icon="fa fa-paper-plane-o" outcome="/maestros/direcciones" />
+                                    <p:menuitem id="menuitem_jefaturas" value="Jefaturas" icon="fa fa-sitemap" outcome="/maestros/jefaturas" />
+                                    <p:menuitem id="menuitem_cuentas" value="Cuentas" icon="fa fa-bank" outcome="/maestros/cuentas" />
+                                    <p:menuitem id="menuitem_centros_costo" value="Centros de Costo" icon="fa fa-money" outcome="/maestros/centros_costo" />
+                                    <p:menuitem id="menuitem_cuentas_por_centros_costo" value="Cuentas por Centros de Costo" icon="fa fa-leaf" outcome="/maestros/cuentas_por_centro" />
+                                    <p:menuitem id="menuitem_usuarios_por_centros_costo" value="Usuarios por Centros de Costo" icon="fa fa-asterisk" outcome="/maestros/usuarios_por_centro" />
                             </p:submenu>
                             <p:submenu id="submenu_carga_archivos_planos" label="Carga Archivos Planos" icon="fa fa-file">
                                     <p:menuitem id="menuitem_historico_presupuesto" value="Histórico Presupuesto" icon="fa fa-file-text" outcome="/plano_historico_presupuesto" />
@@ -78,9 +77,7 @@
                         </p:submenu>
                         
                         <p:menuitem id="om_doc" value="Documentation" icon="fa fa-book" outcome="/docs"/>
-                        
-                        
-                                               
+              
                     </po:menu>
                 </div>
             </div>

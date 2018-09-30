@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.marketingpersonal.model.dao.IUsuarioDAO;
 import com.marketingpersonal.model.entity.Usuario;
+import com.marketingpersonal.model.entity.UsuarioPorCentroCosto;
 
 @Service
 @Transactional(readOnly = true)
@@ -51,5 +52,28 @@ public class UsuarioService implements IUsuarioService {
 	public List<Usuario> getUsuarios() {	
 		return getEntityDAO().getUsuarios();
 	}
+	
+	//Usuario por centro de costo
+	@Transactional(readOnly = false)
+	public void addUsuarioPorCentroCosto(UsuarioPorCentroCosto entity) {
+		getEntityDAO().addUsuarioPorCentroCosto(entity);
+	}
 
+	@Transactional(readOnly = false)
+	public void deleteUsuarioPorCentroCosto(UsuarioPorCentroCosto entity) {
+		getEntityDAO().deleteUsuarioPorCentroCosto(entity);
+	}
+
+	@Transactional(readOnly = false)
+	public void updateUsuarioPorCentroCosto(UsuarioPorCentroCosto entity) {
+		getEntityDAO().updateUsuarioPorCentroCosto(entity);
+	}
+
+	public UsuarioPorCentroCosto getUsuarioPorCentroCostoById(int id) {
+		return getEntityDAO().getUsuarioPorCentroCostoById(id);
+	}
+
+	public List<UsuarioPorCentroCosto> getUsuarioPorCentroCostos() {	
+		return getEntityDAO().getUsuarioPorCentroCostos();
+	}
 }

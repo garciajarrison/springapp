@@ -14,7 +14,7 @@ public class Gerencia implements java.io.Serializable {
 	private static final long serialVersionUID = 1L;
 	private int id;
 	private String nombre;
-	private boolean estado;
+	private boolean estado = true;
 
 	public Gerencia() {
 	}

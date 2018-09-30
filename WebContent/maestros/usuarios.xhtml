@@ -57,31 +57,28 @@
 								<f:facet name="header">
                                     Usuarios
                                 </f:facet>
-								<p:column headerText="Id">
-									<h:outputText value="#{usuario.id}" />
-								</p:column>
 
-								<p:column headerText="Numero Documento">
+								<p:column headerText="Numero Documento" sortBy="#{usuario.numeroDocumento}">
 									<h:outputText value="#{usuario.numeroDocumento}" />
 								</p:column>
 
-								<p:column headerText="Nombre">
+								<p:column headerText="Nombre" sortBy="#{usuario.nombre}">
 									<h:outputText value="#{usuario.nombre}" />
 								</p:column>
 
-								<p:column headerText="Usuario">
+								<p:column headerText="Usuario" sortBy="#{usuario.usuario}">
 									<h:outputText value="#{usuario.usuario}" />
 								</p:column>
 								
-								<p:column headerText="Correo">
+								<p:column headerText="Correo" sortBy="#{usuario.correo}">
 									<h:outputText value="#{usuario.correo}" />
 								</p:column>
 								
-								<p:column headerText="Cargo">
+								<p:column headerText="Cargo" sortBy="#{usuario.cargo}">
 									<h:outputText value="#{usuario.cargo}" />
 								</p:column>
 								
-								<p:column headerText="Rol">
+								<p:column headerText="Rol" sortBy="#{usuario.rol}">
 									<h:outputText value="#{usuario.rol}" />
 								</p:column>
 								

@@ -3,9 +3,12 @@ package com.marketingpersonal.service;
 import java.util.List;
 
 import com.marketingpersonal.model.entity.Usuario;
+import com.marketingpersonal.model.entity.UsuarioPorCentroCosto;
 
 
 public interface IUsuarioService {
+	
+	Usuario login(Usuario usuario);
 	
 	void addUsuario(Usuario entity);
 	
@@ -17,6 +20,15 @@ public interface IUsuarioService {
 	
 	List<Usuario> getUsuarios();
 
-	Usuario login(Usuario usuario);
+	//Usuario por centro de costo
+	void addUsuarioPorCentroCosto(UsuarioPorCentroCosto entity);
+	
+	void updateUsuarioPorCentroCosto(UsuarioPorCentroCosto entity);
+
+	void deleteUsuarioPorCentroCosto(UsuarioPorCentroCosto entity);
+	
+	UsuarioPorCentroCosto getUsuarioPorCentroCostoById(int id);
+	
+	List<UsuarioPorCentroCosto> getUsuarioPorCentroCostos();
 
 }

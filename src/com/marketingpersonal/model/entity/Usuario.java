@@ -18,12 +18,9 @@ public class Usuario implements java.io.Serializable {
 	private String nombre;
 	private String usuario;
 	private String correo;
-	private String rol;
 	private String cargo;
+	private String rol;
 	private String contrasena;
-
-	public Usuario() {
-	}
 
 	@Id
 	@GeneratedValue( strategy=GenerationType.IDENTITY)
