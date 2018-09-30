@@ -10,9 +10,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CascadeType;
-
 @Entity
 @Table(name = "usuario_x_centrocosto", schema = "presupuestoMD")
 public class UsuarioPorCentroCosto implements java.io.Serializable {
@@ -25,6 +22,7 @@ public class UsuarioPorCentroCosto implements java.io.Serializable {
 	private Usuario usuarioAprobadorFinal;
 	
 	public UsuarioPorCentroCosto() {
+		centroCosto = new CentroCosto();
 		usuarioResponsable = new Usuario();
 		usuarioAprobadorInicial = new Usuario();
 		usuarioAprobadorFinal = new Usuario();
@@ -43,7 +41,6 @@ public class UsuarioPorCentroCosto implements java.io.Serializable {
 	
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "id_centrocosto", nullable = false)
-	@Cascade({CascadeType.SAVE_UPDATE, CascadeType.DELETE})
 	public CentroCosto getCentroCosto() {
 		return centroCosto;
 	}
@@ -54,7 +51,6 @@ public class UsuarioPorCentroCosto implements java.io.Serializable {
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "id_usuario_resp", nullable = false)
-	@Cascade({CascadeType.SAVE_UPDATE, CascadeType.DELETE})
 	public Usuario getUsuarioResponsable() {
 		return usuarioResponsable;
 	}
@@ -65,7 +61,6 @@ public class UsuarioPorCentroCosto implements java.io.Serializable {
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "id_usuario_aprini", nullable = false)
-	@Cascade({CascadeType.SAVE_UPDATE, CascadeType.DELETE})
 	public Usuario getUsuarioAprobadorInicial() {
 		return usuarioAprobadorInicial;
 	}
@@ -76,7 +71,6 @@ public class UsuarioPorCentroCosto implements java.io.Serializable {
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "id_usuario_aprfin", nullable = false)
-	@Cascade({CascadeType.SAVE_UPDATE, CascadeType.DELETE})
 	public Usuario getUsuarioAprobadorFinal() {
 		return usuarioAprobadorFinal;
 	}

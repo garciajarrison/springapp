@@ -31,7 +31,7 @@ public class SublinkBB extends SpringBeanAutowiringSupport implements Serializab
 		util = Util.getInstance();
 		sublink = new Sublink();
 		selectedSublink = new Sublink();
-		listaSublinks = getSublinkService().getSublinks();
+		listaSublinks = getSublinkService().getSublinks(false);
 	}
 	
 	public void addSublink() {
@@ -41,7 +41,7 @@ public class SublinkBB extends SpringBeanAutowiringSupport implements Serializab
 				util.mostrarError("El campo Nombre es requerido.");
 			}else {
 				getSublinkService().addSublink(sublink);
-				listaSublinks = getSublinkService().getSublinks();
+				listaSublinks = getSublinkService().getSublinks(false);
 				sublink = new Sublink();
 				util.mostrarMensaje("Registro agregado con éxito."); 
 			}
@@ -59,7 +59,7 @@ public class SublinkBB extends SpringBeanAutowiringSupport implements Serializab
 				util.mostrarError("El campo Nombre es requerido.");
 			}else {
 				getSublinkService().updateSublink(selectedSublink);
-				listaSublinks = getSublinkService().getSublinks();
+				listaSublinks = getSublinkService().getSublinks(false);
 				selectedSublink = new Sublink();
 				util.mostrarMensaje("Registro actualizado con éxito.");
 			}
@@ -73,7 +73,7 @@ public class SublinkBB extends SpringBeanAutowiringSupport implements Serializab
 	public void deleteSublink() {
 		try {
 			getSublinkService().deleteSublink(selectedSublink);
-			listaSublinks = getSublinkService().getSublinks();
+			listaSublinks = getSublinkService().getSublinks(false);
 			util.mostrarMensaje("Registro eliminado con éxito.");  
 			
 		} catch (DataAccessException e) {

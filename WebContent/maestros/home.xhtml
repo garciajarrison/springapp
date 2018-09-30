@@ -5,7 +5,7 @@
                 xmlns:p="http://primefaces.org/ui"
                 template="/WEB-INF/template.xhtml">
 
-    <ui:define name="title">Gerencias</ui:define>
+    <ui:define name="title">Página de inicio</ui:define>
 
     <ui:define name="content">
 	<h:form>
@@ -14,21 +14,24 @@
                 <div class="ui-g">
                     <div class="ui-g-12">
                         <div class="card">
-                            <h1>Maestro de Gerencias</h1>
+                            <h1>Maestro de Página de inicio</h1>
                             <p:panelGrid columns="2" columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4" layout="grid" styleClass="ui-panelgrid-blank" style="border:0px none; background-color:transparent;">
                                 
                                 <p:outputLabel for="txtNombre" value="Nombre"/>
-                                <p:inputText id="txtNombre" value="#{gerenciaBB.gerencia.nombre}" maxlength="100"/>
+                                <p:inputText id="txtNombre" value="#{homeBB.home.nombre}" maxlength="100"/>
                                 
-                                <p:commandButton id="btnGuardar" value="Guardar" actionListener="#{gerenciaBB.addGerencia}" update="@form" icon="ui-icon-check fa fa-check Fs14 White" style="max-width:150px;"/>
+                                <p:outputLabel for="txtGrupo" value="Grupo"/>
+                                <p:inputText id="txtGrupo" value="#{homeBB.home.grupo}" maxlength="100"/>
+                                
+                                <p:commandButton id="btnGuardar" value="Guardar" actionListener="#{homeBB.addHome}" update="@form" icon="ui-icon-check fa fa-check Fs14 White" style="max-width:150px;"/>
                             </p:panelGrid>
                             
                         </div>
                         
                         <div class="card">
-                            <h1>Listado de Gerencias</h1>
-                            <p:dataTable id="tblGerencias" var="gerencia" value="#{gerenciaBB.listaGerencias}" 
-                            		reflow="true" selectionMode="single" rowKey="#{gerencia.id}"
+                            <h1>Listado de Homes</h1>
+                            <p:dataTable id="tblHomes" var="home" value="#{homeBB.listaHomes}" reflow="true" 
+                            		selectionMode="single" rowKey="#{home.id}"
                             		emptyMessage="No se encontraron registros."
 									scrollable="false" paginatorPosition="bottom"
 									rows="10" rowsPerPageTemplate="5,10,20,50"
@@ -37,26 +40,31 @@
 									paginator="true">
 									
                                 <f:facet name="header">
-                                    Gerencias
+                                    Homes
                                 </f:facet>
 
-                                <p:column headerText="Nombre" sortBy="#{gerencia.nombre}"
-                                		 filterMatchMode="contains" filterBy="#{gerencia.nombre}">
-                                    <h:outputText value="#{gerencia.nombre}" />
+                                <p:column headerText="Nombre" sortBy="#{home.nombre}"
+                                		 filterMatchMode="contains" filterBy="#{home.nombre}">
+                                    <h:outputText value="#{home.nombre}" />
+                                </p:column>
+                                
+                                <p:column headerText="Grupo" sortBy="#{home.grupo}"
+                                		 filterMatchMode="contains" filterBy="#{home.grupo}">
+                                    <h:outputText value="#{home.grupo}" />
                                 </p:column>
 
-                                <p:column headerText="Estado" sortBy="#{gerencia.estado}">
-                                     <h:outputText value="#{gerencia.estado ? 'Activo' : 'Inactivo'}" />
+                                <p:column headerText="Estado" sortBy="#{home.estado}">
+                                     <h:outputText value="#{home.estado ? 'Activo' : 'Inactivo'}" />
                                 </p:column>
                                 
                                 <p:column headerText="Acciones">
                                     <p:splitButton value="Accion" icon="fa fa-edit">
-								        <p:menuitem value="Actualizar" actionListener="#{gerenciaBB.setSelectedGerencia(gerencia)}"  
-								        			update=":#{p:component('dlgActualizar')} :#{p:component('tblGerencias')}" oncomplete="PF('dlgActualizar').show();"
+								        <p:menuitem value="Actualizar" actionListener="#{homeBB.setSelectedHome(home)}"  
+								        			update=":#{p:component('dlgActualizar')} :#{p:component('tblHomes')}" oncomplete="PF('dlgActualizar').show();"
 								        			icon="ui-icon-arrowrefresh-1-w" >
 								        	
 								        </p:menuitem>
-								        <p:menuitem value="Eliminar" actionListener="#{gerenciaBB.setSelectedGerencia(gerencia)}" 
+								        <p:menuitem value="Eliminar" actionListener="#{homeBB.setSelectedHome(home)}" 
 								        			update=":#{p:component('dlgEliminar')}" oncomplete="PF('dlgEliminar').show();"
 								        			icon="ui-icon-close" >
 								        </p:menuitem>
@@ -70,15 +78,18 @@
 								<h:panelGrid columns="2" cellspacing="2" cellpadding="2">
 									
 									<h:outputLabel for="txtNombreU" value="Nombre" />
-									<p:inputText id="txtNombreU" value="#{gerenciaBB.selectedGerencia.nombre}" maxlength="100"/>
+									<p:inputText id="txtNombreU" value="#{homeBB.selectedHome.nombre}" maxlength="100"/>
+									
+									<p:outputLabel for="txtGrupoU" value="Grupo"/>
+                                	<p:inputText id="txtGrupoU" value="#{homeBB.selectedHome.grupo}" maxlength="100"/>
 							   				
 							   		<h:outputLabel for="txtNombreU" value="Estado:"/>
-							   		<p:selectBooleanButton id="sbbEstado" offLabel="Inactivo" onLabel="Activo" value="#{gerenciaBB.selectedGerencia.estado}" />
+							   		<p:selectBooleanButton id="sbbEstado" offLabel="Inactivo" onLabel="Activo" value="#{homeBB.selectedHome.estado}" />
 							   		
 							   	</h:panelGrid>
 							   	<br />
 						   	
-						   		<p:commandButton id="btnActualizarGerencia" actionListener="#{gerenciaBB.updateGerencia}" update="@form" title="Actualizar" value="Actualizar" />
+						   		<p:commandButton id="btnActualizarHome" actionListener="#{homeBB.updateHome}" update="@form" title="Actualizar" value="Actualizar" />
 								
 					   		</div>
 						</p:dialog>		
@@ -89,7 +100,7 @@
 								<strong>¿Está seguro de borrar el registro?</strong>
 								<br />
 								<br />
-								<p:commandButton id="btnEliminarGerencia" actionListener="#{gerenciaBB.deleteGerencia}" update="@form" title="Eliminar" value="Eliminar" />						   		
+								<p:commandButton id="btnEliminarHome" actionListener="#{homeBB.deleteHome}" update="@form" title="Eliminar" value="Eliminar" />						   		
 					   		</div>
 						</p:dialog>	
                         

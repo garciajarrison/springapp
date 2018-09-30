@@ -11,7 +11,6 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
 import com.marketingpersonal.common.Util;
-import com.marketingpersonal.model.entity.CentroCosto;
 import com.marketingpersonal.model.entity.Cuenta;
 import com.marketingpersonal.service.ICuentaService;
 
@@ -32,7 +31,7 @@ public class CuentaBB extends SpringBeanAutowiringSupport implements Serializabl
 		util = Util.getInstance();
 		cuenta = new Cuenta();
 		selectedCuenta = new Cuenta();
-		listaCuentas = getCuentaService().getCuentas();
+		listaCuentas = getCuentaService().getCuentas(false);
 	}
 	
 	private boolean validar(Cuenta cue) {
@@ -57,7 +56,7 @@ public class CuentaBB extends SpringBeanAutowiringSupport implements Serializabl
 		try {
 			if(validar(cuenta)) {
 				getCuentaService().addCuenta(cuenta);
-				listaCuentas = getCuentaService().getCuentas();
+				listaCuentas = getCuentaService().getCuentas(false);
 				cuenta = new Cuenta();
 				util.mostrarMensaje("Registro agregado con éxito."); 
 			}
@@ -72,7 +71,7 @@ public class CuentaBB extends SpringBeanAutowiringSupport implements Serializabl
 		try {
 			if(validar(selectedCuenta)) {
 				getCuentaService().updateCuenta(selectedCuenta);
-				listaCuentas = getCuentaService().getCuentas();
+				listaCuentas = getCuentaService().getCuentas(false);
 				selectedCuenta = new Cuenta();
 				util.mostrarMensaje("Registro actualizado con éxito.");
 			}
@@ -86,7 +85,7 @@ public class CuentaBB extends SpringBeanAutowiringSupport implements Serializabl
 	public void deleteCuenta() {
 		try {
 			getCuentaService().deleteCuenta(selectedCuenta);
-			listaCuentas = getCuentaService().getCuentas();
+			listaCuentas = getCuentaService().getCuentas(false);
 			util.mostrarMensaje("Registro eliminado con éxito.");  
 			
 		} catch (DataAccessException e) {

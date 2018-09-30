@@ -36,8 +36,8 @@ public class SublinkService implements ISublinkService {
 		return getEntityDAO().getSublinkById(id);
 	}
 
-	public List<Sublink> getSublinks() {	
-		return getEntityDAO().getSublinks();
+	public List<Sublink> getSublinks(boolean activo) {	
+		return getEntityDAO().getSublinks(activo);
 	}
 	
 	public ISublinkDAO getEntityDAO() {

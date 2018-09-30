@@ -37,8 +37,8 @@ public class CentroCostoService implements ICentroCostoService {
 		return getEntityDAO().getCentroCostoById(id);
 	}
 
-	public List<CentroCosto> getCentroCostos() {	
-		return getEntityDAO().getCentroCostos();
+	public List<CentroCosto> getCentroCostos(boolean activo) {	
+		return getEntityDAO().getCentroCostos(activo);
 	}
 	
 	//Centro costo por cuenta

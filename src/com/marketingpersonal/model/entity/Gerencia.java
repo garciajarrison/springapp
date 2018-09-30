@@ -1,10 +1,15 @@
 package com.marketingpersonal.model.entity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -15,6 +20,8 @@ public class Gerencia implements java.io.Serializable {
 	private int id;
 	private String nombre;
 	private boolean estado = true;
+	
+	private List<CentroCosto> lstCentroCostos = new ArrayList<>();
 
 	public Gerencia() {
 	}
@@ -46,6 +53,15 @@ public class Gerencia implements java.io.Serializable {
 
 	public void setEstado(boolean estado) {
 		this.estado = estado;
+	}
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "gerencia")
+	public List<CentroCosto> getLstCentroCostos() {
+		return lstCentroCostos;
+	}
+
+	public void setLstCentroCostos(List<CentroCosto> lstCentroCostos) {
+		this.lstCentroCostos = lstCentroCostos;
 	}
 
 }

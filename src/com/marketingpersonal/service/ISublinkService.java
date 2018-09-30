@@ -15,5 +15,5 @@ public interface ISublinkService {
 	
 	Sublink getSublinkById(int id);
 	
-	List<Sublink> getSublinks();
+	List<Sublink> getSublinks(boolean activo);
 }

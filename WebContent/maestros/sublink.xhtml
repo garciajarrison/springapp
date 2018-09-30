@@ -18,7 +18,7 @@
                             <p:panelGrid columns="2" columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4" layout="grid" styleClass="ui-panelgrid-blank" style="border:0px none; background-color:transparent;">
                                 
                                 <p:outputLabel for="txtNombre" value="Nombre"/>
-                                <p:inputText id="txtNombre" value="#{sublinkBB.sublink.nombre}"/>
+                                <p:inputText id="txtNombre" value="#{sublinkBB.sublink.nombre}" maxlength="100"/>
                                 
                                 <p:commandButton id="btnGuardar" value="Guardar" actionListener="#{sublinkBB.addSublink}" update="@form" icon="ui-icon-check fa fa-check Fs14 White" style="max-width:150px;"/>
                             </p:panelGrid>
@@ -27,12 +27,21 @@
                         
                         <div class="card">
                             <h1>Listado de Sublinks</h1>
-                            <p:dataTable id="tblSublinks" var="sublink" value="#{sublinkBB.listaSublinks}" reflow="true" selectionMode="single" rowKey="#{sublink.id}">
+                            <p:dataTable id="tblSublinks" var="sublink" value="#{sublinkBB.listaSublinks}" 
+                            		reflow="true" selectionMode="single" rowKey="#{sublink.id}"
+                            		emptyMessage="No se encontraron registros."
+									scrollable="false" paginatorPosition="bottom"
+									rows="10" rowsPerPageTemplate="5,10,20,50"
+									currentPageReportTemplate="Páginas {totalPages}.  registros {totalRecords}"
+									paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" 
+									paginator="true">
+									
                                 <f:facet name="header">
                                     Sublinks
                                 </f:facet>
 
-                                <p:column headerText="Nombre" sortBy="#{sublink.nombre}">
+                                <p:column headerText="Nombre" sortBy="#{sublink.nombre}"
+                                		 filterMatchMode="contains" filterBy="#{sublink.nombre}">
                                     <h:outputText value="#{sublink.nombre}" />
                                 </p:column>
 
@@ -61,7 +70,7 @@
 								<h:panelGrid columns="2" cellspacing="2" cellpadding="2">
 									
 									<h:outputLabel for="txtNombreU" value="Nombre" />
-									<p:inputText id="txtNombreU" value="#{sublinkBB.selectedSublink.nombre}" />
+									<p:inputText id="txtNombreU" value="#{sublinkBB.selectedSublink.nombre}" maxlength="100"/>
 							   				
 							   		<h:outputLabel for="txtNombreU" value="Estado:"/>
 							   		<p:selectBooleanButton id="sbbEstado" offLabel="Inactivo" onLabel="Activo" value="#{sublinkBB.selectedSublink.estado}" />

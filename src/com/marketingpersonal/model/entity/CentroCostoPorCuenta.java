@@ -10,9 +10,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CascadeType;
-
 @Entity
 @Table(name = "cuenta_x_centrocosto", schema = "presupuestoMD")
 public class CentroCostoPorCuenta implements java.io.Serializable {
@@ -42,7 +39,6 @@ public class CentroCostoPorCuenta implements java.io.Serializable {
 	
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "id_centrocosto", nullable = false)
-	@Cascade({CascadeType.SAVE_UPDATE, CascadeType.DELETE})
 	public CentroCosto getCentroCosto() {
 		return centroCosto;
 	}
@@ -53,7 +49,6 @@ public class CentroCostoPorCuenta implements java.io.Serializable {
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "id_cuenta", nullable = false)
-	@Cascade({CascadeType.SAVE_UPDATE, CascadeType.DELETE})
 	public Cuenta getCuenta() {
 		return cuenta;
 	}
@@ -64,7 +59,6 @@ public class CentroCostoPorCuenta implements java.io.Serializable {
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "id_sublink", nullable = false)
-	@Cascade({CascadeType.SAVE_UPDATE, CascadeType.DELETE})
 	public Sublink getSublink() {
 		return sublink;
 	}

@@ -45,9 +45,13 @@ public class CuentaDAO implements ICuentaDAO {
 				.uniqueResult();
 	}
 
-	public List<Cuenta> getCuentas() {
+	public List<Cuenta> getCuentas(boolean activo) {
 		Session session = getSessionFactory().getCurrentSession();
-		return (List<Cuenta>) session.createQuery("from Cuenta").list();
+		if(activo) {
+			return (List<Cuenta>) session.createQuery("from Cuenta where estado = true").list();
+		}else {
+			return (List<Cuenta>) session.createQuery("from Cuenta").list();
+		}
 	}
 
 }

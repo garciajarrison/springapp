@@ -18,24 +18,27 @@
                             <p:panelGrid columns="2" columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4" layout="grid" styleClass="ui-panelgrid-blank" style="border:0px none; background-color:transparent;">
                                 
                                 <p:outputLabel for="txtNombre" value="Nombre"/>
-                                <p:inputText id="txtNombre" value="#{centroCostoBB.centroCosto.nombre}"/>
+                                <p:inputText id="txtNombre" value="#{centroCostoBB.centroCosto.nombre}" maxlength="100"/>
                                 
                                 <p:outputLabel for="somGerencia" value="Gerencia"/>
-                                <p:selectOneMenu id="somGerencia" value="#{centroCostoBB.centroCosto.gerencia.id}">
+                                <p:selectOneMenu id="somGerencia" value="#{centroCostoBB.centroCosto.gerencia.id}"
+                                		 filter="true">
                                     <f:selectItem itemLabel="Seleccione" itemValue="" />
                                     <f:selectItems value="#{centroCostoBB.lstGerencias}" var="ger" 
                                     		itemLabel="#{ger.nombre}" itemValue="#{ger.id}" />
                                 </p:selectOneMenu>
                                 
                                 <p:outputLabel for="somDireccion" value="Dirección"/>
-                                <p:selectOneMenu id="somDireccion" value="#{centroCostoBB.centroCosto.direccion.id}">
+                                <p:selectOneMenu id="somDireccion" value="#{centroCostoBB.centroCosto.direccion.id}"
+                                		 filter="true">
                                     <f:selectItem itemLabel="Seleccione" itemValue="" />
                                     <f:selectItems value="#{centroCostoBB.lstDireccions}" var="dr" 
                                     		itemLabel="#{dr.nombre}" itemValue="#{dr.id}" />
                                 </p:selectOneMenu>
                                 
                                 <p:outputLabel for="somJefatura" value="Jefatura"/>
-                                <p:selectOneMenu id="somJefatura" value="#{centroCostoBB.centroCosto.jefatura.id}">
+                                <p:selectOneMenu id="somJefatura" value="#{centroCostoBB.centroCosto.jefatura.id}"
+                                		 filter="true">
                                     <f:selectItem itemLabel="Seleccione" itemValue="" />
                                     <f:selectItems value="#{centroCostoBB.lstJefaturas}" var="jf" 
                                     		itemLabel="#{jf.nombre}" itemValue="#{jf.id}" />
@@ -49,24 +52,31 @@
                         
                         <div class="card">
                             <h1>Listado de CentroCostos</h1>
-                            <p:dataTable id="tblCentroCostos" var="centroCosto" value="#{centroCostoBB.listaCentroCostos}" reflow="true" selectionMode="single" rowKey="#{centroCosto.id}">
+                            <p:dataTable id="tblCentroCostos" var="centroCosto" value="#{centroCostoBB.listaCentroCostos}" 
+                            		reflow="true" selectionMode="single" rowKey="#{centroCosto.id}"
+                            		emptyMessage="No se encontraron registros."
+									scrollable="false" paginatorPosition="bottom"
+									rows="10" rowsPerPageTemplate="5,10,20,50"
+									currentPageReportTemplate="Páginas {totalPages}.  registros {totalRecords}"
+									paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" 
+									paginator="true">
                                 <f:facet name="header">
                                     CentroCostos
                                 </f:facet>
 
-                                <p:column headerText="Nombre" sortBy="#{centroCosto.nombre}">
+                                <p:column headerText="Nombre" sortBy="#{centroCosto.nombre}" filterMatchMode="contains" filterBy="#{centroCosto.nombre}">
                                     <h:outputText value="#{centroCosto.nombre}" />
                                 </p:column>
                                 
-                                <p:column headerText="Gerencia" sortBy="#{centroCosto.gerencia.nombre}">
+                                <p:column headerText="Gerencia" sortBy="#{centroCosto.gerencia.nombre}" filterMatchMode="contains" filterBy="#{centroCosto.gerencia.nombre}">
                                     <h:outputText value="#{centroCosto.gerencia.nombre}" />
                                 </p:column>
                                 
-                                <p:column headerText="Direccion" sortBy="#{centroCosto.direccion.nombre}">
+                                <p:column headerText="Direccion" sortBy="#{centroCosto.direccion.nombre}" filterMatchMode="contains" filterBy="#{centroCosto.direccion.nombre}">
                                     <h:outputText value="#{centroCosto.direccion.nombre}" />
                                 </p:column>
                                 
-                                <p:column headerText="Jefatura" sortBy="#{centroCosto.jefatura.nombre}">
+                                <p:column headerText="Jefatura" sortBy="#{centroCosto.jefatura.nombre}" filterMatchMode="contains" filterBy="#{centroCosto.jefatura.nombre}">
                                     <h:outputText value="#{centroCosto.jefatura.nombre}" />
                                 </p:column>
 
@@ -95,24 +105,27 @@
 								<h:panelGrid columns="2" cellspacing="2" cellpadding="2">
 									
 									<h:outputLabel for="txtNombreU" value="Nombre" />
-									<p:inputText id="txtNombreU" value="#{centroCostoBB.selectedCentroCosto.nombre}" />
+									<p:inputText id="txtNombreU" value="#{centroCostoBB.selectedCentroCosto.nombre}" maxlength="100"/>
 									
 									<p:outputLabel for="somGerencia2" value="Gerencia"/>
-	                                <p:selectOneMenu id="somGerencia2" value="#{centroCostoBB.selectedCentroCosto.gerencia.id}">
+	                                <p:selectOneMenu id="somGerencia2" value="#{centroCostoBB.selectedCentroCosto.gerencia.id}"
+	                                		 filter="true">
 	                                    <f:selectItem itemLabel="Seleccione" itemValue="" />
 	                                    <f:selectItems value="#{centroCostoBB.lstGerencias}" var="ger" 
 	                                    		itemLabel="#{ger.nombre}" itemValue="#{ger.id}" />
 	                                </p:selectOneMenu>
 	                                
 	                                <p:outputLabel for="somDireccion2" value="Dirección"/>
-	                                <p:selectOneMenu id="somDireccion2" value="#{centroCostoBB.selectedCentroCosto.direccion.id}">
+	                                <p:selectOneMenu id="somDireccion2" value="#{centroCostoBB.selectedCentroCosto.direccion.id}"
+	                                		 filter="true">
 	                                    <f:selectItem itemLabel="Seleccione" itemValue="" />
 	                                    <f:selectItems value="#{centroCostoBB.lstDireccions}" var="dr" 
 	                                    		itemLabel="#{dr.nombre}" itemValue="#{dr.id}" />
 	                                </p:selectOneMenu>
 	                                
 	                                <p:outputLabel for="somJefatura2" value="Jefatura"/>
-	                                <p:selectOneMenu id="somJefatura2" value="#{centroCostoBB.selectedCentroCosto.jefatura.id}">
+	                                <p:selectOneMenu id="somJefatura2" value="#{centroCostoBB.selectedCentroCosto.jefatura.id}"
+	                                		 filter="true">
 	                                    <f:selectItem itemLabel="Seleccione" itemValue="" />
 	                                    <f:selectItems value="#{centroCostoBB.lstJefaturas}" var="jf" 
 	                                    		itemLabel="#{jf.nombre}" itemValue="#{jf.id}" />

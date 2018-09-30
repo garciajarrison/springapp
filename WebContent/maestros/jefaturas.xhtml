@@ -18,7 +18,7 @@
                             <p:panelGrid columns="2" columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4" layout="grid" styleClass="ui-panelgrid-blank" style="border:0px none; background-color:transparent;">
                                 
                                 <p:outputLabel for="txtNombre" value="Nombre"/>
-                                <p:inputText id="txtNombre" value="#{jefaturaBB.jefatura.nombre}"/>
+                                <p:inputText id="txtNombre" value="#{jefaturaBB.jefatura.nombre}" maxlength="100"/>
                                 
                                 <p:commandButton id="btnGuardar" value="Guardar" actionListener="#{jefaturaBB.addJefatura}" update="@form" icon="ui-icon-check fa fa-check Fs14 White" style="max-width:150px;"/>
                             </p:panelGrid>
@@ -27,12 +27,21 @@
                         
                         <div class="card">
                             <h1>Listado de Jefaturas</h1>
-                            <p:dataTable id="tblJefaturas" var="jefatura" value="#{jefaturaBB.listaJefaturas}" reflow="true" selectionMode="single" rowKey="#{jefatura.id}">
+                            <p:dataTable id="tblJefaturas" var="jefatura" value="#{jefaturaBB.listaJefaturas}" 
+                            		reflow="true" selectionMode="single" rowKey="#{jefatura.id}"
+                            		emptyMessage="No se encontraron registros."
+									scrollable="false" paginatorPosition="bottom"
+									rows="10" rowsPerPageTemplate="5,10,20,50"
+									currentPageReportTemplate="Páginas {totalPages}.  registros {totalRecords}"
+									paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" 
+									paginator="true">
+									
                                 <f:facet name="header">
                                     Jefaturas
                                 </f:facet>
 
-                                <p:column headerText="Nombre" sortBy="#{jefatura.nombre}">
+                                <p:column headerText="Nombre" sortBy="#{jefatura.nombre}"
+                                		 filterMatchMode="contains" filterBy="#{jefatura.nombre}">
                                     <h:outputText value="#{jefatura.nombre}" />
                                 </p:column>
 
@@ -61,7 +70,7 @@
 								<h:panelGrid columns="2" cellspacing="2" cellpadding="2">
 									
 									<h:outputLabel for="txtNombreU" value="Nombre" />
-									<p:inputText id="txtNombreU" value="#{jefaturaBB.selectedJefatura.nombre}" />
+									<p:inputText id="txtNombreU" value="#{jefaturaBB.selectedJefatura.nombre}" maxlength="100"/>
 							   				
 							   		<h:outputLabel for="txtNombreU" value="Estado:"/>
 							   		<p:selectBooleanButton id="sbbEstado" offLabel="Inactivo" onLabel="Activo" value="#{jefaturaBB.selectedJefatura.estado}" />

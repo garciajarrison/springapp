@@ -18,7 +18,7 @@
                             <p:panelGrid columns="2" columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4" layout="grid" styleClass="ui-panelgrid-blank" style="border:0px none; background-color:transparent;">
                                 
                                 <p:outputLabel for="txtNombre" value="Nombre"/>
-                                <p:inputText id="txtNombre" value="#{direccionBB.direccion.nombre}"/>
+                                <p:inputText id="txtNombre" value="#{direccionBB.direccion.nombre}" maxlength="100"/>
                                 
                                 <p:commandButton id="btnGuardar" value="Guardar" actionListener="#{direccionBB.addDireccion}" update="@form" icon="ui-icon-check fa fa-check Fs14 White" style="max-width:150px;"/>
                             </p:panelGrid>
@@ -27,12 +27,21 @@
                         
                         <div class="card">
                             <h1>Listado de Direccions</h1>
-                            <p:dataTable id="tblDireccions" var="direccion" value="#{direccionBB.listaDireccions}" reflow="true" selectionMode="single" rowKey="#{direccion.id}">
+                            <p:dataTable id="tblDireccions" var="direccion" value="#{direccionBB.listaDireccions}" 
+                            		reflow="true" selectionMode="single" rowKey="#{direccion.id}"
+                            		emptyMessage="No se encontraron registros."
+									scrollable="false" paginatorPosition="bottom"
+									rows="10" rowsPerPageTemplate="5,10,20,50"
+									currentPageReportTemplate="Páginas {totalPages}.  registros {totalRecords}"
+									paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" 
+									paginator="true">
+									
                                 <f:facet name="header">
                                     Direccions
                                 </f:facet>
 
-                                <p:column headerText="Nombre" sortBy="#{direccion.nombre}">
+                                <p:column headerText="Nombre" sortBy="#{direccion.nombre}"
+                                		 filterMatchMode="contains" filterBy="#{direccion.nombre}">
                                     <h:outputText value="#{direccion.nombre}" />
                                 </p:column>
 
@@ -61,7 +70,7 @@
 								<h:panelGrid columns="2" cellspacing="2" cellpadding="2">
 									
 									<h:outputLabel for="txtNombreU" value="Nombre" />
-									<p:inputText id="txtNombreU" value="#{direccionBB.selectedDireccion.nombre}" />
+									<p:inputText id="txtNombreU" value="#{direccionBB.selectedDireccion.nombre}" maxlength="100"/>
 							   				
 							   		<h:outputLabel for="txtNombreU" value="Estado:"/>
 							   		<p:selectBooleanButton id="sbbEstado" offLabel="Inactivo" onLabel="Activo" value="#{direccionBB.selectedDireccion.estado}" />

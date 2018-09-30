@@ -5,83 +5,143 @@
                 xmlns:p="http://primefaces.org/ui"
                 template="/WEB-INF/template.xhtml">
 
-    <ui:define name="title">Cuentas por Centro de Costo</ui:define>
+    <ui:define name="title">CentroCostoPorCuentas</ui:define>
 
     <ui:define name="content">
-        <h:form>
+	<h:form>
+			<p:growl id="growl" sticky="true" autoUpdate="true" />
             <div class="ui-fluid">
                 <div class="ui-g">
                     <div class="ui-g-12">
+                        
                         <div class="card">
                             <h1>Maestro de Cuentas por Centro de Costo</h1>
                             <p:panelGrid columns="2" columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4" layout="grid" styleClass="ui-panelgrid-blank" style="border:0px none; background-color:transparent;">
                                 
                                 <p:outputLabel for="somCentroCosto" value="Centro de Costo"/>
-                                <p:selectOneMenu id="somCentroCosto">
+                                <p:selectOneMenu id="somCentroCosto" filter="true"
+                                		value="#{centroCostoPorCuentaBB.centroCostoPorCuenta.centroCosto.id}">
                                     <f:selectItem itemLabel="Seleccione" itemValue="" />
-                                    <f:selectItem itemLabel="Administrador" itemValue="Administrador" />
-                                    <f:selectItem itemLabel="Director" itemValue="Director" />
-                                    <f:selectItem itemLabel="Gerente" itemValue="Gerente" />
-                                    <f:selectItem itemLabel="Jefe" itemValue="Jefe" />
+                                    <f:selectItems value="#{centroCostoPorCuentaBB.lstCentroCosto}" var="cl"
+                                    		itemValue="#{cl.id}" itemLabel="#{cl.nombre}" />
                                 </p:selectOneMenu>
                                 
                                 <p:outputLabel for="somCuenta" value="Cuenta"/>
-                                <p:selectOneMenu id="somCuenta">
+                                <p:selectOneMenu id="somCuenta" filter="true"
+                                		value="#{centroCostoPorCuentaBB.centroCostoPorCuenta.cuenta.id}">
                                     <f:selectItem itemLabel="Seleccione" itemValue="" />
-                                    <f:selectItem itemLabel="Administrador" itemValue="Administrador" />
-                                    <f:selectItem itemLabel="Director" itemValue="Director" />
-                                    <f:selectItem itemLabel="Gerente" itemValue="Gerente" />
-                                    <f:selectItem itemLabel="Jefe" itemValue="Jefe" />
+                                    <f:selectItems value="#{centroCostoPorCuentaBB.lstCuenta}" var="cl"
+                                    		itemValue="#{cl.id}" itemLabel="#{cl.nombre}" />
                                 </p:selectOneMenu>
                                 
                                 <p:outputLabel for="somSublkink" value="Sublink"/>
-                                <p:selectOneMenu id="somSublkink">
+                                <p:selectOneMenu id="somSublkink" filter="true"
+                                		value="#{centroCostoPorCuentaBB.centroCostoPorCuenta.sublink.id}">
                                     <f:selectItem itemLabel="Seleccione" itemValue="" />
-                                    <f:selectItem itemLabel="Administrador" itemValue="Administrador" />
-                                    <f:selectItem itemLabel="Director" itemValue="Director" />
-                                    <f:selectItem itemLabel="Gerente" itemValue="Gerente" />
-                                    <f:selectItem itemLabel="Jefe" itemValue="Jefe" />
+                                    <f:selectItems value="#{centroCostoPorCuentaBB.lstSublink}" var="cl"
+                                    		itemValue="#{cl.id}" itemLabel="#{cl.nombre}" />
                                 </p:selectOneMenu>
 
-                                <p:commandButton id="btnGuardar" value="Guardar" icon="ui-icon-check fa fa-check Fs14 White" type="button" style="max-width:150px;"/> 
-                                                              
+                                <p:commandButton id="btnGuardar" value="Guardar" actionListener="#{centroCostoPorCuentaBB.addCentroCostoPorCuenta}" update="@form" icon="ui-icon-check fa fa-check Fs14 White" style="max-width:150px;"/>
+                                                          
                             </p:panelGrid>
                             
                         </div>
                         
                         <div class="card">
                             <h1>Listado de Cuentas por Centro de Costo</h1>
-                            <p:dataTable var="car" value="#{dtBasicView.cars}" reflow="true" selectionMode="single" selection="#{dtSelectionView.selectedCar}" rowKey="#{car.id}">
+                            <p:dataTable id="tblCentroCostoPorCuentas" var="centroCostoPorCuenta" 
+                            		value="#{centroCostoPorCuentaBB.listaCentroCostoPorCuentas}" reflow="true" 
+                            		selectionMode="single" rowKey="#{centroCostoPorCuenta.id}"
+                            		emptyMessage="No se encontraron registros."
+									scrollable="false" paginatorPosition="bottom"
+									rows="10" rowsPerPageTemplate="5,10,20,50"
+									currentPageReportTemplate="Páginas {totalPages}.  registros {totalRecords}"
+									paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" 
+									paginator="true">
+									
                                 <f:facet name="header">
-                                    DataTable
+                                    CentroCostoPorCuentas
                                 </f:facet>
-                                <p:column headerText="Id">
-                                    <h:outputText value="#{car.id}" />
+
+                                <p:column headerText="Centro de costos" sortBy="#{centroCostoPorCuenta.centroCosto.nombre}"
+                                		 filterMatchMode="contains" filterBy="#{centroCostoPorCuenta.centroCosto.nombre}">
+                                    <h:outputText value="#{centroCostoPorCuenta.centroCosto.nombre}" />
+                                </p:column>
+                                
+                                <p:column headerText="Cuenta" sortBy="#{centroCostoPorCuenta.cuenta.nombre}"
+                                		 filterMatchMode="contains" filterBy="#{centroCostoPorCuenta.cuenta.nombre}">
+                                    <h:outputText value="#{centroCostoPorCuenta.cuenta.nombre}" />
                                 </p:column>
 
-                                <p:column headerText="Year">
-                                    <h:outputText value="#{car.year}" />
+                                <p:column headerText="Sublink" sortBy="#{centroCostoPorCuenta.sublink.nombre}"
+                                		 filterMatchMode="contains" filterBy="#{centroCostoPorCuenta.sublink.nombre}">
+                                     <h:outputText value="#{centroCostoPorCuenta.sublink.nombre}" />
                                 </p:column>
-
-                                <p:column headerText="Brand">
-                                    <h:outputText value="#{car.brand}" />
-                                </p:column>
-
-                                <p:column headerText="Color">
-                                    <h:outputText value="#{car.color}" />
+                                
+                                <p:column headerText="Acciones">
+                                    <p:splitButton value="Accion" icon="fa fa-edit">
+								        <p:menuitem value="Actualizar" actionListener="#{centroCostoPorCuentaBB.setSelectedCentroCostoPorCuenta(centroCostoPorCuenta)}"  
+								        			update=":#{p:component('dlgActualizar')} :#{p:component('tblCentroCostoPorCuentas')}" oncomplete="PF('dlgActualizar').show();"
+								        			icon="ui-icon-arrowrefresh-1-w" >
+								        	
+								        </p:menuitem>
+								        <p:menuitem value="Eliminar" actionListener="#{centroCostoPorCuentaBB.setSelectedCentroCostoPorCuenta(centroCostoPorCuenta)}" 
+								        			update=":#{p:component('dlgEliminar')}" oncomplete="PF('dlgEliminar').show();"
+								        			icon="ui-icon-close" >
+								        </p:menuitem>
+								    </p:splitButton>
                                 </p:column>
                             </p:dataTable>
                         </div>
                         
-                        <div class="card">
-		                	<h1>Carga Archivo Plano de Cuentas por Centro de Costo</h1>
-		                    <h:form>
-		                    	<p:fileUpload fileUploadListener="#{fileUploadView.handleFileUpload}" mode="advanced" dragDropSupport="false"
-		                                          multiple="true" update="messages" sizeLimit="100000" fileLimit="3" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" style="width:100%" />
-		        
-		                        <p:growl id="messages" showDetail="true" />
-		                    </h:form>
-		                </div>
+                        <p:dialog header="Actualizar" id="dlgActualizar" widgetVar="dlgActualizar" minHeight="40">
+							<div align="center">
+								<h:panelGrid columns="2" cellspacing="2" cellpadding="2">
+									
+							   		<p:outputLabel for="somCentroCostoU" value="Centro de Costo"/>
+	                                <p:selectOneMenu id="somCentroCostoU" filter="true"
+	                                		value="#{centroCostoPorCuentaBB.selectedCentroCostoPorCuenta.centroCosto.id}">
+	                                    <f:selectItem itemLabel="Seleccione" itemValue="" />
+	                                    <f:selectItems value="#{centroCostoPorCuentaBB.lstCentroCosto}" var="cl"
+	                                    		itemValue="#{cl.id}" itemLabel="#{cl.nombre}" />
+	                                </p:selectOneMenu>
+	                                
+	                                <p:outputLabel for="somCuentaU" value="Cuenta"/>
+	                                <p:selectOneMenu id="somCuentaU" filter="true"
+	                                		value="#{centroCostoPorCuentaBB.selectedCentroCostoPorCuenta.cuenta.id}">
+	                                    <f:selectItem itemLabel="Seleccione" itemValue="" />
+	                                    <f:selectItems value="#{centroCostoPorCuentaBB.lstCuenta}" var="cl"
+	                                    		itemValue="#{cl.id}" itemLabel="#{cl.nombre}" />
+	                                </p:selectOneMenu>
+	                                
+	                                <p:outputLabel for="somSublkinkU" value="Sublink"/>
+	                                <p:selectOneMenu id="somSublkinkU" filter="true"
+	                                		value="#{centroCostoPorCuentaBB.selectedCentroCostoPorCuenta.sublink.id}">
+	                                    <f:selectItem itemLabel="Seleccione" itemValue="" />
+	                                    <f:selectItems value="#{centroCostoPorCuentaBB.lstSublink}" var="cl"
+	                                    		itemValue="#{cl.id}" itemLabel="#{cl.nombre}" />
+	                                </p:selectOneMenu>
+							   		
+							   	</h:panelGrid>
+							   	<br />
+						   	
+						   		<p:commandButton id="btnActualizarCentroCostoPorCuenta" actionListener="#{centroCostoPorCuentaBB.updateCentroCostoPorCuenta}" update="@form" title="Actualizar" value="Actualizar" />
+								
+					   		</div>
+						</p:dialog>		
+		
+						<p:dialog header="Eliminar" id="dlgEliminar" widgetVar="dlgEliminar" minHeight="40">
+							<div align="center">
+								
+								<strong>¿Está seguro de borrar el registro?</strong>
+								<br />
+								<br />
+								<p:commandButton id="btnEliminarCentroCostoPorCuenta" actionListener="#{centroCostoPorCuentaBB.deleteCentroCostoPorCuenta}" update="@form" title="Eliminar" value="Eliminar" />						   		
+					   		</div>
+						</p:dialog>	
+                        
+                        
                     </div>                    
                 </div>
             </div>

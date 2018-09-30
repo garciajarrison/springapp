@@ -16,7 +16,7 @@ public interface ICentroCostoService {
 	
 	CentroCosto getCentroCostoById(int id);
 	
-	List<CentroCosto> getCentroCostos();
+	List<CentroCosto> getCentroCostos(boolean activo);
 	
 	//Centro costo por cuenta
 	void addCentroCostoPorCuenta(CentroCostoPorCuenta entity);

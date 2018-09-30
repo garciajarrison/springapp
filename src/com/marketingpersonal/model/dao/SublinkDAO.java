@@ -45,9 +45,13 @@ public class SublinkDAO implements ISublinkDAO {
 				.uniqueResult();
 	}
 
-	public List<Sublink> getSublinks() {
+	public List<Sublink> getSublinks(boolean activo) {
 		Session session = getSessionFactory().getCurrentSession();
-		return (List<Sublink>) session.createQuery("from Sublink").list();
+		if(activo) {
+			return (List<Sublink>) session.createQuery("from Sublink where estado = true").list();
+		}else {
+			return (List<Sublink>) session.createQuery("from Sublink").list();
+		}
 	}
 
 }

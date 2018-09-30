@@ -48,7 +48,7 @@ public class CentroCostoBB extends SpringBeanAutowiringSupport implements Serial
 		util = Util.getInstance();
 		centroCosto = new CentroCosto();
 		selectedCentroCosto = new CentroCosto();
-		listaCentroCostos = getCentroCostoService().getCentroCostos();
+		listaCentroCostos = getCentroCostoService().getCentroCostos(false);
 		
 		lstGerencias = getGerenciaService().getGerencias(true);
 		lstDireccions = getDireccionService().getDireccions(true);
@@ -86,7 +86,7 @@ public class CentroCostoBB extends SpringBeanAutowiringSupport implements Serial
 		try {
 			if(validar(centroCosto)) {
 				getCentroCostoService().addCentroCosto(centroCosto);
-				listaCentroCostos = getCentroCostoService().getCentroCostos();
+				listaCentroCostos = getCentroCostoService().getCentroCostos(false);
 				centroCosto = new CentroCosto();
 				util.mostrarMensaje("Registro agregado con éxito."); 
 			}
@@ -101,7 +101,7 @@ public class CentroCostoBB extends SpringBeanAutowiringSupport implements Serial
 		try {
 			if(validar(selectedCentroCosto)) {
 				getCentroCostoService().updateCentroCosto(selectedCentroCosto);
-				listaCentroCostos = getCentroCostoService().getCentroCostos();
+				listaCentroCostos = getCentroCostoService().getCentroCostos(false);
 				selectedCentroCosto = new CentroCosto();
 				util.mostrarMensaje("Registro actualizado con éxito.");
 			}
@@ -115,7 +115,7 @@ public class CentroCostoBB extends SpringBeanAutowiringSupport implements Serial
 	public void deleteCentroCosto() {
 		try {
 			getCentroCostoService().deleteCentroCosto(selectedCentroCosto);
-			listaCentroCostos = getCentroCostoService().getCentroCostos();
+			listaCentroCostos = getCentroCostoService().getCentroCostos(false);
 			util.mostrarMensaje("Registro eliminado con éxito.");  
 			
 		} catch (DataAccessException e) {

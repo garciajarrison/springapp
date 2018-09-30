@@ -1,103 +1,171 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
 
-	<ui:define name="title">Usuarios</ui:define>
+    <ui:define name="title">Usuarios</ui:define>
 
-	<ui:define name="content">
-		<h:form>
-			<div class="ui-fluid">
-				<div class="ui-g">
-					<div class="ui-g-12">
-						<div class="card">
+    <ui:define name="content">
+	<h:form>
+			<p:growl id="growl" sticky="true" autoUpdate="true" />
+            <div class="ui-fluid">
+                <div class="ui-g">
+                    <div class="ui-g-12">
+                        <div class="card">
 							<h1>Maestro de Usuarios</h1>
 							<p:panelGrid columns="2" columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4" layout="grid" styleClass="ui-panelgrid-blank" style="border:0px none; background-color:transparent;">
 
-								<p:outputLabel for="it_numero_documento" value="Numero de Documento" />
-								<p:inputText id="it_numero_documento" value="#{usaurioBB.usuario.nombre}"/>
+								<p:outputLabel for="it_numero_documento" value="Número de Documento" />
+								<p:inputText id="it_numero_documento" value="#{usuarioBB.usuario.numeroDocumento}"
+										maxlength="50"/>
 
 								<p:outputLabel for="it_nombre_completo" value="Nombre Completo" />
-								<p:inputText id="it_nombre_completo" />
+								<p:inputText id="it_nombre_completo" value="#{usuarioBB.usuario.nombre}" 
+										maxlength="50"/>
 
 								<p:outputLabel for="it_usuario" value="Usuario" />
-								<p:inputText id="it_usuario" />
+								<p:inputText id="it_usuario" value="#{usuarioBB.usuario.usuario}"
+										maxlength="20"/>
 
 								<p:outputLabel for="it_correo_electronico" value="Correo Electrónico" />
-								<p:password id="it_correo_electronico" />
+								<p:inputText id="it_correo_electronico" value="#{usuarioBB.usuario.correo}"
+										maxlength="80"/>
 
 								<p:outputLabel for="somCargo" value="Cargo" />
-								<p:selectOneMenu id="somCargo">
+								<p:selectOneMenu id="somCargo" value="#{usuarioBB.usuario.cargo}" filter="true">
 									<f:selectItem itemLabel="Seleccione" itemValue="" />
-									<f:selectItem itemLabel="Administrador"	itemValue="Administrador" />
-									<f:selectItem itemLabel="Director" itemValue="Director" />
-									<f:selectItem itemLabel="Gerente" itemValue="Gerente" />
-									<f:selectItem itemLabel="Jefe" itemValue="Jefe" />
+									<f:selectItems value="#{usuarioBB.listasGenericas.lstCargos}" />
 								</p:selectOneMenu>
 								
 								<p:outputLabel for="somRol" value="Rol" />
-								<p:selectOneMenu id="somRol">
+								<p:selectOneMenu id="somRol" value="#{usuarioBB.usuario.rol}" filter="true">
 									<f:selectItem itemLabel="Seleccione" itemValue="" />
-									<f:selectItem itemLabel="Administrador"	itemValue="Administrador" />
-									<f:selectItem itemLabel="Director" itemValue="Director" />
-									<f:selectItem itemLabel="Gerente" itemValue="Gerente" />
-									<f:selectItem itemLabel="Jefe" itemValue="Jefe" />
+									<f:selectItems value="#{usuarioBB.listasGenericas.lstRoles}" />
 								</p:selectOneMenu>
 
-								<p:commandButton id="btnGuardar" value="Guardar" icon="ui-icon-check fa fa-check Fs14 White" type="button" style="max-width:150px;" />
-
+								<p:commandButton id="btnGuardar" value="Guardar" actionListener="#{usuarioBB.addUsuario}" update="@form" icon="ui-icon-check fa fa-check Fs14 White" style="max-width:150px;"/>
 							</p:panelGrid>
 
 						</div>
-
-						<div class="card">
-							<h1>Listado de Usuarios</h1>
-							<p:dataTable id="tblUsuarios" var="usuario" value="#{usuarioBB.listaUsuarios}" reflow="true" selectionMode="single" rowKey="#{usuario.id}">
-								<f:facet name="header">
+                        
+                        <div class="card">
+                            <h1>Listado de Usuarios</h1>
+                            <p:dataTable id="tblUsuarios" var="usuario" value="#{usuarioBB.listaUsuarios}" 
+                            		reflow="true" selectionMode="single" rowKey="#{usuario.id}"
+                            		emptyMessage="No se encontraron registros."
+									scrollable="false" paginatorPosition="bottom"
+									rows="10" rowsPerPageTemplate="5,10,20,50"
+									currentPageReportTemplate="Páginas {totalPages}.  registros {totalRecords}"
+									paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" 
+									paginator="true">
+									
+                                <f:facet name="header">
                                     Usuarios
                                 </f:facet>
+                                
+                                <p:column headerText="Número de Documento" sortBy="#{usuario.numeroDocumento}"
+                                		 filterMatchMode="contains" filterBy="#{usuario.numeroDocumento}">
+                                    <h:outputText value="#{usuario.numeroDocumento}" />
+                                </p:column>
 
-								<p:column headerText="Numero Documento" sortBy="#{usuario.numeroDocumento}">
-									<h:outputText value="#{usuario.numeroDocumento}" />
-								</p:column>
+                                <p:column headerText="Nombre" sortBy="#{usuario.nombre}"
+                                		 filterMatchMode="contains" filterBy="#{usuario.nombre}">
+                                    <h:outputText value="#{usuario.nombre}" />
+                                </p:column>
+                                
+                                <p:column headerText="Usuario" sortBy="#{usuario.usuario}"
+                                		 filterMatchMode="contains" filterBy="#{usuario.usuario}">
+                                    <h:outputText value="#{usuario.usuario}" />
+                                </p:column>
+                                
+                                <p:column headerText="Correo" sortBy="#{usuario.correo}"
+                                		 filterMatchMode="contains" filterBy="#{usuario.correo}">
+                                    <h:outputText value="#{usuario.correo}" />
+                                </p:column>
+                                
+                                <p:column headerText="Cargo" sortBy="#{usuario.cargo}"
+                                		 filterMatchMode="contains" filterBy="#{usuario.cargo}">
+                                    <h:outputText value="#{usuario.cargo}" />
+                                </p:column>
 
-								<p:column headerText="Nombre" sortBy="#{usuario.nombre}">
-									<h:outputText value="#{usuario.nombre}" />
-								</p:column>
-
-								<p:column headerText="Usuario" sortBy="#{usuario.usuario}">
-									<h:outputText value="#{usuario.usuario}" />
-								</p:column>
+                                <p:column headerText="Rol" sortBy="#{usuario.rol}"
+                                		 filterMatchMode="contains" filterBy="#{usuario.rol}">
+                                    <h:outputText value="#{usuario.rol}" />
+                                </p:column>
+                                
+                                <p:column headerText="Acciones">
+                                    <p:splitButton value="Accion" icon="fa fa-edit">
+								        <p:menuitem value="Actualizar" actionListener="#{usuarioBB.setSelectedUsuario(usuario)}"  
+								        			update=":#{p:component('dlgActualizar')} :#{p:component('tblUsuarios')}" oncomplete="PF('dlgActualizar').show();"
+								        			icon="ui-icon-arrowrefresh-1-w" >
+								        	
+								        </p:menuitem>
+								        <p:menuitem value="Eliminar" actionListener="#{usuarioBB.setSelectedUsuario(usuario)}" 
+								        			update=":#{p:component('dlgEliminar')}" oncomplete="PF('dlgEliminar').show();"
+								        			icon="ui-icon-close" >
+								        </p:menuitem>
+								    </p:splitButton>
+                                </p:column>
+                            </p:dataTable>
+                        </div>
+                        
+                        <p:dialog header="Actualizar" id="dlgActualizar" widgetVar="dlgActualizar" minHeight="40">
+							<div align="center">
+								<h:panelGrid columns="2" cellspacing="2" cellpadding="2">
+							   				
+							   		<p:outputLabel for="it_numero_documentoU" value="Número de Documento" />
+									<p:inputText id="it_numero_documentoU" value="#{usuarioBB.selectedUsuario.numeroDocumento}"
+											maxlength="50"/>
+	
+									<p:outputLabel for="it_nombre_completoU" value="Nombre Completo" />
+									<p:inputText id="it_nombre_completoU" value="#{usuarioBB.selectedUsuario.nombre}" 
+											maxlength="50"/>
+	
+									<p:outputLabel for="it_usuarioU" value="Usuario" />
+									<p:inputText id="it_usuarioU" value="#{usuarioBB.selectedUsuario.usuario}"
+											maxlength="20"/>
+	
+									<p:outputLabel for="it_correo_electronicoU" value="Correo Electrónico" />
+									<p:inputText id="it_correo_electronicoU" value="#{usuarioBB.selectedUsuario.correo}"
+											maxlength="80"/>
+	
+									<p:outputLabel for="somCargoU" value="Cargo" />
+									<p:selectOneMenu id="somCargoU" value="#{usuarioBB.selectedUsuario.cargo}" filter="true">
+										<f:selectItem itemLabel="Seleccione" itemValue="" />
+										<f:selectItems value="#{usuarioBB.listasGenericas.lstCargos}" />
+									</p:selectOneMenu>
+									
+									<p:outputLabel for="somRolU" value="Rol" />
+									<p:selectOneMenu id="somRolU" value="#{usuarioBB.selectedUsuario.rol}" filter="true">
+										<f:selectItem itemLabel="Seleccione" itemValue="" />
+										<f:selectItems value="#{usuarioBB.listasGenericas.lstRoles}" />
+									</p:selectOneMenu>
 								
-								<p:column headerText="Correo" sortBy="#{usuario.correo}">
-									<h:outputText value="#{usuario.correo}" />
-								</p:column>
+							   	</h:panelGrid>
+							   	<br />
+						   	
+						   		<p:commandButton id="btnActualizarUsuario" actionListener="#{usuarioBB.updateUsuario}" update="@form" title="Actualizar" value="Actualizar" />
 								
-								<p:column headerText="Cargo" sortBy="#{usuario.cargo}">
-									<h:outputText value="#{usuario.cargo}" />
-								</p:column>
+					   		</div>
+						</p:dialog>		
+		
+						<p:dialog header="Eliminar" id="dlgEliminar" widgetVar="dlgEliminar" minHeight="40">
+							<div align="center">
 								
-								<p:column headerText="Rol" sortBy="#{usuario.rol}">
-									<h:outputText value="#{usuario.rol}" />
-								</p:column>
-								
-							</p:dataTable>
-						</div>
-						
-						<div class="card">
-		                	<h1>Carga Archivo Plano de Usuarios</h1>
-		                    <h:form>
-		                    	<p:fileUpload fileUploadListener="#{fileUploadView.handleFileUpload}" mode="advanced" dragDropSupport="false"
-		                                          multiple="true" update="messages" sizeLimit="100000" fileLimit="3" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" style="width:100%" />
-		        
-		                        <p:growl id="messages" showDetail="true" />
-		                    </h:form>
-		                </div>
-					</div>
-				</div>
-			</div>
-		</h:form>
-	</ui:define>
+								<strong>¿Está seguro de borrar el registro?</strong>
+								<br />
+								<br />
+								<p:commandButton id="btnEliminarUsuario" actionListener="#{usuarioBB.deleteUsuario}" update="@form" title="Eliminar" value="Eliminar" />						   		
+					   		</div>
+						</p:dialog>	
+                        
+                        
+                    </div>                    
+                </div>
+            </div>
+        </h:form>
+    </ui:define>
 
 </ui:composition>

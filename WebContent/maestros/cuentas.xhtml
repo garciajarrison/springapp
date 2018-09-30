@@ -18,10 +18,10 @@
                             <p:panelGrid columns="2" columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4" layout="grid" styleClass="ui-panelgrid-blank" style="border:0px none; background-color:transparent;">
                                 
                                 <p:outputLabel for="txtNombre" value="Nombre"/>
-                                <p:inputText id="txtNombre" value="#{cuentaBB.cuenta.nombre}"/>
+                                <p:inputText id="txtNombre" value="#{cuentaBB.cuenta.nombre}" maxlength="100"/>
                                 
                                 <p:outputLabel for="txtGrupo" value="Grupo"/>
-                                <p:inputText id="txtNombre" value="#{cuentaBB.cuenta.grupo}"/>
+                                <p:inputText id="txtGrupo" value="#{cuentaBB.cuenta.grupo}" maxlength="100"/>
                                 
                                 <p:commandButton id="btnGuardar" value="Guardar" actionListener="#{cuentaBB.addCuenta}" update="@form" icon="ui-icon-check fa fa-check Fs14 White" style="max-width:150px;"/>
                             </p:panelGrid>
@@ -30,16 +30,26 @@
                         
                         <div class="card">
                             <h1>Listado de Cuentas</h1>
-                            <p:dataTable id="tblCuentas" var="cuenta" value="#{cuentaBB.listaCuentas}" reflow="true" selectionMode="single" rowKey="#{cuenta.id}">
+                            <p:dataTable id="tblCuentas" var="cuenta" value="#{cuentaBB.listaCuentas}" reflow="true" 
+                            		selectionMode="single" rowKey="#{cuenta.id}"
+                            		emptyMessage="No se encontraron registros."
+									scrollable="false" paginatorPosition="bottom"
+									rows="10" rowsPerPageTemplate="5,10,20,50"
+									currentPageReportTemplate="Páginas {totalPages}.  registros {totalRecords}"
+									paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" 
+									paginator="true">
+									
                                 <f:facet name="header">
                                     Cuentas
                                 </f:facet>
 
-                                <p:column headerText="Nombre" sortBy="#{cuenta.nombre}">
+                                <p:column headerText="Nombre" sortBy="#{cuenta.nombre}"
+                                		 filterMatchMode="contains" filterBy="#{cuenta.nombre}">
                                     <h:outputText value="#{cuenta.nombre}" />
                                 </p:column>
                                 
-                                <p:column headerText="Grupo" sortBy="#{cuenta.grupo}">
+                                <p:column headerText="Grupo" sortBy="#{cuenta.grupo}"
+                                		 filterMatchMode="contains" filterBy="#{cuenta.grupo}">
                                     <h:outputText value="#{cuenta.grupo}" />
                                 </p:column>
 
@@ -68,10 +78,10 @@
 								<h:panelGrid columns="2" cellspacing="2" cellpadding="2">
 									
 									<h:outputLabel for="txtNombreU" value="Nombre" />
-									<p:inputText id="txtNombreU" value="#{cuentaBB.selectedCuenta.nombre}" />
+									<p:inputText id="txtNombreU" value="#{cuentaBB.selectedCuenta.nombre}" maxlength="100"/>
 									
 									<p:outputLabel for="txtGrupoU" value="Grupo"/>
-                                	<p:inputText id="txtNombreU" value="#{cuentaBB.selectedCuenta.grupo}"/>
+                                	<p:inputText id="txtGrupoU" value="#{cuentaBB.selectedCuenta.grupo}" maxlength="100"/>
 							   				
 							   		<h:outputLabel for="txtNombreU" value="Estado:"/>
 							   		<p:selectBooleanButton id="sbbEstado" offLabel="Inactivo" onLabel="Activo" value="#{cuentaBB.selectedCuenta.estado}" />

@@ -36,8 +36,8 @@ public class CuentaService implements ICuentaService {
 		return getEntityDAO().getCuentaById(id);
 	}
 
-	public List<Cuenta> getCuentas() {	
-		return getEntityDAO().getCuentas();
+	public List<Cuenta> getCuentas(boolean activo) {	
+		return getEntityDAO().getCuentas(activo);
 	}
 	
 	public ICuentaDAO getEntityDAO() {

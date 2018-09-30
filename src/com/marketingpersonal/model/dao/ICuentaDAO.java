@@ -15,6 +15,6 @@ public interface ICuentaDAO {
 	
 	Cuenta getCuentaById(int id);
 
-	List<Cuenta> getCuentas();
+	List<Cuenta> getCuentas(boolean activo);
 
 }

@@ -46,9 +46,13 @@ public class CentroCostoDAO implements ICentroCostoDAO {
 				.uniqueResult();
 	}
 
-	public List<CentroCosto> getCentroCostos() {
+	public List<CentroCosto> getCentroCostos(boolean activo) {
 		Session session = getSessionFactory().getCurrentSession();
-		return (List<CentroCosto>) session.createQuery("from CentroCosto").list();
+		if(activo) {
+			return (List<CentroCosto>) session.createQuery("from CentroCosto where estado = true").list();
+		}else {
+			return (List<CentroCosto>) session.createQuery("from CentroCosto").list();
+		}
 	}
 	
 	//Centro costo por cuenta

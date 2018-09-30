@@ -15,5 +15,5 @@ public interface ICuentaService {
 	
 	Cuenta getCuentaById(int id);
 	
-	List<Cuenta> getCuentas();
+	List<Cuenta> getCuentas(boolean activo);
 }
