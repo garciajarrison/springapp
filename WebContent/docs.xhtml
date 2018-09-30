@@ -1,0 +1,139 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+    <ui:define name="title">Documentation</ui:define>
+    
+    <ui:define name="head">
+        <style type="text/css">
+            .docs h1 {
+                margin-top: 30px;
+            }
+            
+            .docs h1:first-child {
+                margin-top: 0;
+            }
+            
+            .docs pre {
+                background-color: #edf0f5;
+                padding: 1em;
+                font-family: monospace;;
+            }
+        </style>
+    </ui:define>
+
+    <ui:define name="content">
+    
+        <div class="ui-g">
+            <div class="ui-g-12">
+                <div class="card docs">
+                    <h1>Layout</h1>
+                    <p>Omega provides a main template.xhtml and additional topbar, sidebar and footer fragments for the base layout. 
+                        These xhtml files must be placed under WEB-INF folder and client pages should reference the template.xhtml as their template. 
+                        Provided empty-page.xhtml is a sample content page using the main template.xhtml that defines "content" as the main ui:define placeholder.</p>
+                    
+                    <p>Other required resources are the css, js and images that are located inside resources/omega-layout folder, simply copy the omega-layout folder to your %WEB-APP-FOLDER%/resources folder 
+                        so that final path would be %WEB-APP-FOLDER%/resources/omega-layout/. Please refer to demo app or maven project of the demo app as the reference.</p>
+                    
+                    <h1>Theme</h1>    
+                    <p>Omega layout depends on the Omega theme of PrimeFaces that is available since 6.0. 
+                        Setup is simple as defining primefaces.THEME context parameter in web.xml such as "omega".</p>
+                        
+                    <h1>Menu</h1>    
+                    <p>Menu is a regular JSF component that supports PrimeFaces MenuModel API allowing both declarative and programmatic approaches. 
+                    State is saved via a cookie and to remove it define a widgetVar to the menu and call PF('yourwidgetvar').clearMenuState(). To use the menu
+                    add the omega-menu.jar to your classpath and import the http://primefaces.org/omega namespace.</p>
+                    
+                    <p>Menu becomes collapsed automatically in screens smaller than 1024px and it can be toggled on demand using the 
+                    menu button at the top bar in larger screens as well. In a large screen, if you'd like to display the menu as collapsed by default,
+                    <i>sidebar-inactive-l</i> class to the main wrapper div (&lt;div class="wrapper"&gt;).</p>
+<pre>
+xmlns:po="http://primefaces.org/omega">
+
+&lt;po:menu&gt;
+&lt;/po:menu&gt;
+</pre>  
+                        
+                    <h1>Icons</h1>
+                    <p>Omega Layout uses font awesome icons for layout so enable font awesome support in PrimeFaces by setting primefaces.FONT_AWESOME context parameter in web.xml as true. If your PrimeFaces version 
+                    does not have the font awesome integration, include the font-awesome manually in your application.</p>
+                    
+                    <p>Default icons of Omega theme are png based and Omega Layout enhances them using sharp looking font awesome icons as well.</p>
+                    
+                    <h1>Cards</h1>
+                    <p>Card is a section to group content and layout provides a built-in css for it. Apply .card style class to your container to use it.</p>
+<pre>
+&lt;div class="card"&gt;
+    Content here
+&lt;/div&gt;
+</pre>  
+                    
+                    <h1>Grid CSS</h1>
+                    <p>Omega uses new PrimeFaces Grid CSS throughout the samples, we strongly suggest using Grid CSS as your layout framework as it is well tested and supported by PrimeFaces. Grid CSS 
+                    is automatically included on newer versions however if your PrimeFaces version is older than 5.3.14, add the provided grid.css file under /omega-layout/css/ folder to your template manually.</p>            
+                
+                    <h1>SASS</h1>
+                    <p>Omega is implemented using sass where the pages are organized in different scss files under sass folder such as
+                    _dashboard.scss, _login.scss, _main.scss. The _variables.scss file contains common parameters like fontSize, menu colors and more.
+                    When doing customizations to omega, you need to make changes to the .scss files and generate a css file called layout.css under
+                    omega-layout/css folder. The sass command to execute when at the root folder of the application would be;</p>
+
+<pre>
+sass src/main/webapp/resources/sass/layout.scss src/main/webapp/resources/omega-layout/css/layout.css --sourcemap=none
+</pre> 
+
+                    <p>Watch mode is handy to avoid compiling everytime when a change is made, instead use the following command
+                    so that sass generates the file whenever you make a customization.</p>
+<pre>
+sass -w src/main/webapp/resources/sass/layout.scss:src/main/webapp/resources/omega-layout/css/layout.css --sourcemap=none
+</pre> 
+
+                    <h1>Migration Guide</h1>
+                    <p>1.1.3 to 1.1.4</p>
+                    <ul>
+                        <li>Update layout.js and layout css files</li>
+                        <li>Replace theme jar with new jar</li>
+                    </ul>
+                    <p>1.1.1 to 1.1.2</p>
+                    <ul>
+                        <li>Update layout.js and layout css files</li>
+                        <li>Replace theme jar with new jar</li>
+                        <li>Update *MenuRenderer.java and *Menu.java</li>
+                    </ul>
+                    
+                    <p>1.1 to 1.1.1</p>
+                    <ul>
+                        <li>Update layout.js and layout.css</li>
+                    </ul>
+                    
+                    <p>1.0.3 to 1.1</p>
+                    <ul>
+                        <li>Update layout.js and layout.css</li>
+                        <li>Update &lt;div class="profile"&gt; inside sidebar.xhtml with new content in template.</li>
+                    </ul>
+                    
+                    <p>1.0.2 to 1.0.3</p>
+                    <ul>
+                        <li>Update layout.js and layout.css</li>
+                        <li>Include animate.css</li>
+                    </ul>
+                                        
+                    <p>1.0.1 to 1.0.2</p>
+                    <ul>
+                        <li>Update template.xhtml</li>
+                    </ul>
+                    
+                    <p>1.0 to 1.0.1</p>
+                    <ul>
+                        <li>Include omega-menu.jar</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+    </ui:define>
+
+</ui:composition>

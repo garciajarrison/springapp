@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <f:facet name="first">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+            <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+            <meta name="apple-mobile-web-app-capable" content="yes" />
+        </f:facet>
+        <title>Presupuesto Marketing Personal</title>
+        <script type="text/javascript">
+
+			$(document).ready(function () {
+		
+				var sPageURL = window.location.search.substring(1);
+				if(sPageURL.length>0){
+					 switch (sPageURL) {
+					 
+						case "CredencialesInvalidas":
+							var mensaje = "Usuario o contraseña incorrecto";
+							break;
+						case "SesionExpirada":
+							var mensaje = "La sesión ha expirado";
+							break;
+						case "UsuarioBloqueado":
+							var mensaje = "El usuario está bloqueado.";
+						break;
+						case "UsuarioNoPermiso":
+							var mensaje = "El usuario no tiene permisos para ingresar a la aplicación.";
+						break;
+						case "Error":
+							var mensaje = "Ha ocurrido un error en la aplicación, por favor intente de nuevo.";
+						break;
+						default:
+							var mensaje = "";
+					 
+					}
+					 $("#mensaje").append(mensaje);
+				}
+			});
+		</script>
+    </h:head>
+
+    <h:body styleClass="login-body">
+    
+        <div id="login-wrapper">
+            <p:graphicImage name="images/logo_marketing_personal_ms.png" library="omega-layout" width="400"/>
+            
+            <h:form>
+                <p:growl id="growl" sticky="true" autoUpdate="true" /> 
+	            
+	            <div id="login-container">
+	                <span class="title">Acceso</span>
+	                
+	                <div class="ui-g ui-fluid">
+	                    <div class="ui-g-12">
+	                        <p:inputText placeholder="Usuario" value="#{loginBB.usuario.correo}" title="Usuario" label="Usuario" />
+	                    </div>
+	                    <div class="ui-g-12">
+	                        <p:password placeholder="Contraseña" feedback="false" value="#{loginBB.usuario.contrasena}" title="Contraseña" label="Contraseña"/>
+	                    </div>
+	                    <div class="ui-g-12">
+	                       <p:commandButton value="Ingresar" actionListener="#{loginBB.login}" update="@form" icon="fa fa-check"/>
+	                    </div>
+	                </div>
+	            </div>
+            </h:form>
+            <div class="login-footer">Marketing Personal</div>
+        </div>
+        
+        <h:outputStylesheet name="css/layout.css" library="omega-layout" />
+    </h:body>
+
+</html>

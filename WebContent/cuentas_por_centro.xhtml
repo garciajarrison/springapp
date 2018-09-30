@@ -1,0 +1,91 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+    <ui:define name="title">Cuentas por Centro de Costo</ui:define>
+
+    <ui:define name="content">
+        <h:form>
+            <div class="ui-fluid">
+                <div class="ui-g">
+                    <div class="ui-g-12">
+                        <div class="card">
+                            <h1>Maestro de Cuentas por Centro de Costo</h1>
+                            <p:panelGrid columns="2" columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4" layout="grid" styleClass="ui-panelgrid-blank" style="border:0px none; background-color:transparent;">
+                                
+                                <p:outputLabel for="somCentroCosto" value="Centro de Costo"/>
+                                <p:selectOneMenu id="somCentroCosto">
+                                    <f:selectItem itemLabel="Seleccione" itemValue="" />
+                                    <f:selectItem itemLabel="Administrador" itemValue="Administrador" />
+                                    <f:selectItem itemLabel="Director" itemValue="Director" />
+                                    <f:selectItem itemLabel="Gerente" itemValue="Gerente" />
+                                    <f:selectItem itemLabel="Jefe" itemValue="Jefe" />
+                                </p:selectOneMenu>
+                                
+                                <p:outputLabel for="somCuenta" value="Cuenta"/>
+                                <p:selectOneMenu id="somCuenta">
+                                    <f:selectItem itemLabel="Seleccione" itemValue="" />
+                                    <f:selectItem itemLabel="Administrador" itemValue="Administrador" />
+                                    <f:selectItem itemLabel="Director" itemValue="Director" />
+                                    <f:selectItem itemLabel="Gerente" itemValue="Gerente" />
+                                    <f:selectItem itemLabel="Jefe" itemValue="Jefe" />
+                                </p:selectOneMenu>
+                                
+                                <p:outputLabel for="somSublkink" value="Sublink"/>
+                                <p:selectOneMenu id="somSublkink">
+                                    <f:selectItem itemLabel="Seleccione" itemValue="" />
+                                    <f:selectItem itemLabel="Administrador" itemValue="Administrador" />
+                                    <f:selectItem itemLabel="Director" itemValue="Director" />
+                                    <f:selectItem itemLabel="Gerente" itemValue="Gerente" />
+                                    <f:selectItem itemLabel="Jefe" itemValue="Jefe" />
+                                </p:selectOneMenu>
+
+                                <p:commandButton id="btnGuardar" value="Guardar" icon="ui-icon-check fa fa-check Fs14 White" type="button" style="max-width:150px;"/> 
+                                                              
+                            </p:panelGrid>
+                            
+                        </div>
+                        
+                        <div class="card">
+                            <h1>Listado de Cuentas por Centro de Costo</h1>
+                            <p:dataTable var="car" value="#{dtBasicView.cars}" reflow="true" selectionMode="single" selection="#{dtSelectionView.selectedCar}" rowKey="#{car.id}">
+                                <f:facet name="header">
+                                    DataTable
+                                </f:facet>
+                                <p:column headerText="Id">
+                                    <h:outputText value="#{car.id}" />
+                                </p:column>
+
+                                <p:column headerText="Year">
+                                    <h:outputText value="#{car.year}" />
+                                </p:column>
+
+                                <p:column headerText="Brand">
+                                    <h:outputText value="#{car.brand}" />
+                                </p:column>
+
+                                <p:column headerText="Color">
+                                    <h:outputText value="#{car.color}" />
+                                </p:column>
+                            </p:dataTable>
+                        </div>
+                        
+                        <div class="card">
+		                	<h1>Carga Archivo Plano de Cuentas por Centro de Costo</h1>
+		                    <h:form>
+		                    	<p:fileUpload fileUploadListener="#{fileUploadView.handleFileUpload}" mode="advanced" dragDropSupport="false"
+		                                          multiple="true" update="messages" sizeLimit="100000" fileLimit="3" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" style="width:100%" />
+		        
+		                        <p:growl id="messages" showDetail="true" />
+		                    </h:form>
+		                </div>
+                    </div>                    
+                </div>
+            </div>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

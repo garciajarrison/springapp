@@ -1,0 +1,85 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:po="http://primefaces.org/omega">
+  <h:form id="menuform">
+    <div class="sidebar">
+        <div class="nano">
+            <div class="nano-content sidebar-scroll-content">
+                <div class="logo">
+                    <p:graphicImage name="images/logo_marketing_personal_color.png" library="omega-layout" width="120"/>
+                </div>
+
+                <div class="profile">
+                    <p:graphicImage name="images/profile.png" library="omega-layout" />
+                    <a id="profile-button" href="#">
+                        <span class="username">Peggy Olson</span>
+                        <i class="fa fa-fw fa-cog"></i>
+                    </a>
+                    <ul>
+                        <li><a href="#"><i class="fa fa-fw fa-sliders"></i><span>Account</span></a></li>
+                        <li><a href="#"><i class="fa fa-fw fa-bell"></i><span>Notifications</span><span class="menu-badge">2</span></a></li>
+                        <li><a href="#"><i class="fa fa-fw fa-sign-out"></i><span>Salir</span></a></li>
+                    </ul>
+                </div>
+
+                <div class="menu">
+                    <po:menu>
+                        <p:menuitem id="om_dashboard" value="Dashboard" icon="fa fa-home" outcome="/dashboard"/>
+                        <p:submenu id="am_customization" label="Customization" icon="fa fa-fw fa-bars">
+                            <p:menuitem id="custom1" value="Static Menu" icon="fa fa-fw fa-bars" actionListener="#{guestPreferences.setMenuLayout('static')}" ajax="false"/>
+                            <p:menuitem id="custom2" value="Overlay Menu" icon="fa fa-fw fa-bars" actionListener="#{guestPreferences.setMenuLayout('overlay')}" ajax="false"/>
+                        </p:submenu>
+                        <p:submenu id="om_components" label="Components" icon="fa fa-sitemap">
+                            <p:menuitem id="om_sample" value="Sample Page" icon="fa fa-columns" outcome="/sample" />
+                            <p:menuitem id="om_forms" value="Forms" icon="fa fa-code" outcome="/forms" />
+                            <p:menuitem id="om_data" value="Data" icon="fa fa-table" outcome="/data" />
+                            <p:menuitem id="om_panels" value="Panels" icon="fa fa-list-alt" outcome="/panel" />
+                            <p:menuitem id="om_overlays" value="Overlays" icon="fa fa-square" outcome="/overlay" />
+                            <p:menuitem id="om_menus" value="Menus" icon="fa fa-minus-square-o" outcome="/menu" />
+                            <p:menuitem id="om_messages" value="Messages" icon="fa fa-circle-o-notch" outcome="/messages" />
+                            <p:menuitem id="om_charts" value="Charts" icon="fa fa-area-chart" outcome="/charts" />
+                            <p:menuitem id="om_file" value="File" icon="fa fa-arrow-circle-o-up" outcome="/file" />
+                            <p:menuitem id="om_misc" value="Misc" icon="fa fa-user-secret" outcome="/misc" />
+                        </p:submenu>
+                        <p:menuitem id="om_db_landing" value="Landing" icon="fa fa-certificate" outcome="/landing"/>
+                        <p:submenu id="om_default" label="Template Pages" icon="fa fa-life-saver">
+                            <p:menuitem id="om_empty" value="Empty Page" icon="fa fa-square-o" outcome="/empty" />
+                            <p:menuitem id="om_login" value="Login Page" icon="fa fa-sign-in" outcome="/login" />
+                            <p:menuitem id="om_error" value="Error Page" icon="fa fa-exclamation-circle" outcome="/error" />
+                            <p:menuitem id="om_404" value="404 Page" icon="fa fa-times" outcome="/404" />
+                            <p:menuitem id="om_access" value="Access Denied Page" icon="fa fa-exclamation-triangle" outcome="/access" />
+                        </p:submenu>
+                        <p:submenu id="om_hierarchy" label="Menu Hierarchy" icon="fa fa-gg">
+                            <p:submenu id="om_sm1" label="Submenu 1" icon="fa fa-sign-in">
+                                <p:submenu id="om_sm11" label="Submenu 1.1" icon="fa fa-sign-in">
+                                    <p:menuitem id="om_lnk111" value="Link 1.1.1" icon="fa fa-sign-in" url="#" />
+                                    <p:menuitem id="om_lnk112" value="Link 1.1.2" icon="fa fa-sign-in" url="#" />
+                                    <p:menuitem id="om_lnk113" value="Link 1.1.3" icon="fa fa-sign-in" url="#" />
+                                </p:submenu>
+                                <p:submenu id="om_sm12" label="Submenu 1.2" icon="fa fa-sign-in">
+                                    <p:menuitem id="om_lnk121" value="Link 1.2.1" icon="fa fa-sign-in" url="#" />
+                                </p:submenu>
+                            </p:submenu>
+                            <p:submenu id="om_sm2" label="Submenu 2" icon="fa fa-sign-in">
+                                <p:submenu id="om_sm21" label="Submenu 2.1" icon="fa fa-sign-in">
+                                    <p:menuitem id="om_lnk211" value="Link 2.1.1" icon="fa fa-sign-in" url="#" />
+                                    <p:menuitem id="om_lnk212" value="Link 2.1.2" icon="fa fa-sign-in" url="#" />
+                                </p:submenu>
+                                <p:submenu id="om_sm22" label="Submenu 2.2" icon="fa fa-sign-in">
+                                    <p:menuitem id="om_lnk221" value="Link 2.2.1" icon="fa fa-sign-in" url="#" />
+                                </p:submenu>
+                            </p:submenu>
+                        </p:submenu>
+
+                        <p:menuitem id="om_doc" value="Documentation" icon="fa fa-book" outcome="/docs"/>
+                    </po:menu>
+                </div>
+            </div>
+        </div>
+    </div>
+  </h:form>
+</ui:composition>
