@@ -1,0 +1,131 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+    <ui:define name="title">Presupuestos</ui:define>
+
+    <ui:define name="content">
+	<h:form>
+			<p:growl id="growl" sticky="true" autoUpdate="true" />
+            <div class="ui-fluid">
+                <div class="ui-g">
+                    <div class="ui-g-12">
+                        <div class="card">
+                            <h1>Creación presupuesto</h1>
+                            <p:panelGrid columns="2" columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4" layout="grid" styleClass="ui-panelgrid-blank" style="border:0px none; background-color:transparent;">
+                                
+                                <p:outputLabel for="txtNombre" value="Nombre"/>
+                                <p:inputText id="txtNombre" value="#{presupuestoBB.presupuesto.nombre}" maxlength="50"/>
+                                
+                                <p:outputLabel for="txtDescripcion" value="Descripción"/>
+                                <p:inputText id="txtDescripcion" value="#{presupuestoBB.presupuesto.descripcion}" maxlength="100"/>
+                                
+                                <p:outputLabel for="txtTipo" value="Tipo"/>
+                                <p:selectOneMenu id="txtTipo" value="#{presupuestoBB.presupuesto.tipo}"
+                                		 filter="true">
+                                    <f:selectItem itemLabel="Seleccione" itemValue="" />
+                                    <f:selectItems value="#{presupuestoBB.listasGenericas.lstTipoPresupuesto}" />
+                                    <p:ajax update="@form" listener="#{presupuestoBB.cambioTipo}" process="@form" />
+                                </p:selectOneMenu>
+                                
+                                <ui:repeat var="pr" value="#{presupuestoBB.presupuesto.detalle}" varStatus="myVarStatus">
+                                	<p:outputLabel value="#{presupuestoBB.presupuesto.tipo eq 'Mensual' ? 'Mes ' : 'Campaña '} #{myVarStatus.index+1}"/>
+                                	<p:inputNumber value="#{pr.valor}"/>
+                                </ui:repeat>
+                                
+                                <p:commandButton id="btnGuardar" value="Guardar" actionListener="#{presupuestoBB.addPresupuesto}" update="@form" icon="ui-icon-check fa fa-check Fs14 White" style="max-width:150px;"/>
+                            </p:panelGrid>
+                            
+                        </div>
+                        
+                        <div class="card">
+                            <h1>Listado de Presupuestos</h1>
+                            <p:dataTable id="tblPresupuestos" var="presupuesto" value="#{presupuestoBB.listaPresupuestos}" reflow="true" 
+                            		selectionMode="single" rowKey="#{presupuesto.id}"
+                            		emptyMessage="No se encontraron registros."
+									scrollable="false" paginatorPosition="bottom"
+									rows="10" rowsPerPageTemplate="5,10,20,50"
+									currentPageReportTemplate="Páginas {totalPages}.  registros {totalRecords}"
+									paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" 
+									paginator="true">
+									
+                                <f:facet name="header">
+                                    Presupuestos
+                                </f:facet>
+
+                                <p:column headerText="Nombre" sortBy="#{presupuesto.nombre}" width="30%"
+                                		 filterMatchMode="contains" filterBy="#{presupuesto.nombre}">
+                                    <h:outputText value="#{presupuesto.nombre}" />
+                                </p:column>
+                                
+                                <p:column headerText="Descripción" sortBy="#{presupuesto.descripcion}" width="40%"
+                                		 filterMatchMode="contains" filterBy="#{presupuesto.descripcion}">
+                                    <h:outputText value="#{presupuesto.descripcion}" />
+                                </p:column>
+
+                                <p:column headerText="Tipo" sortBy="#{presupuesto.tipo}" width="15%">
+                                     <h:outputText value="#{presupuesto.tipo}" />
+                                </p:column>
+                                
+                                <p:column headerText="Acciones" width="15%">
+                                    <p:splitButton value="Accion" icon="fa fa-edit">
+								        <p:menuitem value="Actualizar" actionListener="#{presupuestoBB.setSelectedPresupuesto(presupuesto)}"  
+								        			update=":#{p:component('dlgActualizar')} :#{p:component('tblPresupuestos')}" oncomplete="PF('dlgActualizar').show();"
+								        			icon="ui-icon-arrowrefresh-1-w" >
+								        	
+								        </p:menuitem>
+								        <p:menuitem value="Eliminar" actionListener="#{presupuestoBB.setSelectedPresupuesto(presupuesto)}" 
+								        			update=":#{p:component('dlgEliminar')}" oncomplete="PF('dlgEliminar').show();"
+								        			icon="ui-icon-close" >
+								        </p:menuitem>
+								    </p:splitButton>
+                                </p:column>
+                            </p:dataTable>
+                        </div>
+                        
+                        <p:dialog header="Actualizar" id="dlgActualizar" widgetVar="dlgActualizar" minHeight="40">
+							<div align="center">
+								<h:panelGrid columns="2" cellspacing="2" cellpadding="2">
+									
+									<h:outputLabel for="txtNombreU" value="Nombre" />
+									<p:inputText id="txtNombreU" value="#{presupuestoBB.selectedPresupuesto.nombre}" maxlength="50"/>
+									
+							   		<p:outputLabel for="txtDescripcionU" value="Descripción"/>
+	                                <p:inputText id="txtDescripcionU" value="#{presupuestoBB.selectedPresupuesto.descripcion}" maxlength="100"/>
+	                                
+	                                <p:outputLabel for="txtTipoU" value="Tipo"/>
+	                                <p:selectOneMenu id="txtTipoU" value="#{presupuestoBB.selectedPresupuesto.tipo}"
+	                                		 filter="true">
+	                                    <f:selectItem itemLabel="Seleccione" itemValue="" />
+	                                    <f:selectItems value="#{presupuestoBB.listasGenericas.lstTipoPresupuesto}" />
+	                                </p:selectOneMenu>
+							   		
+							   	</h:panelGrid>
+							   	<br />
+						   	
+						   		<p:commandButton id="btnActualizarPresupuesto" actionListener="#{presupuestoBB.updatePresupuesto}" update="@form" title="Actualizar" value="Actualizar" />
+								
+					   		</div>
+						</p:dialog>		
+		
+						<p:dialog header="Eliminar" id="dlgEliminar" widgetVar="dlgEliminar" minHeight="40">
+							<div align="center">
+								
+								<strong>¿Está seguro de borrar el registro?</strong>
+								<br />
+								<br />
+								<p:commandButton id="btnEliminarPresupuesto" actionListener="#{presupuestoBB.deletePresupuesto}" update="@form" title="Eliminar" value="Eliminar" />						   		
+					   		</div>
+						</p:dialog>	
+                        
+                        
+                    </div>                    
+                </div>
+            </div>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

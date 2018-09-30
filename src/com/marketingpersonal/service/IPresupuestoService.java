@@ -1,0 +1,32 @@
+package com.marketingpersonal.service;
+
+import java.util.List;
+
+import com.marketingpersonal.model.entity.Presupuesto;
+import com.marketingpersonal.model.entity.PresupuestoDetalle;
+
+
+public interface IPresupuestoService {
+	
+	void addPresupuesto(Presupuesto entity);
+
+	void updatePresupuesto(Presupuesto entity);
+	
+	void deletePresupuesto(Presupuesto entity);
+	
+	Presupuesto getPresupuestoById(int id);
+	
+	List<Presupuesto> getPresupuestos();
+	
+	//Detalle
+	void addPresupuestoDetalle(PresupuestoDetalle entity);
+
+	void updatePresupuestoDetalle(PresupuestoDetalle entity);
+	
+	void deletePresupuestoDetalle(PresupuestoDetalle entity);
+	
+	PresupuestoDetalle getPresupuestoDetalleById(int id);
+	
+	List<PresupuestoDetalle> getPresupuestoDetalles();
+	
+}

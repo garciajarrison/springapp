@@ -17,9 +17,6 @@ public class Cuenta implements java.io.Serializable {
 	private String grupo;
 	private boolean estado = true;
 
-	public Cuenta() {
-	}
-
 	@Id
 	@GeneratedValue( strategy=GenerationType.IDENTITY)
 	@Column(columnDefinition = "serial", name = "id", unique = true, nullable = false)

@@ -10,6 +10,7 @@ public class ListasGenericas {
 	private static ListasGenericas instance;
 	private List<SelectItem> lstCargos;
 	private List<SelectItem> lstRoles;
+	private List<SelectItem> lstTipoPresupuesto;
 	
 	public static ListasGenericas getInstance() {
 		if(instance == null)
@@ -27,6 +28,10 @@ public class ListasGenericas {
 		lstRoles = new ArrayList<>();
 		lstRoles.add(new SelectItem("Administrador", "Administrador"));
 		lstRoles.add(new SelectItem("Usuario", "Usuario"));
+		
+		lstTipoPresupuesto = new ArrayList<>();
+		lstTipoPresupuesto.add(new SelectItem("Campañal", "Campañal"));
+		lstTipoPresupuesto.add(new SelectItem("Mensual", "Mensual"));
 	}
 
 	public List<SelectItem> getLstCargos() {
@@ -37,5 +42,8 @@ public class ListasGenericas {
 		return lstRoles;
 	}
 
+	public List<SelectItem> getLstTipoPresupuesto() {
+		return lstTipoPresupuesto;
+	}
 
 }
