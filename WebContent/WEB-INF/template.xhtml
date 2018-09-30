@@ -20,7 +20,13 @@
     </h:head>
 
     <h:body styleClass="main-body #{guestPreferences.menuLayout}">
-
+    
+    <script type="text/javascript">
+	    function redirectSesion(){
+	    	window.location.href = '#{facesContext.externalContext.requestContextPath}/login.xhtml?SesionExpirada' 
+	    }
+    </script>
+    
         <div class="wrapper">
             <ui:include src="topbar.xhtml" />
 
@@ -42,6 +48,24 @@
                 <h:outputText value="" />
             </f:facet>
         </p:ajaxStatus>
+        
+        <p:idleMonitor timeout="600000" onidle="redirectSesion();" />
+        <p:dialog position="center center" header="#{msg['cerrar.session']}" resizable="false" closable="true"
+		           id="cerrarSesion" widgetVar="cerrarSesion" modal="true">  
+			<div align="center">
+				<br />
+				<h:panelGrid>
+					<h:outputText value="¿Está seguro de cerrar sesión?"/>
+					<br />
+				</h:panelGrid>
+				<div align="center">
+	
+		        <p:commandButton value="No" immediate="true" icon="ui-confirmdialog-no" onclick="PF('cerrarSesion').hide()" process="@this" />
+				 <p:commandButton value="Si" immediate="true" styleClass="ui-confirmdialog-yes" action="#{globalBB.cerrarSesion}" />	          
+		        
+				</div>
+			</div>
+		</p:dialog>
 
         <h:outputStylesheet name="css/animate.css" library="omega-layout" />
         <h:outputStylesheet name="css/nanoscroller.css" library="omega-layout" />

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<ui:composition template="/WEB-INF/template.xhtml"
+   xmlns="http://www.w3c.org/1999/xhtml"
+   xmlns:h="http://java.sun.com/jsf/html"
+   xmlns:f="http://java.sun.com/jsf/core"
+   xmlns:p="http://primefaces.org/ui"
+   xmlns:ui="http://java.sun.com/jsf/facelets">
+
+	<ui:define name="content">
+	
+		<h1>Cuenta</h1>
+		<br /><br /><br />
+		
+		<p:accordionPanel multiple="false">
+		 	<p:tab title="Foto de perfil">
+		 		<h:form id="formFotom" enctype="multipart/form-data">
+		 		
+		 			<p:growl id="growl" sticky="true" autoUpdate="true" />
+	          		<p:panel id="pnFotoPerfil" >
+	          		
+	          			<div class="ui-g">
+	          			
+	          				<div class="ui-g-6">
+	          				
+	          				 <img id="idFotoPerfilTmp" src="#{globalBB.urlFotoPerfil}"/>
+	          					
+	          				</div>
+	          				<div class="ui-g-6" align="center">
+	          					<p:fileUpload value="#{globalBB.foto}" mode="advanced" skinSimple="true"
+	          							cancelLabel="Cancelar" label="Foto de perfil" 
+	          							update=":#{p:component('growl')} :#{p:component('idFotoPerfil')} :#{p:component('formFotom')}" 
+	          							sizeLimit="1000000" fileLimit="1" allowTypes="/(\.|\/)(jpe?g|png)$/"
+	          							fileUploadListener="#{globalBB.upload}"
+	          							invalidFileMessage="El archivo no es valido"  
+	          							invalidSizeMessage="El archivo pesa mucho" 
+	          							fileLimitMessage="Supero el limite de archivos" 
+	          							uploadLabel="Guardar" dragDropSupport="false"
+	          							requiredMessage="El campo foto de perfil es requerido" required="true"/>
+	          				</div>
+	          			
+	          			</div>
+	          	
+					</p:panel>
+				</h:form>
+			</p:tab>
+		</p:accordionPanel>
+		
+   </ui:define>
+</ui:composition>

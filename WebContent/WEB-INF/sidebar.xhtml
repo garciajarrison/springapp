@@ -4,7 +4,9 @@
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:p="http://primefaces.org/ui"
-    xmlns:po="http://primefaces.org/omega">
+    xmlns:po="http://primefaces.org/omega"
+    xmlns:jsf="http://xmlns.jcp.org/jsf">
+    
   <h:form id="menuform">
     <div class="sidebar">
         <div class="nano">
@@ -14,15 +16,16 @@
                 </div>
 
                 <div class="profile">
-                    <p:graphicImage name="images/profile.png" library="omega-layout" />
+                    <img jsf:id="idFotoPerfil" src="#{globalBB.urlFotoPerfil}"
+		                        	style="border-radius: 50%;width:35px;height:35px;"/>
                     <a id="profile-button" href="#">
                         <span class="username">#{globalBB.usuario.nombre}</span>
                         <i class="fa fa-fw fa-cog"></i>
                     </a>
                     <ul>
-                        <li><a href="#"><i class="fa fa-fw fa-sliders"></i><span>Cuenta</span></a></li>
+                        <li><a href="#{request.contextPath}/maestros/foto_perfil.xhtml"><i class="fa fa-fw fa-sliders"></i><span>Cuenta</span></a></li>
                         <li><a href="#"><i class="fa fa-fw fa-bell"></i><span>Notificaciones</span><span class="menu-badge">2</span></a></li>
-                        <li><a href="#"><i class="fa fa-fw fa-sign-out"></i><span>Salir</span></a></li>
+                        <li><a onclick="PF('cerrarSesion').show()"><i class="fa fa-fw fa-sign-out"></i><span>Salir</span></a></li>
                     </ul>
                 </div>
 
@@ -32,7 +35,6 @@
                         
                          <p:submenu id="submenu_administracion" label="Administración" icon="fa fa-fw fa-cog">
                             <p:submenu id="submenu_maestros" label="Maestros" icon="fa fa-table">
-                           		<p:menuitem id="menuitem_home" value="Página Inicio" icon="fa fa-user" outcome="/maestros/home" />
                                 <p:menuitem id="menuitem_usuarios" value="Usuarios" icon="fa fa-user" outcome="/maestros/usuarios" />
                                 <p:menuitem id="menuitem_gerencias" value="Gerencias" icon="fa fa-anchor" outcome="/maestros/gerencias" />
                                 <p:menuitem id="menuitem_sublink" value="Sublink" icon="fa fa-anchor" outcome="/maestros/sublink" />
@@ -48,7 +50,7 @@
                                      <p:menuitem id="menuitem_archivo_plano_nomina" value="Nómina" icon="fa fa-file-excel-o" outcome="/plano_nomina" />
                             </p:submenu>
                             <p:menuitem id="menuitem_configuracion_calculadora" value="Configuración Calculadora" icon="fa fa-calculator" url="#" />
-                            <p:menuitem id="menuitem_variables_macroeconomicas" value="Variables Macroeconomicas" icon="fa fa-usd" url="#" />
+                            <p:menuitem id="menuitem_variables_macroeconomicas" value="Variables Macroeconomicas" icon="fa fa-usd" outcome="/maestros/variables_macroeconomicas" />
                             <p:menuitem id="menuitem_conversion_presupuesto" value="Conversion de Presupuesto" icon="fa fa-cogs" url="#" />
                         </p:submenu>
                         
@@ -58,25 +60,6 @@
                         
                         <p:menuitem id="menuitem_aprobacion_final_presupuesto" value="Aprobación Final de Presupuesto" icon="fa fa-circle" outcome="/inicio"/>
                         
-                        <p:submenu id="om_components" label="Components" icon="fa fa-sitemap">
-                            <p:menuitem id="om_sample" value="Sample Page" icon="fa fa-columns" outcome="/sample" />
-                            <p:menuitem id="om_forms" value="Forms" icon="fa fa-code" outcome="/forms" />
-                            <p:menuitem id="om_data" value="Data" icon="fa fa-table" outcome="/data" />
-                            <p:menuitem id="om_panels" value="Panels" icon="fa fa-list-alt" outcome="/panel" />
-                            <p:menuitem id="om_overlays" value="Overlays" icon="fa fa-square" outcome="/overlay" />
-                            <p:menuitem id="om_menus" value="Menus" icon="fa fa-minus-square-o" outcome="/menu" />
-                            <p:menuitem id="om_messages" value="Messages" icon="fa fa-circle-o-notch" outcome="/messages" />
-                            <p:menuitem id="om_charts" value="Charts" icon="fa fa-area-chart" outcome="/charts" />
-                            <p:menuitem id="om_file" value="File" icon="fa fa-arrow-circle-o-up" outcome="/file" />
-                            <p:menuitem id="om_misc" value="Misc" icon="fa fa-user-secret" outcome="/misc" />
-                        </p:submenu>
-                        <p:submenu id="om_default" label="Template Pages" icon="fa fa-life-saver">
-                            <p:menuitem id="om_empty" value="Empty Page" icon="fa fa-square-o" outcome="/empty" />
-                            <p:menuitem id="om_login" value="Login Page" icon="fa fa-sign-in" outcome="/login" />
-                            <p:menuitem id="om_error" value="Error Page" icon="fa fa-exclamation-circle" outcome="/error" />
-                            <p:menuitem id="om_404" value="404 Page" icon="fa fa-times" outcome="/404" />
-                            <p:menuitem id="om_access" value="Access Denied Page" icon="fa fa-exclamation-triangle" outcome="/access" />
-                        </p:submenu>
                         
                         <p:menuitem id="om_doc" value="Documentation" icon="fa fa-book" outcome="/docs"/>
               

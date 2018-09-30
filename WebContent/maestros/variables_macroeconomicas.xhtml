@@ -5,7 +5,7 @@
                 xmlns:p="http://primefaces.org/ui"
                 template="/WEB-INF/template.xhtml">
 
-    <ui:define name="title">Página de inicio</ui:define>
+    <ui:define name="title">Variables Macroeconomicas</ui:define>
 
     <ui:define name="content">
 	<h:form>
@@ -14,14 +14,19 @@
                 <div class="ui-g">
                     <div class="ui-g-12">
                         <div class="card">
-                            <h1>Maestro de Página de inicio</h1>
+                            <h1>Variables Macroeconomicas</h1>
                             <p:panelGrid columns="2" columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4" layout="grid" styleClass="ui-panelgrid-blank" style="border:0px none; background-color:transparent;">
                                 
                                 <p:outputLabel for="txtNombre" value="Nombre"/>
                                 <p:inputText id="txtNombre" value="#{homeBB.home.nombre}" maxlength="100"/>
                                 
-                                <p:outputLabel for="txtGrupo" value="Grupo"/>
-                                <p:inputText id="txtGrupo" value="#{homeBB.home.grupo}" maxlength="100"/>
+                                <p:outputLabel for="txtFechaIni" value="Fecha inicio"/>
+                                <p:calendar id="txtFechaIni" value="#{homeBB.home.fechaInicio}" />
+                                
+                                <p:outputLabel for="txtFechaFin" value="Fecha fin"/>
+                                <p:calendar id="txtFechaFin" value="#{homeBB.home.fechaFin}" />
+                                
+                                
                                 
                                 <p:commandButton id="btnGuardar" value="Guardar" actionListener="#{homeBB.addHome}" update="@form" icon="ui-icon-check fa fa-check Fs14 White" style="max-width:150px;"/>
                             </p:panelGrid>
@@ -40,7 +45,7 @@
 									paginator="true">
 									
                                 <f:facet name="header">
-                                    Homes
+                                    Variables Macroeconomicas
                                 </f:facet>
 
                                 <p:column headerText="Nombre" sortBy="#{home.nombre}"
@@ -48,13 +53,22 @@
                                     <h:outputText value="#{home.nombre}" />
                                 </p:column>
                                 
-                                <p:column headerText="Grupo" sortBy="#{home.grupo}"
-                                		 filterMatchMode="contains" filterBy="#{home.grupo}">
-                                    <h:outputText value="#{home.grupo}" />
+                                <p:column headerText="Fecha inicio" sortBy="#{home.fechaInicio}"
+                                		 filterMatchMode="contains" filterBy="#{home.fechaInicio}">
+                                    <h:outputText value="#{home.fechaInicio}" />
+                                </p:column>
+                                
+                                <p:column headerText="Fecha fin" sortBy="#{home.fechaFin}"
+                                		 filterMatchMode="contains" filterBy="#{home.fechaFin}">
+                                    <h:outputText value="#{home.fechaFin}" />
                                 </p:column>
 
                                 <p:column headerText="Estado" sortBy="#{home.estado}">
                                      <h:outputText value="#{home.estado ? 'Activo' : 'Inactivo'}" />
+                                </p:column>
+                                
+                                <p:column headerText="Imagen" sortBy="#{home.url}">
+                                     <h:outputText value="#{home.url}" />
                                 </p:column>
                                 
                                 <p:column headerText="Acciones">
@@ -80,10 +94,13 @@
 									<h:outputLabel for="txtNombreU" value="Nombre" />
 									<p:inputText id="txtNombreU" value="#{homeBB.selectedHome.nombre}" maxlength="100"/>
 									
-									<p:outputLabel for="txtGrupoU" value="Grupo"/>
-                                	<p:inputText id="txtGrupoU" value="#{homeBB.selectedHome.grupo}" maxlength="100"/>
+									<p:outputLabel for="txtFechaIniU" value="Fecha inicio"/>
+	                                <p:calendar id="txtFechaIniU" value="#{homeBB.selectedHome.fechaInicio}" />
+	                                
+	                                <p:outputLabel for="txtFechaFinU" value="Fecha fin"/>
+	                                <p:calendar id="txtFechaFinU" value="#{homeBB.selectedHome.fechaFin}" />
 							   				
-							   		<h:outputLabel for="txtNombreU" value="Estado:"/>
+							   		<h:outputLabel for="txtEstadoU" value="Estado:"/>
 							   		<p:selectBooleanButton id="sbbEstado" offLabel="Inactivo" onLabel="Activo" value="#{homeBB.selectedHome.estado}" />
 							   		
 							   	</h:panelGrid>

@@ -26,9 +26,10 @@ public class Util {
 	public static final String SRC_PATH_DOWNLOAD = System.getProperty("file.separator") + "download" + System.getProperty("file.separator");
     public static final String SEPARADOR_CARPETA = System.getProperty("file.separator");
     public static final String SEPARADOR_LINEA = System.getProperty("line.separator");
-    public static final String URL_FOTO_PERFIL = System.getProperty("file.separator") + "download" + System.getProperty("file.separator") + "images" + System.getProperty("file.separator");
+    public static final String URL_VARIABLES_MACROECONOMICAS = System.getProperty("file.separator") + "download" + System.getProperty("file.separator") + "variablesMacroeconomicas" + System.getProperty("file.separator");
+    public static final String URL_FOTO_PERFIL = System.getProperty("file.separator") + "download" + System.getProperty("file.separator") + "images" + System.getProperty("file.separator");	
 	
-	private Util(){}
+    private Util(){}
 
 	public static Util getInstance() {
 		if(instance == null)
@@ -268,39 +269,30 @@ public class Util {
 		return retorno;
 	}
 	
-	public String crearFoto(int fileName, byte[] foto) {
+	public String crearFoto(String fileName, byte[] foto) {
 		
 		ServletContext servletContext = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
 		StringBuilder realPath = new StringBuilder(((String) servletContext.getRealPath("/")))
 				.append(SEPARADOR_CARPETA);
 		StringBuilder url;
 		
-		if(foto == null){
-			url = new StringBuilder(servletContext.getContextPath().replace("/", SEPARADOR_CARPETA)) 
-				.append(SEPARADOR_CARPETA)
-				.append("resources").append(SEPARADOR_CARPETA)
-				.append("images").append(SEPARADOR_CARPETA)
-				.append("user.png");
-		}else {
-		
-			realPath.append(URL_FOTO_PERFIL);
-		
-			url = new StringBuilder(servletContext.getContextPath().replace("/", SEPARADOR_CARPETA))
-					.append(SEPARADOR_CARPETA)
-					.append(URL_FOTO_PERFIL)
-					.append(fileName).append(".jpg");
-			try {
-				this.crearDirectorio(realPath.toString());
-				// convert byte array back to BufferedImage
-				InputStream in = new ByteArrayInputStream(foto);
-				BufferedImage bImageFromConvert = ImageIO.read(in);
+		realPath.append(URL_VARIABLES_MACROECONOMICAS);
 	
-				ImageIO.write(bImageFromConvert, "jpg", new File(
-						realPath.toString() + fileName + ".jpg"));
-				in.close();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+		url = new StringBuilder(servletContext.getContextPath().replace("/", SEPARADOR_CARPETA))
+				.append(SEPARADOR_CARPETA)
+				.append(URL_VARIABLES_MACROECONOMICAS)
+				.append(fileName).append(".jpg");
+		try {
+			this.crearDirectorio(realPath.toString());
+			// convert byte array back to BufferedImage
+			InputStream in = new ByteArrayInputStream(foto);
+			BufferedImage bImageFromConvert = ImageIO.read(in);
+
+			ImageIO.write(bImageFromConvert, "jpg", new File(
+					realPath.toString() + fileName + ".jpg"));
+			in.close();
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 		return url.toString();
 	}

@@ -6,6 +6,8 @@ import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
+import org.primefaces.event.FileUploadEvent;
+import org.primefaces.model.UploadedFile;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
@@ -27,12 +29,22 @@ public class HomeBB extends SpringBeanAutowiringSupport implements Serializable 
 	private Home selectedHome;
 	private List<Home> listaHomes;
 	
+	private UploadedFile imagen;
+	
 	public HomeBB() {
 		util = Util.getInstance();
 		home = new Home();
 		selectedHome = new Home();
 		listaHomes = getHomeService().getHomes();
 	}
+	
+	public void upload(FileUploadEvent event) {
+		imagen = event.getFile();
+        if(imagen != null) {
+        	home.setUrl(util.crearFoto(home.getNombre(), imagen.getContents()));
+        	util.mostrarMensaje("Registro agregado con éxito."); 
+        }
+    }
 	
 	public void addHome() {
 		try {

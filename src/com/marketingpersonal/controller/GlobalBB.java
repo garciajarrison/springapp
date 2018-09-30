@@ -53,7 +53,7 @@ public class GlobalBB extends SpringBeanAutowiringSupport implements Serializabl
 	public void upload(FileUploadEvent event) {
 		foto = event.getFile();
         if(foto != null) {
-        	urlFotoPerfil = util.crearFoto(usuario.getId(), foto.getContents());
+        	urlFotoPerfil = util.crearFoto(usuario.getId()+"", foto.getContents());
             util.mostrarMensaje("Foto de perfil actualizada con éxito.");
         }
     }
@@ -77,8 +77,9 @@ public class GlobalBB extends SpringBeanAutowiringSupport implements Serializabl
 				url = new StringBuilder(servletContext.getContextPath().replace("/", Util.SEPARADOR_CARPETA)) 
 						.append(Util.SEPARADOR_CARPETA)
 						.append("resources").append(Util.SEPARADOR_CARPETA)
+						.append("omega-layout").append(Util.SEPARADOR_CARPETA)
 						.append("images").append(Util.SEPARADOR_CARPETA)
-						.append("user.png");
+						.append("avatar_4.png");
 				urlFotoPerfil = url.toString();
 			}
 		} catch (Exception e) {
