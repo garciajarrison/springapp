@@ -1,11 +1,20 @@
 package com.marketingpersonal.controller;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.primefaces.event.FileUploadEvent;
+import org.primefaces.model.UploadedFile;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
@@ -28,6 +37,7 @@ public class UsuarioBB extends SpringBeanAutowiringSupport implements Serializab
 	private Usuario selectedUsuario;
 	private List<Usuario> listaUsuarios;
 	private ListasGenericas listasGenericas;
+	private UploadedFile file;
 	
 	public UsuarioBB() {
 		util = Util.getInstance();
@@ -81,11 +91,26 @@ public class UsuarioBB extends SpringBeanAutowiringSupport implements Serializab
 	
 	public void addUsuario() {
 		try {
+			boolean guardar = true;
+			
+			//Validar obligatoriedad de campos
 			if(validar(usuario)) {
-				getUsuarioService().addUsuario(usuario);
-				listaUsuarios = getUsuarioService().getUsuarios();
-				usuario = new Usuario();
-				util.mostrarMensaje("Registro agregado con éxito."); 
+				
+				//Validar que no existe un usuario creado con el numero de documento
+				for(Usuario usr : listaUsuarios) {
+					if(usr.getNumeroDocumento().equals(usuario.getNumeroDocumento())) {
+						guardar = false;						
+					}
+				}
+				
+				if(guardar) {
+					getUsuarioService().addUsuario(usuario);
+					listaUsuarios = getUsuarioService().getUsuarios();
+					usuario = new Usuario();
+					util.mostrarMensaje("Registro agregado con éxito."); 
+				}else {
+					util.mostrarError("Ya existe un usuario con el mismo número de documento");
+				}
 			}
 			
 		} catch (DataAccessException e) {
@@ -93,7 +118,7 @@ public class UsuarioBB extends SpringBeanAutowiringSupport implements Serializab
 			util.mostrarError("Error guardando el registro.");
 		} 	
 	}
-
+	
 	public void updateUsuario() {
 		try {
 			if(validar(selectedUsuario)) {
@@ -167,6 +192,67 @@ public class UsuarioBB extends SpringBeanAutowiringSupport implements Serializab
 
 	public void setListasGenericas(ListasGenericas listasGenericas) {
 		this.listasGenericas = listasGenericas;
+	}
+	
+	public UploadedFile getFile() {
+	    return file;
+	}
+
+	public void setFile(UploadedFile file) {
+	    this.file = file;
+	}
+	
+	public void uploadPlanoUsuarios(FileUploadEvent event) {
+		
+		try {
+			InputStream input = (InputStream) event.getFile().getInputstream();
+			XSSFWorkbook workbook = new XSSFWorkbook(input);
+			
+			XSSFSheet sheet = workbook.getSheetAt(0);
+			
+			int numColumnas = sheet.getRow(0).getPhysicalNumberOfCells();
+			int numFilas = sheet.getPhysicalNumberOfRows();
+			
+			validarNumeroColumnas(numColumnas);
+			
+			insertarUsuarios(sheet, numFilas);
+			
+			FacesMessage msg = new FacesMessage("Carga Archivo Plano de Usuarios", event.getFile().getFileName() + " fue cargado correctamente");
+			FacesContext.getCurrentInstance().addMessage(null, msg);
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+    
+    public void validarNumeroColumnas(int numColumnas) {
+		if (numColumnas != 6) {
+			util.mostrarError("El numero de columnas que tiene la hoja no es válido");
+		}
+	}
+    
+    public void insertarUsuarios(XSSFSheet sheet, int numFilas) {
+		Row row;
+				
+		// Recorrido de filas
+		for (int fila = 1; fila < numFilas; fila++) {
+
+			row = sheet.getRow(fila);
+			
+			usuario = new Usuario();
+
+			usuario.setNumeroDocumento(row.getCell(0)+"");
+			usuario.setNombre(row.getCell(1)+"");
+			usuario.setUsuario(row.getCell(2)+"");
+			usuario.setCorreo(row.getCell(3)+"");
+			usuario.setCargo(row.getCell(4)+"");
+			usuario.setRol(row.getCell(5)+"");
+						
+			// insertar.out.println();
+			getUsuarioService().addUsuario(usuario);		
+		}
 	}
 
  }

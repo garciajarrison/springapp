@@ -17,22 +17,20 @@
 							<h1>Maestro de Usuarios</h1>
 							<p:panelGrid columns="2" columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4" layout="grid" styleClass="ui-panelgrid-blank" style="border:0px none; background-color:transparent;">
 
-								<p:outputLabel for="it_numero_documento" value="Número de Documento" />
-								<p:inputText id="it_numero_documento" value="#{usuarioBB.usuario.numeroDocumento}"
-										maxlength="50"/>
+								<p:outputLabel for="txtNumeroDocumento" value="Número de Documento" />
+								<p:inputText id="txtNumeroDocumento" value="#{usuarioBB.usuario.numeroDocumento}" maxlength="50"/>
 
-								<p:outputLabel for="it_nombre_completo" value="Nombre Completo" />
-								<p:inputText id="it_nombre_completo" value="#{usuarioBB.usuario.nombre}" 
-										maxlength="50"/>
+								<p:outputLabel for="txtNombreCompleto" value="Nombre Completo" />
+								<p:inputText id="txtNombreCompleto" value="#{usuarioBB.usuario.nombre}" maxlength="50"/>
 
-								<p:outputLabel for="it_usuario" value="Usuario" />
-								<p:inputText id="it_usuario" value="#{usuarioBB.usuario.usuario}"
-										maxlength="20"/>
+								<p:outputLabel for="txtUsuario" value="Usuario" />
+								<p:inputText id="txtUsuario" value="#{usuarioBB.usuario.usuario}" maxlength="20"/>
 
-								<p:outputLabel for="it_correo_electronico" value="Correo Electrónico" />
-								<p:inputText id="it_correo_electronico" value="#{usuarioBB.usuario.correo}"
-										maxlength="80"/>
-
+								<p:outputLabel for="txtCorreo" value="Correo Electrónico" />
+								<p:inputText id="txtCorreo"	value="#{usuarioBB.usuario.correo}" maxlength="80" validatorMessage="Formato de correo no es válido">
+									<f:validateRegex pattern="[\w\.-]*[a-zA-Z0-9_]@[\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]" />
+								</p:inputText>
+								
 								<p:outputLabel for="somCargo" value="Cargo" />
 								<p:selectOneMenu id="somCargo" value="#{usuarioBB.usuario.cargo}" filter="true">
 									<f:selectItem itemLabel="Seleccione" itemValue="" />
@@ -115,20 +113,20 @@
 							<div align="center">
 								<h:panelGrid columns="2" cellspacing="2" cellpadding="2">
 							   				
-							   		<p:outputLabel for="it_numero_documentoU" value="Número de Documento" />
-									<p:inputText id="it_numero_documentoU" value="#{usuarioBB.selectedUsuario.numeroDocumento}"
+							   		<p:outputLabel for="txtNumeroDocumentoU" value="Número de Documento" />
+									<p:inputText id="txtNumeroDocumentoU" value="#{usuarioBB.selectedUsuario.numeroDocumento}"
 											maxlength="50"/>
 	
-									<p:outputLabel for="it_nombre_completoU" value="Nombre Completo" />
-									<p:inputText id="it_nombre_completoU" value="#{usuarioBB.selectedUsuario.nombre}" 
+									<p:outputLabel for="txtNombreCompletoU" value="Nombre Completo" />
+									<p:inputText id="txtNombreCompletoU" value="#{usuarioBB.selectedUsuario.nombre}" 
 											maxlength="50"/>
 	
-									<p:outputLabel for="it_usuarioU" value="Usuario" />
-									<p:inputText id="it_usuarioU" value="#{usuarioBB.selectedUsuario.usuario}"
+									<p:outputLabel for="txtUsuarioU" value="Usuario" />
+									<p:inputText id="txtUsuarioU" value="#{usuarioBB.selectedUsuario.usuario}"
 											maxlength="20"/>
 	
-									<p:outputLabel for="it_correo_electronicoU" value="Correo Electrónico" />
-									<p:inputText id="it_correo_electronicoU" value="#{usuarioBB.selectedUsuario.correo}"
+									<p:outputLabel for="txtCorreoU" value="Correo Electrónico" />
+									<p:inputText id="txtCorreoU" value="#{usuarioBB.selectedUsuario.correo}"
 											maxlength="80"/>
 	
 									<p:outputLabel for="somCargoU" value="Cargo" />
@@ -160,7 +158,16 @@
 								<p:commandButton id="btnEliminarUsuario" actionListener="#{usuarioBB.deleteUsuario}" update="@form" title="Eliminar" value="Eliminar" />						   		
 					   		</div>
 						</p:dialog>	
-                        
+						
+						<div class="card">
+		                	<h1>Carga Archivo Plano de Usuarios</h1>
+		                    <h:form>
+		                    	<p:fileUpload fileUploadListener="#{usuarioBB.uploadPlanoUsuarios}" mode="advanced" dragDropSupport="false"
+		                                          multiple="true" update="messages" sizeLimit="100000" fileLimit="3" allowTypes="/(\.|\/)(xlsx)$/" style="width:100%" />
+		        
+		                        <p:growl id="messages" showDetail="true" />
+		                    </h:form>
+		                </div>                        
                         
                     </div>                    
                 </div>
