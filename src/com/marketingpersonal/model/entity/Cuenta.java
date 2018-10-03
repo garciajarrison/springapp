@@ -13,8 +13,8 @@ public class Cuenta implements java.io.Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private int id;
+	private String cuenta;
 	private String nombre;
-	private String grupo;
 	private boolean estado = true;
 
 	@Id
@@ -26,6 +26,15 @@ public class Cuenta implements java.io.Serializable {
 
 	public void setId(int id) {
 		this.id = id;
+	}
+	
+	@Column(name = "cuenta")
+	public String getCuenta() {
+		return cuenta;
+	}
+
+	public void setCuenta(String cuenta) {
+		this.cuenta = cuenta;
 	}
 	
 	@Column(name = "nombre")
@@ -44,15 +53,6 @@ public class Cuenta implements java.io.Serializable {
 
 	public void setEstado(boolean estado) {
 		this.estado = estado;
-	}
-
-	@Column(name = "grupo")
-	public String getGrupo() {
-		return grupo;
-	}
-
-	public void setGrupo(String grupo) {
-		this.grupo = grupo;
 	}
 
 }

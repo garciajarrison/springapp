@@ -1,11 +1,22 @@
 package com.marketingpersonal.controller;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.primefaces.event.FileUploadEvent;
+import org.primefaces.model.DefaultStreamedContent;
+import org.primefaces.model.StreamedContent;
+import org.primefaces.model.UploadedFile;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
@@ -26,6 +37,8 @@ public class CuentaBB extends SpringBeanAutowiringSupport implements Serializabl
 	private Cuenta cuenta;
 	private Cuenta selectedCuenta;
 	private List<Cuenta> listaCuentas;
+	private UploadedFile file;
+	private StreamedContent fileDescargar;
 	
 	public CuentaBB() {
 		util = Util.getInstance();
@@ -35,17 +48,15 @@ public class CuentaBB extends SpringBeanAutowiringSupport implements Serializabl
 	}
 	
 	private boolean validar(Cuenta cue) {
-		boolean permiteGuardar = true;
-		
-		if(cue.getNombre() == null || 
-				"".equals(cue.getNombre().trim())) {
-			util.mostrarError("El campo Nombre es requerido.");
+		boolean permiteGuardar = true;		
+
+		if(cue.getCuenta() == null || "".equals(cue.getCuenta().trim())) {
+			util.mostrarError("El campo Cuenta es requerido.");
 			permiteGuardar = false;
 		}
 		
-		if(cue.getGrupo() == null || 
-				"".equals(cue.getGrupo().trim())) {
-			util.mostrarError("El campo Grupo es requerido.");
+		if(cue.getNombre() == null || "".equals(cue.getNombre().trim())) {
+			util.mostrarError("El campo Nombre es requerido.");
 			permiteGuardar = false;
 		}
 		
@@ -54,17 +65,32 @@ public class CuentaBB extends SpringBeanAutowiringSupport implements Serializabl
 	
 	public void addCuenta() {
 		try {
+			boolean guardar = true;
+			
+			//Validar obligatoriedad de campos
 			if(validar(cuenta)) {
-				getCuentaService().addCuenta(cuenta);
-				listaCuentas = getCuentaService().getCuentas(false);
-				cuenta = new Cuenta();
-				util.mostrarMensaje("Registro agregado con éxito."); 
-			}
+				
+				//Validar que no exista un registro duplicado
+				for(Cuenta cue : listaCuentas) {
+					if(cue.getCuenta().equals(cuenta.getCuenta())) {
+						guardar = false;						
+					}
+				}
+				
+				if(guardar) {
+					getCuentaService().addCuenta(cuenta);
+					listaCuentas = getCuentaService().getCuentas(false);
+					cuenta = new Cuenta();
+					util.mostrarMensaje("Registro agregado con éxito."); 
+				}else {
+					util.mostrarError("Ya existe una Cuenta con el mismo código");
+				}
+			}			
 			
 		} catch (DataAccessException e) {
 			e.printStackTrace();
 			util.mostrarError("Error guardando el registro.");
-		} 	
+		} 		
 	}
 
 	public void updateCuenta() {
@@ -134,6 +160,81 @@ public class CuentaBB extends SpringBeanAutowiringSupport implements Serializabl
 		this.listaCuentas = listaCuentas;
 	}
 	
+	public UploadedFile getFile() {
+	    return file;
+	}
 
+	public void setFile(UploadedFile file) {
+	    this.file = file;
+	}
+	
+	public void uploadPlanoCuentas(FileUploadEvent event) {
+		
+		try {
+			InputStream input = (InputStream) event.getFile().getInputstream();
+			XSSFWorkbook workbook = new XSSFWorkbook(input);
+			
+			XSSFSheet sheet = workbook.getSheetAt(0);
+						
+			if(validarArchivoPlano(sheet)) {
+				insertarCuentas(sheet);
+				
+				FacesMessage msg = new FacesMessage("Carga Archivo Plano de Cuentas", event.getFile().getFileName() + " fue cargado correctamente");
+				FacesContext.getCurrentInstance().addMessage(null, msg);
+			}
+			
+			workbook.close();
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	
+	public StreamedContent getFileDescargar() {
+    	InputStream stream = FacesContext.getCurrentInstance().getExternalContext().getResourceAsStream("/resources/files/Archivo Plano Cuentas.xlsx");
+        fileDescargar = new DefaultStreamedContent(stream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Archivo Plano Cuentas.xlsx");
+        return fileDescargar;
+    }
+	
+	private boolean validarArchivoPlano(XSSFSheet sheet) {
+		boolean permiteGuardar = true;
+		
+		//Validar numero de columnas del archvi
+		if(sheet.getRow(0).getPhysicalNumberOfCells() != 2) {
+			util.mostrarError("El número de columnas que tiene la hoja no es válido");
+			permiteGuardar = false;
+		}
+		
+		//Validar que no existe un usuario creado con el numero de documento
+		Row row;		
+		for(Cuenta cue : listaCuentas) {
+			for (int fila = 1; fila < sheet.getPhysicalNumberOfRows(); fila++) {
+				row = sheet.getRow(fila);				
+				if(cue.getCuenta().equals(row.getCell(0)+"")) {
+					util.mostrarError("Ya existe una cuenta con el número " + row.getCell(0));
+					permiteGuardar = false;					
+				}	
+			}
+		}		
+		
+		return permiteGuardar;
+	}
+    
+    public void insertarCuentas(XSSFSheet sheet) {
+		Row row;
+		int numFilas = sheet.getPhysicalNumberOfRows();	
+		for (int fila = 1; fila < numFilas; fila++) {
+			row = sheet.getRow(fila);
+			
+			cuenta = new Cuenta();
 
+			cuenta.setCuenta(row.getCell(0)+"");
+			cuenta.setNombre(row.getCell(1)+"");
+						
+			getCuentaService().addCuenta(cuenta);		
+		}
+	}
+	
  }

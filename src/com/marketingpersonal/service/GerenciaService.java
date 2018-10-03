@@ -16,6 +16,14 @@ public class GerenciaService implements IGerenciaService {
 
 	@Autowired
 	private IGerenciaDAO entityDAO;
+	
+	public IGerenciaDAO getEntityDAO() {
+		return entityDAO;
+	}
+
+	public void setEntityDAO(IGerenciaDAO entityDAO) {
+		this.entityDAO = entityDAO;
+	}
 
 	@Transactional(readOnly = false)
 	public void addGerencia(Gerencia entity) {
@@ -39,13 +47,4 @@ public class GerenciaService implements IGerenciaService {
 	public List<Gerencia> getGerencias(boolean activo) {	
 		return getEntityDAO().getGerencias(activo);
 	}
-	
-	public IGerenciaDAO getEntityDAO() {
-		return entityDAO;
-	}
-
-	public void setEntityDAO(IGerenciaDAO entityDAO) {
-		this.entityDAO = entityDAO;
-	}
-
 }

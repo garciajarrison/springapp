@@ -14,6 +14,8 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.primefaces.event.FileUploadEvent;
+import org.primefaces.model.DefaultStreamedContent;
+import org.primefaces.model.StreamedContent;
 import org.primefaces.model.UploadedFile;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -38,6 +40,7 @@ public class UsuarioBB extends SpringBeanAutowiringSupport implements Serializab
 	private List<Usuario> listaUsuarios;
 	private ListasGenericas listasGenericas;
 	private UploadedFile file;
+	private StreamedContent fileDescargar;	
 	
 	public UsuarioBB() {
 		util = Util.getInstance();
@@ -50,38 +53,32 @@ public class UsuarioBB extends SpringBeanAutowiringSupport implements Serializab
 	private boolean validar(Usuario usu) {
 		boolean permiteGuardar = true;
 		
-		if(usu.getNumeroDocumento() == null || 
-				"".equals(usu.getNumeroDocumento().trim())) {
+		if(usu.getNumeroDocumento() == null || "".equals(usu.getNumeroDocumento().trim())) {
 			util.mostrarError("El campo Número de Documento es requerido.");
 			permiteGuardar = false;
 		}
 		
-		if(usu.getNombre() == null || 
-				"".equals(usu.getNombre().trim())) {
+		if(usu.getNombre() == null || "".equals(usu.getNombre().trim())) {
 			util.mostrarError("El campo Nombre Completo es requerido.");
 			permiteGuardar = false;
 		}
 		
-		if(usu.getUsuario() == null || 
-				"".equals(usu.getUsuario().trim())) {
+		if(usu.getUsuario() == null || "".equals(usu.getUsuario().trim())) {
 			util.mostrarError("El campo Usuario es requerido.");
 			permiteGuardar = false;
 		}
 		
-		if(usu.getCorreo() == null || 
-				"".equals(usu.getCorreo().trim())) {
+		if(usu.getCorreo() == null || "".equals(usu.getCorreo().trim())) {
 			util.mostrarError("El campo Correo Electrónico es requerido.");
 			permiteGuardar = false;
 		}
 		
-		if(usu.getCargo() == null || 
-				"".equals(usu.getCargo().trim())) {
+		if(usu.getCargo() == null || "".equals(usu.getCargo().trim())) {
 			util.mostrarError("El campo Cargo es requerido.");
 			permiteGuardar = false;
 		}
 		
-		if(usu.getRol() == null || 
-				"".equals(usu.getRol().trim())) {
+		if(usu.getRol() == null || "".equals(usu.getRol().trim())) {
 			util.mostrarError("El campo Rol es requerido.");
 			permiteGuardar = false;
 		}
@@ -96,7 +93,7 @@ public class UsuarioBB extends SpringBeanAutowiringSupport implements Serializab
 			//Validar obligatoriedad de campos
 			if(validar(usuario)) {
 				
-				//Validar que no existe un usuario creado con el numero de documento
+				//Validar que no exista un registro duplicado
 				for(Usuario usr : listaUsuarios) {
 					if(usr.getNumeroDocumento().equals(usuario.getNumeroDocumento())) {
 						guardar = false;						
@@ -109,7 +106,7 @@ public class UsuarioBB extends SpringBeanAutowiringSupport implements Serializab
 					usuario = new Usuario();
 					util.mostrarMensaje("Registro agregado con éxito."); 
 				}else {
-					util.mostrarError("Ya existe un usuario con el mismo número de documento");
+					util.mostrarError("Ya existe un Usuario con el mismo Número de Documento");
 				}
 			}
 			
@@ -126,8 +123,7 @@ public class UsuarioBB extends SpringBeanAutowiringSupport implements Serializab
 				listaUsuarios = getUsuarioService().getUsuarios();
 				selectedUsuario = new Usuario();
 				util.mostrarMensaje("Registro actualizado con éxito.");
-			}
-			
+			}			
 		} catch (DataAccessException e) {
 			e.printStackTrace();
 			util.mostrarError("Error actualizando el registro.");
@@ -209,16 +205,17 @@ public class UsuarioBB extends SpringBeanAutowiringSupport implements Serializab
 			XSSFWorkbook workbook = new XSSFWorkbook(input);
 			
 			XSSFSheet sheet = workbook.getSheetAt(0);
+						
+			if(validarArchivoPlano(sheet)) {
+				insertarUsuarios(sheet);
+				
+				FacesMessage msg = new FacesMessage("Carga Archivo Plano de Usuarios", event.getFile().getFileName() + " fue cargado correctamente");
+				FacesContext.getCurrentInstance().addMessage(null, msg);
+			}
 			
-			int numColumnas = sheet.getRow(0).getPhysicalNumberOfCells();
-			int numFilas = sheet.getPhysicalNumberOfRows();
+			workbook.close();
 			
-			validarNumeroColumnas(numColumnas);
 			
-			insertarUsuarios(sheet, numFilas);
-			
-			FacesMessage msg = new FacesMessage("Carga Archivo Plano de Usuarios", event.getFile().getFileName() + " fue cargado correctamente");
-			FacesContext.getCurrentInstance().addMessage(null, msg);
 			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -226,19 +223,41 @@ public class UsuarioBB extends SpringBeanAutowiringSupport implements Serializab
 		}
 		
 	}
-    
-    public void validarNumeroColumnas(int numColumnas) {
-		if (numColumnas != 6) {
-			util.mostrarError("El numero de columnas que tiene la hoja no es válido");
+	
+	public StreamedContent getFileDescargar() {
+    	InputStream stream = FacesContext.getCurrentInstance().getExternalContext().getResourceAsStream("/resources/files/Archivo Plano Usuarios.xlsx");
+        fileDescargar = new DefaultStreamedContent(stream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Archivo Plano Usuarios.xlsx");
+        return fileDescargar;
+    }
+	
+	private boolean validarArchivoPlano(XSSFSheet sheet) {
+		boolean permiteGuardar = true;
+		
+		//Validar numero de columnas del archvi
+		if(sheet.getRow(0).getPhysicalNumberOfCells() != 6) {
+			util.mostrarError("El número de columnas que tiene la hoja no es válido");
+			permiteGuardar = false;
 		}
+		
+		//Validar que no existe un usuario creado con el numero de documento
+		Row row;		
+		for(Usuario usr : listaUsuarios) {
+			for (int fila = 1; fila < sheet.getPhysicalNumberOfRows(); fila++) {
+				row = sheet.getRow(fila);				
+				if(usr.getNumeroDocumento().equals(row.getCell(0)+"")) {
+					util.mostrarError("Ya existe un usuario con el número de documento " + row.getCell(0));
+					permiteGuardar = false;					
+				}	
+			}
+		}		
+		
+		return permiteGuardar;
 	}
     
-    public void insertarUsuarios(XSSFSheet sheet, int numFilas) {
+    public void insertarUsuarios(XSSFSheet sheet) {
 		Row row;
-				
-		// Recorrido de filas
+		int numFilas = sheet.getPhysicalNumberOfRows();	
 		for (int fila = 1; fila < numFilas; fila++) {
-
 			row = sheet.getRow(fila);
 			
 			usuario = new Usuario();
@@ -250,7 +269,6 @@ public class UsuarioBB extends SpringBeanAutowiringSupport implements Serializab
 			usuario.setCargo(row.getCell(4)+"");
 			usuario.setRol(row.getCell(5)+"");
 						
-			// insertar.out.println();
 			getUsuarioService().addUsuario(usuario);		
 		}
 	}

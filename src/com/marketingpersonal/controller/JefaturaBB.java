@@ -34,30 +34,50 @@ public class JefaturaBB extends SpringBeanAutowiringSupport implements Serializa
 		listaJefaturas = getJefaturaService().getJefaturas(false);
 	}
 	
+	private boolean validar(Jefatura jef) {
+		boolean permiteGuardar = true;
+		
+		if(jef.getNombre() == null ||"".equals(jef.getNombre().trim())) {
+			util.mostrarError("El campo Nombre es requerido.");
+			permiteGuardar = false;
+		}
+		
+		return permiteGuardar;
+	}
+	
 	public void addJefatura() {
 		try {
-			if(jefatura == null && jefatura.getNombre() == null || 
-					"".equals(jefatura.getNombre().trim())) {
-				util.mostrarError("El campo Nombre es requerido.");
-			}else {
-				getJefaturaService().addJefatura(jefatura);
-				listaJefaturas = getJefaturaService().getJefaturas(false);
-				jefatura = new Jefatura();
-				util.mostrarMensaje("Registro agregado con éxito."); 
-			}
+			boolean guardar = true;
+			
+			//Validar obligatoriedad de campos
+			if(validar(jefatura)) {
+				
+				//Validar que no existe un registro duplicado
+				for(Jefatura jef : listaJefaturas) {
+					if(jef.getNombre().equals(jefatura.getNombre())) {
+						guardar = false;						
+					}
+				}
+				
+				if(guardar) {
+					getJefaturaService().addJefatura(jefatura);
+					listaJefaturas = getJefaturaService().getJefaturas(false);
+					jefatura = new Jefatura();
+					util.mostrarMensaje("Registro agregado con éxito."); 
+				}else {
+					util.mostrarError("Ya existe una Jefatura con el mismo nombre");
+				}
+			}			
 			
 		} catch (DataAccessException e) {
 			e.printStackTrace();
 			util.mostrarError("Error guardando el registro.");
-		} 	
+		} 
 	}
 
 	public void updateJefatura() {
 		try {
-			if(selectedJefatura == null && selectedJefatura.getNombre() == null || 
-					"".equals(selectedJefatura.getNombre().trim())) {
-				util.mostrarError("El campo Nombre es requerido.");
-			}else {
+			if(validar(selectedJefatura)) {
 				getJefaturaService().updateJefatura(selectedJefatura);
 				listaJefaturas = getJefaturaService().getJefaturas(false);
 				selectedJefatura = new Jefatura();
@@ -67,7 +87,7 @@ public class JefaturaBB extends SpringBeanAutowiringSupport implements Serializa
 		} catch (DataAccessException e) {
 			e.printStackTrace();
 			util.mostrarError("Error actualizando el registro.");
-		} 	
+		}		
 	}
 	
 	public void deleteJefatura() {

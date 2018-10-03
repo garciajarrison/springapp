@@ -15,5 +15,5 @@ public interface IDireccionService {
 	
 	Direccion getDireccionById(int id);
 	
-	List<Direccion> getDireccions(boolean activo);
+	List<Direccion> getDirecciones(boolean activo);
 }

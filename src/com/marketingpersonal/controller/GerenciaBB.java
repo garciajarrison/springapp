@@ -34,17 +34,40 @@ public class GerenciaBB extends SpringBeanAutowiringSupport implements Serializa
 		listaGerencias = getGerenciaService().getGerencias(false);
 	}
 	
+	private boolean validar(Gerencia ger) {
+		boolean permiteGuardar = true;
+		
+		if(ger.getNombre() == null ||"".equals(ger.getNombre().trim())) {
+			util.mostrarError("El campo Nombre es requerido.");
+			permiteGuardar = false;
+		}
+		
+		return permiteGuardar;
+	}
+	
 	public void addGerencia() {
 		try {
-			if(gerencia == null && gerencia.getNombre() == null || 
-					"".equals(gerencia.getNombre().trim())) {
-				util.mostrarError("El campo Nombre es requerido.");
-			}else {
-				getGerenciaService().addGerencia(gerencia);
-				listaGerencias = getGerenciaService().getGerencias(false);
-				gerencia = new Gerencia();
-				util.mostrarMensaje("Registro agregado con éxito."); 
-			}
+			boolean guardar = true;
+			
+			//Validar obligatoriedad de campos
+			if(validar(gerencia)) {
+				
+				//Validar que no exista un registro duplicado
+				for(Gerencia ger : listaGerencias) {
+					if(ger.getNombre().equals(gerencia.getNombre())) {
+						guardar = false;						
+					}
+				}
+				
+				if(guardar) {
+					getGerenciaService().addGerencia(gerencia);
+					listaGerencias = getGerenciaService().getGerencias(false);
+					gerencia = new Gerencia();
+					util.mostrarMensaje("Registro agregado con éxito."); 
+				}else {
+					util.mostrarError("Ya existe una Gerencia con el mismo nombre");
+				}
+			}			
 			
 		} catch (DataAccessException e) {
 			e.printStackTrace();
@@ -54,10 +77,7 @@ public class GerenciaBB extends SpringBeanAutowiringSupport implements Serializa
 
 	public void updateGerencia() {
 		try {
-			if(selectedGerencia == null && selectedGerencia.getNombre() == null || 
-					"".equals(selectedGerencia.getNombre().trim())) {
-				util.mostrarError("El campo Nombre es requerido.");
-			}else {
+			if(validar(selectedGerencia)) {
 				getGerenciaService().updateGerencia(selectedGerencia);
 				listaGerencias = getGerenciaService().getGerencias(false);
 				selectedGerencia = new Gerencia();
@@ -67,7 +87,7 @@ public class GerenciaBB extends SpringBeanAutowiringSupport implements Serializa
 		} catch (DataAccessException e) {
 			e.printStackTrace();
 			util.mostrarError("Error actualizando el registro.");
-		} 	
+		}
 	}
 	
 	public void deleteGerencia() {

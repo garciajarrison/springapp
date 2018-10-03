@@ -16,6 +16,14 @@ public class DireccionService implements IDireccionService {
 
 	@Autowired
 	private IDireccionDAO entityDAO;
+	
+	public IDireccionDAO getEntityDAO() {
+		return entityDAO;
+	}
+
+	public void setEntityDAO(IDireccionDAO entityDAO) {
+		this.entityDAO = entityDAO;
+	}
 
 	@Transactional(readOnly = false)
 	public void addDireccion(Direccion entity) {
@@ -36,16 +44,7 @@ public class DireccionService implements IDireccionService {
 		return getEntityDAO().getDireccionById(id);
 	}
 
-	public List<Direccion> getDireccions(boolean activo) {	
+	public List<Direccion> getDirecciones(boolean activo) {	
 		return getEntityDAO().getDireccions(activo);
 	}
-	
-	public IDireccionDAO getEntityDAO() {
-		return entityDAO;
-	}
-
-	public void setEntityDAO(IDireccionDAO entityDAO) {
-		this.entityDAO = entityDAO;
-	}
-
 }

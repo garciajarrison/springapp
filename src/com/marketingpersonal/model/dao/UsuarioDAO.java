@@ -54,7 +54,7 @@ public class UsuarioDAO implements IUsuarioDAO {
 				.createQuery("from Usuario where id=?").setParameter(0, id)
 				.uniqueResult();
 	}
-
+	
 	public List<Usuario> getUsuarios() {
 		Session session = getSessionFactory().getCurrentSession();
 		return session.createQuery("from Usuario").list();

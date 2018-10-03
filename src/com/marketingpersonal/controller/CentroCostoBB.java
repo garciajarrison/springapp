@@ -51,7 +51,7 @@ public class CentroCostoBB extends SpringBeanAutowiringSupport implements Serial
 		listaCentroCostos = getCentroCostoService().getCentroCostos(false);
 		
 		lstGerencias = getGerenciaService().getGerencias(true);
-		lstDireccions = getDireccionService().getDireccions(true);
+		lstDireccions = getDireccionService().getDirecciones(true);
 		lstJefaturas = getJefaturaService().getJefaturas(true);
 	}
 	

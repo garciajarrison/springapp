@@ -21,6 +21,7 @@ public class Usuario implements java.io.Serializable {
 	private String cargo;
 	private String rol;
 	private String contrasena;
+	private boolean estado = true;
 
 	@Id
 	@GeneratedValue( strategy=GenerationType.IDENTITY)
@@ -94,6 +95,15 @@ public class Usuario implements java.io.Serializable {
 
 	public void setContrasena(String contrasena) {
 		this.contrasena = contrasena;
+	}
+	
+	@Column(name = "estado")
+	public boolean getEstado() {
+		return estado;
+	}
+
+	public void setEstado(boolean estado) {
+		this.estado = estado;
 	}
 
 }

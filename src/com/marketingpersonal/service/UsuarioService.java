@@ -24,7 +24,7 @@ public class UsuarioService implements IUsuarioService {
 	public void setEntityDAO(IUsuarioDAO usersDAO) {
 		this.usersDAO = usersDAO;
 	}
-
+	
 	@Transactional(readOnly = false)
 	public Usuario login(Usuario users) {
 		return usersDAO.login(users);

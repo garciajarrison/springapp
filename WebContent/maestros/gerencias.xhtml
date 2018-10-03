@@ -15,14 +15,12 @@
                     <div class="ui-g-12">
                         <div class="card">
                             <h1>Maestro de Gerencias</h1>
-                            <p:panelGrid columns="2" columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4" layout="grid" styleClass="ui-panelgrid-blank" style="border:0px none; background-color:transparent;">
-                                
-                                <p:outputLabel for="txtNombre" value="Nombre"/>
+                            <p:panelGrid id="pgGerencias" columns="2" columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4" layout="grid" styleClass="ui-panelgrid-blank" style="border:0px none; background-color:transparent;">
+                               	<p:outputLabel for="txtNombre" value="Nombre"/>
                                 <p:inputText id="txtNombre" value="#{gerenciaBB.gerencia.nombre}" maxlength="100"/>
                                 
-                                <p:commandButton id="btnGuardar" value="Guardar" actionListener="#{gerenciaBB.addGerencia}" update="@form" icon="ui-icon-check fa fa-check Fs14 White" style="max-width:150px;"/>
+                                <p:commandButton id="btnGuardar" value="Guardar" actionListener="#{gerenciaBB.addGerencia}" update=":#{p:component('pgGerencias')} :#{p:component('tblGerencias')}" icon="ui-icon-check fa fa-check Fs14 White" style="max-width:150px;"/>
                             </p:panelGrid>
-                            
                         </div>
                         
                         <div class="card">
@@ -32,7 +30,7 @@
                             		emptyMessage="No se encontraron registros."
 									scrollable="false" paginatorPosition="bottom"
 									rows="10" rowsPerPageTemplate="5,10,20,50"
-									currentPageReportTemplate="Páginas {totalPages}.  registros {totalRecords}"
+									currentPageReportTemplate="Páginas {totalPages} - Registros {totalRecords}"
 									paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" 
 									paginator="true">
 									
@@ -40,22 +38,21 @@
                                     Gerencias
                                 </f:facet>
 
-                                <p:column headerText="Nombre" sortBy="#{gerencia.nombre}"
-                                		 filterMatchMode="contains" filterBy="#{gerencia.nombre}">
+                                <p:column headerText="Nombre" sortBy="#{gerencia.nombre}" filterMatchMode="contains" filterBy="#{gerencia.nombre}">
                                     <h:outputText value="#{gerencia.nombre}" />
                                 </p:column>
 
                                 <p:column headerText="Estado" sortBy="#{gerencia.estado}">
-                                     <h:outputText value="#{gerencia.estado ? 'Activo' : 'Inactivo'}" />
+                                	<h:outputText value="#{gerencia.estado ? 'Activo' : 'Inactivo'}" />
                                 </p:column>
                                 
                                 <p:column headerText="Acciones">
                                     <p:splitButton value="Accion" icon="fa fa-edit">
 								        <p:menuitem value="Actualizar" actionListener="#{gerenciaBB.setSelectedGerencia(gerencia)}"  
 								        			update=":#{p:component('dlgActualizar')} :#{p:component('tblGerencias')}" oncomplete="PF('dlgActualizar').show();"
-								        			icon="ui-icon-arrowrefresh-1-w" >
-								        	
+								        			icon="ui-icon-arrowrefresh-1-w" >								        	
 								        </p:menuitem>
+								        
 								        <p:menuitem value="Eliminar" actionListener="#{gerenciaBB.setSelectedGerencia(gerencia)}" 
 								        			update=":#{p:component('dlgEliminar')}" oncomplete="PF('dlgEliminar').show();"
 								        			icon="ui-icon-close" >
@@ -67,32 +64,30 @@
                         
                         <p:dialog header="Actualizar" id="dlgActualizar" widgetVar="dlgActualizar" minHeight="40">
 							<div align="center">
-								<h:panelGrid columns="2" cellspacing="2" cellpadding="2">
-									
+								<h:panelGrid columns="2" cellspacing="2" cellpadding="2">									
 									<h:outputLabel for="txtNombreU" value="Nombre" />
 									<p:inputText id="txtNombreU" value="#{gerenciaBB.selectedGerencia.nombre}" maxlength="100"/>
 							   				
-							   		<h:outputLabel for="txtNombreU" value="Estado:"/>
+							   		<h:outputLabel for="sbbEstado" value="Estado:"/>
 							   		<p:selectBooleanButton id="sbbEstado" offLabel="Inactivo" onLabel="Activo" value="#{gerenciaBB.selectedGerencia.estado}" />
-							   		
 							   	</h:panelGrid>
-							   	<br />
-						   	
-						   		<p:commandButton id="btnActualizarGerencia" actionListener="#{gerenciaBB.updateGerencia}" update="@form" title="Actualizar" value="Actualizar" />
-								
-					   		</div>
+							   	
+							   	<br />						   	
+						   		
+						   		<p:commandButton id="btnActualizarGerencia" actionListener="#{gerenciaBB.updateGerencia}"  update=":#{p:component('dlgActualizar')} :#{p:component('tblGerencias')}" title="Actualizar" value="Actualizar" />
+							</div>
 						</p:dialog>		
 		
 						<p:dialog header="Eliminar" id="dlgEliminar" widgetVar="dlgEliminar" minHeight="40">
-							<div align="center">
-								
+							<div align="center">								
 								<strong>¿Está seguro de borrar el registro?</strong>
+								
 								<br />
 								<br />
-								<p:commandButton id="btnEliminarGerencia" actionListener="#{gerenciaBB.deleteGerencia}" update="@form" title="Eliminar" value="Eliminar" />						   		
+								
+								<p:commandButton id="btnEliminarGerencia" actionListener="#{gerenciaBB.deleteGerencia}" update=":#{p:component('tblGerencias')}"  title="Eliminar" value="Eliminar" />						   		
 					   		</div>
-						</p:dialog>	
-                        
+						</p:dialog>                 
                         
                     </div>                    
                 </div>

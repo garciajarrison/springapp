@@ -15,17 +15,16 @@
                     <div class="ui-g-12">
                         <div class="card">
                             <h1>Maestro de Cuentas</h1>
-                            <p:panelGrid columns="2" columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4" layout="grid" styleClass="ui-panelgrid-blank" style="border:0px none; background-color:transparent;">
+                            <p:panelGrid id="pgCuentas" columns="2" columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4" layout="grid" styleClass="ui-panelgrid-blank" style="border:0px none; background-color:transparent;">
+                                
+                                <p:outputLabel for="txtCuenta" value="Cuenta"/>
+                                <p:inputText id="txtCuenta" value="#{cuentaBB.cuenta.cuenta}" maxlength="100"/>
                                 
                                 <p:outputLabel for="txtNombre" value="Nombre"/>
                                 <p:inputText id="txtNombre" value="#{cuentaBB.cuenta.nombre}" maxlength="100"/>
                                 
-                                <p:outputLabel for="txtGrupo" value="Grupo"/>
-                                <p:inputText id="txtGrupo" value="#{cuentaBB.cuenta.grupo}" maxlength="100"/>
-                                
-                                <p:commandButton id="btnGuardar" value="Guardar" actionListener="#{cuentaBB.addCuenta}" update="@form" icon="ui-icon-check fa fa-check Fs14 White" style="max-width:150px;"/>
-                            </p:panelGrid>
-                            
+                                <p:commandButton id="btnGuardar" value="Guardar" actionListener="#{cuentaBB.addCuenta}" update=":#{p:component('pgCuentas')} :#{p:component('tblCuentas')}" icon="ui-icon-check fa fa-check Fs14 White" style="max-width:150px;"/>
+                            </p:panelGrid>                            
                         </div>
                         
                         <div class="card">
@@ -35,22 +34,22 @@
                             		emptyMessage="No se encontraron registros."
 									scrollable="false" paginatorPosition="bottom"
 									rows="10" rowsPerPageTemplate="5,10,20,50"
-									currentPageReportTemplate="Páginas {totalPages}.  registros {totalRecords}"
+									currentPageReportTemplate="Páginas {totalPages} - Registros {totalRecords}"
 									paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" 
 									paginator="true">
 									
                                 <f:facet name="header">
                                     Cuentas
                                 </f:facet>
+                                
+                                 <p:column headerText="Cuenta" sortBy="#{cuenta.cuenta}"
+                                		 filterMatchMode="contains" filterBy="#{cuenta.cuenta}">
+                                    <h:outputText value="#{cuenta.cuenta}" />
+                                </p:column>
 
                                 <p:column headerText="Nombre" sortBy="#{cuenta.nombre}"
                                 		 filterMatchMode="contains" filterBy="#{cuenta.nombre}">
                                     <h:outputText value="#{cuenta.nombre}" />
-                                </p:column>
-                                
-                                <p:column headerText="Grupo" sortBy="#{cuenta.grupo}"
-                                		 filterMatchMode="contains" filterBy="#{cuenta.grupo}">
-                                    <h:outputText value="#{cuenta.grupo}" />
                                 </p:column>
 
                                 <p:column headerText="Estado" sortBy="#{cuenta.estado}">
@@ -75,21 +74,21 @@
                         
                         <p:dialog header="Actualizar" id="dlgActualizar" widgetVar="dlgActualizar" minHeight="40">
 							<div align="center">
-								<h:panelGrid columns="2" cellspacing="2" cellpadding="2">
-									
+								<h:panelGrid columns="2" cellspacing="2" cellpadding="2">									
+									<p:outputLabel for="txtCuentaU" value="Cuenta"/>
+                                	<p:inputText id="txtCuentaU" value="#{cuentaBB.selectedCuenta.cuenta}" maxlength="100"/>
+                                	
 									<h:outputLabel for="txtNombreU" value="Nombre" />
 									<p:inputText id="txtNombreU" value="#{cuentaBB.selectedCuenta.nombre}" maxlength="100"/>
 									
-									<p:outputLabel for="txtGrupoU" value="Grupo"/>
-                                	<p:inputText id="txtGrupoU" value="#{cuentaBB.selectedCuenta.grupo}" maxlength="100"/>
-							   				
-							   		<h:outputLabel for="txtNombreU" value="Estado:"/>
+							   		<h:outputLabel for="sbbEstado" value="Estado:"/>
 							   		<p:selectBooleanButton id="sbbEstado" offLabel="Inactivo" onLabel="Activo" value="#{cuentaBB.selectedCuenta.estado}" />
 							   		
 							   	</h:panelGrid>
+							   	
 							   	<br />
 						   	
-						   		<p:commandButton id="btnActualizarCuenta" actionListener="#{cuentaBB.updateCuenta}" update="@form" title="Actualizar" value="Actualizar" />
+						   		<p:commandButton id="btnActualizarCuenta" actionListener="#{cuentaBB.updateCuenta}" update=":#{p:component('dlgActualizar')} :#{p:component('tblCuentas')}" title="Actualizar" value="Actualizar" />
 								
 					   		</div>
 						</p:dialog>		
@@ -100,11 +99,22 @@
 								<strong>¿Está seguro de borrar el registro?</strong>
 								<br />
 								<br />
-								<p:commandButton id="btnEliminarCuenta" actionListener="#{cuentaBB.deleteCuenta}" update="@form" title="Eliminar" value="Eliminar" />						   		
+								<p:commandButton id="btnEliminarCuenta" actionListener="#{cuentaBB.deleteCuenta}" update=":#{p:component('tblCuentas')}" title="Eliminar" value="Eliminar" />						   		
 					   		</div>
 						</p:dialog>	
-                        
-                        
+						
+						<div class="card">
+		                	<h1>Carga Archivo Plano de Cuentas</h1>
+		                    
+		                    <p:commandButton value="Descargar Archivo de Ejemplo" ajax="false"	onclick="PrimeFaces.monitorDownload(start, stop);"	icon="ui-icon-arrowthick-1-s" style="max-width:250px;">
+								<p:fileDownload value="#{cuentaBB.fileDescargar}" />
+							</p:commandButton>
+							
+							<br />
+							<br />	
+							
+		                    <p:fileUpload fileUploadListener="#{cuentaBB.uploadPlanoCuentas}" mode="advanced" dragDropSupport="false" multiple="true" sizeLimit="100000" fileLimit="3" allowTypes="/(\.|\/)(xlsx)$/" style="width:100%" />
+		                 </div> 
                     </div>                    
                 </div>
             </div>
