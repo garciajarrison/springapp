@@ -1,11 +1,22 @@
 package com.marketingpersonal.controller;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.primefaces.event.FileUploadEvent;
+import org.primefaces.model.DefaultStreamedContent;
+import org.primefaces.model.StreamedContent;
+import org.primefaces.model.UploadedFile;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
@@ -38,6 +49,12 @@ public class CentroCostoBB extends SpringBeanAutowiringSupport implements Serial
 	private CentroCosto centroCosto;
 	private CentroCosto selectedCentroCosto;
 	private List<CentroCosto> listaCentroCostos;
+	private UploadedFile file;
+	private StreamedContent fileDescargar;
+	
+	private Gerencia gerencia;
+	private Direccion direccion;
+	private Jefatura jefatura;
 	
 	//Listas
 	private List<Gerencia> lstGerencias;
@@ -58,9 +75,9 @@ public class CentroCostoBB extends SpringBeanAutowiringSupport implements Serial
 	private boolean validar(CentroCosto cc) {
 		boolean permiteGuardar = true;
 		
-		if(cc.getNombre() == null || 
-				"".equals(cc.getNombre().trim())) {
-			util.mostrarError("El campo Nombre es requerido.");
+		if(cc.getCentroCosto() == null || 
+				"".equals(cc.getCentroCosto().trim())) {
+			util.mostrarError("El campo Centro de Costo es requerido.");
 			permiteGuardar = false;
 		}
 		
@@ -84,11 +101,28 @@ public class CentroCostoBB extends SpringBeanAutowiringSupport implements Serial
 	
 	public void addCentroCosto() {
 		try {
+			boolean guardar = true;
+			
 			if(validar(centroCosto)) {
-				getCentroCostoService().addCentroCosto(centroCosto);
-				listaCentroCostos = getCentroCostoService().getCentroCostos(false);
-				centroCosto = new CentroCosto();
-				util.mostrarMensaje("Registro agregado con éxito."); 
+								
+				for(CentroCosto ceco : listaCentroCostos) {
+					
+					if((ceco.getCentroCosto().equals(centroCosto.getCentroCosto())) 
+							&& (ceco.getGerencia().getId()==centroCosto.getGerencia().getId())
+							&& (ceco.getDireccion().getId()==centroCosto.getDireccion().getId())
+							&& (ceco.getJefatura().getId()==centroCosto.getJefatura().getId())) {
+						guardar = false;			
+					}						
+				}		
+								
+				if(guardar) {
+					getCentroCostoService().addCentroCosto(centroCosto);
+					listaCentroCostos = getCentroCostoService().getCentroCostos(false);
+					centroCosto = new CentroCosto();
+					util.mostrarMensaje("Registro agregado con éxito."); 
+				}else {
+					util.mostrarError("Ya existe un Centro de Costo creado con lo datos ingresados");
+				}
 			}
 			
 		} catch (DataAccessException e) {
@@ -211,5 +245,136 @@ public class CentroCostoBB extends SpringBeanAutowiringSupport implements Serial
 	public void setLstJefaturas(List<Jefatura> lstJefaturas) {
 		this.lstJefaturas = lstJefaturas;
 	}
+	
+	
+	public UploadedFile getFile() {
+	    return file;
+	}
 
+	public void setFile(UploadedFile file) {
+	    this.file = file;
+	}
+	
+	public void uploadPlanoCentrosCosto(FileUploadEvent event) {
+		
+		try {
+			InputStream input = (InputStream) event.getFile().getInputstream();
+			XSSFWorkbook workbook = new XSSFWorkbook(input);
+			
+			XSSFSheet sheet = workbook.getSheetAt(0);
+						
+			if(validarArchivoPlano(sheet)) {
+				insertarCentrosCosto(sheet);
+				
+				FacesMessage msg = new FacesMessage("Carga Archivo Plano de Centros de Costo", event.getFile().getFileName() + " fue cargado correctamente");
+				FacesContext.getCurrentInstance().addMessage(null, msg);
+			}
+			
+			workbook.close();
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	
+	public StreamedContent getFileDescargar() {
+    	InputStream stream = FacesContext.getCurrentInstance().getExternalContext().getResourceAsStream("/resources/files/Archivo Plano Centros de Costo.xlsx");
+        fileDescargar = new DefaultStreamedContent(stream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Archivo Plano Centros de Costo.xlsx");
+        return fileDescargar;
+    }
+	
+	private boolean validarArchivoPlano(XSSFSheet sheet) {
+		boolean permiteGuardar = true;
+		
+		//Validar numero de columnas del archvi
+		if(sheet.getRow(0).getPhysicalNumberOfCells() != 4) {
+			util.mostrarError("El número de columnas que tiene la hoja no es válido");
+			permiteGuardar = false;
+		}
+		
+		//Validar que no existe un registro de centro de costo duplicado
+		Row row;	
+		
+		int idGerencia;
+		int idDireccion;
+		int idJefatura;
+		
+		for(CentroCosto ceco : listaCentroCostos) {
+			for (int fila = 1; fila < sheet.getPhysicalNumberOfRows(); fila++) {
+				row = sheet.getRow(fila);	
+				
+				// Obtenemos los ids de Gerencia, Direccion y Jefatura a partir de los nombres ingresados en el archivo plano
+				// ya que el usuario no conoce los codigos
+				idGerencia = getIdGerenciaByNombre(row.getCell(1)+"");
+				idDireccion = getIdDireccionByNombre(row.getCell(2)+"");
+				idJefatura = getIdJefaturaByNombre(row.getCell(3)+"");
+								
+				if((ceco.getCentroCosto().equals(row.getCell(0)+"")) 
+						&& (ceco.getGerencia().getId()==idGerencia)
+						&& (ceco.getDireccion().getId()==idDireccion)
+						&& (ceco.getJefatura().getId()==idJefatura)) {
+					util.mostrarError("Ya existe un Centro de Costo creado con lo datos ingresados ");
+					permiteGuardar = false;				
+				}	
+			}
+		}	
+				
+		return permiteGuardar;
+	}
+    
+    public void insertarCentrosCosto(XSSFSheet sheet) {
+		Row row;
+		int numFilas = sheet.getPhysicalNumberOfRows();	
+		for (int fila = 1; fila < numFilas; fila++) {
+			row = sheet.getRow(fila);
+			
+			centroCosto = new CentroCosto();
+			
+			gerencia = new Gerencia();
+			gerencia.setId(getIdGerenciaByNombre(row.getCell(1)+""));
+			
+			direccion = new Direccion();
+			direccion.setId(getIdDireccionByNombre(row.getCell(2)+""));
+			
+			jefatura = new Jefatura();
+			jefatura.setId(getIdJefaturaByNombre(row.getCell(3)+""));
+			
+			centroCosto.setCentroCosto(row.getCell(0)+"");
+			centroCosto.setGerencia(gerencia);
+			centroCosto.setDireccion(direccion);
+			centroCosto.setJefatura(jefatura);
+						
+			getCentroCostoService().addCentroCosto(centroCosto);		
+		}
+	}
+	
+	public int getIdGerenciaByNombre(String nombreGerencia) {
+		for(Gerencia ger : lstGerencias) {
+			if(ger.getNombre().equals(nombreGerencia)) {
+				return ger.getId();
+			}	
+		}		
+		return 9999;
+	}
+	
+	public int getIdDireccionByNombre(String nombreDireccion) {
+		for(Direccion dir : lstDireccions) {
+			if(dir.getNombre().equals(nombreDireccion)) {
+				return dir.getId();
+			}	
+		}		
+		return 9999;
+	}
+	
+	public int getIdJefaturaByNombre(String nombreJefatura) {
+		for(Jefatura jef : lstJefaturas) {
+			if(jef.getNombre().equals(nombreJefatura)) {
+				return jef.getId();
+			}	
+		}		
+		return 9999;
+	}
+	
  }

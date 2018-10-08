@@ -207,7 +207,7 @@ public class CuentaBB extends SpringBeanAutowiringSupport implements Serializabl
 			permiteGuardar = false;
 		}
 		
-		//Validar que no existe un usuario creado con el numero de documento
+		//Validar que no existe una cuenta creada con el numero 
 		Row row;		
 		for(Cuenta cue : listaCuentas) {
 			for (int fila = 1; fila < sheet.getPhysicalNumberOfRows(); fila++) {

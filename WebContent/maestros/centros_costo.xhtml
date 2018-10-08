@@ -15,10 +15,10 @@
                     <div class="ui-g-12">
                         <div class="card">
                             <h1>Maestro de Centros de Costo</h1>
-                            <p:panelGrid columns="2" columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4" layout="grid" styleClass="ui-panelgrid-blank" style="border:0px none; background-color:transparent;">
+                            <p:panelGrid id="pgCentroCosto" columns="2" columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4" layout="grid" styleClass="ui-panelgrid-blank" style="border:0px none; background-color:transparent;">
                                 
-                                <p:outputLabel for="txtNombre" value="Nombre"/>
-                                <p:inputText id="txtNombre" value="#{centroCostoBB.centroCosto.nombre}" maxlength="100"/>
+                                <p:outputLabel for="txtCentroCosto" value="Centro de Costo"/>
+                                <p:inputText id="txtCentroCosto" value="#{centroCostoBB.centroCosto.centroCosto}" maxlength="100"/>
                                 
                                 <p:outputLabel for="somGerencia" value="Gerencia"/>
                                 <p:selectOneMenu id="somGerencia" value="#{centroCostoBB.centroCosto.gerencia.id}"
@@ -44,28 +44,28 @@
                                     		itemLabel="#{jf.nombre}" itemValue="#{jf.id}" />
                                 </p:selectOneMenu>
 
-                                <p:commandButton id="btnGuardar" value="Guardar" actionListener="#{centroCostoBB.addCentroCosto}" update="@form" icon="ui-icon-check fa fa-check Fs14 White" style="max-width:150px;"/>
+                                <p:commandButton id="btnGuardar" value="Guardar" actionListener="#{centroCostoBB.addCentroCosto}" update=":#{p:component('pgCentroCosto')} :#{p:component('tblCentrosCosto')}" icon="ui-icon-check fa fa-check Fs14 White" style="max-width:150px;"/>
                                                               
                             </p:panelGrid>
                             
                         </div>
                         
                         <div class="card">
-                            <h1>Listado de CentroCostos</h1>
-                            <p:dataTable id="tblCentroCostos" var="centroCosto" value="#{centroCostoBB.listaCentroCostos}" 
+                            <h1>Listado de Centros de Costos</h1>
+                            <p:dataTable id="tblCentrosCosto" var="centroCosto" value="#{centroCostoBB.listaCentroCostos}" 
                             		reflow="true" selectionMode="single" rowKey="#{centroCosto.id}"
                             		emptyMessage="No se encontraron registros."
 									scrollable="false" paginatorPosition="bottom"
 									rows="10" rowsPerPageTemplate="5,10,20,50"
-									currentPageReportTemplate="Páginas {totalPages}.  registros {totalRecords}"
+									currentPageReportTemplate="Páginas {totalPages} - Registros {totalRecords}"
 									paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" 
 									paginator="true">
                                 <f:facet name="header">
-                                    CentroCostos
+                                    Centros de Costo
                                 </f:facet>
 
-                                <p:column headerText="Nombre" sortBy="#{centroCosto.nombre}" filterMatchMode="contains" filterBy="#{centroCosto.nombre}">
-                                    <h:outputText value="#{centroCosto.nombre}" />
+                                <p:column headerText="Centro de Costo" sortBy="#{centroCosto.centroCosto}" filterMatchMode="contains" filterBy="#{centroCosto.centroCosto}">
+                                    <h:outputText value="#{centroCosto.centroCosto}" />
                                 </p:column>
                                 
                                 <p:column headerText="Gerencia" sortBy="#{centroCosto.gerencia.nombre}" filterMatchMode="contains" filterBy="#{centroCosto.gerencia.nombre}">
@@ -87,7 +87,7 @@
                                 <p:column headerText="Acciones">
                                     <p:splitButton value="Accion" icon="fa fa-edit">
 								        <p:menuitem value="Actualizar" actionListener="#{centroCostoBB.setSelectedCentroCosto(centroCosto)}"  
-								        			update=":#{p:component('dlgActualizar')} :#{p:component('tblCentroCostos')}" oncomplete="PF('dlgActualizar').show();"
+								        			update=":#{p:component('dlgActualizar')} :#{p:component('tblCentrosCosto')}" oncomplete="PF('dlgActualizar').show();"
 								        			icon="ui-icon-arrowrefresh-1-w" >
 								        	
 								        </p:menuitem>
@@ -104,8 +104,8 @@
 							<div align="center">
 								<h:panelGrid columns="2" cellspacing="2" cellpadding="2">
 									
-									<h:outputLabel for="txtNombreU" value="Nombre" />
-									<p:inputText id="txtNombreU" value="#{centroCostoBB.selectedCentroCosto.nombre}" maxlength="100"/>
+									<h:outputLabel for="txtCentroCostoU" value="Centro de Costo" />
+									<p:inputText id="txtCentroCostoU" value="#{centroCostoBB.selectedCentroCosto.centroCosto}" maxlength="100"/>
 									
 									<p:outputLabel for="somGerencia2" value="Gerencia"/>
 	                                <p:selectOneMenu id="somGerencia2" value="#{centroCostoBB.selectedCentroCosto.gerencia.id}"
@@ -137,7 +137,7 @@
 							   	</h:panelGrid>
 							   	<br />
 						   	
-						   		<p:commandButton id="btnActualizarCentroCosto" actionListener="#{centroCostoBB.updateCentroCosto}" update="@form" title="Actualizar" value="Actualizar" />
+						   		<p:commandButton id="btnActualizarCentroCosto" actionListener="#{centroCostoBB.updateCentroCosto}" update=":#{p:component('dlgActualizar')} :#{p:component('tblCentrosCosto')}" title="Actualizar" value="Actualizar" />
 								
 					   		</div>
 						</p:dialog>		
@@ -148,10 +148,22 @@
 								<strong>¿Está seguro de borrar el registro?</strong>
 								<br />
 								<br />
-								<p:commandButton id="btnEliminarCentroCosto" actionListener="#{centroCostoBB.deleteCentroCosto}" update="@form" title="Eliminar" value="Eliminar" />						   		
+								<p:commandButton id="btnEliminarCentroCosto" actionListener="#{centroCostoBB.deleteCentroCosto}" update=":#{p:component('tblCentrosCosto')}" title="Eliminar" value="Eliminar" />						   		
 					   		</div>
 						</p:dialog>	
-                        
+						
+						<div class="card">
+		                	<h1>Carga Archivo Plano de Centros de Costo</h1>
+		                    
+		                    <p:commandButton value="Descargar Archivo de Ejemplo" ajax="false"	onclick="PrimeFaces.monitorDownload(start, stop);"	icon="ui-icon-arrowthick-1-s" style="max-width:250px;">
+								<p:fileDownload value="#{centroCostoBB.fileDescargar}" />
+							</p:commandButton>
+							
+							<br />
+							<br />	
+							
+		                    <p:fileUpload fileUploadListener="#{centroCostoBB.uploadPlanoCentrosCosto}" mode="advanced" dragDropSupport="false" multiple="true" sizeLimit="100000" fileLimit="3" allowTypes="/(\.|\/)(xlsx)$/" style="width:100%" />
+		                 </div>                         
                         
                     </div>                    
                 </div>

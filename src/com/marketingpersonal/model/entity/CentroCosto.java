@@ -16,7 +16,7 @@ public class CentroCosto implements java.io.Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private int id;
-	private String nombre;
+	private String centroCosto;
 	private Gerencia gerencia;
 	private Direccion direccion;
 	private Jefatura jefatura;
@@ -39,13 +39,13 @@ public class CentroCosto implements java.io.Serializable {
 		this.id = id;
 	}
 	
-	@Column(name = "nombre")
-	public String getNombre() {
-		return nombre;
+	@Column(name = "centrocosto")
+	public String getCentroCosto() {
+		return centroCosto;
 	}
 
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
+	public void setCentroCosto(String centroCosto) {
+		this.centroCosto = centroCosto;
 	}
 
 	@ManyToOne(fetch = FetchType.EAGER)

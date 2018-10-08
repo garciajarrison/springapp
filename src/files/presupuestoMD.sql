@@ -189,7 +189,6 @@ ALTER SEQUENCE presupuestoMD.centrocosto_seq
 CREATE TABLE presupuestoMD.centrocosto (
   id integer NOT NULL DEFAULT nextval('presupuestoMD.centrocosto_seq'::regclass),
   centrocosto VARCHAR(100) NULL,
-  nombre VARCHAR(100) NULL,
   id_gerencia integer not null,
   id_direccion integer not null,
   id_jefatura integer not null,

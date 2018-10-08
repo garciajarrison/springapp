@@ -1,4 +1,10 @@
 *************PENDIENTES:
+
+* Error al eliminar registro de maestro de centros de costo
+* Validar que al cargar plano de centros de costo no esten ingresando una gerencia, direccion o jefatura que no exista en los maestros
+* Mostrar detalle de registros duplicados al intentar cargar plano de centros de costo
+
+
 * Login: Poner imagen de fondo enviada por Lizeth
 * Mostrar en el home seccion con variables macroeconomicas y otra seccion con imagen que envia Lizeth
 * Menú principal dinámico de acuerdo al rol
