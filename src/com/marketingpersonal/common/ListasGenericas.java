@@ -15,6 +15,7 @@ public class ListasGenericas {
 	private List<SelectItem> lstTipoPresupuesto;
 	private List<SelectItem> lstMeses;
 	private Map<Integer, String> mapMeses;
+	private Map<String, String> mapEstados;
 	
 	public static ListasGenericas getInstance() {
 		if(instance == null)
@@ -51,6 +52,11 @@ public class ListasGenericas {
 		mapMeses.put(11, "Noviembre");
 		mapMeses.put(12, "Diciembre");
 		
+		mapEstados = new HashMap<>();
+		for(EnumEstadosPresupuesto tmp : EnumEstadosPresupuesto.values()) {
+			mapEstados.put(tmp.getCodigo(), tmp.getNombre());
+		}
+		
 		lstMeses = new ArrayList<>();
 		lstMeses.add(new SelectItem(1, "Enero"));
 		lstMeses.add(new SelectItem(2, "Febrero"));
@@ -84,6 +90,10 @@ public class ListasGenericas {
 	
 	public String getNombreMes(int numMes) {
 		return mapMeses.get(numMes);
+	}
+	
+	public String getNombreEstado(String codEstado) {
+		return mapEstados.get(codEstado);
 	}
 
 }

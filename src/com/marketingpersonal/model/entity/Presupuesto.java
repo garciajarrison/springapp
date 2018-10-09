@@ -23,8 +23,10 @@ public class Presupuesto implements java.io.Serializable {
 	private String tipo;
 	private Integer anio;
 	private Integer mesCampania;
+	private String estado = "PENDIENTE";
 	
 	private List<PresupuestoDetalle> detalle = new ArrayList<>();
+	private List<Observacion> observaciones = new ArrayList<>();
 
 	@Id
 	@GeneratedValue( strategy=GenerationType.IDENTITY)
@@ -64,15 +66,6 @@ public class Presupuesto implements java.io.Serializable {
 		this.descripcion = descripcion;
 	}
 
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "presupuesto")
-	public List<PresupuestoDetalle> getDetalle() {
-		return detalle;
-	}
-
-	public void setDetalle(List<PresupuestoDetalle> detalle) {
-		this.detalle = detalle;
-	}
-
 	@Column(name = "anio")
 	public Integer getAnio() {
 		return anio;
@@ -91,4 +84,32 @@ public class Presupuesto implements java.io.Serializable {
 		this.mesCampania = mesCampania;
 	}
 
+	@Column(name = "estado")
+	public String getEstado() {
+		return estado;
+	}
+
+	public void setEstado(String estado) {
+		this.estado = estado;
+	}
+
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "presupuesto")
+	public List<PresupuestoDetalle> getDetalle() {
+		return detalle;
+	}
+
+	public void setDetalle(List<PresupuestoDetalle> detalle) {
+		this.detalle = detalle;
+	}
+
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "presupuesto")
+	public List<Observacion> getObservaciones() {
+		return observaciones;
+	}
+
+	public void setObservaciones(List<Observacion> observaciones) {
+		this.observaciones = observaciones;
+	}
+	
+	
 }

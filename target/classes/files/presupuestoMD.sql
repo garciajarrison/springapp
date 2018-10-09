@@ -2,6 +2,44 @@
 -- CAMBIOS
 -- -----------------------------------------------------
 -- actualizacion de tabla presupuesto
+-- creacion de tabla observaciones
+
+-- -----------------------------------------------------
+-- Table presupuestoMD.observacion
+-- -----------------------------------------------------
+-- DROP SEQUENCE presupuestoMD.observacion_seq;
+CREATE SEQUENCE presupuestoMD.observacion_seq;
+ALTER SEQUENCE presupuestoMD.observacion_seq
+    OWNER TO postgres;
+    
+-- DROP TABLE presupuestoMD.observacion ;
+CREATE TABLE presupuestoMD.observacion
+(
+   id                  INTEGER NOT NULL DEFAULT nextval ('presupuestoMD.observacion_seq'::regclass),
+   observacion    	   CHARACTER VARYING (200) NULL,
+   usuario_envia       INTEGER NOT NULL,
+   usuario_recibe      INTEGER NOT NULL,
+   id_presupuesto      INTEGER NOT NULL,
+   fecha			   DATE NOT NULL,
+   estado              CHARACTER VARYING (20) NOT NULL,
+   CONSTRAINT pk_observacion PRIMARY KEY (id),
+   CONSTRAINT fk_ob_usuario_env FOREIGN KEY (usuario_envia)
+        REFERENCES presupuestoMD.usuario (id) MATCH SIMPLE
+        ON UPDATE CASCADE
+        ON DELETE CASCADE,
+   CONSTRAINT fk_ob_usuario_rec FOREIGN KEY (usuario_recibe)
+        REFERENCES presupuestoMD.usuario (id) MATCH SIMPLE
+        ON UPDATE CASCADE
+        ON DELETE CASCADE,
+   CONSTRAINT fk_ob_presupuesto FOREIGN KEY (id_presupuesto)
+        REFERENCES presupuestoMD.presupuesto (id) MATCH SIMPLE
+        ON UPDATE CASCADE
+        ON DELETE CASCADE
+)
+WITH (OIDS = FALSE);
+
+ALTER TABLE presupuestoMD.observacion
+    OWNER to postgres;	 
 
 -- -----------------------------------------------------
 -- Table presupuestoMD.presupuesto
@@ -20,6 +58,7 @@ CREATE TABLE presupuestoMD.presupuesto
    tipo                CHARACTER VARYING (20) NULL,
    anio				   INTEGER NOT NULL,
    mes_campania		   INTEGER NOT NULL,
+   estado              CHARACTER VARYING (20) NULL DEFAULT 'PENDIENTE',
    CONSTRAINT pk_presupuesto PRIMARY KEY (id) NOT DEFERRABLE INITIALLY IMMEDIATE
 )
 WITH (OIDS = FALSE);

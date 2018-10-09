@@ -85,7 +85,8 @@
 								<br />
 								<br />
 								
-								<p:commandButton id="btnEliminarDireccion" actionListener="#{direccionBB.deleteDireccion}" update=":#{p:component('tblDirecciones')}" title="Eliminar" value="Eliminar" />						   		
+								<p:commandButton id="btnEliminarDireccion" actionListener="#{direccionBB.deleteDireccion}" 
+										update="@form" title="Eliminar" value="Eliminar" />						   		
 					   		</div>
 						</p:dialog>	
                     </div>                    

@@ -186,7 +186,6 @@ public class CuentaBB extends SpringBeanAutowiringSupport implements Serializabl
 			workbook.close();
 			
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		

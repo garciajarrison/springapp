@@ -273,7 +273,6 @@ public class CentroCostoBB extends SpringBeanAutowiringSupport implements Serial
 			workbook.close();
 			
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		

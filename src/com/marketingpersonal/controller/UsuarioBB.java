@@ -218,7 +218,6 @@ public class UsuarioBB extends SpringBeanAutowiringSupport implements Serializab
 			
 			
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		

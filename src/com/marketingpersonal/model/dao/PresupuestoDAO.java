@@ -7,6 +7,7 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.marketingpersonal.model.entity.Observacion;
 import com.marketingpersonal.model.entity.Presupuesto;
 import com.marketingpersonal.model.entity.PresupuestoDetalle;
 
@@ -54,7 +55,7 @@ public class PresupuestoDAO implements IPresupuestoDAO {
 	//Detalle
 	public void addPresupuestoDetalle(PresupuestoDetalle entity) {
 		Session session = getSessionFactory().getCurrentSession();
-		session.save(entity);
+		session.saveOrUpdate(entity);
 	}
 
 	public void deletePresupuestoDetalle(PresupuestoDetalle entity) {
@@ -64,7 +65,7 @@ public class PresupuestoDAO implements IPresupuestoDAO {
 
 	public void updatePresupuestoDetalle(PresupuestoDetalle entity) {
 		Session session = getSessionFactory().getCurrentSession();
-		session.update(entity);
+		session.saveOrUpdate(entity);
 	}
 
 	public PresupuestoDetalle getPresupuestoDetalleById(int id) {
@@ -78,6 +79,11 @@ public class PresupuestoDAO implements IPresupuestoDAO {
 	public List<PresupuestoDetalle> getPresupuestoDetalles() {
 		Session session = getSessionFactory().getCurrentSession();
 		return (List<PresupuestoDetalle>) session.createQuery("from PresupuestoDetalle").list();
+	}
+
+	public void addObservacion(Observacion entity) {
+		Session session = getSessionFactory().getCurrentSession();
+		session.saveOrUpdate(entity);
 	}
 
 }

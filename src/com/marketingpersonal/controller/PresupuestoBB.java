@@ -2,6 +2,7 @@ package com.marketingpersonal.controller;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
@@ -12,10 +13,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
+import com.marketingpersonal.common.EnumEstadosPresupuesto;
+import com.marketingpersonal.common.EnumSessionAttributes;
 import com.marketingpersonal.common.ListasGenericas;
 import com.marketingpersonal.common.Util;
+import com.marketingpersonal.model.entity.Observacion;
 import com.marketingpersonal.model.entity.Presupuesto;
 import com.marketingpersonal.model.entity.PresupuestoDetalle;
+import com.marketingpersonal.model.entity.Usuario;
 import com.marketingpersonal.service.IPresupuestoService;
 
 @ManagedBean(name = "presupuestoBB")
@@ -30,16 +35,20 @@ public class PresupuestoBB extends SpringBeanAutowiringSupport implements Serial
 	private Presupuesto presupuesto;
 	private Presupuesto selectedPresupuesto;
 	private Presupuesto detalle;
+	private Observacion observacion;
 	private List<Presupuesto> listaPresupuestos;
 	private ListasGenericas listasGenericas;
 	private boolean mostrarDetalle = false;
+	private Usuario usuario;
 	
 	public PresupuestoBB() {
 		util = Util.getInstance();
 		presupuesto = new Presupuesto();
+		observacion = new Observacion();
 		selectedPresupuesto = new Presupuesto();
 		listaPresupuestos = getPresupuestoService().getPresupuestos();
 		listasGenericas = ListasGenericas.getInstance();
+		usuario = (Usuario) Util.getInstance().getSessionAttribute(EnumSessionAttributes.USUARIO);
 	}
 	
 	public void verDetalle(SelectEvent event) {
@@ -118,6 +127,30 @@ public class PresupuestoBB extends SpringBeanAutowiringSupport implements Serial
 		}
 		
 		return permiteGuardar;
+	}
+	
+	public void enviarPresupuestoAprobadorInicial(){
+		try {
+			selectedPresupuesto.setEstado(EnumEstadosPresupuesto.ENVIADO.getCodigo());
+			getPresupuestoService().updatePresupuesto(selectedPresupuesto);
+			
+			//Guardamos la observacion
+			observacion.setFecha(new Date());
+			observacion.setPresupuesto(selectedPresupuesto);
+			observacion.setEstado(selectedPresupuesto.getEstado());
+			observacion.setUsuarioEnvia(usuario);
+			//TODO pendiente consultar el usuario q recibe
+			observacion.setUsuarioRecibe(usuario);
+			getPresupuestoService().addObservacion(observacion);
+			
+			//TODO pendiente enviar correo al aprobador inicial
+			
+			observacion = new Observacion();
+			util.mostrarMensaje("El presupuesto fue enviado al aprobador incial con éxito.");
+		} catch (DataAccessException e) {
+			e.printStackTrace();
+			util.mostrarError("Error enviando el registro.");
+		} 	
 	}
 	
 	public void addPresupuesto() {
@@ -240,6 +273,14 @@ public class PresupuestoBB extends SpringBeanAutowiringSupport implements Serial
 
 	public void setMostrarDetalle(boolean mostrarDetalle) {
 		this.mostrarDetalle = mostrarDetalle;
+	}
+
+	public Observacion getObservacion() {
+		return observacion;
+	}
+
+	public void setObservacion(Observacion observacion) {
+		this.observacion = observacion;
 	}
 
  }

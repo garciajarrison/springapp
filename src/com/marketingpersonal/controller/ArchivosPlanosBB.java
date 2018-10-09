@@ -83,7 +83,6 @@ public class ArchivosPlanosBB {
 			FacesContext.getCurrentInstance().addMessage(null, msg);
 			
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		

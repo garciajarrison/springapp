@@ -127,6 +127,10 @@
                                      <h:outputText value="#{presupuestoBB.listasGenericas.getNombreMes(presupuesto.mesCampania)}" rendered="#{presupuesto.tipo eq 'Mensual'}" />
                                 </p:column>
                                 
+                                <p:column headerText="Estado" sortBy="#{presupuesto.estado}" width="15%">
+                                     <h:outputText value="#{presupuestoBB.listasGenericas.getNombreEstado(presupuesto.estado)}" />
+                                </p:column>
+                                
                                 <p:column headerText="Acciones" width="15%">
                                     <p:splitButton value="Accion" icon="fa fa-edit">
 								        <p:menuitem value="Actualizar" actionListener="#{presupuestoBB.setSelectedPresupuesto(presupuesto)}"  
@@ -137,6 +141,11 @@
 								        <p:menuitem value="Eliminar" actionListener="#{presupuestoBB.setSelectedPresupuesto(presupuesto)}" 
 								        			update=":#{p:component('dlgEliminar')}" oncomplete="PF('dlgEliminar').show();"
 								        			icon="ui-icon-close" >
+								        </p:menuitem>
+								        <p:menuitem value="Enviar" 
+								        			actionListener="#{presupuestoBB.setSelectedPresupuesto(presupuesto)}" 
+								        			update=":#{p:component('dlgEnviar')}" oncomplete="PF('dlgEnviar').show();"
+								        			icon="ui-icon-send" >
 								        </p:menuitem>
 								    </p:splitButton>
                                 </p:column>
@@ -233,7 +242,23 @@
 								<strong>¿Está seguro de borrar el registro?</strong>
 								<br />
 								<br />
-								<p:commandButton id="btnEliminarPresupuesto" actionListener="#{presupuestoBB.deletePresupuesto}" update="@form" title="Eliminar" value="Eliminar" />						   		
+								<p:commandButton id="btnEliminarPresupuesto" actionListener="#{presupuestoBB.deletePresupuesto}" 
+										update="@form" title="Eliminar" value="Eliminar" />						   		
+					   		</div>
+						</p:dialog>	
+						
+						<p:dialog header="Enviar al aprobador inicial" id="dlgEnviar" 
+								widgetVar="dlgEnviar" minHeight="40">
+							<div align="center">
+								
+								<strong>¿Está seguro de enviar el registro al aprobador inicial?</strong>
+								<br /><br /><br />
+								<p:inputTextarea value="#{presupuestoBB.observacion.observacion}"/>
+								<br /><br />
+								<p:spacer width="20px" height="20px" />
+								<p:commandButton id="btnEnviarPresupuesto" 
+											actionListener="#{presupuestoBB.enviarPresupuestoAprobadorInicial}" 
+											update="@form" title="Enviar" value="Enviar" />						   		
 					   		</div>
 						</p:dialog>	
                         
