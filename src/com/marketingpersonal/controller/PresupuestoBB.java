@@ -47,6 +47,38 @@ public class PresupuestoBB extends SpringBeanAutowiringSupport implements Serial
 		mostrarDetalle = true;
 	}
 	
+	public void agregarRegistro1() {
+		try {
+			presupuesto.getDetalle().add(new PresupuestoDetalle());
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void agregarRegistro2() {
+		try {
+			detalle.getDetalle().add(new PresupuestoDetalle());
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void eliminarRegistro1(int indice) {
+		try {
+			presupuesto.getDetalle().remove(indice);
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void eliminarRegistro2(int indice) {
+		try {
+			detalle.getDetalle().remove(indice);
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
 	public void cambioTipo() {
 		presupuesto.setDetalle(new ArrayList<>());
 		if("Campañal".equals(presupuesto.getTipo())) {
@@ -69,11 +101,22 @@ public class PresupuestoBB extends SpringBeanAutowiringSupport implements Serial
 			permiteGuardar = false;
 		}
 		
+		if(pr.getAnio() == null || pr.getAnio() < 1) {
+			util.mostrarError("El campo Año es requerido.");
+			permiteGuardar = false;
+		}
+		
 		if(pr.getTipo() == null || 
 				"".equals(pr.getTipo().trim())) {
 			util.mostrarError("El campo Tipo es requerido.");
 			permiteGuardar = false;
+			
+		}else if(pr.getMesCampania() == null || pr.getMesCampania() < 1) {
+			String tipo = ("Mensual".equals(pr.getTipo()) ? "Mes inicial" : "Campaña inicial");
+			util.mostrarError("El campo "+ tipo + " es requerido.");
+			permiteGuardar = false;
 		}
+		
 		return permiteGuardar;
 	}
 	
@@ -90,6 +133,18 @@ public class PresupuestoBB extends SpringBeanAutowiringSupport implements Serial
 				util.mostrarMensaje("Registro agregado con éxito."); 
 			}
 			
+		} catch (DataAccessException e) {
+			e.printStackTrace();
+			util.mostrarError("Error guardando el registro.");
+		} 	
+	}
+	
+	public void actualizarValores() {
+		try {
+			for(PresupuestoDetalle pd : detalle.getDetalle()) {
+				pd.setPresupuesto(presupuesto);
+				getPresupuestoService().addPresupuestoDetalle(pd);
+			}
 		} catch (DataAccessException e) {
 			e.printStackTrace();
 			util.mostrarError("Error guardando el registro.");

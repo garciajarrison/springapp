@@ -21,6 +21,8 @@ public class Presupuesto implements java.io.Serializable {
 	private String nombre;
 	private String descripcion;
 	private String tipo;
+	private Integer anio;
+	private Integer mesCampania;
 	
 	private List<PresupuestoDetalle> detalle = new ArrayList<>();
 
@@ -62,13 +64,31 @@ public class Presupuesto implements java.io.Serializable {
 		this.descripcion = descripcion;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "presupuesto")
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "presupuesto")
 	public List<PresupuestoDetalle> getDetalle() {
 		return detalle;
 	}
 
 	public void setDetalle(List<PresupuestoDetalle> detalle) {
 		this.detalle = detalle;
+	}
+
+	@Column(name = "anio")
+	public Integer getAnio() {
+		return anio;
+	}
+
+	public void setAnio(Integer anio) {
+		this.anio = anio;
+	}
+
+	@Column(name = "mes_campania")
+	public Integer getMesCampania() {
+		return mesCampania;
+	}
+
+	public void setMesCampania(Integer mesCampania) {
+		this.mesCampania = mesCampania;
 	}
 
 }

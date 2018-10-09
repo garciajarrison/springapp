@@ -23,6 +23,10 @@
                                 <p:outputLabel for="txtDescripcion" value="Descripción"/>
                                 <p:inputText id="txtDescripcion" value="#{presupuestoBB.presupuesto.descripcion}" maxlength="100"/>
                                 
+                                <p:outputLabel for="txtAnio" value="Año"/>
+                                <p:inputNumber id="txtAnio" value="#{presupuestoBB.presupuesto.anio}"
+                                		 maxValue="2999" size="10" minValue="0"/>
+                                		 
                                 <p:outputLabel for="txtTipo" value="Tipo"/>
                                 <p:selectOneMenu id="txtTipo" value="#{presupuestoBB.presupuesto.tipo}"
                                 		 filter="true">
@@ -31,13 +35,54 @@
                                     <p:ajax update="@form" listener="#{presupuestoBB.cambioTipo}" process="@form" />
                                 </p:selectOneMenu>
                                 
+                                <p:outputLabel rendered="#{not empty presupuestoBB.presupuesto.tipo}"
+                                		value="#{presupuestoBB.presupuesto.tipo eq 'Mensual' ? 'Mes inicial' : 'Campaña inicial'}"/>
+                                <p:selectOneMenu id="txtMesCam" value="#{presupuestoBB.presupuesto.mesCampania}"
+                                		 filter="true" rendered="#{not empty presupuestoBB.presupuesto.tipo and presupuestoBB.presupuesto.tipo eq 'Mensual'}">
+                                    <f:selectItem itemLabel="Seleccione" itemValue="" />
+                                    <f:selectItems value="#{presupuestoBB.listasGenericas.lstMeses}"  />
+                                </p:selectOneMenu>
+                                <p:inputNumber id="txtMesCam2" value="#{presupuestoBB.presupuesto.mesCampania}"
+                                		 maxValue="9999" size="10"
+                                		 rendered="#{not empty presupuestoBB.presupuesto.tipo and presupuestoBB.presupuesto.tipo eq 'Campañal'}"/>
+                                
+                            </p:panelGrid>
+                            
+                            <div class="ui-g">
                                 <ui:repeat var="pr" value="#{presupuestoBB.presupuesto.detalle}" varStatus="myVarStatus">
-                                	<p:outputLabel value="#{presupuestoBB.presupuesto.tipo eq 'Mensual' ? 'Mes ' : 'Campaña '} #{myVarStatus.index+1}"/>
-                                	<p:inputNumber value="#{pr.valor}"/>
+                                	<div class="ui-g-3 ui-m-6">
+                                		<div align="center">
+                                			<table>
+                                				<tr><td align="center" colspan="2">
+                                					<p:outputLabel value="#{presupuestoBB.presupuesto.tipo eq 'Mensual' ? 'Mes ' : 'Campaña '} #{myVarStatus.index+1}"/>
+                                				</td></tr>
+                                				<tr><td align="center">
+                                					<p:inputNumber value="#{pr.valor}" size="20"/>
+                                				</td>
+                                				<td>
+                                					<p:commandButton id="btnEliminar11" value="X" 
+					                                	actionListener="#{presupuestoBB.eliminarRegistro1(myVarStatus.index)}" 
+					                                	update="@form" 
+					                                	style="max-width:150px;"/>
+                                				</td></tr>
+                                			</table>
+                                		</div>
+                                	</div>
                                 </ui:repeat>
                                 
-                                <p:commandButton id="btnGuardar" value="Guardar" actionListener="#{presupuestoBB.addPresupuesto}" update="@form" icon="ui-icon-check fa fa-check Fs14 White" style="max-width:150px;"/>
-                            </p:panelGrid>
+                                <div class="ui-g-12">
+                                	<p:commandButton id="btnAddMes" value="Agregar Registro" 
+	                                	actionListener="#{presupuestoBB.agregarRegistro1}" 
+	                                	update="@form" icon="ui-icon-check fa fa-check Fs14 White" 
+	                                	style="max-width:150px;"
+	                                	rendered="#{not empty presupuestoBB.presupuesto.detalle}"/>
+                                	<p:spacer width="10px" height="0px" />
+                                	<p:commandButton id="btnGuardar" value="Guardar" 
+	                                	actionListener="#{presupuestoBB.addPresupuesto}" 
+	                                	update="@form" icon="ui-icon-check fa fa-check Fs14 White" 
+	                                	style="max-width:150px;"/>
+                                </div>
+                            </div>
                             
                         </div>
                         
@@ -68,9 +113,18 @@
                                 		 filterMatchMode="contains" filterBy="#{presupuesto.descripcion}">
                                     <h:outputText value="#{presupuesto.descripcion}" />
                                 </p:column>
+                                
+                                <p:column headerText="Año" sortBy="#{presupuesto.anio}" width="15%">
+                                     <h:outputText value="#{presupuesto.anio}" />
+                                </p:column>
 
                                 <p:column headerText="Tipo" sortBy="#{presupuesto.tipo}" width="15%">
                                      <h:outputText value="#{presupuesto.tipo}" />
+                                </p:column>
+                                
+                                <p:column headerText="Mes/Campaña inicial" sortBy="#{presupuesto.mesCampania}" width="15%">
+                                     <h:outputText value="#{presupuesto.mesCampania}" rendered="#{presupuesto.tipo eq 'Campañal'}" />
+                                     <h:outputText value="#{presupuestoBB.listasGenericas.getNombreMes(presupuesto.mesCampania)}" rendered="#{presupuesto.tipo eq 'Mensual'}" />
                                 </p:column>
                                 
                                 <p:column headerText="Acciones" width="15%">
@@ -88,14 +142,46 @@
                                 </p:column>
                             </p:dataTable>
                             
-                            <!-- Detalle del presupuesto -->
-                            <h1>Detalle</h1>
-                            <div class="ui-g">
-	                            <ui:repeat var="det" value="#{presupuestoBB.detalle.detalle}">
-	                            	<div class="ui-g-3">
-	                            		#{det.valor}
-	                            	</div>
-	                            </ui:repeat>
+                            <div style="display:#{empty presupuestoBB.detalle.detalle ? 'none;' : 'block;'}">
+	                            <br/><br/>
+	                            
+	                            <!-- Detalle del presupuesto -->
+	                            <h1>Detalle</h1>
+	                            <div class="ui-g">
+		                            <ui:repeat var="det" value="#{presupuestoBB.detalle.detalle}" varStatus="myVarStatus">
+		                            	<div class="ui-g-3">
+		                            		<div align="center">
+	                                			<table>
+	                                				<tr><td align="center" colspan="2">
+	                                					#{presupuestoBB.detalle.tipo eq 'Mensual' ? 'Mes ' : 'Campaña '} #{myVarStatus.index+1}
+	                                				</td></tr>
+	                                				<tr><td align="center">
+	                                					<p:inputNumber value="#{det.valor}"/>
+	                                				</td>
+                                				<td>
+                                					<p:commandButton id="btnEliminar22" value="X" 
+					                                	actionListener="#{presupuestoBB.eliminarRegistro2(myVarStatus.index)}" 
+					                                	update="@form" 
+					                                	style="max-width:150px;"/>
+                                				</td></tr>
+	                                			</table>
+	                                		</div>
+		                            	</div>
+		                            </ui:repeat>
+		                            
+		                            <div class="ui-g-12">
+		                            	<p:commandButton id="btnAddMes2" value="Agregar Registro" 
+		                                	actionListener="#{presupuestoBB.agregarRegistro2}" 
+		                                	update="@form" icon="ui-icon-check fa fa-check Fs14 White" 
+		                                	style="max-width:150px;"/>
+	                                	<p:spacer width="10px" height="0px" />
+	                                	<p:commandButton id="btnGuardar2" value="Actualizar registros" 
+		                                	actionListener="#{presupuestoBB.actualizarValores}" 
+		                                	update="@form" icon="ui-icon-check fa fa-check Fs14 White" 
+		                                	style="max-width:180px;"/>
+		                            </div>
+		                            
+	                            </div>
                             </div>
                         </div>
                         
@@ -109,17 +195,34 @@
 							   		<p:outputLabel for="txtDescripcionU" value="Descripción"/>
 	                                <p:inputText id="txtDescripcionU" value="#{presupuestoBB.selectedPresupuesto.descripcion}" maxlength="100"/>
 	                                
+	                                <p:outputLabel for="txtAnio2" value="Año"/>
+	                                <p:inputNumber id="txtAnio2" value="#{presupuestoBB.selectedPresupuesto.anio}"
+	                                		 maxValue="2999" size="10" minValue="0"/>
+	                                
 	                                <p:outputLabel for="txtTipoU" value="Tipo"/>
 	                                <p:selectOneMenu id="txtTipoU" value="#{presupuestoBB.selectedPresupuesto.tipo}"
 	                                		 filter="true">
 	                                    <f:selectItem itemLabel="Seleccione" itemValue="" />
 	                                    <f:selectItems value="#{presupuestoBB.listasGenericas.lstTipoPresupuesto}" />
 	                                </p:selectOneMenu>
-							   		
+	                                
+	                                <p:outputLabel rendered="#{not empty presupuestoBB.selectedPresupuesto.tipo}"
+	                                		value="#{presupuestoBB.selectedPresupuesto.tipo eq 'Mensual' ? 'Mes inicial' : 'Campaña inicial'}"/>
+	                                <p:selectOneMenu id="txtMesCam23" value="#{presupuestoBB.selectedPresupuesto.mesCampania}"
+	                                		 filter="true" rendered="#{not empty presupuestoBB.selectedPresupuesto.tipo and presupuestoBB.selectedPresupuesto.tipo eq 'Mensual'}">
+	                                    <f:selectItem itemLabel="Seleccione" itemValue="" />
+	                                    <f:selectItems value="#{presupuestoBB.listasGenericas.lstMeses}"  />
+	                                </p:selectOneMenu>
+	                                <p:inputNumber id="txtMesCam22" value="#{presupuestoBB.selectedPresupuesto.mesCampania}"
+	                                		 maxValue="9999" size="10"
+	                                		 rendered="#{not empty presupuestoBB.selectedPresupuesto.tipo and presupuestoBB.selectedPresupuesto.tipo eq 'Campañal'}"/>
+	                                
 							   	</h:panelGrid>
 							   	<br />
 						   	
-						   		<p:commandButton id="btnActualizarPresupuesto" actionListener="#{presupuestoBB.updatePresupuesto}" update="@form" title="Actualizar" value="Actualizar" />
+						   		<p:commandButton id="btnActualizarPresupuesto" 
+						   				actionListener="#{presupuestoBB.updatePresupuesto}" 
+						   				update="@form" title="Actualizar" value="Actualizar" />
 								
 					   		</div>
 						</p:dialog>		

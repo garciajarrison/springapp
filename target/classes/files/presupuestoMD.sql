@@ -1,8 +1,7 @@
 -- -----------------------------------------------------
 -- CAMBIOS
 -- -----------------------------------------------------
--- creacion de tabla presupuesto
--- creacion de tabla detalle_presupuesto
+-- actualizacion de tabla presupuesto
 
 -- -----------------------------------------------------
 -- Table presupuestoMD.presupuesto
@@ -19,6 +18,8 @@ CREATE TABLE presupuestoMD.presupuesto
    nombre    		   CHARACTER VARYING (100) NULL,
    descripcion         CHARACTER VARYING (100) NULL,
    tipo                CHARACTER VARYING (20) NULL,
+   anio				   INTEGER NOT NULL,
+   mes_campania		   INTEGER NOT NULL,
    CONSTRAINT pk_presupuesto PRIMARY KEY (id) NOT DEFERRABLE INITIALLY IMMEDIATE
 )
 WITH (OIDS = FALSE);
