@@ -23,7 +23,7 @@
                                 		value="#{usuarioPorCentroCostoBB.usuarioPorCentroCosto.centroCosto.id}">
                                     <f:selectItem itemLabel="Seleccione" itemValue="" />
                                     <f:selectItems value="#{usuarioPorCentroCostoBB.lstCentroCostos}" 
-                                    		var="cl" itemValue="#{cl.id}" itemLabel="#{cl.nombre}" />
+                                    		var="cl" itemValue="#{cl.id}" itemLabel="#{cl.centroCosto}" />
                                 </p:selectOneMenu>
                                 
                                 <p:outputLabel for="somUsuarioResponsable" value="Responsable"/>
@@ -72,9 +72,9 @@
                                     Usuarios Por Centro de Costo
                                 </f:facet>
 
-                                <p:column headerText="Centro de costo" sortBy="#{usuarioPorCentroCosto.centroCosto.nombre}"
-                                		 filterMatchMode="contains" filterBy="#{usuarioPorCentroCosto.centroCosto.nombre}">
-                                    <h:outputText value="#{usuarioPorCentroCosto.centroCosto.nombre}" />
+                                <p:column headerText="Centro de costo" sortBy="#{usuarioPorCentroCosto.centroCosto.centroCosto}"
+                                		 filterMatchMode="contains" filterBy="#{usuarioPorCentroCosto.centroCosto.centroCosto}">
+                                    <h:outputText value="#{usuarioPorCentroCosto.centroCosto.centroCosto}" />
                                 </p:column>
                                 
                                 <p:column headerText="Responsable" sortBy="#{usuarioPorCentroCosto.usuarioResponsable.nombre}"
@@ -117,7 +117,7 @@
 	                                		value="#{usuarioPorCentroCostoBB.selectedUsuarioPorCentroCosto.centroCosto.id}">
 	                                    <f:selectItem itemLabel="Seleccione" itemValue="" />
 	                                    <f:selectItems value="#{usuarioPorCentroCostoBB.lstCentroCostos}" 
-	                                    		var="cl" itemValue="#{cl.id}" itemLabel="#{cl.nombre}" />
+	                                    		var="cl" itemValue="#{cl.id}" itemLabel="#{cl.centroCosto}" />
 	                                </p:selectOneMenu>
 	                                
 	                                <p:outputLabel for="somUsuarioResponsableU" value="Responsable"/>

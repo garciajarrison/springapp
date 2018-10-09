@@ -48,9 +48,12 @@
                             		emptyMessage="No se encontraron registros."
 									scrollable="false" paginatorPosition="bottom"
 									rows="10" rowsPerPageTemplate="5,10,20,50"
+									selection="#{presupuestoBB.detalle}"
 									currentPageReportTemplate="Páginas {totalPages}.  registros {totalRecords}"
 									paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" 
 									paginator="true">
+									
+								<p:ajax event="rowSelect" update="@form" listener="#{presupuestoBB.verDetalle}" />
 									
                                 <f:facet name="header">
                                     Presupuestos
@@ -84,6 +87,16 @@
 								    </p:splitButton>
                                 </p:column>
                             </p:dataTable>
+                            
+                            <!-- Detalle del presupuesto -->
+                            <h1>Detalle</h1>
+                            <div class="ui-g">
+	                            <ui:repeat var="det" value="#{presupuestoBB.detalle.detalle}">
+	                            	<div class="ui-g-3">
+	                            		#{det.valor}
+	                            	</div>
+	                            </ui:repeat>
+                            </div>
                         </div>
                         
                         <p:dialog header="Actualizar" id="dlgActualizar" widgetVar="dlgActualizar" minHeight="40">

@@ -23,7 +23,7 @@
                                 		value="#{centroCostoPorCuentaBB.centroCostoPorCuenta.centroCosto.id}">
                                     <f:selectItem itemLabel="Seleccione" itemValue="" />
                                     <f:selectItems value="#{centroCostoPorCuentaBB.lstCentroCosto}" var="cl"
-                                    		itemValue="#{cl.id}" itemLabel="#{cl.nombre}" />
+                                    		itemValue="#{cl.id}" itemLabel="#{cl.centroCosto}" />
                                 </p:selectOneMenu>
                                 
                                 <p:outputLabel for="somCuenta" value="Cuenta"/>
@@ -31,7 +31,7 @@
                                 		value="#{centroCostoPorCuentaBB.centroCostoPorCuenta.cuenta.id}">
                                     <f:selectItem itemLabel="Seleccione" itemValue="" />
                                     <f:selectItems value="#{centroCostoPorCuentaBB.lstCuenta}" var="cl"
-                                    		itemValue="#{cl.id}" itemLabel="#{cl.nombre}" />
+                                    		itemValue="#{cl.id}" itemLabel="#{cl.cuenta} - #{cl.nombre}" />
                                 </p:selectOneMenu>
                                 
                                 <p:outputLabel for="somSublkink" value="Sublink"/>
@@ -64,14 +64,14 @@
                                     CentroCostoPorCuentas
                                 </f:facet>
 
-                                <p:column headerText="Centro de costos" sortBy="#{centroCostoPorCuenta.centroCosto.nombre}"
-                                		 filterMatchMode="contains" filterBy="#{centroCostoPorCuenta.centroCosto.nombre}">
-                                    <h:outputText value="#{centroCostoPorCuenta.centroCosto.nombre}" />
+                                <p:column headerText="Centro de costos" sortBy="#{centroCostoPorCuenta.centroCosto.centroCosto}"
+                                		 filterMatchMode="contains" filterBy="#{centroCostoPorCuenta.centroCosto.centroCosto}">
+                                    <h:outputText value="#{centroCostoPorCuenta.centroCosto.centroCosto}" />
                                 </p:column>
                                 
                                 <p:column headerText="Cuenta" sortBy="#{centroCostoPorCuenta.cuenta.nombre}"
                                 		 filterMatchMode="contains" filterBy="#{centroCostoPorCuenta.cuenta.nombre}">
-                                    <h:outputText value="#{centroCostoPorCuenta.cuenta.nombre}" />
+                                    <h:outputText value="#{centroCostoPorCuenta.cuenta.cuenta} - #{centroCostoPorCuenta.cuenta.nombre} " />
                                 </p:column>
 
                                 <p:column headerText="Sublink" sortBy="#{centroCostoPorCuenta.sublink.nombre}"
@@ -104,7 +104,7 @@
 	                                		value="#{centroCostoPorCuentaBB.selectedCentroCostoPorCuenta.centroCosto.id}">
 	                                    <f:selectItem itemLabel="Seleccione" itemValue="" />
 	                                    <f:selectItems value="#{centroCostoPorCuentaBB.lstCentroCosto}" var="cl"
-	                                    		itemValue="#{cl.id}" itemLabel="#{cl.nombre}" />
+	                                    		itemValue="#{cl.id}" itemLabel="#{cl.centroCosto}" />
 	                                </p:selectOneMenu>
 	                                
 	                                <p:outputLabel for="somCuentaU" value="Cuenta"/>
@@ -112,7 +112,7 @@
 	                                		value="#{centroCostoPorCuentaBB.selectedCentroCostoPorCuenta.cuenta.id}">
 	                                    <f:selectItem itemLabel="Seleccione" itemValue="" />
 	                                    <f:selectItems value="#{centroCostoPorCuentaBB.lstCuenta}" var="cl"
-	                                    		itemValue="#{cl.id}" itemLabel="#{cl.nombre}" />
+	                                    		itemValue="#{cl.id}" itemLabel="#{cl.cuenta} - #{cl.nombre}" />
 	                                </p:selectOneMenu>
 	                                
 	                                <p:outputLabel for="somSublkinkU" value="Sublink"/>

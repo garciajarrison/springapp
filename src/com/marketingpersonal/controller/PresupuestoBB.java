@@ -7,6 +7,7 @@ import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
+import org.primefaces.event.SelectEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
@@ -28,8 +29,10 @@ public class PresupuestoBB extends SpringBeanAutowiringSupport implements Serial
 	private Util util;
 	private Presupuesto presupuesto;
 	private Presupuesto selectedPresupuesto;
+	private Presupuesto detalle;
 	private List<Presupuesto> listaPresupuestos;
 	private ListasGenericas listasGenericas;
+	private boolean mostrarDetalle = false;
 	
 	public PresupuestoBB() {
 		util = Util.getInstance();
@@ -37,6 +40,11 @@ public class PresupuestoBB extends SpringBeanAutowiringSupport implements Serial
 		selectedPresupuesto = new Presupuesto();
 		listaPresupuestos = getPresupuestoService().getPresupuestos();
 		listasGenericas = ListasGenericas.getInstance();
+	}
+	
+	public void verDetalle(SelectEvent event) {
+		detalle = (Presupuesto) event.getObject();
+		mostrarDetalle = true;
 	}
 	
 	public void cambioTipo() {
@@ -163,5 +171,20 @@ public class PresupuestoBB extends SpringBeanAutowiringSupport implements Serial
 		this.listasGenericas = listasGenericas;
 	}
 
+	public Presupuesto getDetalle() {
+		return detalle;
+	}
+
+	public void setDetalle(Presupuesto detalle) {
+		this.detalle = detalle;
+	}
+
+	public boolean isMostrarDetalle() {
+		return mostrarDetalle;
+	}
+
+	public void setMostrarDetalle(boolean mostrarDetalle) {
+		this.mostrarDetalle = mostrarDetalle;
+	}
 
  }
