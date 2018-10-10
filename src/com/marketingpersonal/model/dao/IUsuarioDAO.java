@@ -30,5 +30,4 @@ public interface IUsuarioDAO {
 	UsuarioPorCentroCosto getUsuarioPorCentroCostoById(int id);
 
 	List<UsuarioPorCentroCosto> getUsuarioPorCentroCostos();
-	
 }

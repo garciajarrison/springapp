@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import com.marketingpersonal.model.entity.CentroCosto;
 import com.marketingpersonal.model.entity.CentroCostoPorCuenta;
-import com.marketingpersonal.model.entity.Usuario;
+
 
 @Repository
 public class CentroCostoDAO implements ICentroCostoDAO {
@@ -31,8 +31,9 @@ public class CentroCostoDAO implements ICentroCostoDAO {
 
 	public void deleteCentroCosto(CentroCosto entity) {
 		Session session = getSessionFactory().getCurrentSession();
+		//session.delete(entity);
 		session.createSQLQuery("delete from presupuestomd.centrocosto where id = :id")
-			.setParameter("id", entity.getId()).executeUpdate();
+				.setParameter("id", entity.getId()).executeUpdate();
 		session.flush();
 	}
 
@@ -66,8 +67,9 @@ public class CentroCostoDAO implements ICentroCostoDAO {
 
 	public void deleteCentroCostoPorCuenta(CentroCostoPorCuenta entity) {
 		Session session = getSessionFactory().getCurrentSession();
+		//session.delete(entity);
 		session.createSQLQuery("delete from presupuestomd.cuenta_x_centrocosto where id = :id")
-			.setParameter("id", entity.getId()).executeUpdate();
+		.setParameter("id", entity.getId()).executeUpdate();
 		session.flush();
 	}
 
@@ -89,25 +91,4 @@ public class CentroCostoDAO implements ICentroCostoDAO {
 		return (List<CentroCostoPorCuenta>) session.createQuery("from CentroCostoPorCuenta").list();
 	}
 	
-	public List<CentroCosto> getCentroCostoPorUsuario(int idUsuario) {
-		Session session = getSessionFactory().getCurrentSession();
-		return (List<CentroCosto>) session.createQuery("select c from UsuarioPorCentroCosto as u, "
-					+ "CentroCosto as c where u.centroCosto.id = c.id and u.usuarioResponsable.id = :id")
-					.setParameter("id", idUsuario).list();
-	}
-	
-	public Usuario getUsuarioAprobadorInicial(int idCentroCosto) {
-		Session session = getSessionFactory().getCurrentSession();
-		return (Usuario) session.createQuery("select u from UsuarioPorCentroCosto as c, "
-					+ "usuario as u where = u.id = c.usuarioAprobadorInicial.id and c.centroCosto.id  = :id")
-					.setParameter("id", idCentroCosto).uniqueResult();
-	}
-
-	public Usuario getUsuarioAprobadorFinal(int idCentroCosto) {
-		Session session = getSessionFactory().getCurrentSession();
-		return (Usuario) session.createQuery("select u from UsuarioPorCentroCosto as c, "
-					+ "usuario as u where = u.id = c.usuarioAprobadorFinal.id and c.centroCosto.id  = :id")
-					.setParameter("id", idCentroCosto).uniqueResult();
-	}
-
 }

@@ -54,11 +54,4 @@ public class CuentaDAO implements ICuentaDAO {
 		}
 	}
 
-	public List<Cuenta> getCuentaPorCentroCosto(int idCentroCosto) {
-		Session session = getSessionFactory().getCurrentSession();
-		return (List<Cuenta>) session.createQuery("select c from CentroCostoPorCuenta as u, "
-					+ "Cuenta as c where u.cuenta.id = c.id and u.centroCosto.id = :id")
-					.setParameter("id", idCentroCosto).list();
-	}
-	
 }

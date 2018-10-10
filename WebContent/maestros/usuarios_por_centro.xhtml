@@ -15,8 +15,8 @@
                     <div class="ui-g-12">
                     
                     	<div class="card">
-                            <h1>Maestro de Usuarios por Centro de Costo</h1>
-                            <p:panelGrid columns="2" columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4" layout="grid" styleClass="ui-panelgrid-blank" style="border:0px none; background-color:transparent;">
+                            <h1>Maestro de Usuarios por Centros de Costo</h1>
+                            <p:panelGrid id="pgUsuariosPorCentrosCosto" columns="2" columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4" layout="grid" styleClass="ui-panelgrid-blank" style="border:0px none; background-color:transparent;">
                                 
                                 <p:outputLabel for="somCentroCosto" value="Centro de Costo"/>
                                 <p:selectOneMenu id="somCentroCosto" filter="true"
@@ -50,7 +50,7 @@
                                     		var="cl" itemValue="#{cl.id}" itemLabel="#{cl.nombre}" />
                                 </p:selectOneMenu>
 
-                                <p:commandButton id="btnGuardar" value="Guardar" actionListener="#{usuarioPorCentroCostoBB.addUsuarioPorCentroCosto}" update="@form" icon="ui-icon-check fa fa-check Fs14 White" style="max-width:150px;"/>
+                                <p:commandButton id="btnGuardar" value="Guardar" actionListener="#{usuarioPorCentroCostoBB.addUsuarioPorCentroCosto}" update=":#{p:component('pgUsuariosPorCentrosCosto')} :#{p:component('tblUsuarioPorCentroCostos')}" icon="ui-icon-check fa fa-check Fs14 White" style="max-width:150px;"/>
                                                               
                             </p:panelGrid>
                             
@@ -64,12 +64,12 @@
                             		emptyMessage="No se encontraron registros."
 									scrollable="false" paginatorPosition="bottom"
 									rows="10" rowsPerPageTemplate="5,10,20,50"
-									currentPageReportTemplate="Páginas {totalPages}.  registros {totalRecords}"
+									currentPageReportTemplate="Páginas {totalPages} - Registros {totalRecords}"
 									paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" 
 									paginator="true">
                             		
                                 <f:facet name="header">
-                                    Usuarios Por Centro de Costo
+                                    Usuarios Por Centros de Costo
                                 </f:facet>
 
                                 <p:column headerText="Centro de costo" sortBy="#{usuarioPorCentroCosto.centroCosto.centroCosto}"
@@ -147,7 +147,7 @@
 							   	</h:panelGrid>
 							   	<br />
 						   	
-						   		<p:commandButton id="btnActualizarUsuarioPorCentroCosto" actionListener="#{usuarioPorCentroCostoBB.updateUsuarioPorCentroCosto}" update="@form" title="Actualizar" value="Actualizar" />
+						   		<p:commandButton id="btnActualizarUsuarioPorCentroCosto" actionListener="#{usuarioPorCentroCostoBB.updateUsuarioPorCentroCosto}" update=":#{p:component('dlgActualizar')} :#{p:component('tblUsuarioPorCentroCostos')}" title="Actualizar" value="Actualizar" />
 								
 					   		</div>
 						</p:dialog>		
@@ -161,6 +161,19 @@
 								<p:commandButton id="btnEliminarUsuarioPorCentroCosto" actionListener="#{usuarioPorCentroCostoBB.deleteUsuarioPorCentroCosto}" update="@form" title="Eliminar" value="Eliminar" />						   		
 					   		</div>
 						</p:dialog>	
+						
+						<div class="card">
+		                	<h1>Carga Archivo Plano de Usuarios por Centros de Costo</h1>
+		                    
+		                    <p:commandButton value="Descargar Archivo de Ejemplo" ajax="false"	onclick="PrimeFaces.monitorDownload(start, stop);"	icon="ui-icon-arrowthick-1-s" style="max-width:250px;">
+								<p:fileDownload value="#{usuarioPorCentroCostoBB.fileDescargar}" />
+							</p:commandButton>
+							
+							<br />
+							<br />	
+							
+		                    <p:fileUpload fileUploadListener="#{usuarioPorCentroCostoBB.uploadPlanoUsuariosPorCentroCosto}" mode="advanced" dragDropSupport="false" multiple="true" sizeLimit="1000000" fileLimit="3" allowTypes="/(\.|\/)(xlsx)$/" style="width:100%" />
+		                 </div>  
                         
                         
                     </div>                    

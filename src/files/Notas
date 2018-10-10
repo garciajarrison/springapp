@@ -1,5 +1,4 @@
 *************PENDIENTES:
-
 * Error al eliminar registro de maestro de centros de costo
 * Validar que al cargar plano de centros de costo no esten ingresando una gerencia, direccion o jefatura que no exista en los maestros
 * Mostrar detalle de registros duplicados al intentar cargar plano de centros de costo

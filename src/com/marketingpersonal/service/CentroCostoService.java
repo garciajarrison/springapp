@@ -9,7 +9,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.marketingpersonal.model.dao.ICentroCostoDAO;
 import com.marketingpersonal.model.entity.CentroCosto;
 import com.marketingpersonal.model.entity.CentroCostoPorCuenta;
-import com.marketingpersonal.model.entity.Usuario;
 
 
 @Service
@@ -18,14 +17,6 @@ public class CentroCostoService implements ICentroCostoService {
 
 	@Autowired
 	private ICentroCostoDAO entityDAO;
-	
-	public ICentroCostoDAO getEntityDAO() {
-		return entityDAO;
-	}
-
-	public void setEntityDAO(ICentroCostoDAO entityDAO) {
-		this.entityDAO = entityDAO;
-	}
 
 	@Transactional(readOnly = false)
 	public void addCentroCosto(CentroCosto entity) {
@@ -74,16 +65,12 @@ public class CentroCostoService implements ICentroCostoService {
 		return getEntityDAO().getCentroCostoPorCuentas();
 	}
 	
-	public List<CentroCosto> getCentroCostoPorUsuario(int idUsuario) {	
-		return getEntityDAO().getCentroCostoPorUsuario(idUsuario);
+	public ICentroCostoDAO getEntityDAO() {
+		return entityDAO;
 	}
 
-	public Usuario getUsuarioAprobadorInicial(int idCentroCosto) {
-		return getEntityDAO().getUsuarioAprobadorInicial(idCentroCosto);
+	public void setEntityDAO(ICentroCostoDAO entityDAO) {
+		this.entityDAO = entityDAO;
 	}
 
-	public Usuario getUsuarioAprobadorFinal(int idCentroCosto) {
-		return getEntityDAO().getUsuarioAprobadorFinal(idCentroCosto);
-	}
-	
 }

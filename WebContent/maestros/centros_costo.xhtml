@@ -51,7 +51,7 @@
                         </div>
                         
                         <div class="card">
-                            <h1>Listado de Centros de Costos</h1>
+                            <h1>Listado de Centros de Costo</h1>
                             <p:dataTable id="tblCentrosCosto" var="centroCosto" value="#{centroCostoBB.listaCentroCostos}" 
                             		reflow="true" selectionMode="single" rowKey="#{centroCosto.id}"
                             		emptyMessage="No se encontraron registros."
@@ -107,32 +107,32 @@
 									<h:outputLabel for="txtCentroCostoU" value="Centro de Costo" />
 									<p:inputText id="txtCentroCostoU" value="#{centroCostoBB.selectedCentroCosto.centroCosto}" maxlength="100"/>
 									
-									<p:outputLabel for="somGerencia2" value="Gerencia"/>
-	                                <p:selectOneMenu id="somGerencia2" value="#{centroCostoBB.selectedCentroCosto.gerencia.id}"
+									<p:outputLabel for="somGerenciaU" value="Gerencia"/>
+	                                <p:selectOneMenu id="somGerenciaU" value="#{centroCostoBB.selectedCentroCosto.gerencia.id}"
 	                                		 filter="true">
 	                                    <f:selectItem itemLabel="Seleccione" itemValue="" />
 	                                    <f:selectItems value="#{centroCostoBB.lstGerencias}" var="ger" 
 	                                    		itemLabel="#{ger.nombre}" itemValue="#{ger.id}" />
 	                                </p:selectOneMenu>
 	                                
-	                                <p:outputLabel for="somDireccion2" value="Dirección"/>
-	                                <p:selectOneMenu id="somDireccion2" value="#{centroCostoBB.selectedCentroCosto.direccion.id}"
+	                                <p:outputLabel for="somDireccionU" value="Dirección"/>
+	                                <p:selectOneMenu id="somDireccionU" value="#{centroCostoBB.selectedCentroCosto.direccion.id}"
 	                                		 filter="true">
 	                                    <f:selectItem itemLabel="Seleccione" itemValue="" />
 	                                    <f:selectItems value="#{centroCostoBB.lstDireccions}" var="dr" 
 	                                    		itemLabel="#{dr.nombre}" itemValue="#{dr.id}" />
 	                                </p:selectOneMenu>
 	                                
-	                                <p:outputLabel for="somJefatura2" value="Jefatura"/>
-	                                <p:selectOneMenu id="somJefatura2" value="#{centroCostoBB.selectedCentroCosto.jefatura.id}"
+	                                <p:outputLabel for="somJefaturaU" value="Jefatura"/>
+	                                <p:selectOneMenu id="somJefaturaU" value="#{centroCostoBB.selectedCentroCosto.jefatura.id}"
 	                                		 filter="true">
 	                                    <f:selectItem itemLabel="Seleccione" itemValue="" />
 	                                    <f:selectItems value="#{centroCostoBB.lstJefaturas}" var="jf" 
 	                                    		itemLabel="#{jf.nombre}" itemValue="#{jf.id}" />
 	                                </p:selectOneMenu>
 							   				
-							   		<h:outputLabel for="txtNombreU" value="Estado:"/>
-							   		<p:selectBooleanButton id="sbbEstado" offLabel="Inactivo" onLabel="Activo" value="#{centroCostoBB.selectedCentroCosto.estado}" />
+							   		<h:outputLabel for="txtEstadoU" value="Estado:"/>
+							   		<p:selectBooleanButton id="sbbEstadoU" offLabel="Inactivo" onLabel="Activo" value="#{centroCostoBB.selectedCentroCosto.estado}" />
 							   		
 							   	</h:panelGrid>
 							   	<br />
@@ -148,7 +148,7 @@
 								<strong>¿Está seguro de borrar el registro?</strong>
 								<br />
 								<br />
-								<p:commandButton id="btnEliminarCentroCosto" actionListener="#{centroCostoBB.deleteCentroCosto}" update=":#{p:component('tblCentrosCosto')}" title="Eliminar" value="Eliminar" />						   		
+								<p:commandButton id="btnEliminarCentroCosto" actionListener="#{centroCostoBB.deleteCentroCosto}" update="@form" title="Eliminar" value="Eliminar" />						   		
 					   		</div>
 						</p:dialog>	
 						

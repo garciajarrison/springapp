@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.marketingpersonal.model.entity.CentroCosto;
 import com.marketingpersonal.model.entity.CentroCostoPorCuenta;
-import com.marketingpersonal.model.entity.Usuario;
 
 
 public interface ICentroCostoDAO {
@@ -29,11 +28,5 @@ public interface ICentroCostoDAO {
 	CentroCostoPorCuenta getCentroCostoPorCuentaById(int id);
 
 	List<CentroCostoPorCuenta> getCentroCostoPorCuentas();
-
-	List<CentroCosto> getCentroCostoPorUsuario(int idUsuario);
-
-	Usuario getUsuarioAprobadorInicial(int idCentroCosto);
-
-	Usuario getUsuarioAprobadorFinal(int idCentroCosto);
 
 }
