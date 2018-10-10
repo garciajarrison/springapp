@@ -14,10 +14,8 @@ import com.marketingpersonal.common.Util;
 import com.marketingpersonal.model.entity.CentroCosto;
 import com.marketingpersonal.model.entity.CentroCostoPorCuenta;
 import com.marketingpersonal.model.entity.Cuenta;
-import com.marketingpersonal.model.entity.Sublink;
 import com.marketingpersonal.service.ICentroCostoService;
 import com.marketingpersonal.service.ICuentaService;
-import com.marketingpersonal.service.ISublinkService;
 
 @ManagedBean(name = "centroCostoPorCuentaBB")
 @ViewScoped
@@ -29,8 +27,6 @@ public class CentroCostoPorCuentaBB extends SpringBeanAutowiringSupport implemen
 	private ICentroCostoService centroCostoService;
 	@Autowired
 	private ICuentaService cuentaService;
-	@Autowired
-	private ISublinkService sublinkService;
 	private Util util;
 	private CentroCostoPorCuenta centroCostoPorCuenta;
 	private CentroCostoPorCuenta selectedCentroCostoPorCuenta;
@@ -38,7 +34,6 @@ public class CentroCostoPorCuentaBB extends SpringBeanAutowiringSupport implemen
 	
 	private List<CentroCosto> lstCentroCosto;
 	private List<Cuenta> lstCuenta;
-	private List<Sublink> lstSublink;
 	
 	public CentroCostoPorCuentaBB() {
 		util = Util.getInstance();
@@ -48,7 +43,6 @@ public class CentroCostoPorCuentaBB extends SpringBeanAutowiringSupport implemen
 		
 		lstCentroCosto = getCentroCostoService().getCentroCostos(true);
 		lstCuenta = getCuentaService().getCuentas(true);
-		lstSublink = getSublinkService().getSublinks(true);
 	}
 	
 	private boolean validar(CentroCostoPorCuenta cue) {
@@ -61,11 +55,6 @@ public class CentroCostoPorCuentaBB extends SpringBeanAutowiringSupport implemen
 		
 		if(cue.getCuenta().getId() <= 0) {
 			util.mostrarError("El campo Cuenta es requerido.");
-			permiteGuardar = false;
-		}
-		
-		if(cue.getSublink().getId() <= 0) {
-			util.mostrarError("El campo Sublink es requerido.");
 			permiteGuardar = false;
 		}
 		
@@ -162,14 +151,6 @@ public class CentroCostoPorCuentaBB extends SpringBeanAutowiringSupport implemen
 		this.cuentaService = cuentaService;
 	}
 
-	public ISublinkService getSublinkService() {
-		return sublinkService;
-	}
-
-	public void setSublinkService(ISublinkService sublinkService) {
-		this.sublinkService = sublinkService;
-	}
-
 	public List<CentroCosto> getLstCentroCosto() {
 		return lstCentroCosto;
 	}
@@ -184,14 +165,6 @@ public class CentroCostoPorCuentaBB extends SpringBeanAutowiringSupport implemen
 
 	public void setLstCuenta(List<Cuenta> lstCuenta) {
 		this.lstCuenta = lstCuenta;
-	}
-
-	public List<Sublink> getLstSublink() {
-		return lstSublink;
-	}
-
-	public void setLstSublink(List<Sublink> lstSublink) {
-		this.lstSublink = lstSublink;
 	}
 
  }

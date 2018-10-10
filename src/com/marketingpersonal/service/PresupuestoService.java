@@ -79,4 +79,9 @@ public class PresupuestoService implements IPresupuestoService {
 		getEntityDAO().addObservacion(entity);
 	}
 
+	@Transactional(readOnly = false)
+	public void actualizarEstadoPresupuesto(Presupuesto entity) {
+		getEntityDAO().actualizarEstadoPresupuesto(entity);
+	}
+
 }

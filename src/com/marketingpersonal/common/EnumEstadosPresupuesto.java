@@ -2,6 +2,7 @@ package com.marketingpersonal.common;
 
 public enum EnumEstadosPresupuesto {
 
+	PENDIENTE("PENDIENTE", "Pendiente de envio"),
 	ENVIADO("ENVIADO", "Enviado al aprobador inicial"),
 	RECHAZADO("RECHAZADO", "Rechazado aprobador incial"),
 	APROBADO("APROBADO", "Enviado al aprobador final"),

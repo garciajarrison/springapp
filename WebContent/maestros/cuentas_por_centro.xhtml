@@ -31,17 +31,9 @@
                                 		value="#{centroCostoPorCuentaBB.centroCostoPorCuenta.cuenta.id}">
                                     <f:selectItem itemLabel="Seleccione" itemValue="" />
                                     <f:selectItems value="#{centroCostoPorCuentaBB.lstCuenta}" var="cl"
-                                    		itemValue="#{cl.id}" itemLabel="#{cl.cuenta} - #{cl.nombre}" />
+                                    		itemValue="#{cl.id}" itemLabel="#{cl.cuentaNombre}" />
                                 </p:selectOneMenu>
                                 
-                                <p:outputLabel for="somSublkink" value="Sublink"/>
-                                <p:selectOneMenu id="somSublkink" filter="true"
-                                		value="#{centroCostoPorCuentaBB.centroCostoPorCuenta.sublink.id}">
-                                    <f:selectItem itemLabel="Seleccione" itemValue="" />
-                                    <f:selectItems value="#{centroCostoPorCuentaBB.lstSublink}" var="cl"
-                                    		itemValue="#{cl.id}" itemLabel="#{cl.nombre}" />
-                                </p:selectOneMenu>
-
                                 <p:commandButton id="btnGuardar" value="Guardar" actionListener="#{centroCostoPorCuentaBB.addCentroCostoPorCuenta}" update="@form" icon="ui-icon-check fa fa-check Fs14 White" style="max-width:150px;"/>
                                                           
                             </p:panelGrid>
@@ -74,11 +66,6 @@
                                     <h:outputText value="#{centroCostoPorCuenta.cuenta.cuenta} - #{centroCostoPorCuenta.cuenta.nombre} " />
                                 </p:column>
 
-                                <p:column headerText="Sublink" sortBy="#{centroCostoPorCuenta.sublink.nombre}"
-                                		 filterMatchMode="contains" filterBy="#{centroCostoPorCuenta.sublink.nombre}">
-                                     <h:outputText value="#{centroCostoPorCuenta.sublink.nombre}" />
-                                </p:column>
-                                
                                 <p:column headerText="Acciones">
                                     <p:splitButton value="Accion" icon="fa fa-edit">
 								        <p:menuitem value="Actualizar" actionListener="#{centroCostoPorCuentaBB.setSelectedCentroCostoPorCuenta(centroCostoPorCuenta)}"  
@@ -112,17 +99,9 @@
 	                                		value="#{centroCostoPorCuentaBB.selectedCentroCostoPorCuenta.cuenta.id}">
 	                                    <f:selectItem itemLabel="Seleccione" itemValue="" />
 	                                    <f:selectItems value="#{centroCostoPorCuentaBB.lstCuenta}" var="cl"
-	                                    		itemValue="#{cl.id}" itemLabel="#{cl.cuenta} - #{cl.nombre}" />
+	                                    		itemValue="#{cl.id}" itemLabel="#{cl.cuentaNombre}" />
 	                                </p:selectOneMenu>
 	                                
-	                                <p:outputLabel for="somSublkinkU" value="Sublink"/>
-	                                <p:selectOneMenu id="somSublkinkU" filter="true"
-	                                		value="#{centroCostoPorCuentaBB.selectedCentroCostoPorCuenta.sublink.id}">
-	                                    <f:selectItem itemLabel="Seleccione" itemValue="" />
-	                                    <f:selectItems value="#{centroCostoPorCuentaBB.lstSublink}" var="cl"
-	                                    		itemValue="#{cl.id}" itemLabel="#{cl.nombre}" />
-	                                </p:selectOneMenu>
-							   		
 							   	</h:panelGrid>
 							   	<br />
 						   	

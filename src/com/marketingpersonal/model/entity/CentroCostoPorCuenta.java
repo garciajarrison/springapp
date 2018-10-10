@@ -10,6 +10,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+
 @Entity
 @Table(name = "cuenta_x_centrocosto", schema = "presupuestoMD")
 public class CentroCostoPorCuenta implements java.io.Serializable {
@@ -18,12 +19,10 @@ public class CentroCostoPorCuenta implements java.io.Serializable {
 	private int id;
 	private CentroCosto centroCosto;
 	private Cuenta cuenta;
-	private Sublink sublink;
 	
 	public CentroCostoPorCuenta() {
 		centroCosto = new CentroCosto();
 		cuenta = new Cuenta();
-		sublink = new Sublink();
 	}
 
 	@Id
@@ -55,16 +54,6 @@ public class CentroCostoPorCuenta implements java.io.Serializable {
 
 	public void setCuenta(Cuenta cuenta) {
 		this.cuenta = cuenta;
-	}
-
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "id_sublink", nullable = false)
-	public Sublink getSublink() {
-		return sublink;
-	}
-
-	public void setSublink(Sublink sublink) {
-		this.sublink = sublink;
 	}
 	
 }

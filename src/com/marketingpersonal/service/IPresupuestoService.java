@@ -31,5 +31,7 @@ public interface IPresupuestoService {
 	List<PresupuestoDetalle> getPresupuestoDetalles();
 
 	void addObservacion(Observacion entity);
+
+	void actualizarEstadoPresupuesto(Presupuesto selectedPresupuesto);
 	
 }

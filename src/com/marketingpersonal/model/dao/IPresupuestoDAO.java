@@ -32,4 +32,6 @@ public interface IPresupuestoDAO {
 
 	void addObservacion(Observacion entity);
 
+	void actualizarEstadoPresupuesto(Presupuesto entity);
+
 }

@@ -16,6 +16,14 @@ public class CuentaService implements ICuentaService {
 
 	@Autowired
 	private ICuentaDAO entityDAO;
+	
+	public ICuentaDAO getEntityDAO() {
+		return entityDAO;
+	}
+
+	public void setEntityDAO(ICuentaDAO entityDAO) {
+		this.entityDAO = entityDAO;
+	}
 
 	@Transactional(readOnly = false)
 	public void addCuenta(Cuenta entity) {
@@ -40,12 +48,8 @@ public class CuentaService implements ICuentaService {
 		return getEntityDAO().getCuentas(activo);
 	}
 	
-	public ICuentaDAO getEntityDAO() {
-		return entityDAO;
+	public List<Cuenta> getCuentaPorCentroCosto(int idCuenta) {	
+		return getEntityDAO().getCuentaPorCentroCosto(idCuenta);
 	}
-
-	public void setEntityDAO(ICuentaDAO entityDAO) {
-		this.entityDAO = entityDAO;
-	}
-
+	
 }

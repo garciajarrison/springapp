@@ -1,5 +1,6 @@
 package com.marketingpersonal.model.entity;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -11,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name = "observacion", schema = "presupuestoMD")
@@ -82,6 +84,16 @@ public class Observacion implements java.io.Serializable {
 
 	public void setFecha(Date fecha) {
 		this.fecha = fecha;
+	}
+	
+	@Transient
+	public String getFechaTXT() {
+		if(this.fecha != null) {
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+			return sdf.format(this.fecha);
+		}else {
+			return "";
+		}
 	}
 
 	@Column(name = "estado")

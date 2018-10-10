@@ -9,6 +9,8 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -24,10 +26,17 @@ public class Presupuesto implements java.io.Serializable {
 	private Integer anio;
 	private Integer mesCampania;
 	private String estado = "PENDIENTE";
+	private CentroCosto centroCosto;
+	private Cuenta cuenta;
 	
 	private List<PresupuestoDetalle> detalle = new ArrayList<>();
 	private List<Observacion> observaciones = new ArrayList<>();
-
+	
+	public Presupuesto() {
+		this.centroCosto = new CentroCosto();
+		this.cuenta = new Cuenta();
+	}
+	
 	@Id
 	@GeneratedValue( strategy=GenerationType.IDENTITY)
 	@Column(columnDefinition = "serial", name = "id", unique = true, nullable = false)
@@ -110,6 +119,25 @@ public class Presupuesto implements java.io.Serializable {
 	public void setObservaciones(List<Observacion> observaciones) {
 		this.observaciones = observaciones;
 	}
-	
+
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "id_centrocosto", nullable = false)
+	public CentroCosto getCentroCosto() {
+		return centroCosto;
+	}
+
+	public void setCentroCosto(CentroCosto centroCosto) {
+		this.centroCosto = centroCosto;
+	}
+
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "id_cuenta", nullable = false)
+	public Cuenta getCuenta() {
+		return cuenta;
+	}
+
+	public void setCuenta(Cuenta cuenta) {
+		this.cuenta = cuenta;
+	}
 	
 }

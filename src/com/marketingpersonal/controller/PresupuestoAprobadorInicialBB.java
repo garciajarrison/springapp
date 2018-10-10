@@ -27,9 +27,9 @@ import com.marketingpersonal.service.ICentroCostoService;
 import com.marketingpersonal.service.ICuentaService;
 import com.marketingpersonal.service.IPresupuestoService;
 
-@ManagedBean(name = "presupuestoBB")
+@ManagedBean(name = "preAprIniBB")
 @ViewScoped
-public class PresupuestoBB extends SpringBeanAutowiringSupport implements Serializable {
+public class PresupuestoAprobadorInicialBB extends SpringBeanAutowiringSupport implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 
@@ -51,7 +51,7 @@ public class PresupuestoBB extends SpringBeanAutowiringSupport implements Serial
 	private List<CentroCosto> listaCentroCostos;
 	private List<Cuenta> listaCuentas;
 	
-	public PresupuestoBB() {
+	public PresupuestoAprobadorInicialBB() {
 		util = Util.getInstance();
 		presupuesto = new Presupuesto();
 		observacion = new Observacion();

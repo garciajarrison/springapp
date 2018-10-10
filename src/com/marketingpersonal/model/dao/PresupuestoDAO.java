@@ -86,4 +86,14 @@ public class PresupuestoDAO implements IPresupuestoDAO {
 		session.saveOrUpdate(entity);
 	}
 
+	public void actualizarEstadoPresupuesto(Presupuesto entity) {
+		Session session = getSessionFactory().getCurrentSession();
+		session.createSQLQuery("update presupuestoMD.presupuesto set estado = :estado where id = :id")
+			.setParameter("estado", entity.getEstado())
+			.setParameter("id", entity.getId())
+			.executeUpdate();
+		session.flush();
+		session.refresh(entity);
+	}
+
 }
