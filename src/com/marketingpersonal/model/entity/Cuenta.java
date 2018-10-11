@@ -6,6 +6,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name = "cuenta", schema = "presupuestoMD")
@@ -55,4 +56,8 @@ public class Cuenta implements java.io.Serializable {
 		this.estado = estado;
 	}
 
+	@Transient
+	public String getCuentaNombre() {
+		return cuenta + " - " + nombre;
+	}
 }

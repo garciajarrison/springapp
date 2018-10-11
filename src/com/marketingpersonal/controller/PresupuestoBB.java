@@ -121,6 +121,12 @@ public class PresupuestoBB extends SpringBeanAutowiringSupport implements Serial
 			permiteGuardar = false;
 		}
 		
+		if(pr.getClasificacion() == null || 
+				"".equals(pr.getClasificacion().trim())) {
+			util.mostrarError("El campo Clasificación es requerido.");
+			permiteGuardar = false;
+		}
+		
 		if(pr.getCentroCosto() == null || 
 				pr.getCentroCosto().getId() < 1) {
 			util.mostrarError("El campo Centro costo es requerido.");
