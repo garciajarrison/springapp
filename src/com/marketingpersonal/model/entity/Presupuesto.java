@@ -28,6 +28,7 @@ public class Presupuesto implements java.io.Serializable {
 	private String estado = "PENDIENTE";
 	private CentroCosto centroCosto;
 	private Cuenta cuenta;
+	private String clasificacion;
 	
 	private List<PresupuestoDetalle> detalle = new ArrayList<>();
 	private List<Observacion> observaciones = new ArrayList<>();
@@ -138,6 +139,14 @@ public class Presupuesto implements java.io.Serializable {
 
 	public void setCuenta(Cuenta cuenta) {
 		this.cuenta = cuenta;
+	}
+
+	public String getClasificacion() {
+		return clasificacion;
+	}
+
+	public void setClasificacion(String clasificacion) {
+		this.clasificacion = clasificacion;
 	}
 	
 }

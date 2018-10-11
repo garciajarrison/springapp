@@ -252,6 +252,7 @@ CREATE TABLE presupuestoMD.presupuesto
    nombre    		   CHARACTER VARYING (100) NULL,
    descripcion         CHARACTER VARYING (100) NULL,
    tipo                CHARACTER VARYING (20) NULL,
+   clasificacion       CHARACTER VARYING (20) NULL,
    anio				   INTEGER NOT NULL,
    mes_campania		   INTEGER NOT NULL,
    estado              CHARACTER VARYING (20) NULL DEFAULT 'PENDIENTE',

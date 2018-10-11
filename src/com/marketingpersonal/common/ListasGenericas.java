@@ -14,6 +14,7 @@ public class ListasGenericas {
 	private List<SelectItem> lstRoles;
 	private List<SelectItem> lstTipoPresupuesto;
 	private List<SelectItem> lstMeses;
+	private List<SelectItem> lstClasificacionPpto;
 	private Map<Integer, String> mapMeses;
 	private Map<String, String> mapEstados;
 	
@@ -70,6 +71,10 @@ public class ListasGenericas {
 		lstMeses.add(new SelectItem(10, "Octubre"));
 		lstMeses.add(new SelectItem(11, "Noviembre"));
 		lstMeses.add(new SelectItem(12, "Diciembre"));
+		
+		lstClasificacionPpto = new ArrayList<>();
+		lstClasificacionPpto.add(new SelectItem("Gasto", "Gasto"));
+		lstClasificacionPpto.add(new SelectItem("Inversión", "Inversión"));
 	}
 
 	public List<SelectItem> getLstCargos() {
@@ -94,6 +99,10 @@ public class ListasGenericas {
 	
 	public String getNombreEstado(String codEstado) {
 		return mapEstados.get(codEstado);
+	}
+
+	public List<SelectItem> getLstClasificacionPpto() {
+		return lstClasificacionPpto;
 	}
 
 }

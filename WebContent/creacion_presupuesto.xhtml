@@ -24,6 +24,13 @@
                                 <p:outputLabel for="txtDescripcion" value="Descripción"/>
                                 <p:inputText id="txtDescripcion" value="#{presupuestoBB.presupuesto.descripcion}" maxlength="100"/>
                                 
+                                <p:outputLabel for="selClasificacion" value="Clasificación"/>
+                                <p:selectOneMenu id="selClasificacion" value="#{presupuestoBB.presupuesto.clasificacion}"
+                                		 filter="true">
+                                    <f:selectItem itemLabel="Seleccione" itemValue="" />
+                                    <f:selectItems value="#{presupuestoBB.listasGenericas.lstClasificacionPpto}" />
+                                </p:selectOneMenu>
+                                
                                 <p:outputLabel for="selCentroCosto" value="Centro costo"/>
                                 <p:selectOneMenu id="selCentroCosto" value="#{presupuestoBB.presupuesto.centroCosto.id}"
                                 		 filter="true">
@@ -130,6 +137,11 @@
                                 <p:column headerText="Descripción" sortBy="#{presupuesto.descripcion}" width="40%"
                                 		 filterMatchMode="contains" filterBy="#{presupuesto.descripcion}">
                                     <h:outputText value="#{presupuesto.descripcion}" />
+                                </p:column>
+                                
+                                <p:column headerText="Clasificación" sortBy="#{presupuesto.clasificacion}" width="15%"
+                                		 filterMatchMode="contains" filterBy="#{presupuesto.clasificacion}">
+                                    <h:outputText value="#{presupuesto.clasificacion}" />
                                 </p:column>
                                 
                                 <p:column headerText="Centro costo" sortBy="#{presupuesto.centroCosto.centroCosto}" width="40%"
@@ -280,6 +292,13 @@
 									
 							   		<p:outputLabel for="txtDescripcionU" value="Descripción"/>
 	                                <p:inputText id="txtDescripcionU" value="#{presupuestoBB.selectedPresupuesto.descripcion}" maxlength="100"/>
+	                                
+	                                <p:outputLabel for="selClasificacion2" value="Clasificación"/>
+	                                <p:selectOneMenu id="selClasificacion2" value="#{presupuestoBB.selectedPresupuesto.clasificacion}"
+	                                		 filter="true">
+	                                    <f:selectItem itemLabel="Seleccione" itemValue="" />
+	                                    <f:selectItems value="#{presupuestoBB.listasGenericas.lstClasificacionPpto}" />
+	                                </p:selectOneMenu>
 	                                
 	                                <p:outputLabel for="selCentroCosto2" value="Centro costo"/>
 	                                <p:selectOneMenu id="selCentroCosto2" value="#{presupuestoBB.selectedPresupuesto.centroCosto.id}"
