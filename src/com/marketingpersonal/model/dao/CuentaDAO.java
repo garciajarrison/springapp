@@ -11,6 +11,7 @@ import com.marketingpersonal.model.entity.Cuenta;
 
 @Repository
 public class CuentaDAO implements ICuentaDAO {
+	
 	@Autowired
 	private SessionFactory sessionFactory;
 
@@ -52,6 +53,13 @@ public class CuentaDAO implements ICuentaDAO {
 		}else {
 			return (List<Cuenta>) session.createQuery("from Cuenta").list();
 		}
+	}
+
+	public List<Cuenta> getCuentaPorCentroCosto(int idCentroCosto) {
+		Session session = getSessionFactory().getCurrentSession();
+		return (List<Cuenta>) session.createQuery("select c from CentroCostoPorCuenta as u, "
+					+ "Cuenta as c where u.cuenta.id = c.id and u.centroCosto.id = :id")
+					.setParameter("id", idCentroCosto).list();
 	}
 
 }

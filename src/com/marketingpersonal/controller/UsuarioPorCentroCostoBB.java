@@ -218,7 +218,7 @@ public class UsuarioPorCentroCostoBB extends SpringBeanAutowiringSupport impleme
 	    this.file = file;
 	}
 	
-	public void uploadPlanoUsuarioPorCentroCosto(FileUploadEvent event) {
+	public void uploadPlanoUsuariosPorCentrosCosto(FileUploadEvent event) {
 		
 		try {
 			InputStream input = (InputStream) event.getFile().getInputstream();
@@ -252,7 +252,7 @@ public class UsuarioPorCentroCostoBB extends SpringBeanAutowiringSupport impleme
 		boolean permiteGuardar = true;
 		
 		//Validar numero de columnas del archvi
-		if(sheet.getRow(0).getPhysicalNumberOfCells() != 2) {
+		if(sheet.getRow(0).getPhysicalNumberOfCells() != 4) {
 			util.mostrarError("El número de columnas que tiene la hoja no es válido");
 			permiteGuardar = false;
 		}
@@ -271,8 +271,8 @@ public class UsuarioPorCentroCostoBB extends SpringBeanAutowiringSupport impleme
 				
 				idCentroCosto = getIdCentroCostoByCentroCosto(row.getCell(0)+"");
 				idResponsable = getIdUsuarioByUsuario(row.getCell(1)+"");
-				idAprobadorInicial = getIdUsuarioByUsuario(row.getCell(1)+"");
-				idAprobadorFinal = getIdUsuarioByUsuario(row.getCell(1)+"");
+				idAprobadorInicial = getIdUsuarioByUsuario(row.getCell(2)+"");
+				idAprobadorFinal = getIdUsuarioByUsuario(row.getCell(3)+"");
 				
 				if((usceco.getCentroCosto().getId()==idCentroCosto) 
 						&& (usceco.getUsuarioResponsable().getId()==idResponsable)

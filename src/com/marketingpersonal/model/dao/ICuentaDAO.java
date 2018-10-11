@@ -17,4 +17,6 @@ public interface ICuentaDAO {
 
 	List<Cuenta> getCuentas(boolean activo);
 
+	List<Cuenta> getCuentaPorCentroCosto(int idCuenta);
+
 }
