@@ -5,7 +5,7 @@
                 xmlns:p="http://primefaces.org/ui"
                 template="/WEB-INF/template.xhtml">
 
-    <ui:define name="title">Cuentas</ui:define>
+    <ui:define name="title">Calculadora</ui:define>
 
     <ui:define name="content">
 	<h:form>
@@ -13,95 +13,152 @@
             <div class="ui-fluid">
                 <div class="ui-g">
                     <div class="ui-g-12">
-                                                
+                        
                         <div class="card">
-                            <h1>Listado de Cuentas</h1>
-                            <p:dataTable id="tblCuentas" var="cuenta" value="#{cuentaBB.listaCuentas}" reflow="true" 
-                            		selectionMode="single" rowKey="#{cuenta.id}"
-                            		emptyMessage="No se encontraron registros."
-									scrollable="false" paginatorPosition="bottom"
-									rows="10" rowsPerPageTemplate="5,10,20,50"
-									currentPageReportTemplate="Páginas {totalPages} - Registros {totalRecords}"
-									paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" 
-									paginator="true">
-									
-                                <f:facet name="header">
-                                    Cuentas
-                                </f:facet>
-                                
-                                 <p:column headerText="Cuenta" sortBy="#{cuenta.cuenta}"
-                                		 filterMatchMode="contains" filterBy="#{cuenta.cuenta}">
-                                    <h:outputText value="#{cuenta.cuenta}" />
-                                </p:column>
-
-                                <p:column headerText="Nombre" sortBy="#{cuenta.nombre}"
-                                		 filterMatchMode="contains" filterBy="#{cuenta.nombre}">
-                                    <h:outputText value="#{cuenta.nombre}" />
-                                </p:column>
-
-                                <p:column headerText="Estado" sortBy="#{cuenta.estado}">
-                                     <h:outputText value="#{cuenta.estado ? 'Activo' : 'Inactivo'}" />
-                                </p:column>
-                                
-                                <p:column headerText="Acciones">
-                                    <p:splitButton value="Accion" icon="fa fa-edit">
-								        <p:menuitem value="Actualizar" actionListener="#{cuentaBB.setSelectedCuenta(cuenta)}"  
-								        			update=":#{p:component('dlgActualizar')} :#{p:component('tblCuentas')}" oncomplete="PF('dlgActualizar').show();"
-								        			icon="ui-icon-arrowrefresh-1-w" >
-								        	
-								        </p:menuitem>
-								        <p:menuitem value="Eliminar" actionListener="#{cuentaBB.setSelectedCuenta(cuenta)}" 
-								        			update=":#{p:component('dlgEliminar')}" oncomplete="PF('dlgEliminar').show();"
-								        			icon="ui-icon-close" >
-								        </p:menuitem>
-								    </p:splitButton>
-                                </p:column>
-                            </p:dataTable>
+                            <h1>Listado de Calculadoras</h1>
+                            
+                              <p:tabView>
+        						<p:tab title="Calculadora Campaña / Mes">
+		                            <p:dataTable id="tblCalculadoraCM" var="cal" value="#{calculadoraBB.listaCalculadoraCM}" reflow="true" 
+		                            		emptyMessage="No se encontraron registros."
+											paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" 
+											paginator="false">
+											
+		                                <f:facet name="header">
+		                                    Calculadora Campaña / Mes
+		                                </f:facet>
+		                                
+		                                 <p:column headerText="Campaña / Mes">
+		                                    <h:outputText value="C#{cal[0].campana}" />
+		                                </p:column>
+		
+		                                <p:column headerText="Enero">
+		                                    <p:inputNumber value="#{cal[0].porcentaje}" symbol="%" 
+		                                		symbolPosition="s" required="true" emptyValue="empty"/>
+		                                </p:column>
+		                                <p:column headerText="Febrero">
+		                                    <p:inputNumber value="#{cal[1].porcentaje}" symbol="%" 
+		                                		symbolPosition="s" required="true" emptyValue="empty"/>
+		                                </p:column>
+		                                <p:column headerText="Marzo">
+		                                    <p:inputNumber value="#{cal[2].porcentaje}" symbol="%" 
+		                                		symbolPosition="s" required="true" emptyValue="empty"/>
+		                                </p:column>
+		                                <p:column headerText="Abril">
+		                                    <p:inputNumber value="#{cal[3].porcentaje}" symbol="%" 
+		                                		symbolPosition="s" required="true" emptyValue="empty"/>
+		                                </p:column>
+		                                <p:column headerText="Mayo">
+		                                    <p:inputNumber value="#{cal[4].porcentaje}" symbol="%" 
+		                                		symbolPosition="s" required="true" emptyValue="empty"/>
+		                                </p:column>
+		                                <p:column headerText="Junio">
+		                                    <p:inputNumber value="#{cal[5].porcentaje}" symbol="%" 
+		                                		symbolPosition="s" required="true" emptyValue="empty"/>
+		                                </p:column>
+		                                <p:column headerText="Julio">
+		                                    <p:inputNumber value="#{cal[6].porcentaje}" symbol="%" 
+		                                		symbolPosition="s" required="true" emptyValue="empty"/>
+		                                </p:column>
+		                                <p:column headerText="Agosto">
+		                                    <p:inputNumber value="#{cal[7].porcentaje}" symbol="%" 
+		                                		symbolPosition="s" required="true" emptyValue="empty"/>
+		                                </p:column>
+		                                <p:column headerText="Septiembre">
+		                                    <p:inputNumber value="#{cal[8].porcentaje}" symbol="%" 
+		                                		symbolPosition="s" required="true" emptyValue="empty"/>
+		                                </p:column>
+		                                <p:column headerText="Octubre">
+		                                    <p:inputNumber value="#{cal[9].porcentaje}" symbol="%" 
+		                                		symbolPosition="s" required="true" emptyValue="empty"/>
+		                                </p:column>
+		                                <p:column headerText="Noviembre">
+		                                    <p:inputNumber value="#{cal[10].porcentaje}" symbol="%" 
+		                                		symbolPosition="s" required="true" emptyValue="empty"/>
+		                                </p:column>
+		                                <p:column headerText="Diciembre">
+		                                    <p:inputNumber value="#{cal[11].porcentaje}" symbol="%" 
+		                                		symbolPosition="s" required="true" emptyValue="empty"/>
+		                                </p:column>
+		                                
+		                                <p:column headerText="Total campaña">
+		                                   <p:outputLabel value="#{cal[12].porcentaje}%" />
+		                                </p:column>
+		                                
+		                            </p:dataTable>
+		                            <br/><br/><br/>
+		                    </p:tab>
+                            <p:tab title="Calculadora Mes / Campaña">
+	                            <p:dataTable id="tblCalculadoraMC" var="cal" value="#{calculadoraBB.listaCalculadoraMC}" reflow="true" 
+	                            		emptyMessage="No se encontraron registros."
+										paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" 
+										paginator="false">
+										
+	                                <f:facet name="header">
+	                                    Calculadora Mes / Campaña
+	                                </f:facet>
+	                                
+	                                 <p:column headerText="Mes / Campaña">
+	                                    <h:outputText value="C#{cal[0].campana}" rendered="{cal[0].campana ne 19}" />
+	                                    <h:outputText value="Total mes" rendered="{cal[0].campana eq 19}" />
+	                                </p:column>
+	
+	                                <p:column headerText="Enero">
+	                                    <p:inputNumber value="#{cal[0].porcentaje}" symbol="%" 
+	                                		symbolPosition="s" required="true" emptyValue="empty"/>
+	                                </p:column>
+	                                <p:column headerText="Febrero">
+	                                    <p:inputNumber value="#{cal[1].porcentaje}" symbol="%" 
+	                                		symbolPosition="s" required="true" emptyValue="empty"/>
+	                                </p:column>
+	                                <p:column headerText="Marzo">
+	                                    <p:inputNumber value="#{cal[2].porcentaje}" symbol="%" 
+	                                		symbolPosition="s" required="true" emptyValue="empty"/>
+	                                </p:column>
+	                                <p:column headerText="Abril">
+	                                    <p:inputNumber value="#{cal[3].porcentaje}" symbol="%" 
+	                                		symbolPosition="s" required="true" emptyValue="empty"/>
+	                                </p:column>
+	                                <p:column headerText="Mayo">
+	                                    <p:inputNumber value="#{cal[4].porcentaje}" symbol="%" 
+	                                		symbolPosition="s" required="true" emptyValue="empty"/>
+	                                </p:column>
+	                                <p:column headerText="Junio">
+	                                    <p:inputNumber value="#{cal[5].porcentaje}" symbol="%" 
+	                                		symbolPosition="s" required="true" emptyValue="empty"/>
+	                                </p:column>
+	                                <p:column headerText="Julio">
+	                                    <p:inputNumber value="#{cal[6].porcentaje}" symbol="%" 
+	                                		symbolPosition="s" required="true" emptyValue="empty"/>
+	                                </p:column>
+	                                <p:column headerText="Agosto">
+	                                    <p:inputNumber value="#{cal[7].porcentaje}" symbol="%" 
+	                                		symbolPosition="s" required="true" emptyValue="empty"/>
+	                                </p:column>
+	                                <p:column headerText="Septiembre">
+	                                    <p:inputNumber value="#{cal[8].porcentaje}" symbol="%" 
+	                                		symbolPosition="s" required="true" emptyValue="empty"/>
+	                                </p:column>
+	                                <p:column headerText="Octubre">
+	                                    <p:inputNumber value="#{cal[9].porcentaje}" symbol="%" 
+	                                		symbolPosition="s" required="true" emptyValue="empty"/>
+	                                </p:column>
+	                                <p:column headerText="Noviembre">
+	                                    <p:inputNumber value="#{cal[10].porcentaje}" symbol="%" 
+	                                		symbolPosition="s" required="true" emptyValue="empty"/>
+	                                </p:column>
+	                                <p:column headerText="Diciembre">
+	                                    <p:inputNumber value="#{cal[11].porcentaje}" symbol="%" 
+	                                		symbolPosition="s" required="true" emptyValue="empty"/>
+	                                </p:column>
+	                                
+	                            </p:dataTable>
+	                            <br/><br/><br/>
+	                         </p:tab>
+	                      </p:tabView>
+	                     
                         </div>
                         
-                        <p:dialog header="Actualizar" id="dlgActualizar" widgetVar="dlgActualizar" minHeight="40">
-							<div align="center">
-								<h:panelGrid columns="2" cellspacing="2" cellpadding="2">									
-									<p:outputLabel for="txtCuentaU" value="Cuenta"/>
-                                	<p:inputText id="txtCuentaU" value="#{cuentaBB.selectedCuenta.cuenta}" maxlength="100"/>
-                                	
-									<h:outputLabel for="txtNombreU" value="Nombre" />
-									<p:inputText id="txtNombreU" value="#{cuentaBB.selectedCuenta.nombre}" maxlength="100"/>
-									
-							   		<h:outputLabel for="sbbEstado" value="Estado:"/>
-							   		<p:selectBooleanButton id="sbbEstado" offLabel="Inactivo" onLabel="Activo" value="#{cuentaBB.selectedCuenta.estado}" />
-							   		
-							   	</h:panelGrid>
-							   	
-							   	<br />
-						   	
-						   		<p:commandButton id="btnActualizarCuenta" actionListener="#{cuentaBB.updateCuenta}" update=":#{p:component('dlgActualizar')} :#{p:component('tblCuentas')}" title="Actualizar" value="Actualizar" />
-								
-					   		</div>
-						</p:dialog>		
-		
-						<p:dialog header="Eliminar" id="dlgEliminar" widgetVar="dlgEliminar" minHeight="40">
-							<div align="center">
-								
-								<strong>¿Está seguro de borrar el registro?</strong>
-								<br />
-								<br />
-								<p:commandButton id="btnEliminarCuenta" actionListener="#{cuentaBB.deleteCuenta}" update="@form" title="Eliminar" value="Eliminar" />						   		
-					   		</div>
-						</p:dialog>	
-						
-						<div class="card">
-		                	<h1>Carga Archivo Plano de Cuentas</h1>
-		                    
-		                    <p:commandButton value="Descargar Archivo de Ejemplo" ajax="false"	onclick="PrimeFaces.monitorDownload(start, stop);"	icon="ui-icon-arrowthick-1-s" style="max-width:250px;">
-								<p:fileDownload value="#{cuentaBB.fileDescargar}" />
-							</p:commandButton>
-							
-							<br />
-							<br />	
-							
-		                    <p:fileUpload fileUploadListener="#{cuentaBB.uploadPlanoCuentas}" mode="advanced" dragDropSupport="false" multiple="true" sizeLimit="100000" fileLimit="3" allowTypes="/(\.|\/)(xlsx)$/" style="width:100%" />
-		                 </div> 
                     </div>                    
                 </div>
             </div>

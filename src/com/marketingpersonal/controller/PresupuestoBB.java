@@ -148,11 +148,6 @@ public class PresupuestoBB extends SpringBeanAutowiringSupport implements Serial
 				"".equals(pr.getTipo().trim())) {
 			util.mostrarError("El campo Tipo es requerido.");
 			permiteGuardar = false;
-			
-		}else if(pr.getMesCampania() == null || pr.getMesCampania() < 1) {
-			String tipo = ("Mensual".equals(pr.getTipo()) ? "Mes inicial" : "Campaña inicial");
-			util.mostrarError("El campo "+ tipo + " es requerido.");
-			permiteGuardar = false;
 		}
 		
 		return permiteGuardar;

@@ -4,6 +4,32 @@
 -- actualizacion de tabla presupuesto
 -- creacion de tabla observaciones
 
+
+-- -----------------------------------------------------
+-- Table presupuestoMD.calculadora
+-- -----------------------------------------------------
+-- DROP SEQUENCE presupuestoMD.calculadora_seq;
+CREATE SEQUENCE presupuestoMD.calculadora_seq;
+ALTER SEQUENCE presupuestoMD.calculadora_seq
+    OWNER TO postgres;
+    
+-- DROP TABLE presupuestoMD.calculadora ;
+CREATE TABLE presupuestoMD.calculadora
+(
+   id                  INTEGER NOT NULL DEFAULT nextval ('presupuestoMD.calculadora_seq'::regclass),
+   campana    		   INTEGER NULL,
+   mes         		   INTEGER NULL,
+   anio                INTEGER NULL,
+   tipo    			   CHARACTER VARYING (20) NULL,
+   porcentaje		   real null,
+   CONSTRAINT pk_calculadora PRIMARY KEY (id)
+)
+WITH (OIDS = FALSE);
+
+ALTER TABLE presupuestoMD.calculadora
+    OWNER to postgres;	 
+
+
 -- -----------------------------------------------------
 -- Schema PresupuestoMD
 -- -----------------------------------------------------
@@ -283,7 +309,7 @@ CREATE TABLE presupuestoMD.detalle_presupuesto
 (
    id                  INTEGER NOT NULL DEFAULT nextval ('presupuestoMD.detalle_presupuesto_seq'::regclass),
    id_presupuesto      INTEGER NOT NULL,
-   valor         	   INTEGER NOT NULL,
+   valor         	   double NOT NULL,
    CONSTRAINT pk_detalle_presupuesto PRIMARY KEY (id),
    CONSTRAINT fk_dt_presupuesto FOREIGN KEY (id_presupuesto)
         REFERENCES presupuestoMD.presupuesto (id) MATCH SIMPLE
