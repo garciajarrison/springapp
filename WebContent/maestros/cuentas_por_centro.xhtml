@@ -5,7 +5,7 @@
                 xmlns:p="http://primefaces.org/ui"
                 template="/WEB-INF/template.xhtml">
 
-    <ui:define name="title">CentroCostoPorCuentas</ui:define>
+    <ui:define name="title">Cuentas por Centros de Costo</ui:define>
 
     <ui:define name="content">
 	<h:form>
@@ -15,8 +15,16 @@
                     <div class="ui-g-12">
                         
                         <div class="card">
-                            <h1>Maestro de Cuentas por Centro de Costo</h1>
-                            <p:panelGrid columns="2" columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4" layout="grid" styleClass="ui-panelgrid-blank" style="border:0px none; background-color:transparent;">
+                            <h1>Maestro de Cuentas por Centros de Costo</h1>
+                            <p:panelGrid id="pgCuentasPorCentrosCosto" columns="2" columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4" layout="grid" styleClass="ui-panelgrid-blank" style="border:0px none; background-color:transparent;">
+                                
+                                <p:outputLabel for="somCuenta" value="Cuenta"/>
+                                <p:selectOneMenu id="somCuenta" filter="true"
+                                		value="#{centroCostoPorCuentaBB.centroCostoPorCuenta.cuenta.id}">
+                                    <f:selectItem itemLabel="Seleccione" itemValue="" />
+                                    <f:selectItems value="#{centroCostoPorCuentaBB.lstCuenta}" var="cl"
+                                    		itemValue="#{cl.id}" itemLabel="#{cl.cuenta} - #{cl.nombre}" />
+                                </p:selectOneMenu>
                                 
                                 <p:outputLabel for="somCentroCosto" value="Centro de Costo"/>
                                 <p:selectOneMenu id="somCentroCosto" filter="true"
@@ -26,50 +34,42 @@
                                     		itemValue="#{cl.id}" itemLabel="#{cl.centroCosto}" />
                                 </p:selectOneMenu>
                                 
-                                <p:outputLabel for="somCuenta" value="Cuenta"/>
-                                <p:selectOneMenu id="somCuenta" filter="true"
-                                		value="#{centroCostoPorCuentaBB.centroCostoPorCuenta.cuenta.id}">
-                                    <f:selectItem itemLabel="Seleccione" itemValue="" />
-                                    <f:selectItems value="#{centroCostoPorCuentaBB.lstCuenta}" var="cl"
-                                    		itemValue="#{cl.id}" itemLabel="#{cl.cuentaNombre}" />
-                                </p:selectOneMenu>
-                                
-                                <p:commandButton id="btnGuardar" value="Guardar" actionListener="#{centroCostoPorCuentaBB.addCentroCostoPorCuenta}" update="@form" icon="ui-icon-check fa fa-check Fs14 White" style="max-width:150px;"/>
+                                <p:commandButton id="btnGuardar" value="Guardar" actionListener="#{centroCostoPorCuentaBB.addCentroCostoPorCuenta}" update=":#{p:component('pgCuentasPorCentrosCosto')} :#{p:component('tblCuentasPorCentrosCosto')}" icon="ui-icon-check fa fa-check Fs14 White" style="max-width:150px;"/>
                                                           
                             </p:panelGrid>
                             
                         </div>
                         
                         <div class="card">
-                            <h1>Listado de Cuentas por Centro de Costo</h1>
-                            <p:dataTable id="tblCentroCostoPorCuentas" var="centroCostoPorCuenta" 
+                            <h1>Listado de Cuentas por Centros de Costo</h1>
+                            <p:dataTable id="tblCuentasPorCentrosCosto" var="centroCostoPorCuenta" 
                             		value="#{centroCostoPorCuentaBB.listaCentroCostoPorCuentas}" reflow="true" 
                             		selectionMode="single" rowKey="#{centroCostoPorCuenta.id}"
                             		emptyMessage="No se encontraron registros."
 									scrollable="false" paginatorPosition="bottom"
 									rows="10" rowsPerPageTemplate="5,10,20,50"
-									currentPageReportTemplate="Páginas {totalPages}.  registros {totalRecords}"
+									currentPageReportTemplate="Páginas {totalPages} - Registros {totalRecords}"
 									paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" 
 									paginator="true">
 									
                                 <f:facet name="header">
-                                    CentroCostoPorCuentas
+                                    Cuentas por Centros de Costo
                                 </f:facet>
 
-                                <p:column headerText="Centro de costos" sortBy="#{centroCostoPorCuenta.centroCosto.centroCosto}"
-                                		 filterMatchMode="contains" filterBy="#{centroCostoPorCuenta.centroCosto.centroCosto}">
-                                    <h:outputText value="#{centroCostoPorCuenta.centroCosto.centroCosto}" />
-                                </p:column>
-                                
                                 <p:column headerText="Cuenta" sortBy="#{centroCostoPorCuenta.cuenta.nombre}"
                                 		 filterMatchMode="contains" filterBy="#{centroCostoPorCuenta.cuenta.nombre}">
                                     <h:outputText value="#{centroCostoPorCuenta.cuenta.cuenta} - #{centroCostoPorCuenta.cuenta.nombre} " />
                                 </p:column>
 
+								<p:column headerText="Centro de Costo" sortBy="#{centroCostoPorCuenta.centroCosto.centroCosto}"
+                                		 filterMatchMode="contains" filterBy="#{centroCostoPorCuenta.centroCosto.centroCosto}">
+                                    <h:outputText value="#{centroCostoPorCuenta.centroCosto.centroCosto}" />
+                                </p:column>
+								                                
                                 <p:column headerText="Acciones">
                                     <p:splitButton value="Accion" icon="fa fa-edit">
 								        <p:menuitem value="Actualizar" actionListener="#{centroCostoPorCuentaBB.setSelectedCentroCostoPorCuenta(centroCostoPorCuenta)}"  
-								        			update=":#{p:component('dlgActualizar')} :#{p:component('tblCentroCostoPorCuentas')}" oncomplete="PF('dlgActualizar').show();"
+								        			update=":#{p:component('dlgActualizar')} :#{p:component('tblCuentasPorCentrosCosto')}" oncomplete="PF('dlgActualizar').show();"
 								        			icon="ui-icon-arrowrefresh-1-w" >
 								        	
 								        </p:menuitem>
@@ -86,26 +86,26 @@
 							<div align="center">
 								<h:panelGrid columns="2" cellspacing="2" cellpadding="2">
 									
-							   		<p:outputLabel for="somCentroCostoU" value="Centro de Costo"/>
+							   		<p:outputLabel for="somCuentaU" value="Cuenta"/>
+	                                <p:selectOneMenu id="somCuentaU" filter="true"
+	                                		value="#{centroCostoPorCuentaBB.selectedCentroCostoPorCuenta.cuenta.id}">
+	                                    <f:selectItem itemLabel="Seleccione" itemValue="" />
+	                                    <f:selectItems value="#{centroCostoPorCuentaBB.lstCuenta}" var="cl"
+	                                    		itemValue="#{cl.id}" itemLabel="#{cl.cuenta} - #{cl.nombre}" />
+	                                </p:selectOneMenu>
+	                                
+	                                <p:outputLabel for="somCentroCostoU" value="Centro de Costo"/>
 	                                <p:selectOneMenu id="somCentroCostoU" filter="true"
 	                                		value="#{centroCostoPorCuentaBB.selectedCentroCostoPorCuenta.centroCosto.id}">
 	                                    <f:selectItem itemLabel="Seleccione" itemValue="" />
 	                                    <f:selectItems value="#{centroCostoPorCuentaBB.lstCentroCosto}" var="cl"
 	                                    		itemValue="#{cl.id}" itemLabel="#{cl.centroCosto}" />
 	                                </p:selectOneMenu>
-	                                
-	                                <p:outputLabel for="somCuentaU" value="Cuenta"/>
-	                                <p:selectOneMenu id="somCuentaU" filter="true"
-	                                		value="#{centroCostoPorCuentaBB.selectedCentroCostoPorCuenta.cuenta.id}">
-	                                    <f:selectItem itemLabel="Seleccione" itemValue="" />
-	                                    <f:selectItems value="#{centroCostoPorCuentaBB.lstCuenta}" var="cl"
-	                                    		itemValue="#{cl.id}" itemLabel="#{cl.cuentaNombre}" />
-	                                </p:selectOneMenu>
-	                                
+	                                							   		
 							   	</h:panelGrid>
 							   	<br />
 						   	
-						   		<p:commandButton id="btnActualizarCentroCostoPorCuenta" actionListener="#{centroCostoPorCuentaBB.updateCentroCostoPorCuenta}" update="@form" title="Actualizar" value="Actualizar" />
+						   		<p:commandButton id="btnActualizarCentroCostoPorCuenta" actionListener="#{centroCostoPorCuentaBB.updateCentroCostoPorCuenta}" update=":#{p:component('dlgActualizar')} :#{p:component('tblCuentasPorCentrosCosto')}" title="Actualizar" value="Actualizar" />
 								
 					   		</div>
 						</p:dialog>		
@@ -120,7 +120,18 @@
 					   		</div>
 						</p:dialog>	
                         
-                        
+                        <div class="card">
+		                	<h1>Carga Archivo Plano de Cuentas por Centros de Costo</h1>
+		                    
+		                    <p:commandButton value="Descargar Archivo de Ejemplo" ajax="false"	onclick="PrimeFaces.monitorDownload(start, stop);"	icon="ui-icon-arrowthick-1-s" style="max-width:250px;">
+								<p:fileDownload value="#{centroCostoPorCuentaBB.fileDescargar}" />
+							</p:commandButton>
+							
+							<br />
+							<br />	
+							
+		                    <p:fileUpload fileUploadListener="#{centroCostoPorCuentaBB.uploadPlanoCentrosCostoPorCuenta}" mode="advanced" dragDropSupport="false" multiple="true" sizeLimit="1000000" fileLimit="3" allowTypes="/(\.|\/)(xlsx)$/" style="width:100%" />
+		                 </div>   
                     </div>                    
                 </div>
             </div>

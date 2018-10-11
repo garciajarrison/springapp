@@ -50,7 +50,8 @@ ALTER TABLE presupuestoMD.usuario
 
 -- datos
 insert into presupuestoMD.usuario  (numero_documento, nombre, usuario, correo, cargo, rol, estado)
-values ('1','Jarrison Garcia', 'jarrison','jarrison', 'Gerente XD', 'ADMON', true);
+values ('1','Jarrison Garcia', 'jarrison','jarrison', 'Administrador', 'Administrador', true);
+values ('2','Juan Monsalve', 'camilo','camilo', 'Administrador', 'Administrador', true);
 -- -----------------------------------------------------
 -- Table presupuestoMD.gerencia
 -- -----------------------------------------------------
@@ -322,3 +323,4 @@ WITH (OIDS = FALSE);
 
 ALTER TABLE presupuestoMD.observacion
     OWNER to postgres;
+ 

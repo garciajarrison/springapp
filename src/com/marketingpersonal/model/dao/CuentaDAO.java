@@ -11,6 +11,7 @@ import com.marketingpersonal.model.entity.Cuenta;
 
 @Repository
 public class CuentaDAO implements ICuentaDAO {
+	
 	@Autowired
 	private SessionFactory sessionFactory;
 
@@ -60,5 +61,5 @@ public class CuentaDAO implements ICuentaDAO {
 					+ "Cuenta as c where u.cuenta.id = c.id and u.centroCosto.id = :id")
 					.setParameter("id", idCentroCosto).list();
 	}
-	
+
 }

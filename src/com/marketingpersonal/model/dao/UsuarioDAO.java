@@ -54,7 +54,7 @@ public class UsuarioDAO implements IUsuarioDAO {
 				.createQuery("from Usuario where id=?").setParameter(0, id)
 				.uniqueResult();
 	}
-	
+
 	public List<Usuario> getUsuarios() {
 		Session session = getSessionFactory().getCurrentSession();
 		return session.createQuery("from Usuario").list();
@@ -68,7 +68,10 @@ public class UsuarioDAO implements IUsuarioDAO {
 
 	public void deleteUsuarioPorCentroCosto(UsuarioPorCentroCosto entity) {
 		Session session = getSessionFactory().getCurrentSession();
-		session.delete(entity);
+		//session.delete(entity);
+		session.createSQLQuery("delete from presupuestomd.usuario_x_centrocosto where id = :id")
+			.setParameter("id", entity.getId()).executeUpdate();
+		session.flush();
 	}
 
 	public void updateUsuarioPorCentroCosto(UsuarioPorCentroCosto entity) {
