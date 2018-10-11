@@ -38,7 +38,7 @@
                                 		 filter="true">
                                     <f:selectItem itemLabel="Seleccione" itemValue="" />
                                     <f:selectItems value="#{presupuestoBB.listaCuentas}" var="cc" 
-                                    		itemValue="#{cc.id}" itemLabel="#{cc.cuentaNombre}"/>
+                                    		itemValue="#{cc.id}" itemLabel="#{cc.cuenta} - #{cc.nombre}"/>
                                 </p:selectOneMenu>
                                 
                                 <p:outputLabel for="txtAnio" value="Año"/>
