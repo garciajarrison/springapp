@@ -29,7 +29,7 @@ public interface ICentroCostoService {
 	CentroCostoPorCuenta getCentroCostoPorCuentaById(int id);
 	
 	List<CentroCostoPorCuenta> getCentroCostoPorCuentas();
-	
+		
 	List<CentroCosto> getCentroCostoPorUsuario(int idUsuario);
 
 	Usuario getUsuarioAprobadorInicial(int idCentroCosto);

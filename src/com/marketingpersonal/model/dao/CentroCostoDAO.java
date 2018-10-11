@@ -11,6 +11,7 @@ import com.marketingpersonal.model.entity.CentroCosto;
 import com.marketingpersonal.model.entity.CentroCostoPorCuenta;
 import com.marketingpersonal.model.entity.Usuario;
 
+
 @Repository
 public class CentroCostoDAO implements ICentroCostoDAO {
 	@Autowired
@@ -109,5 +110,5 @@ public class CentroCostoDAO implements ICentroCostoDAO {
 					+ "usuario as u where = u.id = c.usuarioAprobadorFinal.id and c.centroCosto.id  = :id")
 					.setParameter("id", idCentroCosto).uniqueResult();
 	}
-
+	
 }

@@ -74,7 +74,7 @@
 							   	
 							   	<br />						   	
 						   		
-						   		<p:commandButton id="btnActualizarDireccion" actionListener="#{direccionBB.updateDireccion}" update=":#{p:component('dlgActualizar')} :#{p:component('tblDirecciones')}" title="Actualizar" value="Actualizar" />
+						   		<p:commandButton id="btnActualizarDireccion" actionListener="#{direccionBB.updateDireccion}" update="@form" title="Actualizar" value="Actualizar" />
 							</div>
 						</p:dialog>		
 		
