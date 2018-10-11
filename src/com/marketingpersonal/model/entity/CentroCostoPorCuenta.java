@@ -18,12 +18,10 @@ public class CentroCostoPorCuenta implements java.io.Serializable {
 	private int id;
 	private Cuenta cuenta;
 	private CentroCosto centroCosto;
-	//private Sublink sublink;
 	
 	public CentroCostoPorCuenta() {
 		centroCosto = new CentroCosto();
 		cuenta = new Cuenta();
-		//sublink = new Sublink();
 	}
 
 	@Id
@@ -57,15 +55,4 @@ public class CentroCostoPorCuenta implements java.io.Serializable {
 		this.centroCosto = centroCosto;
 	}
 
-	/*
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "id_sublink", nullable = false)
-	public Sublink getSublink() {
-		return sublink;
-	}
-
-	public void setSublink(Sublink sublink) {
-		this.sublink = sublink;
-	}*/
-	
 }
