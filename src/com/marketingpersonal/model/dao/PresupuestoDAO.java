@@ -9,7 +9,8 @@ import org.springframework.stereotype.Repository;
 
 import com.marketingpersonal.model.entity.Observacion;
 import com.marketingpersonal.model.entity.Presupuesto;
-import com.marketingpersonal.model.entity.PresupuestoDetalle;
+import com.marketingpersonal.model.entity.PresupuestoDetalleCampania;
+import com.marketingpersonal.model.entity.PresupuestoDetalleMes;
 
 @Repository
 public class PresupuestoDAO implements IPresupuestoDAO {
@@ -52,33 +53,33 @@ public class PresupuestoDAO implements IPresupuestoDAO {
 		return (List<Presupuesto>) session.createQuery("from Presupuesto").list();
 	}
 	
-	//Detalle
-	public void addPresupuestoDetalle(PresupuestoDetalle entity) {
+	//Detalle Mes
+	public void addPresupuestoDetalleMes(PresupuestoDetalleMes entity) {
 		Session session = getSessionFactory().getCurrentSession();
 		session.saveOrUpdate(entity);
 	}
 
-	public void deletePresupuestoDetalle(PresupuestoDetalle entity) {
+	public void deletePresupuestoDetalleMes(PresupuestoDetalleMes entity) {
 		Session session = getSessionFactory().getCurrentSession();
 		session.delete(entity);
 	}
 
-	public void updatePresupuestoDetalle(PresupuestoDetalle entity) {
+	public void updatePresupuestoDetalleMes(PresupuestoDetalleMes entity) {
 		Session session = getSessionFactory().getCurrentSession();
 		session.saveOrUpdate(entity);
 	}
 
-	public PresupuestoDetalle getPresupuestoDetalleById(int id) {
+	public PresupuestoDetalleMes getPresupuestoDetalleMesById(int id) {
 		Session session = getSessionFactory().getCurrentSession();
 		
-		return (PresupuestoDetalle) session
-				.createQuery("from PresupuestoDetalle where id=?").setParameter(0, id)
+		return (PresupuestoDetalleMes) session
+				.createQuery("from PresupuestoDetalleMes where id=?").setParameter(0, id)
 				.uniqueResult();
 	}
 
-	public List<PresupuestoDetalle> getPresupuestoDetalles() {
+	public List<PresupuestoDetalleMes> getPresupuestoDetallesMes() {
 		Session session = getSessionFactory().getCurrentSession();
-		return (List<PresupuestoDetalle>) session.createQuery("from PresupuestoDetalle").list();
+		return (List<PresupuestoDetalleMes>) session.createQuery("from PresupuestoDetalleMes").list();
 	}
 
 	public void addObservacion(Observacion entity) {
@@ -86,14 +87,53 @@ public class PresupuestoDAO implements IPresupuestoDAO {
 		session.saveOrUpdate(entity);
 	}
 
-	public void actualizarEstadoPresupuesto(Presupuesto entity) {
+	public void actualizarEstadoPresupuestoDetalleMes(PresupuestoDetalleMes entity) {
 		Session session = getSessionFactory().getCurrentSession();
-		session.createSQLQuery("update presupuestoMD.presupuesto set estado = :estado where id = :id")
+		session.createSQLQuery("update presupuestoMD.detalle_presupuesto_mes set estado = :estado where id = :id")
 			.setParameter("estado", entity.getEstado())
 			.setParameter("id", entity.getId())
 			.executeUpdate();
 		session.flush();
 		session.refresh(entity);
 	}
+	
+	//Detalle Campania
+		public void addPresupuestoDetalleCampania(PresupuestoDetalleCampania entity) {
+			Session session = getSessionFactory().getCurrentSession();
+			session.saveOrUpdate(entity);
+		}
+
+		public void deletePresupuestoDetalleCampania(PresupuestoDetalleCampania entity) {
+			Session session = getSessionFactory().getCurrentSession();
+			session.delete(entity);
+		}
+
+		public void updatePresupuestoDetalleCampania(PresupuestoDetalleCampania entity) {
+			Session session = getSessionFactory().getCurrentSession();
+			session.saveOrUpdate(entity);
+		}
+
+		public PresupuestoDetalleCampania getPresupuestoDetalleCampaniaById(int id) {
+			Session session = getSessionFactory().getCurrentSession();
+			
+			return (PresupuestoDetalleCampania) session
+					.createQuery("from PresupuestoDetalleCampania where id=?").setParameter(0, id)
+					.uniqueResult();
+		}
+
+		public List<PresupuestoDetalleCampania> getPresupuestoDetallesCampania() {
+			Session session = getSessionFactory().getCurrentSession();
+			return (List<PresupuestoDetalleCampania>) session.createQuery("from PresupuestoDetalleCampania").list();
+		}
+
+		public void actualizarEstadoPresupuestoDetalleCampania(PresupuestoDetalleCampania entity) {
+			Session session = getSessionFactory().getCurrentSession();
+			session.createSQLQuery("update presupuestoMD.detalle_presupuesto_campania set estado = :estado where id = :id")
+				.setParameter("estado", entity.getEstado())
+				.setParameter("id", entity.getId())
+				.executeUpdate();
+			session.flush();
+			session.refresh(entity);
+		}
 
 }

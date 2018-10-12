@@ -280,16 +280,12 @@ CREATE TABLE presupuestoMD.presupuesto
    descripcion         CHARACTER VARYING (100) NULL,
    tipo                CHARACTER VARYING (20) NULL,
    clasificacion       CHARACTER VARYING (20) NULL,
-   anio				   INTEGER NOT NULL,
-   mes_campania		   INTEGER NOT NULL,
-   estado              CHARACTER VARYING (20) NULL DEFAULT 'PENDIENTE',
-   id_centrocosto	   INTEGER NOT NULL,
-   id_cuenta		   INTEGER NOT NULL,
+   anio                INTEGER NOT NULL,	
+   fecha_creacion	   DATE NULL,
+   id_usuario	       INTEGER NOT NULL,
    CONSTRAINT pk_presupuesto PRIMARY KEY (id),
-   CONSTRAINT fk_prep_cuenta FOREIGN KEY (id_cuenta)
-        REFERENCES presupuestoMD.cuenta (id) MATCH SIMPLE,
-   CONSTRAINT fk_prep_ccosto FOREIGN KEY (id_cuenta)
-        REFERENCES presupuestoMD.centrocosto (id) MATCH SIMPLE
+   CONSTRAINT fk_prep_usuario FOREIGN KEY (id_usuario)
+        REFERENCES presupuestoMD.usuario (id) MATCH SIMPLE
 )
 WITH (OIDS = FALSE);
 
@@ -297,29 +293,114 @@ ALTER TABLE presupuestoMD.presupuesto
     OWNER to postgres;	 
 
 -- -----------------------------------------------------
--- Table presupuestoMD.presupuesto
+-- Table presupuestoMD.detalle_presupuesto_mes
 -- -----------------------------------------------------
--- DROP SEQUENCE presupuestoMD.detalle_presupuesto_seq;
-CREATE SEQUENCE presupuestoMD.detalle_presupuesto_seq;
-ALTER SEQUENCE presupuestoMD.detalle_presupuesto_seq
+-- DROP SEQUENCE presupuestoMD.detalle_presupuesto_mes_seq;
+CREATE SEQUENCE presupuestoMD.detalle_presupuesto_mes_seq;
+ALTER SEQUENCE presupuestoMD.detalle_presupuesto_mes_seq
     OWNER TO postgres;
     
--- DROP TABLE presupuestoMD.detalle_presupuesto ;
-CREATE TABLE presupuestoMD.detalle_presupuesto
+-- DROP TABLE presupuestoMD.detalle_presupuesto_mes ;
+CREATE TABLE presupuestoMD.detalle_presupuesto_mes
 (
-   id                  INTEGER NOT NULL DEFAULT nextval ('presupuestoMD.detalle_presupuesto_seq'::regclass),
+   id                  INTEGER NOT NULL DEFAULT nextval ('presupuestoMD.detalle_presupuesto_mes_seq'::regclass),
    id_presupuesto      INTEGER NOT NULL,
-   valor         	   double NOT NULL,
-   CONSTRAINT pk_detalle_presupuesto PRIMARY KEY (id),
-   CONSTRAINT fk_dt_presupuesto FOREIGN KEY (id_presupuesto)
-        REFERENCES presupuestoMD.presupuesto (id) MATCH SIMPLE
+   observacion    	   CHARACTER VARYING (200) NULL,	
+   valor_m1            double NOT NULL,
+   valor_m2            double NOT NULL,
+   valor_m3            double NOT NULL,
+   valor_m4            double NOT NULL,
+   valor_m5            double NOT NULL,
+   valor_m6            double NOT NULL,
+   valor_m7            double NOT NULL,
+   valor_m8            double NOT NULL,
+   valor_m9            double NOT NULL,
+   valor_m10           double NOT NULL,
+   valor_m11           double NOT NULL,
+   valor_m12           double NOT NULL,	
+   estado              CHARACTER VARYING (20) NULL DEFAULT 'PENDIENTE',
+   id_centrocosto	   INTEGER NOT NULL,
+   id_cuenta		   INTEGER NOT NULL,
+   id_usuario_aprini   INTEGER NOT NULL,
+   id_usuario_aprfin   INTEGER NOT NULL,
+   CONSTRAINT pk_detalle_presupuesto_mes PRIMARY KEY (id),
+   CONSTRAINT fk_detalle_presupuesto_mes FOREIGN KEY (id_presupuesto)
+        REFERENCES presupuestoMD.presupuesto (id) MATCH SIMPLE,
+   CONSTRAINT fk_detalle_presupuesto_mes_cuenta FOREIGN KEY (id_cuenta)
+        REFERENCES presupuestoMD.cuenta (id) MATCH SIMPLE,
+   CONSTRAINT fk_detalle_presupuesto_mes_centrocosto FOREIGN KEY (id_centrocosto)
+        REFERENCES presupuestoMD.centrocosto.(id) MATCH SIMPLE,
+   CONSTRAINT fk_detalle_presupuesto_mes_usuario_aprini FOREIGN KEY (id_usuario_aprini)
+        REFERENCES presupuestoMD.usuario (id) MATCH SIMPLE,
+   CONSTRAINT fk_detalle_presupuesto_mes_usuario_aprfin FOREIGN KEY (id_usuario_aprfin)
+        REFERENCES presupuestoMD.usuario (id) MATCH SIMPLE
 )
 WITH (OIDS = FALSE);
 
-ALTER TABLE presupuestoMD.detalle_presupuesto
-    OWNER to postgres;	
+ALTER TABLE presupuestoMD.detalle_presupuesto_mes
+    OWNER to postgres;
+	
+-- -----------------------------------------------------
+-- Table presupuestoMD.detalle_presupuesto_campania
+-- -----------------------------------------------------
+-- DROP SEQUENCE presupuestoMD.detalle_presupuesto_campania_seq;
+CREATE SEQUENCE presupuestoMD.detalle_presupuesto_campania_seq;
+ALTER SEQUENCE presupuestoMD.detalle_presupuesto_campania_seq
+    OWNER TO postgres;
     
-    
+-- DROP TABLE presupuestoMD.detalle_presupuesto_mes ;
+CREATE TABLE presupuestoMD.detalle_presupuesto_campania
+(
+   id                  INTEGER NOT NULL DEFAULT nextval ('presupuestoMD.detalle_presupuesto_campania_seq'::regclass),
+   id_presupuesto      INTEGER NOT NULL,
+   observacion    	   CHARACTER VARYING (200) NULL,	
+   valor_c1            double NOT NULL,
+   valor_c2            double NOT NULL,
+   valor_c3            double NOT NULL,
+   valor_c4            double NOT NULL,
+   valor_c5            double NOT NULL,
+   valor_c6            double NOT NULL,
+   valor_c7            double NOT NULL,
+   valor_c8            double NOT NULL,
+   valor_c9            double NOT NULL,
+   valor_c10           double NOT NULL,
+   valor_c11           double NOT NULL,
+   valor_c12           double NOT NULL,	
+   valor_c13           double NOT NULL,	
+   valor_c14           double NOT NULL,	
+   valor_c15           double NOT NULL,	
+   valor_c16           double NOT NULL,		
+   valor_c17           double NOT NULL,	
+   valor_c18           double NOT NULL,	
+   valor_c19           double NOT NULL,	
+   valor_c20           double NOT NULL,	
+   valor_c21           double NOT NULL,	
+   valor_c22           double NOT NULL,	
+   valor_c23           double NOT NULL,	
+   valor_c24           double NOT NULL,	
+   valor_c25           double NOT NULL,	
+   estado              CHARACTER VARYING (20) NULL DEFAULT 'PENDIENTE',
+   id_centrocosto	   INTEGER NOT NULL,
+   id_cuenta		   INTEGER NOT NULL,
+   id_usuario_aprini   INTEGER NOT NULL,
+   id_usuario_aprfin   INTEGER NOT NULL,
+   CONSTRAINT pk_detalle_presupuesto_campania PRIMARY KEY (id),
+   CONSTRAINT fk_detalle_presupuesto_campania FOREIGN KEY (id_presupuesto)
+        REFERENCES presupuestoMD.presupuesto (id) MATCH SIMPLE,
+   CONSTRAINT fk_detalle_presupuesto_campania_cuenta FOREIGN KEY (id_cuenta)
+        REFERENCES presupuestoMD.cuenta (id) MATCH SIMPLE,
+   CONSTRAINT fk_detalle_presupuesto_campania_ccosto FOREIGN KEY (id_centrocosto)
+        REFERENCES presupuestoMD.centrocosto (id) MATCH SIMPLE,
+   CONSTRAINT fk_detalle_presupuesto_campania_usuario_aprini FOREIGN KEY (id_usuario_aprini)
+        REFERENCES presupuestoMD.usuario (id) MATCH SIMPLE,
+   CONSTRAINT fk_detalle_presupuesto_campania_usuario_aprfin FOREIGN KEY (id_usuario_aprfin)
+        REFERENCES presupuestoMD.usuario (id) MATCH SIMPLE
+)
+WITH (OIDS = FALSE);
+
+ALTER TABLE presupuestoMD.detalle_presupuesto_campania
+    OWNER to postgres;
+	
 -- -----------------------------------------------------
 -- Table presupuestoMD.observacion
 -- -----------------------------------------------------
@@ -335,7 +416,8 @@ CREATE TABLE presupuestoMD.observacion
    observacion    	   CHARACTER VARYING (200) NULL,
    usuario_envia       INTEGER NOT NULL,
    usuario_recibe      INTEGER NOT NULL,
-   id_presupuesto      INTEGER NOT NULL,
+   id_detalle_presupuesto_mes  INTEGER NOT NULL,
+   id_detalle_presupuesto_campania  INTEGER NOT NULL,
    fecha			   DATE NOT NULL,
    estado              CHARACTER VARYING (20) NOT NULL,
    CONSTRAINT pk_observacion PRIMARY KEY (id),
@@ -343,11 +425,13 @@ CREATE TABLE presupuestoMD.observacion
         REFERENCES presupuestoMD.usuario (id) MATCH SIMPLE,
    CONSTRAINT fk_ob_usuario_rec FOREIGN KEY (usuario_recibe)
         REFERENCES presupuestoMD.usuario (id) MATCH SIMPLE,
-   CONSTRAINT fk_ob_presupuesto FOREIGN KEY (id_presupuesto)
-        REFERENCES presupuestoMD.presupuesto (id) MATCH SIMPLE
+   CONSTRAINT fk_ob_dt_prep_mes FOREIGN KEY (id_detalle_presupuesto_mes)
+        REFERENCES presupuestoMD.detalle_presupuesto_mes (id) MATCH SIMPLE,
+	CONSTRAINT fk_ob_dt_prep_campania FOREIGN KEY (id_detalle_presupuesto_campania)
+        REFERENCES presupuestoMD.detalle_presupuesto_campania (id) MATCH SIMPLE,
 )
 WITH (OIDS = FALSE);
 
 ALTER TABLE presupuestoMD.observacion
-    OWNER to postgres;
- 
+    OWNER to postgres;	
+	

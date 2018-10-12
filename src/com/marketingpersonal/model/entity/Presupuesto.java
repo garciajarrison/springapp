@@ -1,6 +1,7 @@
 package com.marketingpersonal.model.entity;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -23,19 +24,17 @@ public class Presupuesto implements java.io.Serializable {
 	private String nombre;
 	private String descripcion;
 	private String tipo;
-	private Integer anio;
-	private Integer mesCampania;
-	private String estado = "PENDIENTE";
-	private CentroCosto centroCosto;
-	private Cuenta cuenta;
 	private String clasificacion;
+	private Integer anio;
+	private Date fechaCreacion;
+	private Usuario usuario;
 	
-	private List<PresupuestoDetalle> detalle = new ArrayList<>();
+	private List<PresupuestoDetalleMes> detalleMes = new ArrayList<>();
+	private List<PresupuestoDetalleCampania> detalleCampania = new ArrayList<>();
 	private List<Observacion> observaciones = new ArrayList<>();
 	
 	public Presupuesto() {
-		this.centroCosto = new CentroCosto();
-		this.cuenta = new Cuenta();
+		this.usuario = new Usuario();
 	}
 	
 	@Id
@@ -57,6 +56,15 @@ public class Presupuesto implements java.io.Serializable {
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
+	
+	@Column(name = "descripcion")
+	public String getDescripcion() {
+		return descripcion;
+	}
+
+	public void setDescripcion(String descripcion) {
+		this.descripcion = descripcion;
+	}
 
 	@Column(name = "tipo")
 	public String getTipo() {
@@ -67,13 +75,13 @@ public class Presupuesto implements java.io.Serializable {
 		this.tipo = tipo;
 	}
 
-	@Column(name = "descripcion")
-	public String getDescripcion() {
-		return descripcion;
+	@Column(name = "clasificacion")
+	public String getClasificacion() {
+		return clasificacion;
 	}
 
-	public void setDescripcion(String descripcion) {
-		this.descripcion = descripcion;
+	public void setClasificacion(String clasificacion) {
+		this.clasificacion = clasificacion;
 	}
 
 	@Column(name = "anio")
@@ -85,31 +93,31 @@ public class Presupuesto implements java.io.Serializable {
 		this.anio = anio;
 	}
 
-	@Column(name = "mes_campania")
-	public Integer getMesCampania() {
-		return mesCampania;
+	@Column(name = "fecha_creacion")
+	public Date getFechaCreacion() {
+		return fechaCreacion;
 	}
 
-	public void setMesCampania(Integer mesCampania) {
-		this.mesCampania = mesCampania;
-	}
-
-	@Column(name = "estado")
-	public String getEstado() {
-		return estado;
-	}
-
-	public void setEstado(String estado) {
-		this.estado = estado;
+	public void setFechaCreacion(Date fechaCreacion) {
+		this.fechaCreacion = fechaCreacion;
 	}
 
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "presupuesto")
-	public List<PresupuestoDetalle> getDetalle() {
-		return detalle;
+	public List<PresupuestoDetalleMes> getDetalleMes() {
+		return detalleMes;
 	}
 
-	public void setDetalle(List<PresupuestoDetalle> detalle) {
-		this.detalle = detalle;
+	public void setDetalleMes(List<PresupuestoDetalleMes> detalleMes) {
+		this.detalleMes = detalleMes;
+	}
+	
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "presupuesto")
+	public List<PresupuestoDetalleCampania> getDetalleCampania() {
+		return detalleCampania;
+	}
+
+	public void setDetalleCampania(List<PresupuestoDetalleCampania> detalleCampania) {
+		this.detalleCampania = detalleCampania;
 	}
 
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "presupuesto")
@@ -119,34 +127,6 @@ public class Presupuesto implements java.io.Serializable {
 
 	public void setObservaciones(List<Observacion> observaciones) {
 		this.observaciones = observaciones;
-	}
-
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "id_centrocosto", nullable = false)
-	public CentroCosto getCentroCosto() {
-		return centroCosto;
-	}
-
-	public void setCentroCosto(CentroCosto centroCosto) {
-		this.centroCosto = centroCosto;
-	}
-
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "id_cuenta", nullable = false)
-	public Cuenta getCuenta() {
-		return cuenta;
-	}
-
-	public void setCuenta(Cuenta cuenta) {
-		this.cuenta = cuenta;
-	}
-
-	public String getClasificacion() {
-		return clasificacion;
-	}
-
-	public void setClasificacion(String clasificacion) {
-		this.clasificacion = clasificacion;
 	}
 	
 }

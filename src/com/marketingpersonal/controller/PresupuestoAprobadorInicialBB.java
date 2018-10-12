@@ -21,11 +21,13 @@ import com.marketingpersonal.model.entity.CentroCosto;
 import com.marketingpersonal.model.entity.Cuenta;
 import com.marketingpersonal.model.entity.Observacion;
 import com.marketingpersonal.model.entity.Presupuesto;
-import com.marketingpersonal.model.entity.PresupuestoDetalle;
+import com.marketingpersonal.model.entity.PresupuestoDetalleMes;
 import com.marketingpersonal.model.entity.Usuario;
+import com.marketingpersonal.model.entity.UsuarioPorCentroCosto;
 import com.marketingpersonal.service.ICentroCostoService;
 import com.marketingpersonal.service.ICuentaService;
 import com.marketingpersonal.service.IPresupuestoService;
+import com.marketingpersonal.service.IUsuarioService;
 
 @ManagedBean(name = "preAprIniBB")
 @ViewScoped
@@ -51,6 +53,14 @@ public class PresupuestoAprobadorInicialBB extends SpringBeanAutowiringSupport i
 	private List<CentroCosto> listaCentroCostos;
 	private List<Cuenta> listaCuentas;
 	
+	
+	@Autowired
+	private IUsuarioService usuarioService;
+	
+	private Usuario responsable;
+	private UsuarioPorCentroCosto usuarioPorCentroCosto;
+	private List<UsuarioPorCentroCosto> listaUsuarioPorCentroCostos;
+	
 	public PresupuestoAprobadorInicialBB() {
 		util = Util.getInstance();
 		presupuesto = new Presupuesto();
@@ -60,6 +70,11 @@ public class PresupuestoAprobadorInicialBB extends SpringBeanAutowiringSupport i
 		listasGenericas = ListasGenericas.getInstance();
 		usuario = (Usuario) Util.getInstance().getSessionAttribute(EnumSessionAttributes.USUARIO);
 		listaCentroCostos = this.getCentroCostoService().getCentroCostoPorUsuario(usuario.getId());
+		
+		
+		usuarioPorCentroCosto = new UsuarioPorCentroCosto();
+		listaUsuarioPorCentroCostos = getUsuarioService().getUsuarioPorCentroCostos();
+		
 	}
 	
 	public void verDetalle(SelectEvent event) {
@@ -69,7 +84,7 @@ public class PresupuestoAprobadorInicialBB extends SpringBeanAutowiringSupport i
 	
 	public void agregarRegistro1() {
 		try {
-			presupuesto.getDetalle().add(new PresupuestoDetalle());
+			presupuesto.getDetalle().add(new PresupuestoDetalleMes());
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
@@ -77,7 +92,7 @@ public class PresupuestoAprobadorInicialBB extends SpringBeanAutowiringSupport i
 	
 	public void agregarRegistro2() {
 		try {
-			detalle.getDetalle().add(new PresupuestoDetalle());
+			detalle.getDetalle().add(new PresupuestoDetalleMes());
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
@@ -103,11 +118,11 @@ public class PresupuestoAprobadorInicialBB extends SpringBeanAutowiringSupport i
 		presupuesto.setDetalle(new ArrayList<>());
 		if("Campañal".equals(presupuesto.getTipo())) {
 			for(int i = 0; i <= 17; i++) {
-				presupuesto.getDetalle().add(new PresupuestoDetalle());
+				presupuesto.getDetalle().add(new PresupuestoDetalleMes());
 			}
 		}else if("Mensual".equals(presupuesto.getTipo())) {
 			for(int i = 0; i <= 11; i++) {
-				presupuesto.getDetalle().add(new PresupuestoDetalle());
+				presupuesto.getDetalle().add(new PresupuestoDetalleMes());
 			}
 		}
 	}
@@ -180,7 +195,7 @@ public class PresupuestoAprobadorInicialBB extends SpringBeanAutowiringSupport i
 		try {
 			if(validar(presupuesto)) {
 				getPresupuestoService().addPresupuesto(presupuesto);
-				for(PresupuestoDetalle pd : presupuesto.getDetalle()) {
+				for(PresupuestoDetalleMes pd : presupuesto.getDetalle()) {
 					pd.setPresupuesto(presupuesto);
 					getPresupuestoService().addPresupuestoDetalle(pd);
 				}
@@ -197,7 +212,7 @@ public class PresupuestoAprobadorInicialBB extends SpringBeanAutowiringSupport i
 	
 	public void actualizarValores() {
 		try {
-			for(PresupuestoDetalle pd : detalle.getDetalle()) {
+			for(PresupuestoDetalleMes pd : detalle.getDetalle()) {
 				pd.setPresupuesto(presupuesto);
 				getPresupuestoService().addPresupuestoDetalle(pd);
 			}
@@ -356,6 +371,15 @@ public class PresupuestoAprobadorInicialBB extends SpringBeanAutowiringSupport i
 
 	public void setListaCuentas(List<Cuenta> listaCuentas) {
 		this.listaCuentas = listaCuentas;
+	}
+	
+	
+	public IUsuarioService getUsuarioService() {
+		return usuarioService;
+	}
+
+	public void setUsuarioService(IUsuarioService usuarioService) {
+		this.usuarioService = usuarioService;
 	}
 
  }

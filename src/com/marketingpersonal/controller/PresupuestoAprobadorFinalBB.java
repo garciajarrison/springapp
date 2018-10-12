@@ -21,7 +21,7 @@ import com.marketingpersonal.model.entity.CentroCosto;
 import com.marketingpersonal.model.entity.Cuenta;
 import com.marketingpersonal.model.entity.Observacion;
 import com.marketingpersonal.model.entity.Presupuesto;
-import com.marketingpersonal.model.entity.PresupuestoDetalle;
+import com.marketingpersonal.model.entity.PresupuestoDetalleMes;
 import com.marketingpersonal.model.entity.Usuario;
 import com.marketingpersonal.service.ICentroCostoService;
 import com.marketingpersonal.service.ICuentaService;
@@ -69,7 +69,7 @@ public class PresupuestoAprobadorFinalBB extends SpringBeanAutowiringSupport imp
 	
 	public void agregarRegistro1() {
 		try {
-			presupuesto.getDetalle().add(new PresupuestoDetalle());
+			presupuesto.getDetalle().add(new PresupuestoDetalleMes());
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
@@ -77,7 +77,7 @@ public class PresupuestoAprobadorFinalBB extends SpringBeanAutowiringSupport imp
 	
 	public void agregarRegistro2() {
 		try {
-			detalle.getDetalle().add(new PresupuestoDetalle());
+			detalle.getDetalle().add(new PresupuestoDetalleMes());
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
@@ -103,11 +103,11 @@ public class PresupuestoAprobadorFinalBB extends SpringBeanAutowiringSupport imp
 		presupuesto.setDetalle(new ArrayList<>());
 		if("Campañal".equals(presupuesto.getTipo())) {
 			for(int i = 0; i <= 17; i++) {
-				presupuesto.getDetalle().add(new PresupuestoDetalle());
+				presupuesto.getDetalle().add(new PresupuestoDetalleMes());
 			}
 		}else if("Mensual".equals(presupuesto.getTipo())) {
 			for(int i = 0; i <= 11; i++) {
-				presupuesto.getDetalle().add(new PresupuestoDetalle());
+				presupuesto.getDetalle().add(new PresupuestoDetalleMes());
 			}
 		}
 	}
@@ -180,7 +180,7 @@ public class PresupuestoAprobadorFinalBB extends SpringBeanAutowiringSupport imp
 		try {
 			if(validar(presupuesto)) {
 				getPresupuestoService().addPresupuesto(presupuesto);
-				for(PresupuestoDetalle pd : presupuesto.getDetalle()) {
+				for(PresupuestoDetalleMes pd : presupuesto.getDetalle()) {
 					pd.setPresupuesto(presupuesto);
 					getPresupuestoService().addPresupuestoDetalle(pd);
 				}
@@ -197,7 +197,7 @@ public class PresupuestoAprobadorFinalBB extends SpringBeanAutowiringSupport imp
 	
 	public void actualizarValores() {
 		try {
-			for(PresupuestoDetalle pd : detalle.getDetalle()) {
+			for(PresupuestoDetalleMes pd : detalle.getDetalle()) {
 				pd.setPresupuesto(presupuesto);
 				getPresupuestoService().addPresupuestoDetalle(pd);
 			}

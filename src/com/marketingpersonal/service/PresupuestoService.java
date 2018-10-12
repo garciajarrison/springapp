@@ -9,7 +9,8 @@ import org.springframework.transaction.annotation.Transactional;
 import com.marketingpersonal.model.dao.IPresupuestoDAO;
 import com.marketingpersonal.model.entity.Observacion;
 import com.marketingpersonal.model.entity.Presupuesto;
-import com.marketingpersonal.model.entity.PresupuestoDetalle;
+import com.marketingpersonal.model.entity.PresupuestoDetalleCampania;
+import com.marketingpersonal.model.entity.PresupuestoDetalleMes;
 
 
 @Service
@@ -50,38 +51,68 @@ public class PresupuestoService implements IPresupuestoService {
 		return getEntityDAO().getPresupuestos();
 	}
 	
-	//Detalle
+	//Detalle Mes
 	@Transactional(readOnly = false)
-	public void addPresupuestoDetalle(PresupuestoDetalle entity) {
-		getEntityDAO().addPresupuestoDetalle(entity);
-	}
-
-	@Transactional(readOnly = false)
-	public void deletePresupuestoDetalle(PresupuestoDetalle entity) {
-		getEntityDAO().deletePresupuestoDetalle(entity);
+	public void addPresupuestoDetalleMes(PresupuestoDetalleMes entity) {
+		getEntityDAO().addPresupuestoDetalleMes(entity);
 	}
 
 	@Transactional(readOnly = false)
-	public void updatePresupuestoDetalle(PresupuestoDetalle entity) {
-		getEntityDAO().updatePresupuestoDetalle(entity);
+	public void deletePresupuestoDetalleMes(PresupuestoDetalleMes entity) {
+		getEntityDAO().deletePresupuestoDetalleMes(entity);
 	}
 
-	public PresupuestoDetalle getPresupuestoDetalleById(int id) {
-		return getEntityDAO().getPresupuestoDetalleById(id);
+	@Transactional(readOnly = false)
+	public void updatePresupuestoDetalleMes(PresupuestoDetalleMes entity) {
+		getEntityDAO().updatePresupuestoDetalleMes(entity);
 	}
 
-	public List<PresupuestoDetalle> getPresupuestoDetalles() {	
-		return getEntityDAO().getPresupuestoDetalles();
+	public PresupuestoDetalleMes getPresupuestoDetalleMesById(int id) {
+		return getEntityDAO().getPresupuestoDetalleMesById(id);
+	}
+
+	public List<PresupuestoDetalleMes> getPresupuestoDetallesMes() {	
+		return getEntityDAO().getPresupuestoDetallesMes();
+	}
+	
+	@Transactional(readOnly = false)
+	public void actualizarEstadoPresupuestoDetalleMes(PresupuestoDetalleMes entity) {
+		getEntityDAO().actualizarEstadoPresupuestoDetalleMes(entity);
+	}
+	
+	//Detalle Campania
+	@Transactional(readOnly = false)
+	public void addPresupuestoDetalleCampania(PresupuestoDetalleCampania entity) {
+		getEntityDAO().addPresupuestoDetalleCampania(entity);
+	}
+
+	@Transactional(readOnly = false)
+	public void deletePresupuestoDetalleCampania(PresupuestoDetalleCampania entity) {
+		getEntityDAO().deletePresupuestoDetalleCampania(entity);
+	}
+
+	@Transactional(readOnly = false)
+	public void updatePresupuestoDetalleCampania(PresupuestoDetalleCampania entity) {
+		getEntityDAO().updatePresupuestoDetalleCampania(entity);
+	}
+
+	public PresupuestoDetalleCampania getPresupuestoDetalleCampaniaById(int id) {
+		return getEntityDAO().getPresupuestoDetalleCampaniaById(id);
+	}
+
+	public List<PresupuestoDetalleCampania> getPresupuestoDetallesCampania() {	
+		return getEntityDAO().getPresupuestoDetallesCampania();
+	}
+	
+	@Transactional(readOnly = false)
+	public void actualizarEstadoPresupuestoDetalleCampania(PresupuestoDetalleCampania entity) {
+		getEntityDAO().actualizarEstadoPresupuestoDetalleCampania(entity);
 	}
 	
 	@Transactional(readOnly = false)
 	public void addObservacion(Observacion entity) {
 		getEntityDAO().addObservacion(entity);
 	}
-
-	@Transactional(readOnly = false)
-	public void actualizarEstadoPresupuesto(Presupuesto entity) {
-		getEntityDAO().actualizarEstadoPresupuesto(entity);
-	}
+	
 
 }
