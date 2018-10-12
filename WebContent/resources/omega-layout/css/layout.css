@@ -1998,8 +1998,19 @@ html {
           top: 9px;
           right: 10px;
           color: #cccccc; } }
+          
 /* Login */
 .login-body {
+  background: url("#{resource['omega-layout:images/login_background.jpg']}"); 
+  background-size: cover;
+  background-repeat: no-repeat; 
+  background-attachment:fixed;
+  font-family: "latoregular", "Trebuchet MS", Arial, Helvetica, sans-serif;
+  font-size: 16px;
+  margin: 0;
+  padding: 120px 0 0 0;}
+  
+  .login-body-backup {
   height: 100%;
   font-family: "latoregular", "Trebuchet MS", Arial, Helvetica, sans-serif;
   font-size: 16px;
@@ -2021,14 +2032,13 @@ html {
   margin: 0 auto;
   text-align: center; }
   #login-wrapper #login-container {
-    margin-top: 20px;
+    margin-top: 30px;
     box-sizing: border-box;
     height: 300px;
-    background-color: #ffffff;
-    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
-    padding: 2em;
+    box-shadow: 0 1px 100px 0 rgba(0, 0, 0, 0.7);
+    padding: 3em;
     text-align: center;
-    color: #4f575b; }
+    color: #f7921e; }
     #login-wrapper #login-container .title {
       font-size: 20px;
       display: block;
@@ -2059,12 +2069,16 @@ html {
 
 @media (max-width: 40em) {
   .login-body {
-    padding-top: 50px; }
+  	background: url("#{resource['omega-layout:images/login_background_mobile.jpg']}"); 
+  	background-size: cover;
+  	background-repeat: no-repeat; 
+  	background-attachment:fixed;
+    padding-top: 120px; }
 
   #login-wrapper {
     width: 320px; }
     #login-wrapper #login-container {
-      height: 350px; } }
+      height: 100%; } }
 /* Exception */
 .exception-body {
   height: 100%;
