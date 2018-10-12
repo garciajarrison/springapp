@@ -60,17 +60,6 @@
                                     <p:ajax update="@form" listener="#{presupuestoBB.cambioTipo}" process="@form" />
                                 </p:selectOneMenu>
                                 
-                                <p:outputLabel rendered="#{not empty presupuestoBB.presupuesto.tipo}"
-                                		value="#{presupuestoBB.presupuesto.tipo eq 'Mensual' ? 'Mes inicial' : 'Campaña inicial'}"/>
-                                <p:selectOneMenu id="txtMesCam" value="#{presupuestoBB.presupuesto.mesCampania}"
-                                		 filter="true" rendered="#{not empty presupuestoBB.presupuesto.tipo and presupuestoBB.presupuesto.tipo eq 'Mensual'}">
-                                    <f:selectItem itemLabel="Seleccione" itemValue="" />
-                                    <f:selectItems value="#{presupuestoBB.listasGenericas.lstMeses}"  />
-                                </p:selectOneMenu>
-                                <p:inputNumber id="txtMesCam2" value="#{presupuestoBB.presupuesto.mesCampania}"
-                                		 maxValue="9999" size="10"
-                                		 rendered="#{not empty presupuestoBB.presupuesto.tipo and presupuestoBB.presupuesto.tipo eq 'Campañal'}"/>
-                                
                             </p:panelGrid>
                             
                             <div class="ui-g">
@@ -160,11 +149,6 @@
 
                                 <p:column headerText="Tipo" sortBy="#{presupuesto.tipo}" width="15%">
                                      <h:outputText value="#{presupuesto.tipo}" />
-                                </p:column>
-                                
-                                <p:column headerText="Mes/Campaña inicial" sortBy="#{presupuesto.mesCampania}" width="15%">
-                                     <h:outputText value="#{presupuesto.mesCampania}" rendered="#{presupuesto.tipo eq 'Campañal'}" />
-                                     <h:outputText value="#{presupuestoBB.listasGenericas.getNombreMes(presupuesto.mesCampania)}" rendered="#{presupuesto.tipo eq 'Mensual'}" />
                                 </p:column>
                                 
                                 <p:column headerText="Estado" sortBy="#{presupuesto.estado}" width="15%">
@@ -327,17 +311,6 @@
 	                                    <f:selectItem itemLabel="Seleccione" itemValue="" />
 	                                    <f:selectItems value="#{presupuestoBB.listasGenericas.lstTipoPresupuesto}" />
 	                                </p:selectOneMenu>
-	                                
-	                                <p:outputLabel rendered="#{not empty presupuestoBB.selectedPresupuesto.tipo}"
-	                                		value="#{presupuestoBB.selectedPresupuesto.tipo eq 'Mensual' ? 'Mes inicial' : 'Campaña inicial'}"/>
-	                                <p:selectOneMenu id="txtMesCam23" value="#{presupuestoBB.selectedPresupuesto.mesCampania}"
-	                                		 filter="true" rendered="#{not empty presupuestoBB.selectedPresupuesto.tipo and presupuestoBB.selectedPresupuesto.tipo eq 'Mensual'}">
-	                                    <f:selectItem itemLabel="Seleccione" itemValue="" />
-	                                    <f:selectItems value="#{presupuestoBB.listasGenericas.lstMeses}"  />
-	                                </p:selectOneMenu>
-	                                <p:inputNumber id="txtMesCam22" value="#{presupuestoBB.selectedPresupuesto.mesCampania}"
-	                                		 maxValue="9999" size="10"
-	                                		 rendered="#{not empty presupuestoBB.selectedPresupuesto.tipo and presupuestoBB.selectedPresupuesto.tipo eq 'Campañal'}"/>
 	                                
 							   	</h:panelGrid>
 							   	<br />
