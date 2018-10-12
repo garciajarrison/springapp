@@ -15,6 +15,6 @@ public interface ICalculadoraDAO {
 	
 	Calculadora getCalculadoraById(int id);
 
-	List<Calculadora> getCalculadoras();
+	List<Calculadora> getCalculadoras(String tipo);
 
 }

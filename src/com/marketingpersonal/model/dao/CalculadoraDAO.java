@@ -46,9 +46,10 @@ public class CalculadoraDAO implements ICalculadoraDAO {
 				.uniqueResult();
 	}
 
-	public List<Calculadora> getCalculadoras() {
+	public List<Calculadora> getCalculadoras(String tipo) {
 		Session session = getSessionFactory().getCurrentSession();
-		return (List<Calculadora>) session.createQuery("from Calculadora").list();
+		return (List<Calculadora>) session.createQuery("from Calculadora where tipo = :tipo")
+				.setParameter("tipo", tipo).list();
 	}
 
 }

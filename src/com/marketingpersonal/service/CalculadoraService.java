@@ -46,22 +46,20 @@ public class CalculadoraService implements ICalculadoraService {
 	}
 	
 	@Transactional(readOnly = false)
-	public List<Calculadora> getCalculadoras() {	
-		List<Calculadora> retorno = getEntityDAO().getCalculadoras();
+	public List<Calculadora> getCalculadoras(String tipo) {	
+		List<Calculadora> retorno = getEntityDAO().getCalculadoras(tipo);
 		
 		if(retorno == null || retorno.size() < 1) {
 			retorno = new ArrayList<>();
 			for(int c = 1; c <= 18; c++) {
 				for(int m = 1; m <=12; m++) {
-					this.addCalculadora(new Calculadora(c, m, 0d));
+					this.addCalculadora(new Calculadora(c, m, 0d, tipo));
 				}
 			}
-			retorno = getEntityDAO().getCalculadoras();
+			retorno = getEntityDAO().getCalculadoras(tipo);
 		}
 		
 		return retorno;
 	}
-	
-	
 	
 }

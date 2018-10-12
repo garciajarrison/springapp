@@ -15,6 +15,6 @@ public interface ICalculadoraService {
 	
 	Calculadora getCalculadoraById(int id);
 	
-	List<Calculadora> getCalculadoras();
+	List<Calculadora> getCalculadoras(String tipo);
 	
 }
