@@ -21,7 +21,8 @@ public class Observacion implements java.io.Serializable {
 	private String observacion;
 	private Usuario usuarioEnvia;
 	private Usuario usuarioRecibe;
-	private Presupuesto presupuesto;
+	private PresupuestoDetalleMes presupuestoDetalleMes;
+	private PresupuestoDetalleCampania presupuestoDetalleCampania;
 	private Date fecha;
 	private String estado;
 
@@ -66,13 +67,23 @@ public class Observacion implements java.io.Serializable {
 	}
 
 	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "id_presupuesto", nullable = false)
-	public Presupuesto getPresupuesto() {
-		return presupuesto;
+	@JoinColumn(name = "id_detalle_presupuesto_mes", nullable = false)
+	public PresupuestoDetalleMes getPresupuestoDetalleMes() {
+		return presupuestoDetalleMes;
 	}
 
-	public void setPresupuesto(Presupuesto presupuesto) {
-		this.presupuesto = presupuesto;
+	public void setPresupuestoDetalleMes(PresupuestoDetalleMes presupuestoDetalleMes) {
+		this.presupuestoDetalleMes = presupuestoDetalleMes;
+	}
+	
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "id_detalle_presupuesto_campania", nullable = false)
+	public PresupuestoDetalleCampania getPresupuestoDetalleCampania() {
+		return presupuestoDetalleCampania;
+	}
+
+	public void setPresupuestoDetalleCampania(PresupuestoDetalleCampania presupuestoDetalleCampania) {
+		this.presupuestoDetalleCampania = presupuestoDetalleCampania;
 	}
 
 	@Column(name = "fecha")

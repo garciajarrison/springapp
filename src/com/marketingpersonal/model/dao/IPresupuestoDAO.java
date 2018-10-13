@@ -4,7 +4,8 @@ import java.util.List;
 
 import com.marketingpersonal.model.entity.Observacion;
 import com.marketingpersonal.model.entity.Presupuesto;
-import com.marketingpersonal.model.entity.PresupuestoDetalle;
+import com.marketingpersonal.model.entity.PresupuestoDetalleCampania;
+import com.marketingpersonal.model.entity.PresupuestoDetalleMes;
 
 
 public interface IPresupuestoDAO {
@@ -19,19 +20,32 @@ public interface IPresupuestoDAO {
 
 	List<Presupuesto> getPresupuestos();
 	
-	//Detalle
-	void addPresupuestoDetalle(PresupuestoDetalle entity);
+	//Detalle Mes
+	void addPresupuestoDetalleMes(PresupuestoDetalleMes entity);
 
-	void updatePresupuestoDetalle(PresupuestoDetalle entity);
+	void updatePresupuestoDetalleMes(PresupuestoDetalleMes entity);
 	
-	void deletePresupuestoDetalle(PresupuestoDetalle entity);
+	void deletePresupuestoDetalleMes(PresupuestoDetalleMes entity);
 	
-	PresupuestoDetalle getPresupuestoDetalleById(int id);
+	PresupuestoDetalleMes getPresupuestoDetalleMesById(int id);
 
-	List<PresupuestoDetalle> getPresupuestoDetalles();
+	List<PresupuestoDetalleMes> getPresupuestoDetallesMes();
 
+	void actualizarEstadoPresupuestoDetalleMes(PresupuestoDetalleMes entity);
+	
+	//Detalle Campania
+	void addPresupuestoDetalleCampania(PresupuestoDetalleCampania entity);
+
+	void updatePresupuestoDetalleCampania(PresupuestoDetalleCampania entity);
+		
+	void deletePresupuestoDetalleCampania(PresupuestoDetalleCampania entity);
+		
+	PresupuestoDetalleCampania getPresupuestoDetalleCampaniaById(int id);
+
+	List<PresupuestoDetalleCampania> getPresupuestoDetallesCampania();
+
+	void actualizarEstadoPresupuestoDetalleCampania(PresupuestoDetalleCampania entity);
+	
 	void addObservacion(Observacion entity);
-
-	void actualizarEstadoPresupuesto(Presupuesto entity);
 
 }
