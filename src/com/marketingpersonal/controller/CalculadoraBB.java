@@ -110,7 +110,7 @@ public class CalculadoraBB extends SpringBeanAutowiringSupport implements Serial
 			int i = 1;
 			for(Calculadora[] objSuma : listaCalculadoraMC) {
 				
-				if(i == camapanaMaxima)
+				if(i > camapanaMaxima)
 					break;
 				
 				for(int m = 0; m <= 11; m++) {
