@@ -71,26 +71,15 @@
                                 					<p:outputLabel value="#{presupuestoBB.presupuesto.tipo eq 'Mensual' ? 'Mes ' : 'Campaña '} #{myVarStatus.index+1}"/>
                                 				</td></tr>
                                 				<tr><td align="center">
-                                					<p:inputNumber value="#{pr.valor}" size="20"/>
-                                				</td>
-                                				<td>
-                                					<p:commandButton id="btnEliminar11" value="X" 
-					                                	actionListener="#{presupuestoBB.eliminarRegistro1(myVarStatus.index)}" 
-					                                	update="@form" 
-					                                	style="max-width:150px;"/>
-                                				</td></tr>
+                                						<p:inputNumber value="#{pr.valor}" size="20"/>
+                                					</td>
+                                				</tr>
                                 			</table>
                                 		</div>
                                 	</div>
                                 </ui:repeat>
                                 
                                 <div class="ui-g-12">
-                                	<p:commandButton id="btnAddMes" value="Agregar Registro" 
-	                                	actionListener="#{presupuestoBB.agregarRegistro1}" 
-	                                	update="@form" icon="ui-icon-check fa fa-check Fs14 White" 
-	                                	style="max-width:150px;"
-	                                	rendered="#{not empty presupuestoBB.presupuesto.detalle}"/>
-                                	<p:spacer width="10px" height="0px" />
                                 	<p:commandButton id="btnGuardar" value="Guardar" 
 	                                	actionListener="#{presupuestoBB.addPresupuesto}" 
 	                                	update="@form" icon="ui-icon-check fa fa-check Fs14 White" 
@@ -192,25 +181,13 @@
 	                                				<tr><td align="center">
 	                                					<p:inputNumber value="#{det.valor}" readonly="#{presupuestoBB.detalle.estado eq 'PENDIENTE'}"/>
 	                                				</td>
-                                				<td>
-                                					<p:commandButton id="btnEliminar22" value="X" 
-                                						rendered="#{presupuestoBB.detalle.estado eq 'PENDIENTE'}"
-					                                	actionListener="#{presupuestoBB.eliminarRegistro2(myVarStatus.index)}" 
-					                                	update="@form" 
-					                                	style="max-width:150px;"/>
-                                				</td></tr>
+                                				</tr>
 	                                			</table>
 	                                		</div>
 		                            	</div>
 		                            </ui:repeat>
 		                            
 		                            <div class="ui-g-12">
-		                            	<p:commandButton id="btnAddMes2" value="Agregar Registro" 
-		                                	actionListener="#{presupuestoBB.agregarRegistro2}" 
-		                                	update="@form" icon="ui-icon-check fa fa-check Fs14 White" 
-		                                	rendered="#{presupuestoBB.detalle.estado eq 'PENDIENTE'}"
-		                                	style="max-width:150px;"/>
-	                                	<p:spacer width="10px" height="0px" />
 	                                	<p:commandButton id="btnGuardar2" value="Actualizar registros" 
 		                                	actionListener="#{presupuestoBB.actualizarValores}" 
 		                                	rendered="#{presupuestoBB.detalle.estado eq 'PENDIENTE'}"

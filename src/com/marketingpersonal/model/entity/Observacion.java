@@ -67,7 +67,7 @@ public class Observacion implements java.io.Serializable {
 	}
 
 	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "id_detalle_presupuesto_mes", nullable = false)
+	@JoinColumn(name = "id_detalle_presupuesto_mes")
 	public PresupuestoDetalleMes getPresupuestoDetalleMes() {
 		return presupuestoDetalleMes;
 	}
@@ -77,7 +77,7 @@ public class Observacion implements java.io.Serializable {
 	}
 	
 	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "id_detalle_presupuesto_campania", nullable = false)
+	@JoinColumn(name = "id_detalle_presupuesto_campania")
 	public PresupuestoDetalleCampania getPresupuestoDetalleCampania() {
 		return presupuestoDetalleCampania;
 	}

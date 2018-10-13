@@ -61,5 +61,23 @@ public class CalculadoraService implements ICalculadoraService {
 		
 		return retorno;
 	}
+
+	@Transactional(readOnly = false)
+	public void addCampaniaCalculadora(int campania) {
+		for(int m = 1; m <=12; m++) {
+			this.addCalculadora(new Calculadora(campania, m, 0d, "CM"));
+			this.addCalculadora(new Calculadora(campania, m, 0d, "MC"));
+		}
+	}
+
+	@Transactional(readOnly = false)
+	public void eliminarCampaniaCalculadora(int camapanaMaxima) {
+		getEntityDAO().eliminarCampaniaCalculadora(camapanaMaxima);
+	}
+
+	@Transactional(readOnly = false)
+	public void updateCalculadoras(List<Calculadora[]> listaCalculadora, String tipo, int camapanaMaxima) {
+		getEntityDAO().updateCalculadoras(listaCalculadora, tipo, camapanaMaxima);
+	}
 	
 }

@@ -17,4 +17,8 @@ public interface ICalculadoraDAO {
 
 	List<Calculadora> getCalculadoras(String tipo);
 
+	void eliminarCampaniaCalculadora(int camapanaMaxima);
+
+	void updateCalculadoras(List<Calculadora[]> listaCalculadora, String tipo, int camapanaMaxima);
+
 }

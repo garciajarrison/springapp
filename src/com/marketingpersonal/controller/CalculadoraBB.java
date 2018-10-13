@@ -28,61 +28,151 @@ public class CalculadoraBB extends SpringBeanAutowiringSupport implements Serial
 	private List<Calculadora> listaCalculadoras;
 	private List<Calculadora[]> listaCalculadoraCM;
 	private List<Calculadora[]> listaCalculadoraMC;
-	private int camapanaMaxima = 18;
+	private int camapanaMaxima;
 	
 	public CalculadoraBB() {
 		util = Util.getInstance();
 		calculadora = new Calculadora();
 		selectedCalculadora = new Calculadora();
-		listaCalculadoras = getCalculadoraService().getCalculadoras("CM");
-		
-		//Carga de calculadora campaña / mes
-		listaCalculadoraCM = new ArrayList<>();
-		Calculadora[] objTmp = new Calculadora[13];
-		int i = 1;
-		for(Calculadora cal : listaCalculadoras) {
-			if(i == 1) {
-				objTmp = new Calculadora[13];
-			}
-			
-			objTmp[i-1] = cal;
-			if(i == 12) {
-				//La posicion 13 es para el total
-				objTmp[i] = new Calculadora();
-				i = 0;
-				listaCalculadoraCM.add(objTmp);
-			}
-			i++;
-		}
-		
-		listaCalculadoras = getCalculadoraService().getCalculadoras("MC");
-		
-		//Carga de calculadora Mes / campaña
-		listaCalculadoraMC = new ArrayList<>();
-		objTmp = new Calculadora[12];
-		i = 1;
-		for(Calculadora cal : listaCalculadoras) {
-			if(i == 1) {
-				objTmp = new Calculadora[12];
-			}
-			
-			objTmp[i-1] = cal;
-			if(i == 12) {
-				i = 0;
-				listaCalculadoraMC.add(objTmp);
-			}
-			i++;
-		}
-		//La ultima fila es para totalizar
-		objTmp = new Calculadora[12];
-		for(int m = 1; m <= 12; m++) {
-			objTmp[m-1] = new Calculadora(19,m,0d,"MC");
-		}
-		listaCalculadoraMC.add(objTmp);
+		this.cargarListaCalculadora();
+		this.totalizar("CM");
+		this.totalizar("MC");
 	}
 	
-	public void totalizar(String tipo) {
+	public void cargarListaCalculadora() {
+		try {
+			listaCalculadoras = getCalculadoraService().getCalculadoras("CM");
+			
+			//Carga de calculadora campaña / mes
+			listaCalculadoraCM = new ArrayList<>();
+			Calculadora[] objTmp = new Calculadora[13];
+			int i = 1;
+			for(Calculadora cal : listaCalculadoras) {
+				if(i == 1) {
+					objTmp = new Calculadora[13];
+				}
+				
+				objTmp[i-1] = cal;
+				if(i == 12) {
+					//La posicion 13 es para el total
+					objTmp[i] = new Calculadora();
+					i = 0;
+					listaCalculadoraCM.add(objTmp);
+				}
+				i++;
+			}
+			
+			camapanaMaxima = listaCalculadoraCM.size();
+			
+			listaCalculadoras = getCalculadoraService().getCalculadoras("MC");
+			
+			//Carga de calculadora Mes / campaña
+			listaCalculadoraMC = new ArrayList<>();
+			objTmp = new Calculadora[12];
+			i = 1;
+			for(Calculadora cal : listaCalculadoras) {
+				if(i == 1) {
+					objTmp = new Calculadora[12];
+				}
+				
+				objTmp[i-1] = cal;
+				if(i == 12) {
+					i = 0;
+					listaCalculadoraMC.add(objTmp);
+				}
+				i++;
+			}
+			//La ultima fila es para totalizar
+			objTmp = new Calculadora[12];
+			for(int m = 1; m <= 12; m++) {
+				objTmp[m-1] = new Calculadora((camapanaMaxima+1),m,0d,"MC");
+			}
+			listaCalculadoraMC.add(objTmp);
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void agregarCampana() {
+		try {
+			
+			//Primer se guardan los cambios pendientes
+			this.guardarCampana("CM");
+			this.guardarCampana("MC");
+			camapanaMaxima = camapanaMaxima + 1;
+			
+			this.getCalculadoraService().addCampaniaCalculadora(camapanaMaxima);
+			
+			cargarListaCalculadora();
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void eliminarCampana() {
+		try {
+			
+			//Primer se guardan los cambios pendientes
+			this.guardarCampana("CM");
+			this.guardarCampana("MC");
+			
+			this.getCalculadoraService().eliminarCampaniaCalculadora(camapanaMaxima);
+			
+			cargarListaCalculadora();
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	private boolean validarCampanas() {
+		boolean continuar = true;
+		try {
+			//Validamos los totales CM
+			double total = 0;
+			for(Calculadora[] objSuma : listaCalculadoraCM) {
+				total = 0;
+				for(int m = 0; m <= 11; m++) {
+					total += objSuma[m].getPorcentaje();
+				}
+				if(total > 100) {
+					util.mostrarError("Hay porcentajes mayores al 100% en la calculadora Campaña / Mes.");
+					continuar = false;
+					break;
+				}
+			}
+			
+			//Validamos los totales MC
+			List<Double> totales = totalizar("MC");
+			for(Double dl : totales) {
+				if(dl > 100) {
+					util.mostrarError("Hay porcentajes mayores al 100% en la calculadora Mes / Campaña.");
+					continuar = false;
+					break;
+				}
+			}
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return continuar;
+	}
+	
+	public void guardarCampana(String tipo) {
+		try {
+			if(validarCampanas()) {
+				this.getCalculadoraService().updateCalculadoras(listaCalculadoraCM, "CM", camapanaMaxima);
+				this.getCalculadoraService().updateCalculadoras(listaCalculadoraMC, "MC", camapanaMaxima);
+			}
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public List<Double> totalizar(String tipo) {
 		
+		 List<Double> totales = new ArrayList<Double>();
 		if("CM".equals(tipo)) {
 			double total = 0;
 			for(Calculadora[] objSuma : listaCalculadoraCM) {
@@ -155,7 +245,22 @@ public class CalculadoraBB extends SpringBeanAutowiringSupport implements Serial
 			objSuma[9].setPorcentaje(total10);
 			objSuma[10].setPorcentaje(total11);
 			objSuma[11].setPorcentaje(total12);
+			
+			totales.add(total1);
+			totales.add(total2);
+			totales.add(total3);
+			totales.add(total4);
+			totales.add(total5);
+			totales.add(total6);
+			totales.add(total7);
+			totales.add(total8);
+			totales.add(total9);
+			totales.add(total10);
+			totales.add(total11);
+			totales.add(total12);
+			
 		}
+		return totales;
 	}
 	
 	public void guardar(String tipo) {

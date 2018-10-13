@@ -82,39 +82,8 @@ public class PresupuestoAprobadorInicialBB extends SpringBeanAutowiringSupport i
 		mostrarDetalle = true;
 	}
 	
-	public void agregarRegistro1() {
-		try {
-			presupuesto.getDetalle().add(new PresupuestoDetalleMes());
-		}catch(Exception e) {
-			e.printStackTrace();
-		}
-	}
 	
-	public void agregarRegistro2() {
-		try {
-			detalle.getDetalle().add(new PresupuestoDetalleMes());
-		}catch(Exception e) {
-			e.printStackTrace();
-		}
-	}
-	
-	public void eliminarRegistro1(int indice) {
-		try {
-			presupuesto.getDetalle().remove(indice);
-		}catch(Exception e) {
-			e.printStackTrace();
-		}
-	}
-	
-	public void eliminarRegistro2(int indice) {
-		try {
-			detalle.getDetalle().remove(indice);
-		}catch(Exception e) {
-			e.printStackTrace();
-		}
-	}
-	
-	public void cambioTipo() {
+	/*public void cambioTipo() {
 		presupuesto.setDetalle(new ArrayList<>());
 		if("Campañal".equals(presupuesto.getTipo())) {
 			for(int i = 0; i <= 17; i++) {
@@ -165,9 +134,9 @@ public class PresupuestoAprobadorInicialBB extends SpringBeanAutowiringSupport i
 		}
 		
 		return permiteGuardar;
-	}
+	}*/
 	
-	public void enviarPresupuestoAprobadorInicial(){
+	/*public void enviarPresupuestoAprobadorInicial(){
 		try {
 			selectedPresupuesto.setEstado(EnumEstadosPresupuesto.ENVIADO.getCodigo());
 			getPresupuestoService().actualizarEstadoPresupuesto(selectedPresupuesto);
@@ -220,9 +189,9 @@ public class PresupuestoAprobadorInicialBB extends SpringBeanAutowiringSupport i
 			e.printStackTrace();
 			util.mostrarError("Error guardando el registro.");
 		} 	
-	}
+	}*/
 
-	public void updatePresupuesto() {
+/*	public void updatePresupuesto() {
 		try {
 			if(validar(selectedPresupuesto)) {
 				getPresupuestoService().updatePresupuesto(selectedPresupuesto);
@@ -235,7 +204,7 @@ public class PresupuestoAprobadorInicialBB extends SpringBeanAutowiringSupport i
 			e.printStackTrace();
 			util.mostrarError("Error actualizando el registro.");
 		} 	
-	}
+	}*/
 	
 	public void deletePresupuesto() {
 		try {
@@ -249,7 +218,7 @@ public class PresupuestoAprobadorInicialBB extends SpringBeanAutowiringSupport i
 		} 	
 	}
 	
-	public void cargarListaCuentas(String actualiza) {
+	/*public void cargarListaCuentas(String actualiza) {
 		try {
 			Presupuesto prepTmp = null;
 			if("SI".equals(actualiza)) {
@@ -267,7 +236,7 @@ public class PresupuestoAprobadorInicialBB extends SpringBeanAutowiringSupport i
 		} catch (DataAccessException e) {
 			e.printStackTrace();
 		} 
-	}
+	}*/
 
 	public IPresupuestoService getPresupuestoService() {
 		return presupuestoService;

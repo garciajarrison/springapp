@@ -31,7 +31,6 @@ public class Presupuesto implements java.io.Serializable {
 	
 	private List<PresupuestoDetalleMes> detalleMes = new ArrayList<>();
 	private List<PresupuestoDetalleCampania> detalleCampania = new ArrayList<>();
-	private List<Observacion> observaciones = new ArrayList<>();
 	
 	public Presupuesto() {
 		this.usuario = new Usuario();
@@ -120,13 +119,5 @@ public class Presupuesto implements java.io.Serializable {
 		this.detalleCampania = detalleCampania;
 	}
 
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "presupuesto")
-	public List<Observacion> getObservaciones() {
-		return observaciones;
-	}
-
-	public void setObservaciones(List<Observacion> observaciones) {
-		this.observaciones = observaciones;
-	}
 	
 }

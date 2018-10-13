@@ -20,8 +20,26 @@
                         <div class="card">
                             <h1>Listado de Calculadoras</h1>
                             
+                            
+                            <p:commandButton id="btnCampana" value="Agregar Campaña" 
+	                               	actionListener="#{calculadoraBB.agregarCampana}" 
+	                               	update="@form" icon="ui-icon-check fa fa-check Fs14 White" 
+	                               	style="max-width:150px;"/>
+                               	
+                            <p:commandButton value="Eliminar Campaña"
+								      update=":#{p:component('dlgEliminar')}" 
+								      oncomplete="PF('dlgEliminar').show();"
+								      icon="ui-icon-close" style="max-width:150px;" />  	
+                               	
+	                        <p:commandButton id="btnGuardar" value="Guardar Campaña" 
+	                               	actionListener="#{calculadoraBB.guardarCampana}" 
+	                               	update="@form" icon="ui-icon-check fa fa-check Fs14 White" 
+	                               	style="max-width:150px;"/>
+                            
+                            
                               <p:tabView id="TabViewCal">
         						<p:tab title="Calculadora Campaña / Mes">
+        						
 		                            <p:dataTable id="tblCalculadoraCM" var="cal" value="#{calculadoraBB.listaCalculadoraCM}" reflow="true" 
 		                            		emptyMessage="No se encontraron registros."
 											paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" 
@@ -245,6 +263,20 @@
 	                            <br/><br/><br/>
 	                         </p:tab>
 	                      </p:tabView>
+	                     
+	                     <p:dialog header="Eliminar" id="dlgEliminar" widgetVar="dlgEliminar" minHeight="40">
+							<div align="center">
+								
+								<strong>¿Está seguro de borrar el registro?</strong>
+								<br />
+								<br />
+								<p:commandButton id="btnEliminarCampana" value="Eliminar Campaña" 
+	                               	actionListener="#{calculadoraBB.eliminarCampana}" 
+	                               	update="@form" icon="ui-icon-check fa fa-check Fs14 White" 
+	                               	style="max-width:150px;"/>
+					   		</div>
+						</p:dialog>	
+	                     
 	                     
                         </div>
                         

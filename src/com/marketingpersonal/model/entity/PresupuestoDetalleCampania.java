@@ -1,5 +1,8 @@
 package com.marketingpersonal.model.entity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -8,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -48,6 +52,8 @@ public class PresupuestoDetalleCampania implements java.io.Serializable {
 	private Cuenta cuenta;
 	private Usuario usuarioAprobadorInicial;
 	private Usuario usuarioAprobadorFinal;
+	
+	private List<Observacion> observaciones = new ArrayList<>();
 	
 	public PresupuestoDetalleCampania() {
 		presupuesto = new Presupuesto();
@@ -360,4 +366,12 @@ public class PresupuestoDetalleCampania implements java.io.Serializable {
 		this.usuarioAprobadorFinal = usuarioAprobadorFinal;
 	}
 
+	@OneToMany(fetch = FetchType.EAGER)
+	public List<Observacion> getObservaciones() {
+		return observaciones;
+	}
+
+	public void setObservaciones(List<Observacion> observaciones) {
+		this.observaciones = observaciones;
+	}
 }

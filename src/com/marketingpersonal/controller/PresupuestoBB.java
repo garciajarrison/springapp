@@ -67,39 +67,7 @@ public class PresupuestoBB extends SpringBeanAutowiringSupport implements Serial
 		mostrarDetalle = true;
 	}
 	
-	public void agregarRegistro1() {
-		try {
-			presupuesto.getDetalle().add(new PresupuestoDetalleMes());
-		}catch(Exception e) {
-			e.printStackTrace();
-		}
-	}
-	
-	public void agregarRegistro2() {
-		try {
-			detalle.getDetalle().add(new PresupuestoDetalleMes());
-		}catch(Exception e) {
-			e.printStackTrace();
-		}
-	}
-	
-	public void eliminarRegistro1(int indice) {
-		try {
-			presupuesto.getDetalle().remove(indice);
-		}catch(Exception e) {
-			e.printStackTrace();
-		}
-	}
-	
-	public void eliminarRegistro2(int indice) {
-		try {
-			detalle.getDetalle().remove(indice);
-		}catch(Exception e) {
-			e.printStackTrace();
-		}
-	}
-	
-	public void cambioTipo() {
+	/*public void cambioTipo() {
 		presupuesto.setDetalle(new ArrayList<>());
 		if("Campañal".equals(presupuesto.getTipo())) {
 			for(int i = 0; i <= 17; i++) {
@@ -110,7 +78,7 @@ public class PresupuestoBB extends SpringBeanAutowiringSupport implements Serial
 				presupuesto.getDetalle().add(new PresupuestoDetalleMes());
 			}
 		}
-	}
+	}*/
 	
 	private boolean validar(Presupuesto pr) {
 		boolean permiteGuardar = true;
@@ -124,18 +92,6 @@ public class PresupuestoBB extends SpringBeanAutowiringSupport implements Serial
 		if(pr.getClasificacion() == null || 
 				"".equals(pr.getClasificacion().trim())) {
 			util.mostrarError("El campo Clasificación es requerido.");
-			permiteGuardar = false;
-		}
-		
-		if(pr.getCentroCosto() == null || 
-				pr.getCentroCosto().getId() < 1) {
-			util.mostrarError("El campo Centro costo es requerido.");
-			permiteGuardar = false;
-		}
-		
-		if(pr.getCuenta() == null || 
-				pr.getCuenta().getId() < 1) {
-			util.mostrarError("El campo Cuenta es requerido.");
 			permiteGuardar = false;
 		}
 		
@@ -153,7 +109,7 @@ public class PresupuestoBB extends SpringBeanAutowiringSupport implements Serial
 		return permiteGuardar;
 	}
 	
-	public void enviarPresupuestoAprobadorInicial(){
+/*	public void enviarPresupuestoAprobadorInicial(){
 		try {
 			selectedPresupuesto.setEstado(EnumEstadosPresupuesto.ENVIADO.getCodigo());
 			getPresupuestoService().actualizarEstadoPresupuesto(selectedPresupuesto);
@@ -175,9 +131,9 @@ public class PresupuestoBB extends SpringBeanAutowiringSupport implements Serial
 			e.printStackTrace();
 			util.mostrarError("Error enviando el registro.");
 		} 	
-	}
+	}*/
 	
-	public void addPresupuesto() {
+	/*public void addPresupuesto() {
 		try {
 			if(validar(presupuesto)) {
 				getPresupuestoService().addPresupuesto(presupuesto);
@@ -194,9 +150,9 @@ public class PresupuestoBB extends SpringBeanAutowiringSupport implements Serial
 			e.printStackTrace();
 			util.mostrarError("Error guardando el registro.");
 		} 	
-	}
+	}*/
 	
-	public void actualizarValores() {
+	/*public void actualizarValores() {
 		try {
 			for(PresupuestoDetalleMes pd : detalle.getDetalle()) {
 				pd.setPresupuesto(presupuesto);
@@ -206,7 +162,7 @@ public class PresupuestoBB extends SpringBeanAutowiringSupport implements Serial
 			e.printStackTrace();
 			util.mostrarError("Error guardando el registro.");
 		} 	
-	}
+	}*/
 
 	public void updatePresupuesto() {
 		try {
@@ -235,7 +191,7 @@ public class PresupuestoBB extends SpringBeanAutowiringSupport implements Serial
 		} 	
 	}
 	
-	public void cargarListaCuentas(String actualiza) {
+	/*public void cargarListaCuentas(String actualiza) {
 		try {
 			Presupuesto prepTmp = null;
 			if("SI".equals(actualiza)) {
@@ -253,7 +209,7 @@ public class PresupuestoBB extends SpringBeanAutowiringSupport implements Serial
 		} catch (DataAccessException e) {
 			e.printStackTrace();
 		} 
-	}
+	}*/
 
 	public IPresupuestoService getPresupuestoService() {
 		return presupuestoService;
