@@ -44,7 +44,9 @@ public interface IPresupuestoDAO {
 	List<PresupuestoDetalleCampania> getPresupuestoDetallesCampania();
 
 	void actualizarEstadoPresupuestoDetalleCampania(PresupuestoDetalleCampania entity);
-	
-	//void addObservacion(Observacion entity);
 
+	List<PresupuestoDetalleMes> getPresupuestoDetallesMes(int idPresupuesto);
+
+	List<PresupuestoDetalleCampania> getPresupuestoDetallesCampania(int idPresupuesto);
+	
 }

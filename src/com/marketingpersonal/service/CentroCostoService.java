@@ -86,4 +86,8 @@ public class CentroCostoService implements ICentroCostoService {
 		return getEntityDAO().getUsuarioAprobadorFinal(idCentroCosto);
 	}
 
+	public List<CentroCosto> getCentroCostosPorCuenta(int idCuenta, int idUsuario) {
+		return getEntityDAO().getCentroCostosPorCuenta(idCuenta, idUsuario);
+	}
+
 }

@@ -36,4 +36,6 @@ public interface ICentroCostoDAO {
 
 	Usuario getUsuarioAprobadorFinal(int idCentroCosto);
 
+	List<CentroCosto> getCentroCostosPorCuenta(int idCuenta, int idUsuario);
+
 }

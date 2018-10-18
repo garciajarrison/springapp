@@ -135,4 +135,16 @@ public class PresupuestoDAO implements IPresupuestoDAO {
 			session.refresh(entity);
 		}
 
+		public List<PresupuestoDetalleMes> getPresupuestoDetallesMes(int idPresupuesto) {
+			Session session = getSessionFactory().getCurrentSession();
+			return (List<PresupuestoDetalleMes>) session.createQuery("from PresupuestoDetalleMes where presupuesto.id = :id")
+					.setParameter("id", idPresupuesto).list();
+		}
+
+		public List<PresupuestoDetalleCampania> getPresupuestoDetallesCampania(int idPresupuesto) {
+			Session session = getSessionFactory().getCurrentSession();
+			return (List<PresupuestoDetalleCampania>) session.createQuery("from PresupuestoDetalleCampania where presupuesto.id = :id")
+					.setParameter("id", idPresupuesto).list();
+		}
+
 }

@@ -203,7 +203,7 @@ public class PresupuestoAprobadorInicialBB extends SpringBeanAutowiringSupport i
 			e.printStackTrace();
 			util.mostrarError("Error actualizando el registro.");
 		} 	
-	}*/
+	}
 	
 	public void deletePresupuesto() {
 		try {
@@ -235,7 +235,7 @@ public class PresupuestoAprobadorInicialBB extends SpringBeanAutowiringSupport i
 		} catch (DataAccessException e) {
 			e.printStackTrace();
 		} 
-	}*/
+	}
 
 	public IPresupuestoService getPresupuestoService() {
 		return presupuestoService;

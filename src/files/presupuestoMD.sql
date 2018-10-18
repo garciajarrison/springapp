@@ -404,7 +404,7 @@ WITH (OIDS = FALSE);
 ALTER TABLE presupuestoMD.observacion
     OWNER to postgres;	
 								  
-								  -- -----------------------------------------------------
+ -- -----------------------------------------------------
 -- CAMBIOS
 -- -----------------------------------------------------
 -- actualizacion de tabla presupuesto

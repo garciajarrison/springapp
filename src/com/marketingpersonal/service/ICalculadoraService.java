@@ -22,5 +22,7 @@ public interface ICalculadoraService {
 	void eliminarCampaniaCalculadora(int camapanaMaxima);
 
 	void updateCalculadoras(List<Calculadora[]> listaCalculadora, String string, int camapanaMaxima);
+
+	int getCampanaMaxima();
 	
 }

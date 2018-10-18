@@ -107,11 +107,14 @@ public class PresupuestoService implements IPresupuestoService {
 	public void actualizarEstadoPresupuestoDetalleCampania(PresupuestoDetalleCampania entity) {
 		getEntityDAO().actualizarEstadoPresupuestoDetalleCampania(entity);
 	}
-	/*
-	@Transactional(readOnly = false)
-	public void addObservacion(Observacion entity) {
-		getEntityDAO().addObservacion(entity);
-	}*/
+
+	public List<PresupuestoDetalleMes> getPresupuestoDetallesMes(int idPresupuesto) {
+		return getEntityDAO().getPresupuestoDetallesMes(idPresupuesto);
+	}
+
+	public List<PresupuestoDetalleCampania> getPresupuestoDetallesCampania(int idPresupuesto) {
+		return getEntityDAO().getPresupuestoDetallesCampania(idPresupuesto);
+	}
 	
 
 }
