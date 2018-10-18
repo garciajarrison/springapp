@@ -2,7 +2,6 @@ package com.marketingpersonal.service;
 
 import java.util.List;
 
-import com.marketingpersonal.model.entity.Observacion;
 import com.marketingpersonal.model.entity.Presupuesto;
 import com.marketingpersonal.model.entity.PresupuestoDetalleCampania;
 import com.marketingpersonal.model.entity.PresupuestoDetalleMes;
@@ -46,6 +45,6 @@ public interface IPresupuestoService {
 
 	void actualizarEstadoPresupuestoDetalleCampania(PresupuestoDetalleCampania selectedPresupuesto);
 	
-	void addObservacion(Observacion entity);
+	//void addObservacion(Observacion entity);
 	
 }

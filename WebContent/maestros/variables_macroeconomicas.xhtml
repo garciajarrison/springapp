@@ -29,7 +29,7 @@
                                 <p:outputLabel for="txtImagen" value="Imagen"/>
                                 <p:fileUpload id="txtImagen" value="#{homeBB.imagen}"  mode="simple" skinSimple="true"
                                 	dragDropSupport="false" process="@form"
-           							update="@form" sizeLimit="100000" fileLimit="3" allowTypes="/(\.|\/)(gif|jpe?g|png)$/"
+           							update="@form" fileLimit="3" allowTypes="/(\.|\/)(gif|jpe?g|png)$/"
            							invalidFileMessage="El archivo no es valido"  
           							invalidSizeMessage="El archivo pesa mucho" 
           							fileLimitMessage="Supero el limite de archivos" 

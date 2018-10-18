@@ -3,6 +3,7 @@ package com.marketingpersonal.controller;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.faces.application.FacesMessage;
@@ -13,6 +14,7 @@ import javax.faces.context.FacesContext;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.hibernate.exception.ConstraintViolationException;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
@@ -24,6 +26,7 @@ import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 import com.marketingpersonal.common.ListasGenericas;
 import com.marketingpersonal.common.Util;
 import com.marketingpersonal.model.entity.Usuario;
+import com.marketingpersonal.model.entity.Validacion;
 import com.marketingpersonal.service.IUsuarioService;
 
 @ManagedBean(name = "usuarioBB")
@@ -40,7 +43,11 @@ public class UsuarioBB extends SpringBeanAutowiringSupport implements Serializab
 	private List<Usuario> listaUsuarios;
 	private ListasGenericas listasGenericas;
 	private UploadedFile file;
-	private StreamedContent fileDescargar;	
+	private StreamedContent fileDescargar;
+	
+	private Validacion validacion;
+	private List<Validacion> listaValidacion;
+	
 	
 	public UsuarioBB() {
 		util = Util.getInstance();
@@ -95,8 +102,10 @@ public class UsuarioBB extends SpringBeanAutowiringSupport implements Serializab
 				
 				//Validar que no exista un registro duplicado
 				for(Usuario usr : listaUsuarios) {
-					if(usr.getNumeroDocumento().equals(usuario.getNumeroDocumento())) {
-						guardar = false;						
+					if((usr.getNumeroDocumento().equals(usuario.getNumeroDocumento().trim())) ||
+							(usr.getUsuario().equals(usuario.getUsuario().trim())))	 {
+						guardar = false;
+						break;
 					}
 				}
 				
@@ -106,7 +115,7 @@ public class UsuarioBB extends SpringBeanAutowiringSupport implements Serializab
 					usuario = new Usuario();
 					util.mostrarMensaje("Registro agregado con éxito."); 
 				}else {
-					util.mostrarError("Ya existe un Usuario con el mismo Número de Documento");
+					util.mostrarError("Ya existe un usuario con el mismo Número de Documento o mismo Usuario");
 				}
 			}
 			
@@ -118,11 +127,28 @@ public class UsuarioBB extends SpringBeanAutowiringSupport implements Serializab
 	
 	public void updateUsuario() {
 		try {
-			if(validar(selectedUsuario)) {
-				getUsuarioService().updateUsuario(selectedUsuario);
-				listaUsuarios = getUsuarioService().getUsuarios();
-				selectedUsuario = new Usuario();
-				util.mostrarMensaje("Registro actualizado con éxito.");
+			boolean actualizar = true;
+			if(validar(selectedUsuario)) { 
+				
+				//Validar que no exista un registro duplicado
+				for(Usuario usr : listaUsuarios) {
+					if(usr.getId() != selectedUsuario.getId())	 {
+						if((usr.getNumeroDocumento().equals(selectedUsuario.getNumeroDocumento())) ||
+								(usr.getUsuario().equals(selectedUsuario.getUsuario())))	 {
+							actualizar = false;	
+							break;
+						}					
+					}					
+				}
+				
+				if(actualizar) {
+					getUsuarioService().updateUsuario(selectedUsuario);
+					listaUsuarios = getUsuarioService().getUsuarios();
+					selectedUsuario = new Usuario();
+					util.mostrarMensaje("Registro actualizado con éxito.");
+				}else {
+					util.mostrarError("Ya existe un usuario con el mismo Número de Documento o mismo Usuario");
+				}
 			}			
 		} catch (DataAccessException e) {
 			e.printStackTrace();
@@ -138,7 +164,11 @@ public class UsuarioBB extends SpringBeanAutowiringSupport implements Serializab
 			
 		} catch (DataAccessException e) {
 			e.printStackTrace();
-			util.mostrarError("Error eliminando el registro.");
+			if((e.toString()).contains("ConstraintViolationException")) {
+				util.mostrarError("Error eliminando el registro. No puede eliminar un usuario que tenga Centros de Costo asociados o Presupuestos realizados");
+			}else {
+				util.mostrarError("Error eliminando el registro.");
+			}
 		} 	
 	}
 
@@ -206,7 +236,7 @@ public class UsuarioBB extends SpringBeanAutowiringSupport implements Serializab
 			
 			XSSFSheet sheet = workbook.getSheetAt(0);
 						
-			if(validarArchivoPlano(sheet)) {
+			if(validarArchivoPlano(workbook)) {
 				insertarUsuarios(sheet);
 				
 				FacesMessage msg = new FacesMessage("Carga Archivo Plano de Usuarios", event.getFile().getFileName() + " fue cargado correctamente");
@@ -214,8 +244,6 @@ public class UsuarioBB extends SpringBeanAutowiringSupport implements Serializab
 			}
 			
 			workbook.close();
-			
-			
 			
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -229,13 +257,75 @@ public class UsuarioBB extends SpringBeanAutowiringSupport implements Serializab
         return fileDescargar;
     }
 	
-	private boolean validarArchivoPlano(XSSFSheet sheet) {
+	private boolean validarArchivoPlano(XSSFWorkbook workbook) {
 		boolean permiteGuardar = true;
 		
-		//Validar numero de columnas del archvi
-		if(sheet.getRow(0).getPhysicalNumberOfCells() != 6) {
-			util.mostrarError("El número de columnas que tiene la hoja no es válido");
-			permiteGuardar = false;
+		XSSFSheet sheet = workbook.getSheetAt(0);
+		
+		listaValidacion = new ArrayList<>();
+		
+		if (workbook.getNumberOfSheets() > 1) {
+			validacion = new Validacion();
+			validacion.setMensaje("El archivo de excel a cargar solo puede tener 1 hoja con los datos");
+			validacion.setFila("--");
+			validacion.setColumna("--");
+			listaValidacion.add(validacion);
+		}
+		
+		if (sheet.getPhysicalNumberOfRows() <= 1) {
+			validacion = new Validacion();
+			validacion.setMensaje("El archivo no contiene registros con datos");
+			validacion.setFila("--");
+			validacion.setColumna("--");
+			listaValidacion.add(validacion);
+		}
+		
+		if (!(sheet.getRow(0).getCell(0)).toString().trim().equals("Numero Documento")) {
+			validacion = new Validacion();
+			validacion.setMensaje("El encabezado de la primer columna debe ser Numero Documento");
+			validacion.setFila("1");
+			validacion.setColumna("A");
+			listaValidacion.add(validacion);
+		}
+
+		if (!(sheet.getRow(0).getCell(1)).toString().trim().equals("Nombre")) {
+			validacion = new Validacion();
+			validacion.setMensaje("El encabezado de la segunda columna debe ser Nombre");
+			validacion.setFila("1");
+			validacion.setColumna("B");
+			listaValidacion.add(validacion);
+		}
+
+		if (!(sheet.getRow(0).getCell(2).toString()).trim().equals("Usuario")) {
+			validacion = new Validacion();
+			validacion.setMensaje("El encabezado de la tercer columna debe ser Usuario");
+			validacion.setFila("1");
+			validacion.setColumna("C");
+			listaValidacion.add(validacion);
+		}
+
+		if (!(sheet.getRow(0).getCell(3).toString()).trim().equals("Correo")) {
+			validacion = new Validacion();
+			validacion.setMensaje("El encabezado de la cuarta columna debe ser Correo");
+			validacion.setFila("1");
+			validacion.setColumna("D");
+			listaValidacion.add(validacion);
+		}
+
+		if (!(sheet.getRow(0).getCell(4).toString()).trim().equals("Cargo")) {
+			validacion = new Validacion();
+			validacion.setMensaje("El encabezado de la quinta columna debe ser Cargo");
+			validacion.setFila("1");
+			validacion.setColumna("E");
+			listaValidacion.add(validacion);
+		}
+
+		if (!(sheet.getRow(0).getCell(5).toString()).trim().equals("Rol")) {
+			validacion = new Validacion();
+			validacion.setMensaje("El encabezado de la sexta columna debe ser Rol");
+			validacion.setFila("1");
+			validacion.setColumna("F");
+			listaValidacion.add(validacion);
 		}
 		
 		//Validar que no existe un usuario creado con el numero de documento
@@ -244,11 +334,40 @@ public class UsuarioBB extends SpringBeanAutowiringSupport implements Serializab
 			for (int fila = 1; fila < sheet.getPhysicalNumberOfRows(); fila++) {
 				row = sheet.getRow(fila);				
 				if(usr.getNumeroDocumento().equals(row.getCell(0)+"")) {
-					util.mostrarError("Ya existe un usuario con el número de documento " + row.getCell(0));
-					permiteGuardar = false;					
+					validacion = new Validacion();
+					validacion.setMensaje("Ya existe un usuario con el número de documento: "+row.getCell(0));
+					validacion.setFila((fila+1)+"");
+					validacion.setColumna("A");
+					listaValidacion.add(validacion);
+				}	
+				
+				if(usr.getUsuario().equals(row.getCell(2)+"")) {
+					validacion = new Validacion();
+					validacion.setMensaje("Ya existe un usuario con el usuario: "+row.getCell(2));
+					validacion.setFila((fila+1)+"");
+					validacion.setColumna("C");
+					listaValidacion.add(validacion);
 				}	
 			}
-		}		
+		}	
+		
+		String rol="";
+		for (int fila = 1; fila < sheet.getPhysicalNumberOfRows(); fila++) {
+			row = sheet.getRow(fila);	
+			
+			rol = row.getCell(5)+"";
+			
+			if(!rol.equals("Administrador") || !rol.equals("Usuario")) {
+				validacion = new Validacion();
+				validacion.setMensaje("El rol: "+ row.getCell(5)+ " ingresado no es valido");
+				validacion.setFila((fila+1)+"");
+				validacion.setColumna("F");
+				listaValidacion.add(validacion);
+			}	
+		}
+		if(listaValidacion.size()>=1) {
+			permiteGuardar = false;
+		}
 		
 		return permiteGuardar;
 	}
@@ -271,5 +390,15 @@ public class UsuarioBB extends SpringBeanAutowiringSupport implements Serializab
 			getUsuarioService().addUsuario(usuario);		
 		}
 	}
+
+	public List<Validacion> getListaValidacion() {
+		return listaValidacion;
+	}
+
+	public void setListaValidacion(List<Validacion> listaValidacion) {
+		this.listaValidacion = listaValidacion;
+	}
+    
+    
 
  }

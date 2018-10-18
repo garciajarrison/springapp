@@ -29,11 +29,11 @@
                     </ul>
                 </div>
 
-                <div class="menu">
+                <div class="menu"> 
                     <po:menu>
                         <p:menuitem id="menuitem_inicio" value="Inicio" icon="fa fa-home" outcome="/inicio"/>
                         
-                         <p:submenu id="submenu_administracion" label="Administración" icon="fa fa-fw fa-cog">
+                         <p:submenu id="submenu_administracion" label="Administración" icon="fa fa-fw fa-cog" rendered="#{globalBB.usuario.rol eq 'Administrador'}">
                             <p:submenu id="submenu_maestros" label="Maestros" icon="fa fa-table">
                                 <p:menuitem id="menuitem_usuarios" value="Usuarios" icon="fa fa-user" outcome="/maestros/usuarios" />
                                 <p:menuitem id="menuitem_gerencias" value="Gerencias" icon="fa fa-anchor" outcome="/maestros/gerencias" />
@@ -48,16 +48,16 @@
                                     <p:menuitem id="menuitem_historico_presupuesto" value="Histórico Presupuesto" icon="fa fa-file-text" outcome="/plano_historico_presupuesto" />
                                      <p:menuitem id="menuitem_archivo_plano_nomina" value="Nómina" icon="fa fa-file-excel-o" outcome="/plano_nomina" />
                             </p:submenu>
-                            <p:menuitem id="menuitem_configuracion_calculadora" value="Configuración Calculadora" icon="fa fa-calculator" outcome="/maestros/calculadora" />
+                            <p:menuitem id="menuitem_configuracion_calculadora" value="Configuración Calculadora" icon="fa fa-calculator" outcome="/maestros/calculadora"/>
                             <p:menuitem id="menuitem_variables_macroeconomicas" value="Variables Macroeconomicas" icon="fa fa-usd" outcome="/maestros/variables_macroeconomicas" />
                             <p:menuitem id="menuitem_conversion_presupuesto" value="Conversion de Presupuesto" icon="fa fa-cogs" url="#" />
                         </p:submenu>
                         
-                        <p:menuitem id="menuitem_creacion_presupuesto" value="Creación de Presupuesto" icon="fa fa-circle-o" outcome="/creacion_presupuesto"/>
+                        <p:menuitem id="menuitem_creacion_presupuesto" value="Creación de Presupuesto" icon="fa fa-circle-o" outcome="/creacion_presupuesto" rendered="#{globalBB.responsable or globalBB.usuario.rol eq 'Administrador'}"/>
                         
-                        <p:menuitem id="menuitem_aprobacion_inicial_presupuesto" value="Aprobación Inicial de Presupuesto" icon="fa fa-adjust" outcome="/presupuesto_aprobador_inicial"/>
+                        <p:menuitem id="menuitem_aprobacion_inicial_presupuesto" value="Aprobación Inicial de Presupuesto" icon="fa fa-adjust" outcome="/presupuesto_aprobador_inicial" rendered="#{globalBB.aprobadorInicial or globalBB.usuario.rol eq 'Administrador'}"/>
                         
-                        <p:menuitem id="menuitem_aprobacion_final_presupuesto" value="Aprobación Final de Presupuesto" icon="fa fa-circle" outcome="/inicio"/>
+                        <p:menuitem id="menuitem_aprobacion_final_presupuesto" value="Aprobación Final de Presupuesto" icon="fa fa-circle" outcome="/inicio" rendered="#{globalBB.aprobadorFinal or globalBB.usuario.rol eq 'Administrador'}"/>
                         
                          <p:submenu id="om_components" label="Components" icon="fa fa-sitemap">
                             <p:menuitem id="om_sample" value="Sample Page" icon="fa fa-columns" outcome="/sample" />

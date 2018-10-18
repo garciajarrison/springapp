@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.marketingpersonal.model.dao.IPresupuestoDAO;
-import com.marketingpersonal.model.entity.Observacion;
 import com.marketingpersonal.model.entity.Presupuesto;
 import com.marketingpersonal.model.entity.PresupuestoDetalleCampania;
 import com.marketingpersonal.model.entity.PresupuestoDetalleMes;
@@ -108,11 +107,11 @@ public class PresupuestoService implements IPresupuestoService {
 	public void actualizarEstadoPresupuestoDetalleCampania(PresupuestoDetalleCampania entity) {
 		getEntityDAO().actualizarEstadoPresupuestoDetalleCampania(entity);
 	}
-	
+	/*
 	@Transactional(readOnly = false)
 	public void addObservacion(Observacion entity) {
 		getEntityDAO().addObservacion(entity);
-	}
+	}*/
 	
 
 }
