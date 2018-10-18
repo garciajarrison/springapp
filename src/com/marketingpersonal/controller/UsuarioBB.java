@@ -237,7 +237,7 @@ public class UsuarioBB extends SpringBeanAutowiringSupport implements Serializab
 			XSSFSheet sheet = workbook.getSheetAt(0);
 						
 			if(validarArchivoPlano(workbook)) {
-				insertarUsuarios(sheet);
+				getUsuarioService().addUsuariosArchivoPlano(sheet);
 				
 				FacesMessage msg = new FacesMessage("Carga Archivo Plano de Usuarios", event.getFile().getFileName() + " fue cargado correctamente");
 				FacesContext.getCurrentInstance().addMessage(null, msg);
@@ -357,12 +357,15 @@ public class UsuarioBB extends SpringBeanAutowiringSupport implements Serializab
 			
 			rol = row.getCell(5)+"";
 			
-			if(!rol.equals("Administrador") || !rol.equals("Usuario")) {
-				validacion = new Validacion();
-				validacion.setMensaje("El rol: "+ row.getCell(5)+ " ingresado no es valido");
-				validacion.setFila((fila+1)+"");
-				validacion.setColumna("F");
-				listaValidacion.add(validacion);
+			if(!rol.equals("Administrador")) {
+				if(!rol.equals("Usuario")) {
+					validacion = new Validacion();
+					validacion.setMensaje("El rol: "+ row.getCell(5)+ " ingresado no es valido");
+					validacion.setFila((fila+1)+"");
+					validacion.setColumna("F");
+					listaValidacion.add(validacion);
+				}
+				
 			}	
 		}
 		if(listaValidacion.size()>=1) {
@@ -372,33 +375,12 @@ public class UsuarioBB extends SpringBeanAutowiringSupport implements Serializab
 		return permiteGuardar;
 	}
     
-    public void insertarUsuarios(XSSFSheet sheet) {
-		Row row;
-		int numFilas = sheet.getPhysicalNumberOfRows();	
-		for (int fila = 1; fila < numFilas; fila++) {
-			row = sheet.getRow(fila);
-			
-			usuario = new Usuario();
-
-			usuario.setNumeroDocumento(row.getCell(0)+"");
-			usuario.setNombre(row.getCell(1)+"");
-			usuario.setUsuario(row.getCell(2)+"");
-			usuario.setCorreo(row.getCell(3)+"");
-			usuario.setCargo(row.getCell(4)+"");
-			usuario.setRol(row.getCell(5)+"");
-						
-			getUsuarioService().addUsuario(usuario);		
-		}
-	}
-
-	public List<Validacion> getListaValidacion() {
+   	public List<Validacion> getListaValidacion() {
 		return listaValidacion;
 	}
 
 	public void setListaValidacion(List<Validacion> listaValidacion) {
 		this.listaValidacion = listaValidacion;
 	}
-    
-    
 
  }

@@ -54,8 +54,9 @@ public class GerenciaBB extends SpringBeanAutowiringSupport implements Serializa
 				
 				//Validar que no exista un registro duplicado
 				for(Gerencia ger : listaGerencias) {
-					if(ger.getNombre().equals(gerencia.getNombre())) {
-						guardar = false;						
+					if(ger.getNombre().equals(gerencia.getNombre().trim())) {
+						guardar = false;	
+						break;
 					}
 				}
 				
@@ -77,11 +78,28 @@ public class GerenciaBB extends SpringBeanAutowiringSupport implements Serializa
 
 	public void updateGerencia() {
 		try {
+			boolean actualizar = true;
+			
 			if(validar(selectedGerencia)) {
-				getGerenciaService().updateGerencia(selectedGerencia);
-				listaGerencias = getGerenciaService().getGerencias(false);
-				selectedGerencia = new Gerencia();
-				util.mostrarMensaje("Registro actualizado con éxito.");
+				
+				//Validar que no exista un registro duplicado
+				for(Gerencia ger : listaGerencias) {
+					if(ger.getId() != selectedGerencia.getId())	 {
+						if(ger.getNombre().equals(selectedGerencia.getNombre().trim()))	 {
+							actualizar = false;	
+							break;
+						}					
+					}					
+				}
+				
+				if(actualizar) {
+					getGerenciaService().updateGerencia(selectedGerencia);
+					listaGerencias = getGerenciaService().getGerencias(false);
+					selectedGerencia = new Gerencia();
+					util.mostrarMensaje("Registro actualizado con éxito.");
+				}else {
+					util.mostrarError("Ya existe una Gerencia con el mismo nombre ingresado");
+				}
 			}
 			
 		} catch (DataAccessException e) {
