@@ -15,6 +15,12 @@ public interface ICalculadoraService {
 	
 	Calculadora getCalculadoraById(int id);
 	
-	List<Calculadora> getCalculadoras();
+	List<Calculadora> getCalculadoras(String tipo);
+
+	void addCampaniaCalculadora(int campania);
+
+	void eliminarCampaniaCalculadora(int camapanaMaxima);
+
+	void updateCalculadoras(List<Calculadora[]> listaCalculadora, String string, int camapanaMaxima);
 	
 }

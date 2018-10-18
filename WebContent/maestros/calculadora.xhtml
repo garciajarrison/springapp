@@ -8,7 +8,10 @@
     <ui:define name="title">Calculadora</ui:define>
 
     <ui:define name="content">
-	<h:form>
+    
+    <h:outputScript name="js/calculadora.js" library="omega-layout" />
+    
+	<h:form id="formID">
 			<p:growl id="growl" sticky="true" autoUpdate="true" />
             <div class="ui-fluid">
                 <div class="ui-g">
@@ -17,8 +20,26 @@
                         <div class="card">
                             <h1>Listado de Calculadoras</h1>
                             
-                              <p:tabView>
+                            
+                            <p:commandButton id="btnCampana" value="Agregar Campaña" 
+	                               	actionListener="#{calculadoraBB.agregarCampana}" 
+	                               	update="@form" icon="ui-icon-check fa fa-check Fs14 White" 
+	                               	style="max-width:150px;"/>
+                               	
+                            <p:commandButton value="Eliminar Campaña"
+								      update=":#{p:component('dlgEliminar')}" 
+								      oncomplete="PF('dlgEliminar').show();"
+								      icon="ui-icon-close" style="max-width:150px;" />  	
+                               	
+	                        <p:commandButton id="btnGuardar" value="Guardar Campaña" 
+	                               	actionListener="#{calculadoraBB.guardarCampana}" 
+	                               	update="@form" icon="ui-icon-check fa fa-check Fs14 White" 
+	                               	style="max-width:150px;"/>
+                            
+                            
+                              <p:tabView id="TabViewCal">
         						<p:tab title="Calculadora Campaña / Mes">
+        						
 		                            <p:dataTable id="tblCalculadoraCM" var="cal" value="#{calculadoraBB.listaCalculadoraCM}" reflow="true" 
 		                            		emptyMessage="No se encontraron registros."
 											paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" 
@@ -33,56 +54,94 @@
 		                                </p:column>
 		
 		                                <p:column headerText="Enero">
-		                                    <p:inputNumber value="#{cal[0].porcentaje}" symbol="%" 
-		                                		symbolPosition="s" required="true" emptyValue="empty"/>
+		                                    <p:inputNumber id="Enero" value="#{cal[0].porcentaje}" symbol="%" 
+		                                			symbolPosition="s" required="true" emptyValue="empty"
+		                                			maxValue="100" minValue="0">
+		                                		<p:ajax update="@form" process="@form" listener="#{calculadoraBB.totalizar('CM')}"/>
+		                                	</p:inputNumber>
 		                                </p:column>
 		                                <p:column headerText="Febrero">
-		                                    <p:inputNumber value="#{cal[1].porcentaje}" symbol="%" 
-		                                		symbolPosition="s" required="true" emptyValue="empty"/>
+		                                    <p:inputNumber id="Febrero" value="#{cal[1].porcentaje}" symbol="%" 
+			                                		symbolPosition="s" required="true" emptyValue="empty"
+			                                		maxValue="100" minValue="0">
+		                                		<p:ajax update="@form" process="@form" listener="#{calculadoraBB.totalizar('CM')}"/>
+		                                	</p:inputNumber>
 		                                </p:column>
 		                                <p:column headerText="Marzo">
-		                                    <p:inputNumber value="#{cal[2].porcentaje}" symbol="%" 
-		                                		symbolPosition="s" required="true" emptyValue="empty"/>
+		                                    <p:inputNumber id="Marzo" value="#{cal[2].porcentaje}" symbol="%" 
+		                                		symbolPosition="s" required="true" emptyValue="empty"
+		                                		maxValue="100" minValue="0">
+		                                		<p:ajax update="@form" process="@form" listener="#{calculadoraBB.totalizar('CM')}"/>
+		                                	</p:inputNumber>
 		                                </p:column>
 		                                <p:column headerText="Abril">
-		                                    <p:inputNumber value="#{cal[3].porcentaje}" symbol="%" 
-		                                		symbolPosition="s" required="true" emptyValue="empty"/>
+		                                    <p:inputNumber id="Abril" value="#{cal[3].porcentaje}" symbol="%" 
+		                                		symbolPosition="s" required="true" emptyValue="empty"
+		                                		maxValue="100" minValue="0">
+		                                		<p:ajax update="@form" process="@form" listener="#{calculadoraBB.totalizar('CM')}"/>
+		                                	</p:inputNumber>
 		                                </p:column>
 		                                <p:column headerText="Mayo">
-		                                    <p:inputNumber value="#{cal[4].porcentaje}" symbol="%" 
-		                                		symbolPosition="s" required="true" emptyValue="empty"/>
+		                                    <p:inputNumber id="Mayo" value="#{cal[4].porcentaje}" symbol="%" 
+		                                		symbolPosition="s" required="true" emptyValue="empty"
+		                                		maxValue="100" minValue="0">
+		                                		<p:ajax update="@form" process="@form" listener="#{calculadoraBB.totalizar('CM')}"/>
+		                                	</p:inputNumber>
 		                                </p:column>
 		                                <p:column headerText="Junio">
-		                                    <p:inputNumber value="#{cal[5].porcentaje}" symbol="%" 
-		                                		symbolPosition="s" required="true" emptyValue="empty"/>
+		                                    <p:inputNumber id="Junio" value="#{cal[5].porcentaje}" symbol="%" 
+		                                		symbolPosition="s" required="true" emptyValue="empty"
+		                                		maxValue="100" minValue="0">
+		                                		<p:ajax update="@form" process="@form" listener="#{calculadoraBB.totalizar('CM')}"/>
+		                                	</p:inputNumber>
 		                                </p:column>
 		                                <p:column headerText="Julio">
-		                                    <p:inputNumber value="#{cal[6].porcentaje}" symbol="%" 
-		                                		symbolPosition="s" required="true" emptyValue="empty"/>
+		                                    <p:inputNumber id="Julio" value="#{cal[6].porcentaje}" symbol="%" 
+		                                		symbolPosition="s" required="true" emptyValue="empty"
+		                                		maxValue="100" minValue="0">
+		                                		<p:ajax update="@form" process="@form" listener="#{calculadoraBB.totalizar('CM')}"/>
+		                                	</p:inputNumber>
 		                                </p:column>
 		                                <p:column headerText="Agosto">
-		                                    <p:inputNumber value="#{cal[7].porcentaje}" symbol="%" 
-		                                		symbolPosition="s" required="true" emptyValue="empty"/>
+		                                    <p:inputNumber id="Agosto" value="#{cal[7].porcentaje}" symbol="%" 
+		                                		symbolPosition="s" required="true" emptyValue="empty"
+		                                		maxValue="100" minValue="0">
+		                                		<p:ajax update="@form" process="@form" listener="#{calculadoraBB.totalizar('CM')}"/>
+		                                	</p:inputNumber>
 		                                </p:column>
 		                                <p:column headerText="Septiembre">
-		                                    <p:inputNumber value="#{cal[8].porcentaje}" symbol="%" 
-		                                		symbolPosition="s" required="true" emptyValue="empty"/>
+		                                    <p:inputNumber id="Septiembre" value="#{cal[8].porcentaje}" symbol="%" 
+		                                		symbolPosition="s" required="true" emptyValue="empty"
+		                                		maxValue="100" minValue="0">
+		                                		<p:ajax update="@form" process="@form" listener="#{calculadoraBB.totalizar('CM')}"/>
+		                                	</p:inputNumber>
 		                                </p:column>
 		                                <p:column headerText="Octubre">
-		                                    <p:inputNumber value="#{cal[9].porcentaje}" symbol="%" 
-		                                		symbolPosition="s" required="true" emptyValue="empty"/>
+		                                    <p:inputNumber id="Octubre" value="#{cal[9].porcentaje}" symbol="%" 
+		                                		symbolPosition="s" required="true" emptyValue="empty"
+		                                		maxValue="100" minValue="0">
+		                                		<p:ajax update="@form" process="@form" listener="#{calculadoraBB.totalizar('CM')}"/>
+		                                	</p:inputNumber>
 		                                </p:column>
 		                                <p:column headerText="Noviembre">
-		                                    <p:inputNumber value="#{cal[10].porcentaje}" symbol="%" 
-		                                		symbolPosition="s" required="true" emptyValue="empty"/>
+		                                    <p:inputNumber id="Noviembre" value="#{cal[10].porcentaje}" symbol="%" 
+		                                		symbolPosition="s" required="true" emptyValue="empty"
+		                                		maxValue="100" minValue="0">
+		                                		<p:ajax update="@form" process="@form" listener="#{calculadoraBB.totalizar('CM')}"/>
+		                                	</p:inputNumber>
 		                                </p:column>
 		                                <p:column headerText="Diciembre">
-		                                    <p:inputNumber value="#{cal[11].porcentaje}" symbol="%" 
-		                                		symbolPosition="s" required="true" emptyValue="empty"/>
+		                                    <p:inputNumber id="Diciembre" value="#{cal[11].porcentaje}" symbol="%" 
+		                                		symbolPosition="s" required="true" emptyValue="empty"
+		                                		maxValue="100" minValue="0">
+		                                		<p:ajax update="@form" process="@form" listener="#{calculadoraBB.totalizar('CM')}"/>
+		                                	</p:inputNumber>
 		                                </p:column>
 		                                
 		                                <p:column headerText="Total campaña">
-		                                   <p:outputLabel value="#{cal[12].porcentaje}%" />
+		                                   <div align="center">
+		                                   	<p:outputLabel id="totalCM_#{cal[0].campana}" value="#{cal[12].porcentaje}%" />
+		                                   </div>
 		                                </p:column>
 		                                
 		                            </p:dataTable>
@@ -99,63 +158,125 @@
 	                                </f:facet>
 	                                
 	                                 <p:column headerText="Mes / Campaña">
-	                                    <h:outputText value="C#{cal[0].campana}" rendered="{cal[0].campana ne 19}" />
-	                                    <h:outputText value="Total mes" rendered="{cal[0].campana eq 19}" />
+	                                    <h:outputText value="C#{cal[0].campana}" rendered="#{cal[0].campana le calculadoraBB.camapanaMaxima}" />
+	                                    <h:outputText value="Total mes" rendered="#{cal[0].campana gt calculadoraBB.camapanaMaxima}" />
 	                                </p:column>
 	
 	                                <p:column headerText="Enero">
-	                                    <p:inputNumber value="#{cal[0].porcentaje}" symbol="%" 
-	                                		symbolPosition="s" required="true" emptyValue="empty"/>
-	                                </p:column>
-	                                <p:column headerText="Febrero">
-	                                    <p:inputNumber value="#{cal[1].porcentaje}" symbol="%" 
-	                                		symbolPosition="s" required="true" emptyValue="empty"/>
-	                                </p:column>
-	                                <p:column headerText="Marzo">
-	                                    <p:inputNumber value="#{cal[2].porcentaje}" symbol="%" 
-	                                		symbolPosition="s" required="true" emptyValue="empty"/>
-	                                </p:column>
-	                                <p:column headerText="Abril">
-	                                    <p:inputNumber value="#{cal[3].porcentaje}" symbol="%" 
-	                                		symbolPosition="s" required="true" emptyValue="empty"/>
-	                                </p:column>
-	                                <p:column headerText="Mayo">
-	                                    <p:inputNumber value="#{cal[4].porcentaje}" symbol="%" 
-	                                		symbolPosition="s" required="true" emptyValue="empty"/>
-	                                </p:column>
-	                                <p:column headerText="Junio">
-	                                    <p:inputNumber value="#{cal[5].porcentaje}" symbol="%" 
-	                                		symbolPosition="s" required="true" emptyValue="empty"/>
-	                                </p:column>
-	                                <p:column headerText="Julio">
-	                                    <p:inputNumber value="#{cal[6].porcentaje}" symbol="%" 
-	                                		symbolPosition="s" required="true" emptyValue="empty"/>
-	                                </p:column>
-	                                <p:column headerText="Agosto">
-	                                    <p:inputNumber value="#{cal[7].porcentaje}" symbol="%" 
-	                                		symbolPosition="s" required="true" emptyValue="empty"/>
-	                                </p:column>
-	                                <p:column headerText="Septiembre">
-	                                    <p:inputNumber value="#{cal[8].porcentaje}" symbol="%" 
-	                                		symbolPosition="s" required="true" emptyValue="empty"/>
-	                                </p:column>
-	                                <p:column headerText="Octubre">
-	                                    <p:inputNumber value="#{cal[9].porcentaje}" symbol="%" 
-	                                		symbolPosition="s" required="true" emptyValue="empty"/>
-	                                </p:column>
-	                                <p:column headerText="Noviembre">
-	                                    <p:inputNumber value="#{cal[10].porcentaje}" symbol="%" 
-	                                		symbolPosition="s" required="true" emptyValue="empty"/>
-	                                </p:column>
-	                                <p:column headerText="Diciembre">
-	                                    <p:inputNumber value="#{cal[11].porcentaje}" symbol="%" 
-	                                		symbolPosition="s" required="true" emptyValue="empty"/>
-	                                </p:column>
+		                                    <p:inputNumber id="Enero" value="#{cal[0].porcentaje}" symbol="%" 
+		                                		symbolPosition="s" required="true" emptyValue="empty"
+		                                		maxValue="100" minValue="0"
+		                                		readonly="#{cal[0].campana gt calculadoraBB.camapanaMaxima}">
+		                                		<p:ajax update="@form" process="@form" listener="#{calculadoraBB.totalizar('MC')}"/>
+		                                	</p:inputNumber>
+		                                </p:column>
+		                                <p:column headerText="Febrero">
+		                                    <p:inputNumber id="Febrero" value="#{cal[1].porcentaje}" symbol="%" 
+		                                		symbolPosition="s" required="true" emptyValue="empty"
+		                                		maxValue="100" minValue="0"
+		                                		readonly="#{cal[0].campana gt calculadoraBB.camapanaMaxima}">
+		                                		<p:ajax update="@form" process="@form" listener="#{calculadoraBB.totalizar('MC')}"/>
+		                                	</p:inputNumber>
+		                                </p:column>
+		                                <p:column headerText="Marzo">
+		                                    <p:inputNumber id="Marzo" value="#{cal[2].porcentaje}" symbol="%" 
+		                                		symbolPosition="s" required="true" emptyValue="empty"
+		                                		maxValue="100" minValue="0"
+		                                		readonly="#{cal[0].campana gt calculadoraBB.camapanaMaxima}">
+		                                		<p:ajax update="@form" process="@form" listener="#{calculadoraBB.totalizar('MC')}"/>
+		                                	</p:inputNumber>
+		                                </p:column>
+		                                <p:column headerText="Abril">
+		                                    <p:inputNumber id="Abril" value="#{cal[3].porcentaje}" symbol="%" 
+		                                		symbolPosition="s" required="true" emptyValue="empty"
+		                                		maxValue="100" minValue="0"
+		                                		readonly="#{cal[0].campana gt calculadoraBB.camapanaMaxima}">
+		                                		<p:ajax update="@form" process="@form" listener="#{calculadoraBB.totalizar('MC')}"/>
+		                                	</p:inputNumber>
+		                                </p:column>
+		                                <p:column headerText="Mayo">
+		                                    <p:inputNumber id="Mayo" value="#{cal[4].porcentaje}" symbol="%" 
+		                                		symbolPosition="s" required="true" emptyValue="empty"
+		                                		maxValue="100" minValue="0"
+		                                		readonly="#{cal[0].campana gt calculadoraBB.camapanaMaxima}">
+		                                		<p:ajax update="@form" process="@form" listener="#{calculadoraBB.totalizar('MC')}"/>
+		                                	</p:inputNumber>
+		                                </p:column>
+		                                <p:column headerText="Junio">
+		                                    <p:inputNumber id="Junio" value="#{cal[5].porcentaje}" symbol="%" 
+		                                		symbolPosition="s" required="true" emptyValue="empty"
+		                                		maxValue="100" minValue="0"
+		                                		readonly="#{cal[0].campana gt calculadoraBB.camapanaMaxima}">
+		                                		<p:ajax update="@form" process="@form" listener="#{calculadoraBB.totalizar('MC')}"/>
+		                                	</p:inputNumber>
+		                                </p:column>
+		                                <p:column headerText="Julio">
+		                                    <p:inputNumber id="Julio" value="#{cal[6].porcentaje}" symbol="%" 
+		                                		symbolPosition="s" required="true" emptyValue="empty"
+		                                		maxValue="100" minValue="0"
+		                                		readonly="#{cal[0].campana gt calculadoraBB.camapanaMaxima}">
+		                                		<p:ajax update="@form" process="@form" listener="#{calculadoraBB.totalizar('MC')}"/>
+		                                	</p:inputNumber>
+		                                </p:column>
+		                                <p:column headerText="Agosto">
+		                                    <p:inputNumber id="Agosto" value="#{cal[7].porcentaje}" symbol="%" 
+		                                		symbolPosition="s" required="true" emptyValue="empty"
+		                                		maxValue="100" minValue="0"
+		                                		readonly="#{cal[0].campana gt calculadoraBB.camapanaMaxima}">
+		                                		<p:ajax update="@form" process="@form" listener="#{calculadoraBB.totalizar('MC')}"/>
+		                                	</p:inputNumber>
+		                                </p:column>
+		                                <p:column headerText="Septiembre">
+		                                    <p:inputNumber id="Septiembre" value="#{cal[8].porcentaje}" symbol="%" 
+		                                		symbolPosition="s" required="true" emptyValue="empty"
+		                                		maxValue="100" minValue="0"
+		                                		readonly="#{cal[0].campana gt calculadoraBB.camapanaMaxima}">
+		                                		<p:ajax update="@form" process="@form" listener="#{calculadoraBB.totalizar('MC')}"/>
+		                                	</p:inputNumber>
+		                                </p:column>
+		                                <p:column headerText="Octubre">
+		                                    <p:inputNumber id="Octubre" value="#{cal[9].porcentaje}" symbol="%" 
+		                                		symbolPosition="s" required="true" emptyValue="empty"
+		                                		maxValue="100" minValue="0"
+		                                		readonly="#{cal[0].campana gt calculadoraBB.camapanaMaxima}">
+		                                		<p:ajax update="@form" process="@form" listener="#{calculadoraBB.totalizar('MC')}"/>
+		                                	</p:inputNumber>
+		                                </p:column>
+		                                <p:column headerText="Noviembre">
+		                                    <p:inputNumber id="Noviembre" value="#{cal[10].porcentaje}" symbol="%" 
+		                                		symbolPosition="s" required="true" emptyValue="empty"
+		                                		maxValue="100" minValue="0"
+		                                		readonly="#{cal[0].campana gt calculadoraBB.camapanaMaxima}">
+		                                		<p:ajax update="@form" process="@form" listener="#{calculadoraBB.totalizar('MC')}"/>
+		                                	</p:inputNumber>
+		                                </p:column>
+		                                <p:column headerText="Diciembre">
+		                                    <p:inputNumber id="Diciembre" value="#{cal[11].porcentaje}" symbol="%" 
+		                                		symbolPosition="s" required="true" emptyValue="empty"
+		                                		maxValue="100" minValue="0"
+		                                		readonly="#{cal[0].campana gt calculadoraBB.camapanaMaxima}">
+		                                		<p:ajax update="@form" process="@form" listener="#{calculadoraBB.totalizar('MC')}"/>
+		                                	</p:inputNumber>
+		                                </p:column>
 	                                
 	                            </p:dataTable>
 	                            <br/><br/><br/>
 	                         </p:tab>
 	                      </p:tabView>
+	                     
+	                     <p:dialog header="Eliminar" id="dlgEliminar" widgetVar="dlgEliminar" minHeight="40">
+							<div align="center">
+								
+								<strong>¿Está seguro de borrar el registro?</strong>
+								<br />
+								<br />
+								<p:commandButton id="btnEliminarCampana" value="Eliminar Campaña" 
+	                               	actionListener="#{calculadoraBB.eliminarCampana}" 
+	                               	update="@form" icon="ui-icon-check fa fa-check Fs14 White" 
+	                               	style="max-width:150px;"/>
+					   		</div>
+						</p:dialog>	
+	                     
 	                     
                         </div>
                         

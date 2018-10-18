@@ -39,6 +39,7 @@ public class PresupuestoDetalleMes implements java.io.Serializable {
 	public PresupuestoDetalleMes() {
 		presupuesto = new Presupuesto();
 		centroCosto = new CentroCosto();
+		cuenta = new Cuenta();
 		usuarioAprobadorInicial = new Usuario();
 		usuarioAprobadorFinal = new Usuario();
 	}

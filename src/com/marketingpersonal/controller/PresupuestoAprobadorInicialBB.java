@@ -19,7 +19,6 @@ import com.marketingpersonal.common.ListasGenericas;
 import com.marketingpersonal.common.Util;
 import com.marketingpersonal.model.entity.CentroCosto;
 import com.marketingpersonal.model.entity.Cuenta;
-import com.marketingpersonal.model.entity.Observacion;
 import com.marketingpersonal.model.entity.Presupuesto;
 import com.marketingpersonal.model.entity.PresupuestoDetalleMes;
 import com.marketingpersonal.model.entity.Usuario;
@@ -33,7 +32,7 @@ import com.marketingpersonal.service.IUsuarioService;
 @ViewScoped
 public class PresupuestoAprobadorInicialBB extends SpringBeanAutowiringSupport implements Serializable {
 	
-	private static final long serialVersionUID = 1L;
+	/*private static final long serialVersionUID = 1L;
 
 	@Autowired
 	private IPresupuestoService presupuestoService;
@@ -381,5 +380,5 @@ public class PresupuestoAprobadorInicialBB extends SpringBeanAutowiringSupport i
 	public void setUsuarioService(IUsuarioService usuarioService) {
 		this.usuarioService = usuarioService;
 	}
-
+*/
  }

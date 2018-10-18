@@ -46,22 +46,38 @@ public class CalculadoraService implements ICalculadoraService {
 	}
 	
 	@Transactional(readOnly = false)
-	public List<Calculadora> getCalculadoras() {	
-		List<Calculadora> retorno = getEntityDAO().getCalculadoras();
+	public List<Calculadora> getCalculadoras(String tipo) {	
+		List<Calculadora> retorno = getEntityDAO().getCalculadoras(tipo);
 		
 		if(retorno == null || retorno.size() < 1) {
 			retorno = new ArrayList<>();
 			for(int c = 1; c <= 18; c++) {
 				for(int m = 1; m <=12; m++) {
-					this.addCalculadora(new Calculadora(c, m, 0d));
+					this.addCalculadora(new Calculadora(c, m, 0d, tipo));
 				}
 			}
-			retorno = getEntityDAO().getCalculadoras();
+			retorno = getEntityDAO().getCalculadoras(tipo);
 		}
 		
 		return retorno;
 	}
-	
-	
+
+	@Transactional(readOnly = false)
+	public void addCampaniaCalculadora(int campania) {
+		for(int m = 1; m <=12; m++) {
+			this.addCalculadora(new Calculadora(campania, m, 0d, "CM"));
+			this.addCalculadora(new Calculadora(campania, m, 0d, "MC"));
+		}
+	}
+
+	@Transactional(readOnly = false)
+	public void eliminarCampaniaCalculadora(int camapanaMaxima) {
+		getEntityDAO().eliminarCampaniaCalculadora(camapanaMaxima);
+	}
+
+	@Transactional(readOnly = false)
+	public void updateCalculadoras(List<Calculadora[]> listaCalculadora, String tipo, int camapanaMaxima) {
+		getEntityDAO().updateCalculadoras(listaCalculadora, tipo, camapanaMaxima);
+	}
 	
 }

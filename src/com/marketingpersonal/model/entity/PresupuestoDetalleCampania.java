@@ -52,6 +52,7 @@ public class PresupuestoDetalleCampania implements java.io.Serializable {
 	public PresupuestoDetalleCampania() {
 		presupuesto = new Presupuesto();
 		centroCosto = new CentroCosto();
+		cuenta = new Cuenta();
 		usuarioAprobadorInicial = new Usuario();
 		usuarioAprobadorFinal = new Usuario();
 	}
@@ -259,7 +260,7 @@ public class PresupuestoDetalleCampania implements java.io.Serializable {
 	
 	@Column(name = "valor_c20")
 	public Double getValorC20() {
-		return valorC12;
+		return valorC20;
 	}
 
 	public void setValorC20(Double valorC20) {

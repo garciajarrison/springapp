@@ -21,6 +21,7 @@ import com.marketingpersonal.common.ListasGenericas;
 import com.marketingpersonal.common.Util;
 import com.marketingpersonal.model.entity.Home;
 import com.marketingpersonal.model.entity.Usuario;
+import com.marketingpersonal.model.entity.UsuarioPorCentroCosto;
 import com.marketingpersonal.service.IHomeService;
 import com.marketingpersonal.service.IUsuarioService;
 
@@ -43,9 +44,19 @@ public class GlobalBB extends SpringBeanAutowiringSupport implements Serializabl
 	private List<Home> variablesMacroeconomicas;
 	private boolean variasVariables;
 	
+	private boolean responsable;
+	private boolean aprobadorInicial;
+	private boolean aprobadorFinal;
+	private List<UsuarioPorCentroCosto> listaUsuarioPorCentroCosto;
+		
+	
 	public GlobalBB() {
 		util = Util.getInstance();
 		usuario = (Usuario) Util.getInstance().getSessionAttribute(EnumSessionAttributes.USUARIO);
+		listaUsuarioPorCentroCosto = getUsuarioService().getUsuarioPorCentroCostos();
+		responsable = isResponsable(usuario);
+		aprobadorInicial = isAprobadorInicial(usuario);
+		aprobadorFinal = isAprobadorFinal(usuario);
 		if(usuario != null) {
 			listasGenericas = ListasGenericas.getInstance();
 	        cargarFotoPerfil();
@@ -183,5 +194,56 @@ public class GlobalBB extends SpringBeanAutowiringSupport implements Serializabl
 	public void setVariasVariables(boolean variasVariables) {
 		this.variasVariables = variasVariables;
 	}
+	
+	public boolean isResponsable(Usuario usuario) {
+		for(UsuarioPorCentroCosto ucc : listaUsuarioPorCentroCosto) {
+			if(ucc.getUsuarioResponsable().getId()==usuario.getId()) {
+				return true;
+			}	
+		}	
+		return false;
+	}
+	
+	public boolean isAprobadorInicial(Usuario usuario) {
+		for(UsuarioPorCentroCosto ucc : listaUsuarioPorCentroCosto) {
+			if(ucc.getUsuarioAprobadorInicial().getId()==usuario.getId()) {
+				return true;
+			}	
+		}	
+		return false;
+	}
+	
+	public boolean isAprobadorFinal(Usuario usuario) {
+		for(UsuarioPorCentroCosto ucc : listaUsuarioPorCentroCosto) {
+			if(ucc.getUsuarioAprobadorFinal().getId()==usuario.getId()) {
+				return true;
+			}	
+		}	
+		return false;
+	}
+
+	public boolean isResponsable() {
+		return responsable;
+	}
+
+	public void setResponsable(boolean responsable) {
+		this.responsable = responsable;
+	}
+
+	public boolean isAprobadorInicial() {
+		return aprobadorInicial;
+	}
+
+	public void setAprobadorInicial(boolean aprobadorInicial) {
+		this.aprobadorInicial = aprobadorInicial;
+	}
+
+	public boolean isAprobadorFinal() {
+		return aprobadorFinal;
+	}
+
+	public void setAprobadorFinal(boolean aprobadorFinal) {
+		this.aprobadorFinal = aprobadorFinal;
+	}	
 
  }

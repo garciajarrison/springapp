@@ -14,9 +14,12 @@
                 <div class="ui-g">
                     <div class="ui-g-12">
                         <div class="card">
-                            <h1>Creación presupuesto</h1>
-                            <p:panelGrid columns="4" columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4" layout="grid" 
+                            <h1>Creación Presupuesto</h1>
+                            <p:panelGrid id="pgPresupuesto" columns="2" columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4" layout="grid" 
                             		styleClass="ui-panelgrid-blank" style="border:0px none; background-color:transparent;">
+                                
+                                <p:outputLabel for="txtAnio" value="Anio"/>
+                                <p:inputText id="txtAnio" value="#{presupuestoBB.presupuesto.anio}" maxlength="50"/>
                                 
                                 <p:outputLabel for="txtNombre" value="Nombre"/>
                                 <p:inputText id="txtNombre" value="#{presupuestoBB.presupuesto.nombre}" maxlength="50"/>
@@ -30,75 +33,19 @@
                                     <f:selectItem itemLabel="Seleccione" itemValue="" />
                                     <f:selectItems value="#{presupuestoBB.listasGenericas.lstClasificacionPpto}" />
                                 </p:selectOneMenu>
-                                
-                                <p:outputLabel for="selCentroCosto" value="Centro costo"/>
-                                <p:selectOneMenu id="selCentroCosto" value="#{presupuestoBB.presupuesto.centroCosto.id}"
-                                		 filter="true">
-                                    <f:selectItem itemLabel="Seleccione" itemValue="" />
-                                    <f:selectItems value="#{presupuestoBB.listaCentroCostos}" var="cc" 
-                                    		itemValue="#{cc.id}" itemLabel="#{cc.centroCosto}"/>
-                                    <p:ajax update="@form" listener="#{presupuestoBB.cargarListaCuentas('NO')}" process="@form" />
-                                </p:selectOneMenu>
-                                
-                                <p:outputLabel for="selCuenta" value="Cuenta"/>
-                                <p:selectOneMenu id="selCuenta" value="#{presupuestoBB.presupuesto.cuenta.id}"
-                                		 filter="true">
-                                    <f:selectItem itemLabel="Seleccione" itemValue="" />
-                                    <f:selectItems value="#{presupuestoBB.listaCuentas}" var="cc" 
-                                    		itemValue="#{cc.id}" itemLabel="#{cc.cuenta} - #{cc.nombre}"/>
-                                </p:selectOneMenu>
-                                
-                                <p:outputLabel for="txtAnio" value="Año"/>
-                                <p:inputNumber id="txtAnio" value="#{presupuestoBB.presupuesto.anio}"
-                                		 maxValue="2999" size="10" minValue="0"/>
                                 		 
                                 <p:outputLabel for="txtTipo" value="Tipo"/>
                                 <p:selectOneMenu id="txtTipo" value="#{presupuestoBB.presupuesto.tipo}"
                                 		 filter="true">
                                     <f:selectItem itemLabel="Seleccione" itemValue="" />
                                     <f:selectItems value="#{presupuestoBB.listasGenericas.lstTipoPresupuesto}" />
-                                    <p:ajax update="@form" listener="#{presupuestoBB.cambioTipo}" process="@form" />
                                 </p:selectOneMenu>
                                 
+                                
+                                <p:commandButton id="btnGuardar" value="Guardar" actionListener="#{presupuestoBB.addPresupuesto}" update=":#{p:component('pgPresupuesto')} :#{p:component('tblPresupuestos')}" icon="ui-icon-check fa fa-check Fs14 White" style="max-width:150px;"/>
                             </p:panelGrid>
                             
-                            <div class="ui-g">
-                                <ui:repeat var="pr" value="#{presupuestoBB.presupuesto.detalle}" varStatus="myVarStatus">
-                                	<div class="ui-g-3 ui-m-6">
-                                		<div align="center">
-                                			<table>
-                                				<tr><td align="center" colspan="2">
-                                					<p:outputLabel value="#{presupuestoBB.presupuesto.tipo eq 'Mensual' ? 'Mes ' : 'Campaña '} #{myVarStatus.index+1}"/>
-                                				</td></tr>
-                                				<tr><td align="center">
-                                					<p:inputNumber value="#{pr.valor}" size="20"/>
-                                				</td>
-                                				<td>
-                                					<p:commandButton id="btnEliminar11" value="X" 
-					                                	actionListener="#{presupuestoBB.eliminarRegistro1(myVarStatus.index)}" 
-					                                	update="@form" 
-					                                	style="max-width:150px;"/>
-                                				</td></tr>
-                                			</table>
-                                		</div>
-                                	</div>
-                                </ui:repeat>
-                                
-                                <div class="ui-g-12">
-                                	<p:commandButton id="btnAddMes" value="Agregar Registro" 
-	                                	actionListener="#{presupuestoBB.agregarRegistro1}" 
-	                                	update="@form" icon="ui-icon-check fa fa-check Fs14 White" 
-	                                	style="max-width:150px;"
-	                                	rendered="#{not empty presupuestoBB.presupuesto.detalle}"/>
-                                	<p:spacer width="10px" height="0px" />
-                                	<p:commandButton id="btnGuardar" value="Guardar" 
-	                                	actionListener="#{presupuestoBB.addPresupuesto}" 
-	                                	update="@form" icon="ui-icon-check fa fa-check Fs14 White" 
-	                                	style="max-width:150px;"/>
-                                </div>
-                            </div>
-                            
-                        </div>
+                        </div>   
                         
                         <div class="card">
                             <h1>Listado de Presupuestos</h1>
@@ -107,18 +54,17 @@
                             		emptyMessage="No se encontraron registros."
 									scrollable="false" paginatorPosition="bottom"
 									rows="10" rowsPerPageTemplate="5,10,20,50"
-									selection="#{presupuestoBB.detalle}"
-									currentPageReportTemplate="Páginas {totalPages}.  registros {totalRecords}"
+									currentPageReportTemplate="Páginas {totalPages} - Registros {totalRecords}"
 									paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" 
 									paginator="true">
 									
-								<p:ajax event="rowSelect" update="@form" listener="#{presupuestoBB.verDetalle}" />
+								<p:ajax event="rowSelect" update="@form" listener="#{presupuestoBB.verDetalle}" />	
 									
                                 <f:facet name="header">
                                     Presupuestos
                                 </f:facet>
 
-                                <p:column headerText="Nombre" sortBy="#{presupuesto.nombre}" width="30%"
+								<p:column headerText="Nombre" sortBy="#{presupuesto.nombre}" width="30%"
                                 		 filterMatchMode="contains" filterBy="#{presupuesto.nombre}">
                                     <h:outputText value="#{presupuesto.nombre}" />
                                 </p:column>
@@ -133,32 +79,18 @@
                                     <h:outputText value="#{presupuesto.clasificacion}" />
                                 </p:column>
                                 
-                                <p:column headerText="Centro costo" sortBy="#{presupuesto.centroCosto.centroCosto}" width="40%"
-                                		 filterMatchMode="contains" filterBy="#{presupuesto.centroCosto.centroCosto}">
-                                    <h:outputText value="#{presupuesto.centroCosto.centroCosto}" />
-                                </p:column>
-                                
-                                <p:column headerText="Cuenta" sortBy="#{presupuesto.cuenta.cuentaNombre}" width="40%"
-                                		 filterMatchMode="contains" filterBy="#{presupuesto.cuenta.cuentaNombre}">
-                                    <h:outputText value="#{presupuesto.cuenta.cuentaNombre}" />
-                                </p:column>
-                                
-                                <p:column headerText="Año" sortBy="#{presupuesto.anio}" width="15%">
-                                     <h:outputText value="#{presupuesto.anio}" />
-                                </p:column>
-
                                 <p:column headerText="Tipo" sortBy="#{presupuesto.tipo}" width="15%">
                                      <h:outputText value="#{presupuesto.tipo}" />
                                 </p:column>
                                 
-                                <p:column headerText="Estado" sortBy="#{presupuesto.estado}" width="15%">
-                                     <h:outputText value="#{presupuestoBB.listasGenericas.getNombreEstado(presupuesto.estado)}" />
+                                <p:column headerText="Usuario" sortBy="#{presupuesto.usuario.usuario}" width="30%"
+                                		 filterMatchMode="contains" filterBy="#{presupuesto.usuario.usuario}">
+                                    <h:outputText value="#{presupuesto.usuario.usuario}" />
                                 </p:column>
-                                
+                                                                
                                 <p:column headerText="Acciones" width="15%">
                                     <p:splitButton value="Accion" icon="fa fa-edit">
-								        <p:menuitem value="Actualizar" rendered="#{presupuesto.estado eq 'PENDIENTE'}"
-								        			actionListener="#{presupuestoBB.setSelectedPresupuesto(presupuesto)}"  
+								        <p:menuitem value="Actualizar" actionListener="#{presupuestoBB.setSelectedPresupuesto(presupuesto)}"  
 								        			update=":#{p:component('dlgActualizar')} :#{p:component('tblPresupuestos')}" oncomplete="PF('dlgActualizar').show();"
 								        			icon="ui-icon-arrowrefresh-1-w" >
 								        	
@@ -167,107 +99,17 @@
 								        			update=":#{p:component('dlgEliminar')}" oncomplete="PF('dlgEliminar').show();"
 								        			icon="ui-icon-close" >
 								        </p:menuitem>
-								        <p:menuitem value="Enviar" rendered="#{presupuesto.estado eq 'PENDIENTE'}"
-								        			actionListener="#{presupuestoBB.setSelectedPresupuesto(presupuesto)}" 
-								        			update=":#{p:component('dlgEnviar')}" oncomplete="PF('dlgEnviar').show();"
-								        			icon="ui-icon-send" >
-								        </p:menuitem>
 								    </p:splitButton>
                                 </p:column>
-                            </p:dataTable>
-                            
-                            <div style="display:#{empty presupuestoBB.detalle.detalle ? 'none;' : 'block;'}">
-	                            <br/><br/>
-	                            
-	                            <!-- Detalle del presupuesto -->
-	                            <h1>Detalle</h1>
-	                            <div class="ui-g">
-		                            <ui:repeat var="det" value="#{presupuestoBB.detalle.detalle}" varStatus="myVarStatus">
-		                            	<div class="ui-g-3">
-		                            		<div align="center">
-	                                			<table>
-	                                				<tr><td align="center" colspan="2">
-	                                					#{presupuestoBB.detalle.tipo eq 'Mensual' ? 'Mes ' : 'Campaña '} #{myVarStatus.index+1}
-	                                				</td></tr>
-	                                				<tr><td align="center">
-	                                					<p:inputNumber value="#{det.valor}" readonly="#{presupuestoBB.detalle.estado eq 'PENDIENTE'}"/>
-	                                				</td>
-                                				<td>
-                                					<p:commandButton id="btnEliminar22" value="X" 
-                                						rendered="#{presupuestoBB.detalle.estado eq 'PENDIENTE'}"
-					                                	actionListener="#{presupuestoBB.eliminarRegistro2(myVarStatus.index)}" 
-					                                	update="@form" 
-					                                	style="max-width:150px;"/>
-                                				</td></tr>
-	                                			</table>
-	                                		</div>
-		                            	</div>
-		                            </ui:repeat>
-		                            
-		                            <div class="ui-g-12">
-		                            	<p:commandButton id="btnAddMes2" value="Agregar Registro" 
-		                                	actionListener="#{presupuestoBB.agregarRegistro2}" 
-		                                	update="@form" icon="ui-icon-check fa fa-check Fs14 White" 
-		                                	rendered="#{presupuestoBB.detalle.estado eq 'PENDIENTE'}"
-		                                	style="max-width:150px;"/>
-	                                	<p:spacer width="10px" height="0px" />
-	                                	<p:commandButton id="btnGuardar2" value="Actualizar registros" 
-		                                	actionListener="#{presupuestoBB.actualizarValores}" 
-		                                	rendered="#{presupuestoBB.detalle.estado eq 'PENDIENTE'}"
-		                                	update="@form" icon="ui-icon-check fa fa-check Fs14 White" 
-		                                	style="max-width:180px;"/>
-		                            </div>
-		                            
-	                            </div>
-                            </div>
-                        </div>
-                        
-                        <!-- Observaciones -->
-                        <div class="card" style="display:#{empty presupuestoBB.detalle.observaciones ? 'none;' : 'block;'}">
-                            <h1>Histórico de observaciones</h1>
-                            <p:dataTable id="tblObservaciones" var="obs" value="#{presupuestoBB.detalle.observaciones}" reflow="true" 
-                            		rendered="#{not empty presupuestoBB.detalle.observaciones}"
-                            		emptyMessage="No se encontraron registros."
-									scrollable="false" paginatorPosition="bottom"
-									rows="10" rowsPerPageTemplate="5,10,20,50"
-									currentPageReportTemplate="Páginas {totalPages}.  registros {totalRecords}"
-									paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" 
-									paginator="true">
-									
-									
-                                <f:facet name="header">
-                                    Observaciones
-                                </f:facet>
-
-                                <p:column headerText="Observación" sortBy="#{obs.observacion}" width="30%"
-                                		 filterMatchMode="contains" filterBy="#{obs.observacion}">
-                                    <h:outputText value="#{obs.observacion}" />
-                                </p:column>
-                                
-                                <p:column headerText="Usuario envia" sortBy="#{obs.usuarioEnvia.nombre}" width="15%"
-                                		 filterMatchMode="contains" filterBy="#{obs.usuarioEnvia.nombre}">
-                                    <h:outputText value="#{obs.usuarioEnvia.nombre}" />
-                                </p:column>
-                                
-                                <p:column headerText="Usuario recibe" sortBy="#{obs.usuarioRecibe.nombre}" width="15%"
-                                		 filterMatchMode="contains" filterBy="#{obs.usuarioRecibe.nombre}">
-                                    <h:outputText value="#{obs.usuarioRecibe.nombre}" />
-                                </p:column>
-                                
-                                <p:column headerText="Fecha" sortBy="#{obs.fechaTXT}" width="15%"
-                                		 filterMatchMode="contains" filterBy="#{obs.fechaTXT}">
-                                    <h:outputText value="#{obs.fechaTXT}" />
-                                </p:column>
-                                
-                                <p:column headerText="Estado" sortBy="#{obs.estado}" width="25%">
-                                     <h:outputText value="#{presupuestoBB.listasGenericas.getNombreEstado(obs.estado)}" />
-                                </p:column>
-                            </p:dataTable>
-                            
-                        </div>
-                        
-                        
-                        <p:dialog header="Actualizar" id="dlgActualizar" widgetVar="dlgActualizar" minHeight="40">
+                                <p:column headerText="Iniciar" width="15%">
+						             <p:commandButton update=":#{p:component('tblPresupuestos')}" actionListener="#{presupuestoBB.setSelectedPresupuesto(presupuesto)}" icon="ui-icon-search" title="Iniciar">
+						                <f:setPropertyActionListener value="#{presupuesto}" target="#{presupuestoBB.setSelectedPresupuesto(presupuesto)}" />
+						            </p:commandButton>
+						        </p:column>
+                            </p:dataTable>      
+                          </div>    
+                          
+                          <p:dialog header="Actualizar" id="dlgActualizar" widgetVar="dlgActualizar" minHeight="40">
 							<div align="center">
 								<h:panelGrid columns="2" cellspacing="2" cellpadding="2">
 									
@@ -277,40 +119,12 @@
 							   		<p:outputLabel for="txtDescripcionU" value="Descripción"/>
 	                                <p:inputText id="txtDescripcionU" value="#{presupuestoBB.selectedPresupuesto.descripcion}" maxlength="100"/>
 	                                
-	                                <p:outputLabel for="selClasificacion2" value="Clasificación"/>
-	                                <p:selectOneMenu id="selClasificacion2" value="#{presupuestoBB.selectedPresupuesto.clasificacion}"
+	                                <p:outputLabel for="selClasificacionU" value="Clasificación"/>
+	                                <p:selectOneMenu id="selClasificacionU" value="#{presupuestoBB.selectedPresupuesto.clasificacion}"
 	                                		 filter="true">
 	                                    <f:selectItem itemLabel="Seleccione" itemValue="" />
 	                                    <f:selectItems value="#{presupuestoBB.listasGenericas.lstClasificacionPpto}" />
-	                                </p:selectOneMenu>
-	                                
-	                                <p:outputLabel for="selCentroCosto2" value="Centro costo"/>
-	                                <p:selectOneMenu id="selCentroCosto2" value="#{presupuestoBB.selectedPresupuesto.centroCosto.id}"
-	                                		 filter="true">
-	                                    <f:selectItem itemLabel="Seleccione" itemValue="" />
-	                                    <f:selectItems value="#{presupuestoBB.listaCentroCostos}" var="cc" 
-	                                    		itemValue="#{cc.id}" itemLabel="#{cc.centroCosto}"/>
-	                                    <p:ajax update="@form" listener="#{presupuestoBB.cargarListaCuentas('SI')}" process="@form" />
-	                                </p:selectOneMenu>
-	                                
-	                                <p:outputLabel for="selCuenta2" value="Cuenta"/>
-	                                <p:selectOneMenu id="selCuenta2" value="#{presupuestoBB.selectedPresupuesto.cuenta.id}"
-	                                		 filter="true">
-	                                    <f:selectItem itemLabel="Seleccione" itemValue="" />
-	                                    <f:selectItems value="#{presupuestoBB.listaCuentas}" var="cc" 
-	                                    		itemValue="#{cc.id}" itemLabel="#{cc.cuentaNombre}"/>
-	                                </p:selectOneMenu>
-	                                
-	                                <p:outputLabel for="txtAnio2" value="Año"/>
-	                                <p:inputNumber id="txtAnio2" value="#{presupuestoBB.selectedPresupuesto.anio}"
-	                                		 maxValue="2999" size="10" minValue="0"/>
-	                                
-	                                <p:outputLabel for="txtTipoU" value="Tipo"/>
-	                                <p:selectOneMenu id="txtTipoU" value="#{presupuestoBB.selectedPresupuesto.tipo}"
-	                                		 filter="true">
-	                                    <f:selectItem itemLabel="Seleccione" itemValue="" />
-	                                    <f:selectItems value="#{presupuestoBB.listasGenericas.lstTipoPresupuesto}" />
-	                                </p:selectOneMenu>
+	                                </p:selectOneMenu>	                                
 	                                
 							   	</h:panelGrid>
 							   	<br />
@@ -331,24 +145,401 @@
 								<p:commandButton id="btnEliminarPresupuesto" actionListener="#{presupuestoBB.deletePresupuesto}" 
 										update="@form" title="Eliminar" value="Eliminar" />						   		
 					   		</div>
-						</p:dialog>	
+						</p:dialog>	 
 						
-						<p:dialog header="Enviar al aprobador inicial" id="dlgEnviar" 
-								widgetVar="dlgEnviar" minHeight="40">
-							<div align="center">
-								
-								<strong>¿Está seguro de enviar el registro al aprobador inicial?</strong>
-								<br /><br /><br />
-								<p:inputTextarea value="#{presupuestoBB.observacion.observacion}"/>
-								<br /><br />
-								<p:spacer width="20px" height="20px" />
-								<p:commandButton id="btnEnviarPresupuesto" 
-											actionListener="#{presupuestoBB.enviarPresupuestoAprobadorInicial}" 
-											update="@form" title="Enviar" value="Enviar" />						   		
-					   		</div>
-						</p:dialog>	
-                        
-                        
+						<!-- DETALLE DE PRESUPUESTO MES SELECCIONADO -->
+						<div class="card">
+                            <h1>Detalle de Presupuesto Mensual Seleccionado</h1>
+                            
+                            <p:panelGrid id="pgPresupuestoDetalleMes" columns="4" columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4" layout="grid" 
+                            		styleClass="ui-panelgrid-blank" style="border:0px none; background-color:transparent;">
+                                
+                                <p:outputLabel for="selCuentaMes" value="Cuenta"/>
+                                <p:selectOneMenu id="selCuentaMes" value="#{presupuestoBB.presupuestoDetalleMes.cuenta.id}"
+                                		 filter="true">
+                                    <f:selectItem itemLabel="Seleccione" itemValue="" />
+                                    <f:selectItems value="#{presupuestoBB.listaCuentas}" var="c" 
+                                    		itemValue="#{c.id}" itemLabel="#{c.cuenta} - #{c.nombre}"/>
+                                </p:selectOneMenu>
+                                
+                                <p:outputLabel for="selCentroCostoMes" value="Centro costo"/>
+                                <p:selectOneMenu id="selCentroCostoMes" value="#{presupuestoBB.presupuestoDetalleMes.centroCosto.id}"
+                                		 filter="true">
+                                    <f:selectItem itemLabel="Seleccione" itemValue="" />
+                                    <f:selectItems value="#{presupuestoBB.listaCentroCostos}" var="cc" 
+                                    		itemValue="#{cc.id}" itemLabel="#{cc.centroCosto}"/>
+                                     <p:ajax update="@form" listener="#{presupuestoBB.cargarListaCuentasPresupuestoMes('NO')}" process="@form" />
+                                </p:selectOneMenu>
+                                
+                                <p:outputLabel for="inMes1" value="Mes 1"/>
+                                <p:inputNumber id="inMes1" value="#{presupuestoBB.presupuestoDetalleMes.valorM1}"/>
+                                
+                                <p:outputLabel for="inMes2" value="Mes 2"/>
+                                <p:inputNumber id="inMes2" value="#{presupuestoBB.presupuestoDetalleMes.valorM2}"/>
+                                
+                                <p:outputLabel for="inMes3" value="Mes 3"/>
+                                <p:inputNumber id="inMes3" value="#{presupuestoBB.presupuestoDetalleMes.valorM3}"/>
+                                
+                                <p:outputLabel for="inMes4" value="Mes 4"/>
+                                <p:inputNumber id="inMes4" value="#{presupuestoBB.presupuestoDetalleMes.valorM4}"/>
+                                                                
+                                <p:outputLabel for="inMes5" value="Mes 5"/>
+                                <p:inputNumber id="inMes5" value="#{presupuestoBB.presupuestoDetalleMes.valorM5}"/>
+                                
+                                <p:outputLabel for="inMes6" value="Mes 6"/>
+                                <p:inputNumber id="inMes6" value="#{presupuestoBB.presupuestoDetalleMes.valorM6}"/>
+                                
+                                <p:outputLabel for="inMes7" value="Mes 7"/>
+                                <p:inputNumber id="inMes7" value="#{presupuestoBB.presupuestoDetalleMes.valorM7}"/>
+                                
+                                <p:outputLabel for="inMes8" value="Mes 8"/>
+                                <p:inputNumber id="inMes8" value="#{presupuestoBB.presupuestoDetalleMes.valorM8}"/>
+                                
+                                <p:outputLabel for="inMes9" value="Mes 9"/>
+                                <p:inputNumber id="inMes9" value="#{presupuestoBB.presupuestoDetalleMes.valorM9}"/>
+                                
+                                <p:outputLabel for="inMes10" value="Mes 10"/>
+                                <p:inputNumber id="inMes10" value="#{presupuestoBB.presupuestoDetalleMes.valorM10}"/>
+                                
+                                <p:outputLabel for="inMes11" value="Mes 11"/>
+                                <p:inputNumber id="inMes11" value="#{presupuestoBB.presupuestoDetalleMes.valorM11}"/>
+                                
+                                <p:outputLabel for="inMes12" value="Mes 12"/>
+                                <p:inputNumber id="inMes12" value="#{presupuestoBB.presupuestoDetalleMes.valorM12}"/>
+                                                                
+                                <p:commandButton id="btnAgregarMes" value="Agregar" actionListener="#{presupuestoBB.addPresupuesto}" update=":#{p:component('pgPresupuestoDetalleMes')} :#{p:component('tblPresupuestoDetalleMes')}" icon="ui-icon-check fa fa-check Fs14 White" style="max-width:150px;"/>
+                            </p:panelGrid>
+                            
+                            <p:dataTable id="tblPresupuestoDetalleMes" var="presupuestoDetalleMes" value="#{presupuestoBB.listaPresupuestoDetalleMes}" reflow="true" 
+                            		selectionMode="single" rowKey="#{presupuestoDetalleMes.id}"
+                            		emptyMessage="No se encontraron registros."
+									scrollable="false" paginatorPosition="bottom"
+									rows="10" rowsPerPageTemplate="5,10,20,50"
+									currentPageReportTemplate="Páginas {totalPages} - Registros {totalRecords}"
+									paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" 
+									paginator="true">
+									
+								<f:facet name="header">
+                                    Detalle
+                                </f:facet>
+                                
+                                <p:column headerText="Cuenta" sortBy="#{presupuestoDetalleMes.cuenta.nombre}" width="40%"
+                                		 filterMatchMode="contains" filterBy="#{presupuestoDetalleMes.cuenta.nombre}">
+                                    <h:outputText value="#{presupuestoDetalleMes.cuenta.nombre}" />
+                                </p:column>
+                                
+                                <p:column headerText="Centro de Costo" sortBy="#{presupuestoDetalleMes.centroCosto.centroCosto}" width="40%"
+                                		 filterMatchMode="contains" filterBy="#{presupuestoDetalleMes.centroCosto.centroCosto}">
+                                    <h:outputText value="#{presupuestoDetalleMes.centroCosto.centroCosto}" />
+                                </p:column>
+
+								<p:column headerText="Mes 1" sortBy="#{presupuestoDetalleMes.valorM1}" width="40%">
+                                    <h:outputText value="#{presupuestoDetalleMes.valorM1}" />
+                                </p:column>
+                                
+                                <p:column headerText="Mes 2" sortBy="#{presupuestoDetalleMes.valorM2}" width="40%">
+                                    <h:outputText value="#{presupuestoDetalleMes.valorM2}" />
+                                </p:column>
+                                
+                                <p:column headerText="Mes 3" sortBy="#{presupuestoDetalleMes.valorM3}" width="40%">
+                                    <h:outputText value="#{presupuestoDetalleMes.valorM3}" />
+                                </p:column>
+                                
+                                <p:column headerText="Mes 4" sortBy="#{presupuestoDetalleMes.valorM4}" width="40%">
+                                    <h:outputText value="#{presupuestoDetalleMes.valorM4}" />
+                                </p:column>
+                                
+                                <p:column headerText="Mes 5" sortBy="#{presupuestoDetalleMes.valorM5}" width="40%">
+                                    <h:outputText value="#{presupuestoDetalleMes.valorM5}" />
+                                </p:column>
+                                
+                                <p:column headerText="Mes 6" sortBy="#{presupuestoDetalleMes.valorM6}" width="40%">
+                                    <h:outputText value="#{detallePresupuestoMes.valorM6}" />
+                                </p:column>
+                                
+                                <p:column headerText="Mes 7" sortBy="#{presupuestoDetalleMes.valorM7}" width="40%">
+                                    <h:outputText value="#{presupuestoDetalleMes.valorM7}" />
+                                </p:column>
+                                
+                                <p:column headerText="Mes 8" sortBy="#{presupuestoDetalleMes.valorM8}" width="40%">
+                                    <h:outputText value="#{detallePresupuestoMes.valorM8}" />
+                                </p:column>
+                                
+                                <p:column headerText="Mes 9" sortBy="#{presupuestoDetalleMes.valorM9}" width="40%">
+                                    <h:outputText value="#{presupuestoDetalleMes.valorM9}" />
+                                </p:column>
+                                
+                                <p:column headerText="Mes 10" sortBy="#{presupuestoDetalleMes.valorM10}" width="40%">
+                                    <h:outputText value="#{presupuestoDetalleMes.valorM10}" />
+                                </p:column>
+                                
+                                <p:column headerText="Mes 11" sortBy="#{presupuestoDetalleMes.valorM11}" width="40%">
+                                    <h:outputText value="#{presupuestoDetalleMes.valorM11}" />
+                                </p:column>
+                                
+                                <p:column headerText="Mes 12" sortBy="#{presupuestoDetalleMes.valorM12}" width="40%">
+                                    <h:outputText value="#{presupuestoDetalleMes.valorM12}" />
+                                </p:column>
+                                                                
+                                <p:column headerText="Acciones" width="15%">
+                                    <p:splitButton value="Accion" icon="fa fa-edit">
+								        <p:menuitem value="Actualizar" actionListener="#{presupuestoBB.setSelectedPresupuestoDetalleMes(presupuestoDetalleMes)}"  
+								        			update=":#{p:component('dlgActualizar')} :#{p:component('tblPresupuestoDetalleMes')}" oncomplete="PF('dlgActualizar').show();"
+								        			icon="ui-icon-arrowrefresh-1-w" >
+								        	
+								        </p:menuitem>
+								        <p:menuitem value="Eliminar" actionListener="#{presupuestoBB.setSelectedPresupuestoDetalleMes(presupuestoDetalleMes)}" 
+								        			update=":#{p:component('dlgEliminar')}" oncomplete="PF('dlgEliminar').show();"
+								        			icon="ui-icon-close" >
+								        </p:menuitem>
+								    </p:splitButton>
+                                </p:column>
+                            </p:dataTable>      
+                          </div>  
+                          
+                          <div class="card">
+                            <h1>Detalle de Presupuesto Campañal Seleccionado</h1>
+                            
+                            <p:panelGrid id="pgPresupuestoDetalleCampania" columns="4" columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4" layout="grid" 
+                            		styleClass="ui-panelgrid-blank" style="border:0px none; background-color:transparent;">
+                                
+                                <p:outputLabel for="selCuentaCampania" value="Cuenta"/>
+                                <p:selectOneMenu id="selCuentaCampania" value="#{presupuestoBB.presupuestoDetalleCampania.cuenta.id}"
+                                		 filter="true">
+                                    <f:selectItem itemLabel="Seleccione" itemValue="" />
+                                    <f:selectItems value="#{presupuestoBB.listaCuentas}" var="c" 
+                                    		itemValue="#{c.id}" itemLabel="#{c.cuenta} - #{c.nombre}"/>
+                                    
+                                </p:selectOneMenu>
+                                
+                                <p:outputLabel for="selCentroCostoCampania" value="Centro costo"/>
+                                <p:selectOneMenu id="selCentroCostoCampania" value="#{presupuestoBB.presupuestoDetalleCampania.centroCosto.id}"
+                                		 filter="true">
+                                    <f:selectItem itemLabel="Seleccione" itemValue="" />
+                                    <f:selectItems value="#{presupuestoBB.listaCentroCostos}" var="cc" 
+                                    		itemValue="#{cc.id}" itemLabel="#{cc.centroCosto}"/>
+                                     <p:ajax update="@form" listener="#{presupuestoBB.cargarListaCuentasPresupuestoCampania('NO')}" process="@form" />
+                                </p:selectOneMenu>
+                                
+                                <p:outputLabel for="inCampania1" value="Campaña 1"/>
+                                <p:inputNumber id="inCampania1" value="#{presupuestoBB.presupuestoDetalleCampania.valorC1}"/>
+                                
+                                <p:outputLabel for="inCampania2" value="Campaña 2"/>
+                                <p:inputNumber id="inCampania2" value="#{presupuestoBB.presupuestoDetalleCampania.valorC2}"/>
+                                
+                                <p:outputLabel for="inCampania3" value="Campaña 3"/>
+                                <p:inputNumber id="inCampania3" value="#{presupuestoBB.presupuestoDetalleCampania.valorC3}"/>
+                                
+                                <p:outputLabel for="inCampania4" value="Campaña 4"/>
+                                <p:inputNumber id="inCampania4" value="#{presupuestoBB.presupuestoDetalleCampania.valorC4}"/>
+                                                                
+                                <p:outputLabel for="inCampania5" value="Campaña 5"/>
+                                <p:inputNumber id="inCampania5" value="#{presupuestoBB.presupuestoDetalleCampania.valorC5}"/>
+                                
+                                <p:outputLabel for="inCampania6" value="Campaña 6"/>
+                                <p:inputNumber id="inCampania6" value="#{presupuestoBB.presupuestoDetalleCampania.valorC6}"/>
+                                
+                                <p:outputLabel for="inCampania7" value="Campaña 7"/>
+                                <p:inputNumber id="inCampania7" value="#{presupuestoBB.presupuestoDetalleCampania.valorC7}"/>
+                                
+                                <p:outputLabel for="inCampania8" value="Campaña 8"/>
+                                <p:inputNumber id="inCampania8" value="#{presupuestoBB.presupuestoDetalleCampania.valorC8}"/>
+                                
+                                <p:outputLabel for="inCampania9" value="Campaña 9"/>
+                                <p:inputNumber id="inCampania9" value="#{presupuestoBB.presupuestoDetalleCampania.valorC9}"/>
+                                
+                                <p:outputLabel for="inCampania10" value="Campaña 10"/>
+                                <p:inputNumber id="inCampania10" value="#{presupuestoBB.presupuestoDetalleCampania.valorC10}"/>
+                                
+                                <p:outputLabel for="inCampania11" value="Campaña 11"/>
+                                <p:inputNumber id="inCampania11" value="#{presupuestoBB.presupuestoDetalleCampania.valorC11}"/>
+                                
+                                <p:outputLabel for="inCampania12" value="Campaña 12"/>
+                                <p:inputNumber id="inCampania12" value="#{presupuestoBB.presupuestoDetalleCampania.valorC12}"/>
+                                
+                                <p:outputLabel for="inCampania13" value="Campaña 13"/>
+                                <p:inputNumber id="inCampania13" value="#{presupuestoBB.presupuestoDetalleCampania.valorC13}"/>
+                                
+                                <p:outputLabel for="inCampania14" value="Campaña 14"/>
+                                <p:inputNumber id="inCampania14" value="#{presupuestoBB.presupuestoDetalleCampania.valorC14}"/>
+                                
+                                <p:outputLabel for="inCampania15" value="Campaña 15"/>
+                                <p:inputNumber id="inCampania15" value="#{presupuestoBB.presupuestoDetalleCampania.valorC15}"/>
+                                
+                                <p:outputLabel for="inCampania16" value="Campaña 16"/>
+                                <p:inputNumber id="inCampania16" value="#{presupuestoBB.presupuestoDetalleCampania.valorC16}"/>
+                                
+                                <p:outputLabel for="inCampania17" value="Campaña 17"/>
+                                <p:inputNumber id="inCampania17" value="#{presupuestoBB.presupuestoDetalleCampania.valorC17}"/>
+                                
+                                <p:outputLabel for="inCampania18" value="Campaña 18"/>
+                                <p:inputNumber id="inCampania18" value="#{presupuestoBB.presupuestoDetalleCampania.valorC18}"/>
+                                
+                                <p:outputLabel for="inCampania19" value="Campaña 19"/>
+                                <p:inputNumber id="inCampania19" value="#{presupuestoBB.presupuestoDetalleCampania.valorC19}"/>
+                                
+                                <p:outputLabel for="inCampania20" value="Campaña 20"/>
+                                <p:inputNumber id="inCampania20" value="#{presupuestoBB.presupuestoDetalleCampania.valorC20}"/>
+                                
+                                <p:outputLabel for="inCampania21" value="Campaña 21"/>
+                                <p:inputNumber id="inCampania21" value="#{presupuestoBB.presupuestoDetalleCampania.valorC21}"/>
+                                
+                                <p:outputLabel for="inCampania22" value="Campaña 22"/>
+                                <p:inputNumber id="inCampania22" value="#{presupuestoBB.presupuestoDetalleCampania.valorC22}"/>
+                                
+                                <p:outputLabel for="inCampania23" value="Campaña 23"/>
+                                <p:inputNumber id="inCampania23" value="#{presupuestoBB.presupuestoDetalleCampania.valorC23}"/>
+                                
+                                <p:outputLabel for="inCampania24" value="Campaña 24"/>
+                                <p:inputNumber id="inCampania24" value="#{presupuestoBB.presupuestoDetalleCampania.valorC24}"/>
+                                
+                                <p:outputLabel for="inCampania25" value="Campaña 25"/>
+                                <p:inputNumber id="inCampania25" value="#{presupuestoBB.presupuestoDetalleCampania.valorC25}"/>
+                                                                
+                                <p:commandButton id="btnAgregarCampania" value="Agregar" actionListener="#{presupuestoBB.addPresupuesto}" update=":#{p:component('pgPresupuestoDetalleMes')} :#{p:component('tblPresupuestoDetalleMes')}" icon="ui-icon-check fa fa-check Fs14 White" style="max-width:150px;"/>
+                            </p:panelGrid>
+                            
+                            
+                            
+                            <p:dataTable id="tblPresupuestoDetalleCampania" var="presupuestoDetalleCampania" value="#{presupuestoBB.listaPresupuestoDetalleCampania}" reflow="true" 
+                            		selectionMode="single" rowKey="#{presupuestoDetalleCampania.id}"
+                            		emptyMessage="No se encontraron registros."
+									scrollable="false" paginatorPosition="bottom"
+									rows="10" rowsPerPageTemplate="5,10,20,50"
+									currentPageReportTemplate="Páginas {totalPages} - Registros {totalRecords}"
+									paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" 
+									paginator="true">
+									
+								<f:facet name="header">
+                                    Detalle
+                                </f:facet>
+                                
+                                <p:column headerText="Cuenta" sortBy="#{presupuestoDetalleCampania.cuenta.nombre}" width="40%"
+                                		 filterMatchMode="contains" filterBy="#{presupuestoDetalleCampania.cuenta.nombre}">
+                                    <h:outputText value="#{presupuestoDetalleCampania.cuenta.nombre}" />
+                                </p:column>
+                                
+                                <p:column headerText="Centro de Costo" sortBy="#{presupuestoDetalleCampania.centroCosto.centroCosto}" width="40%"
+                                		 filterMatchMode="contains" filterBy="#{presupuestoDetalleCampania.centroCosto.centroCosto}">
+                                    <h:outputText value="#{presupuestoDetalleCampania.centroCosto.centroCosto}" />
+                                </p:column>
+
+								<p:column headerText="Campaña 1" sortBy="#{presupuestoDetalleCampania.valorC1}" width="40%">
+                                    <h:outputText value="#{presupuestoDetalleCampania.valorM1}" />
+                                </p:column>
+                                
+                                <p:column headerText="Campaña 2" sortBy="#{presupuestoDetalleCampania.valorC2}" width="40%">
+                                    <h:outputText value="#{presupuestoDetalleCampania.valorM2}" />
+                                </p:column>
+                                
+                                <p:column headerText="Campaña 3" sortBy="#{presupuestoDetalleCampania.valorC3}" width="40%">
+                                    <h:outputText value="#{presupuestoDetalleCampania.valorM3}" />
+                                </p:column>
+                                
+                                <p:column headerText="Campaña 4" sortBy="#{presupuestoDetalleCampania.valorC4}" width="40%">
+                                    <h:outputText value="#{presupuestoDetalleCampania.valorM4}" />
+                                </p:column>
+                                
+                                <p:column headerText="Campaña 5" sortBy="#{presupuestoDetalleCampania.valorC5}" width="40%">
+                                    <h:outputText value="#{presupuestoDetalleCampania.valorM5}" />
+                                </p:column>
+                                
+                                <p:column headerText="Campaña 6" sortBy="#{presupuestoDetalleCampania.valorC6}" width="40%">
+                                    <h:outputText value="#{detallePresupuestoCampania.valorM6}" />
+                                </p:column>
+                                
+                                <p:column headerText="Campaña 7" sortBy="#{presupuestoDetalleCampania.valorC7}" width="40%">
+                                    <h:outputText value="#{presupuestoDetalleCampania.valorM7}" />
+                                </p:column>
+                                
+                                <p:column headerText="Campaña 8" sortBy="#{presupuestoDetalleCampania.valorC8}" width="40%">
+                                    <h:outputText value="#{detallePresupuestoCampania.valorM8}" />
+                                </p:column>
+                                
+                                <p:column headerText="Campaña 9" sortBy="#{presupuestoDetalleCampania.valorC9}" width="40%">
+                                    <h:outputText value="#{presupuestoDetalleCampania.valorM9}" />
+                                </p:column>
+                                
+                                <p:column headerText="Campaña 10" sortBy="#{presupuestoDetalleCampania.valorC10}" width="40%">
+                                    <h:outputText value="#{presupuestoDetalleCampania.valorM10}" />
+                                </p:column>
+                                
+                                <p:column headerText="Campaña 11" sortBy="#{presupuestoDetalleCampania.valorC11}" width="40%">
+                                    <h:outputText value="#{presupuestoDetalleCampania.valorM11}" />
+                                </p:column>
+                                
+                                <p:column headerText="Campaña 12" sortBy="#{presupuestoDetalleCampania.valorC12}" width="40%">
+                                    <h:outputText value="#{presupuestoDetalleCampania.valorM12}" />
+                                </p:column>
+                                
+                                <p:column headerText="Campaña 13" sortBy="#{presupuestoDetalleCampania.valorC13}" width="40%">
+                                    <h:outputText value="#{presupuestoDetalleCampania.valorM13}" />
+                                </p:column>
+                                
+                                <p:column headerText="Campaña 14" sortBy="#{presupuestoDetalleCampania.valorC14}" width="40%">
+                                    <h:outputText value="#{presupuestoDetalleCampania.valorM14}" />
+                                </p:column>
+                                
+                                <p:column headerText="Campaña 15" sortBy="#{presupuestoDetalleCampania.valorC15}" width="40%">
+                                    <h:outputText value="#{presupuestoDetalleCampania.valorM15}" />
+                                </p:column>
+                                
+                                <p:column headerText="Campaña 16" sortBy="#{presupuestoDetalleCampania.valorC16}" width="40%">
+                                    <h:outputText value="#{presupuestoDetalleCampania.valorM16}" />
+                                </p:column>
+                                
+                                <p:column headerText="Campaña 17" sortBy="#{presupuestoDetalleCampania.valorC17}" width="40%">
+                                    <h:outputText value="#{presupuestoDetalleCampania.valorM17}" />
+                                </p:column>
+                                
+                                <p:column headerText="Campaña 18" sortBy="#{presupuestoDetalleCampania.valorC18}" width="40%">
+                                    <h:outputText value="#{presupuestoDetalleCampania.valorM18}" />
+                                </p:column>
+                                
+                                <p:column headerText="Campaña 19" sortBy="#{presupuestoDetalleCampania.valorC19}" width="40%">
+                                    <h:outputText value="#{presupuestoDetalleCampania.valorM19}" />
+                                </p:column>
+                                
+                                <p:column headerText="Campaña 20" sortBy="#{presupuestoDetalleCampania.valorC20}" width="40%">
+                                    <h:outputText value="#{presupuestoDetalleCampania.valorM20}" />
+                                </p:column>
+                                
+                                <p:column headerText="Campaña 21" sortBy="#{presupuestoDetalleCampania.valorC21}" width="40%">
+                                    <h:outputText value="#{presupuestoDetalleCampania.valorM21}" />
+                                </p:column>
+                                
+                                <p:column headerText="Campaña 22" sortBy="#{presupuestoDetalleCampania.valorC22}" width="40%">
+                                    <h:outputText value="#{presupuestoDetalleCampania.valorM22}" />
+                                </p:column>
+                                
+                                <p:column headerText="Campaña 23" sortBy="#{presupuestoDetalleCampania.valorC23}" width="40%">
+                                    <h:outputText value="#{presupuestoDetalleCampania.valorM23}" />
+                                </p:column>
+                                
+                                <p:column headerText="Campaña 24" sortBy="#{presupuestoDetalleCampania.valorC24}" width="40%">
+                                    <h:outputText value="#{presupuestoDetalleCampania.valorM24}" />
+                                </p:column>
+                                
+                                <p:column headerText="Campaña 25" sortBy="#{presupuestoDetalleCampania.valorC25}" width="40%">
+                                    <h:outputText value="#{presupuestoDetalleCampania.valorM25}" />
+                                </p:column>
+                                                                
+                                <p:column headerText="Acciones" width="15%">
+                                    <p:splitButton value="Accion" icon="fa fa-edit">
+								        <p:menuitem value="Actualizar" actionListener="#{presupuestoBB.setSelectedPresupuestoDetalleCampania(presupuestoDetalleCampania)}"  
+								        			update=":#{p:component('dlgActualizar')} :#{p:component('tblPresupuestoDetalleCampania')}" oncomplete="PF('dlgActualizar').show();"
+								        			icon="ui-icon-arrowrefresh-1-w" >
+								        	
+								        </p:menuitem>
+								        <p:menuitem value="Eliminar" actionListener="#{presupuestoBB.setSelectedPresupuestoDetalleCampania(presupuestoDetalleCampania)}" 
+								        			update=":#{p:component('dlgEliminar')}" oncomplete="PF('dlgEliminar').show();"
+								        			icon="ui-icon-close" >
+								        </p:menuitem>
+								    </p:splitButton>
+                                </p:column>
+                            </p:dataTable>      
+                          </div>          
+                       
                     </div>                    
                 </div>
             </div>

@@ -22,10 +22,11 @@ public class Calculadora implements java.io.Serializable {
 	public Calculadora() {
 	}
 	
-	public Calculadora(int campana, int mes, double porcentaje) {
+	public Calculadora(int campana, int mes, double porcentaje, String tipo) {
 		this.campana = campana;
 		this.mes = mes;
 		this.porcentaje = porcentaje;
+		this.tipo = tipo;
 	}
 	
 	@Id

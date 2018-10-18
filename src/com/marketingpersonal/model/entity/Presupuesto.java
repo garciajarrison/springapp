@@ -13,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -21,17 +22,17 @@ public class Presupuesto implements java.io.Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private int id;
+	private Integer anio;
 	private String nombre;
 	private String descripcion;
 	private String tipo;
-	private String clasificacion;
-	private Integer anio;
+	private String clasificacion;	
 	private Date fechaCreacion;
 	private Usuario usuario;
 	
 	private List<PresupuestoDetalleMes> detalleMes = new ArrayList<>();
 	private List<PresupuestoDetalleCampania> detalleCampania = new ArrayList<>();
-	private List<Observacion> observaciones = new ArrayList<>();
+	//private List<Observacion> observaciones = new ArrayList<>();
 	
 	public Presupuesto() {
 		this.usuario = new Usuario();
@@ -119,7 +120,18 @@ public class Presupuesto implements java.io.Serializable {
 	public void setDetalleCampania(List<PresupuestoDetalleCampania> detalleCampania) {
 		this.detalleCampania = detalleCampania;
 	}
+	
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "id_usuario", nullable = false)
+	public Usuario getUsuario() {
+		return usuario;
+	}
 
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
+	}
+	
+/*
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "presupuesto")
 	public List<Observacion> getObservaciones() {
 		return observaciones;
@@ -127,6 +139,6 @@ public class Presupuesto implements java.io.Serializable {
 
 	public void setObservaciones(List<Observacion> observaciones) {
 		this.observaciones = observaciones;
-	}
+	}*/
 	
 }

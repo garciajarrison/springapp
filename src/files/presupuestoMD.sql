@@ -1,47 +1,16 @@
--- -----------------------------------------------------
--- CAMBIOS
--- -----------------------------------------------------
--- actualizacion de tabla presupuesto
--- creacion de tabla observaciones
+-- Database: presupuestoMD
 
+-- DROP DATABASE "presupuestoMD";
 
--- -----------------------------------------------------
--- Table presupuestoMD.calculadora
--- -----------------------------------------------------
--- DROP SEQUENCE presupuestoMD.calculadora_seq;
-CREATE SEQUENCE presupuestoMD.calculadora_seq;
-ALTER SEQUENCE presupuestoMD.calculadora_seq
-    OWNER TO postgres;
-    
--- DROP TABLE presupuestoMD.calculadora ;
-CREATE TABLE presupuestoMD.calculadora
-(
-   id                  INTEGER NOT NULL DEFAULT nextval ('presupuestoMD.calculadora_seq'::regclass),
-   campana    		   INTEGER NULL,
-   mes         		   INTEGER NULL,
-   anio                INTEGER NULL,
-   tipo    			   CHARACTER VARYING (20) NULL,
-   porcentaje		   real null,
-   CONSTRAINT pk_calculadora PRIMARY KEY (id)
-)
-WITH (OIDS = FALSE);
-
-ALTER TABLE presupuestoMD.calculadora
-    OWNER to postgres;	 
-
-
--- -----------------------------------------------------
--- Schema PresupuestoMD
--- -----------------------------------------------------
-CREATE DATABASE presupuestoMD
+CREATE DATABASE "presupuestoMD"
     WITH 
     OWNER = postgres
-    ENCODING = UTF8
-    LC_COLLATE = Spanish_Colombia.1252
-    LC_CTYPE = Spanish_Colombia.1252
+    ENCODING = 'UTF8'
+    LC_COLLATE = 'Spanish_Colombia.1252'
+    LC_CTYPE = 'Spanish_Colombia.1252'
     TABLESPACE = pg_default
     CONNECTION LIMIT = -1;
-
+    
 -- SCHEMA: presupuestoMD
 -- DROP SCHEMA presupuestoMD ;
 CREATE SCHEMA presupuestoMD
@@ -306,21 +275,21 @@ CREATE TABLE presupuestoMD.detalle_presupuesto_mes
    id                  INTEGER NOT NULL DEFAULT nextval ('presupuestoMD.detalle_presupuesto_mes_seq'::regclass),
    id_presupuesto      INTEGER NOT NULL,
    observacion    	   CHARACTER VARYING (200) NULL,	
-   valor_m1            double NOT NULL,
-   valor_m2            double NOT NULL,
-   valor_m3            double NOT NULL,
-   valor_m4            double NOT NULL,
-   valor_m5            double NOT NULL,
-   valor_m6            double NOT NULL,
-   valor_m7            double NOT NULL,
-   valor_m8            double NOT NULL,
-   valor_m9            double NOT NULL,
-   valor_m10           double NOT NULL,
-   valor_m11           double NOT NULL,
-   valor_m12           double NOT NULL,	
+   valor_m1            real NOT NULL,
+   valor_m2            real NOT NULL,
+   valor_m3            real NOT NULL,
+   valor_m4            real NOT NULL,
+   valor_m5            real NOT NULL,
+   valor_m6            real NOT NULL,
+   valor_m7            real NOT NULL,
+   valor_m8            real NOT NULL,
+   valor_m9            real NOT NULL,
+   valor_m10           real NOT NULL,
+   valor_m11           real NOT NULL,
+   valor_m12           real NOT NULL,	
    estado              CHARACTER VARYING (20) NULL DEFAULT 'PENDIENTE',
-   id_centrocosto	   INTEGER NOT NULL,
    id_cuenta		   INTEGER NOT NULL,
+   id_centrocosto	   INTEGER NOT NULL,
    id_usuario_aprini   INTEGER NOT NULL,
    id_usuario_aprfin   INTEGER NOT NULL,
    CONSTRAINT pk_detalle_presupuesto_mes PRIMARY KEY (id),
@@ -329,7 +298,7 @@ CREATE TABLE presupuestoMD.detalle_presupuesto_mes
    CONSTRAINT fk_detalle_presupuesto_mes_cuenta FOREIGN KEY (id_cuenta)
         REFERENCES presupuestoMD.cuenta (id) MATCH SIMPLE,
    CONSTRAINT fk_detalle_presupuesto_mes_centrocosto FOREIGN KEY (id_centrocosto)
-        REFERENCES presupuestoMD.centrocosto.(id) MATCH SIMPLE,
+        REFERENCES presupuestoMD.centrocosto(id) MATCH SIMPLE,
    CONSTRAINT fk_detalle_presupuesto_mes_usuario_aprini FOREIGN KEY (id_usuario_aprini)
         REFERENCES presupuestoMD.usuario (id) MATCH SIMPLE,
    CONSTRAINT fk_detalle_presupuesto_mes_usuario_aprfin FOREIGN KEY (id_usuario_aprfin)
@@ -354,31 +323,31 @@ CREATE TABLE presupuestoMD.detalle_presupuesto_campania
    id                  INTEGER NOT NULL DEFAULT nextval ('presupuestoMD.detalle_presupuesto_campania_seq'::regclass),
    id_presupuesto      INTEGER NOT NULL,
    observacion    	   CHARACTER VARYING (200) NULL,	
-   valor_c1            double NOT NULL,
-   valor_c2            double NOT NULL,
-   valor_c3            double NOT NULL,
-   valor_c4            double NOT NULL,
-   valor_c5            double NOT NULL,
-   valor_c6            double NOT NULL,
-   valor_c7            double NOT NULL,
-   valor_c8            double NOT NULL,
-   valor_c9            double NOT NULL,
-   valor_c10           double NOT NULL,
-   valor_c11           double NOT NULL,
-   valor_c12           double NOT NULL,	
-   valor_c13           double NOT NULL,	
-   valor_c14           double NOT NULL,	
-   valor_c15           double NOT NULL,	
-   valor_c16           double NOT NULL,		
-   valor_c17           double NOT NULL,	
-   valor_c18           double NOT NULL,	
-   valor_c19           double NOT NULL,	
-   valor_c20           double NOT NULL,	
-   valor_c21           double NOT NULL,	
-   valor_c22           double NOT NULL,	
-   valor_c23           double NOT NULL,	
-   valor_c24           double NOT NULL,	
-   valor_c25           double NOT NULL,	
+   valor_c1            real NOT NULL,
+   valor_c2            real NOT NULL,
+   valor_c3            real NOT NULL,
+   valor_c4            real NOT NULL,
+   valor_c5            real NOT NULL,
+   valor_c6            real NOT NULL,
+   valor_c7            real NOT NULL,
+   valor_c8            real NOT NULL,
+   valor_c9            real NOT NULL,
+   valor_c10           real NOT NULL,
+   valor_c11           real NOT NULL,
+   valor_c12           real NOT NULL,	
+   valor_c13           real NOT NULL,	
+   valor_c14           real NOT NULL,	
+   valor_c15           real NOT NULL,	
+   valor_c16           real NOT NULL,		
+   valor_c17           real NOT NULL,	
+   valor_c18           real NOT NULL,	
+   valor_c19           real NOT NULL,	
+   valor_c20           real NOT NULL,	
+   valor_c21           real NOT NULL,	
+   valor_c22           real NOT NULL,	
+   valor_c23           real NOT NULL,	
+   valor_c24           real NOT NULL,	
+   valor_c25           real NOT NULL,	
    estado              CHARACTER VARYING (20) NULL DEFAULT 'PENDIENTE',
    id_centrocosto	   INTEGER NOT NULL,
    id_cuenta		   INTEGER NOT NULL,
@@ -428,10 +397,42 @@ CREATE TABLE presupuestoMD.observacion
    CONSTRAINT fk_ob_dt_prep_mes FOREIGN KEY (id_detalle_presupuesto_mes)
         REFERENCES presupuestoMD.detalle_presupuesto_mes (id) MATCH SIMPLE,
 	CONSTRAINT fk_ob_dt_prep_campania FOREIGN KEY (id_detalle_presupuesto_campania)
-        REFERENCES presupuestoMD.detalle_presupuesto_campania (id) MATCH SIMPLE,
+        REFERENCES presupuestoMD.detalle_presupuesto_campania (id) MATCH SIMPLE
 )
 WITH (OIDS = FALSE);
 
 ALTER TABLE presupuestoMD.observacion
     OWNER to postgres;	
+								  
+								  -- -----------------------------------------------------
+-- CAMBIOS
+-- -----------------------------------------------------
+-- actualizacion de tabla presupuesto
+-- creacion de tabla observaciones
+
+
+-- -----------------------------------------------------
+-- Table presupuestoMD.calculadora
+-- -----------------------------------------------------
+-- DROP SEQUENCE presupuestoMD.calculadora_seq;
+CREATE SEQUENCE presupuestoMD.calculadora_seq;
+ALTER SEQUENCE presupuestoMD.calculadora_seq
+    OWNER TO postgres;
+    
+-- DROP TABLE presupuestoMD.calculadora ;
+CREATE TABLE presupuestoMD.calculadora
+(
+   id                  INTEGER NOT NULL DEFAULT nextval ('presupuestoMD.calculadora_seq'::regclass),
+   campana    		   INTEGER NULL,
+   mes         		   INTEGER NULL,
+   anio                INTEGER NULL,
+   tipo    			   CHARACTER VARYING (20) NULL,
+   porcentaje		   real null,
+   CONSTRAINT pk_calculadora PRIMARY KEY (id)
+)
+WITH (OIDS = FALSE);
+
+ALTER TABLE presupuestoMD.calculadora
+    OWNER to postgres;	 
+
 	
