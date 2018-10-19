@@ -28,7 +28,10 @@ import com.marketingpersonal.model.entity.Cuenta;
 import com.marketingpersonal.service.ICentroCostoService;
 import com.marketingpersonal.service.ICuentaService;
 
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter @Setter
 @ManagedBean(name = "centroCostoPorCuentaBB")
 @ViewScoped
 public class CentroCostoPorCuentaBB extends SpringBeanAutowiringSupport implements Serializable {
@@ -132,78 +135,6 @@ public class CentroCostoPorCuentaBB extends SpringBeanAutowiringSupport implemen
 			e.printStackTrace();
 			util.mostrarError("Error eliminando el registro.");
 		} 	
-	}
-
-	public ICentroCostoService getCentroCostoService() {
-		return centroCostoService;
-	}
-
-	public void setCentroCostoService(ICentroCostoService centroCostoService) {
-		this.centroCostoService = centroCostoService;
-	}
-
-	public Util getUtil() {
-		return util;
-	}
-
-	public void setUtil(Util util) {
-		this.util = util;
-	}
-
-	public CentroCostoPorCuenta getCentroCostoPorCuenta() {
-		return centroCostoPorCuenta;
-	}
-
-	public void setCentroCostoPorCuenta(CentroCostoPorCuenta centroCostoPorCuenta) {
-		this.centroCostoPorCuenta = centroCostoPorCuenta;
-	}
-
-	public CentroCostoPorCuenta getSelectedCentroCostoPorCuenta() {
-		return selectedCentroCostoPorCuenta;
-	}
-
-	public void setSelectedCentroCostoPorCuenta(CentroCostoPorCuenta selectedCentroCostoPorCuenta) {
-		this.selectedCentroCostoPorCuenta = selectedCentroCostoPorCuenta;
-	}
-
-	public List<CentroCostoPorCuenta> getListaCentroCostoPorCuentas() {
-		return listaCentroCostoPorCuentas;
-	}
-
-	public void setListaCentroCostoPorCuentas(List<CentroCostoPorCuenta> listaCentroCostoPorCuentas) {
-		this.listaCentroCostoPorCuentas = listaCentroCostoPorCuentas;
-	}
-
-	public ICuentaService getCuentaService() {
-		return cuentaService;
-	}
-
-	public void setCuentaService(ICuentaService cuentaService) {
-		this.cuentaService = cuentaService;
-	}
-
-	public List<CentroCosto> getLstCentroCosto() {
-		return lstCentroCosto;
-	}
-
-	public void setLstCentroCosto(List<CentroCosto> lstCentroCosto) {
-		this.lstCentroCosto = lstCentroCosto;
-	}
-
-	public List<Cuenta> getLstCuenta() {
-		return lstCuenta;
-	}
-
-	public void setLstCuenta(List<Cuenta> lstCuenta) {
-		this.lstCuenta = lstCuenta;
-	}
-	
-	public UploadedFile getFile() {
-	    return file;
-	}
-
-	public void setFile(UploadedFile file) {
-	    this.file = file;
 	}
 	
 	public void uploadPlanoCentrosCostoPorCuenta(FileUploadEvent event) {

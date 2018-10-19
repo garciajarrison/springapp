@@ -9,7 +9,6 @@ import org.springframework.stereotype.Repository;
 
 import com.marketingpersonal.model.entity.CentroCosto;
 import com.marketingpersonal.model.entity.CentroCostoPorCuenta;
-import com.marketingpersonal.model.entity.Cuenta;
 import com.marketingpersonal.model.entity.Usuario;
 
 

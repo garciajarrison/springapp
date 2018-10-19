@@ -2,7 +2,6 @@ package com.marketingpersonal.controller;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
@@ -28,6 +27,10 @@ import com.marketingpersonal.service.ICentroCostoService;
 import com.marketingpersonal.service.ICuentaService;
 import com.marketingpersonal.service.IPresupuestoService;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter @Setter
 @ManagedBean(name = "presupuestoBB")
 @ViewScoped
 public class PresupuestoBB extends SpringBeanAutowiringSupport implements Serializable {
@@ -259,134 +262,6 @@ public class PresupuestoBB extends SpringBeanAutowiringSupport implements Serial
 		} 
 	}
 		
-	public Presupuesto getSelectedPresupuesto() {
-		return selectedPresupuesto;
-	}
-
-	public void setSelectedPresupuesto(Presupuesto selectedPresupuesto) {
-		this.selectedPresupuesto = selectedPresupuesto;
-	}	
-	
-	public ICuentaService getCuentaService() {
-		return cuentaService;
-	}
-
-	public void setCuentaService(ICuentaService cuentaService) {
-		this.cuentaService = cuentaService;
-	}
-	
-	public Presupuesto getPresupuesto() {
-		return presupuesto;
-	}
-
-	public void setPresupuesto(Presupuesto presupuesto) {
-		this.presupuesto = presupuesto;
-	}
-	
-	public PresupuestoDetalleMes getPresupuestoDetalleMes() {
-		return presupuestoDetalleMes;
-	}
-
-	public void setPresupuestoDetalleMes(PresupuestoDetalleMes presupuestoDetalleMes) {
-		this.presupuestoDetalleMes = presupuestoDetalleMes;
-	}
-	
-	public PresupuestoDetalleCampania getPresupuestoDetalleCampania() {
-		return presupuestoDetalleCampania;
-	}
-
-	public void setPresupuestoDetalleCampania(PresupuestoDetalleCampania presupuestoDetalleCampania) {
-		this.presupuestoDetalleCampania = presupuestoDetalleCampania;
-	}
-	
-	public IPresupuestoService getPresupuestoService() {
-		return presupuestoService;
-	}
-
-	public void setPresupuestoService(IPresupuestoService presupuestoService) {
-		this.presupuestoService = presupuestoService;
-	}
-
-	public Util getUtil() {
-		return util;
-	}
-
-	public void setUtil(Util util) {
-		this.util = util;
-	}
-	
-	public ListasGenericas getListasGenericas() {
-		return listasGenericas;
-	}
-
-	public void setListasGenericas(ListasGenericas listasGenericas) {
-		this.listasGenericas = listasGenericas;
-	}
-	
-	public List<Presupuesto> getListaPresupuestos() {
-		return listaPresupuestos;
-	}
-
-	public void setListaPresupuestos(List<Presupuesto> listaPresupuestos) {
-		this.listaPresupuestos = listaPresupuestos;
-	}
-	
-	public List<CentroCosto> getListaCentroCostos() {
-		return listaCentroCostos;
-	}
-
-	public void setListaCentroCostos(List<CentroCosto> listaCentroCostos) {
-		this.listaCentroCostos = listaCentroCostos;
-	}
-	
-	public ICentroCostoService getCentroCostoService() {
-		return centroCostoService;
-	}
-
-	public void setCentroCostoService(ICentroCostoService centroCostoService) {
-		this.centroCostoService = centroCostoService;
-	}
-	
-	public List<Cuenta> getListaCuentas() {
-		return listaCuentas;
-	}
-
-	public void setListaCuentas(List<Cuenta> listaCuentas) {
-		this.listaCuentas = listaCuentas;
-	}
-	
-	public boolean isMostrarDetalle() {
-		return mostrarDetalle;
-	}
-
-	public void setMostrarDetalle(boolean mostrarDetalle) {
-		this.mostrarDetalle = mostrarDetalle;
-	}
-
-	public int getCamapanaMaxima() {
-		return camapanaMaxima;
-	}
-
-	public void setCamapanaMaxima(int camapanaMaxima) {
-		this.camapanaMaxima = camapanaMaxima;
-	}
-
-	public ICalculadoraService getCalculadoraService() {
-		return calculadoraService;
-	}
-
-	public void setCalculadoraService(ICalculadoraService calculadoraService) {
-		this.calculadoraService = calculadoraService;
-	}
-	
-	public Presupuesto getDetalle() {
-		return detalle;
-	}
-
-	public void setDetalle(Presupuesto detalle) {
-		this.detalle = detalle;
-	}
-	
 	/*	
 	
 	public void enviarPresupuestoAprobadorInicial(){

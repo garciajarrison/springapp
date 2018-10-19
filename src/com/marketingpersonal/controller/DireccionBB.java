@@ -14,6 +14,10 @@ import com.marketingpersonal.common.Util;
 import com.marketingpersonal.model.entity.Direccion;
 import com.marketingpersonal.service.IDireccionService;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter @Setter
 @ManagedBean(name = "direccionBB")
 @ViewScoped
 public class DireccionBB extends SpringBeanAutowiringSupport implements Serializable {
@@ -99,46 +103,6 @@ public class DireccionBB extends SpringBeanAutowiringSupport implements Serializ
 			e.printStackTrace();
 			util.mostrarError("Error eliminando el registro.");
 		} 	
-	}
-
-	public IDireccionService getDireccionService() {
-		return direccionService;
-	}
-
-	public void setDireccionService(IDireccionService direccionService) {
-		this.direccionService = direccionService;
-	}
-
-	public Util getUtil() {
-		return util;
-	}
-
-	public void setUtil(Util util) {
-		this.util = util;
-	}
-
-	public Direccion getDireccion() {
-		return direccion;
-	}
-
-	public void setDireccion(Direccion direccion) {
-		this.direccion = direccion;
-	}
-
-	public Direccion getSelectedDireccion() {
-		return selectedDireccion;
-	}
-
-	public void setSelectedDireccion(Direccion selectedDireccion) {
-		this.selectedDireccion = selectedDireccion;
-	}
-
-	public List<Direccion> getListaDireccions() {
-		return listaDirecciones;
-	}
-
-	public void setListaDireccions(List<Direccion> listaDirecciones) {
-		this.listaDirecciones = listaDirecciones;
 	}
 
  }

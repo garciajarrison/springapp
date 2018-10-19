@@ -14,7 +14,6 @@ import javax.faces.context.FacesContext;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.hibernate.exception.ConstraintViolationException;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
@@ -29,6 +28,10 @@ import com.marketingpersonal.model.entity.Usuario;
 import com.marketingpersonal.model.entity.Validacion;
 import com.marketingpersonal.service.IUsuarioService;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter @Setter
 @ManagedBean(name = "usuarioBB")
 @ViewScoped
 public class UsuarioBB extends SpringBeanAutowiringSupport implements Serializable {
@@ -172,62 +175,6 @@ public class UsuarioBB extends SpringBeanAutowiringSupport implements Serializab
 		} 	
 	}
 
-	public IUsuarioService getUsuarioService() {
-		return usuarioService;
-	}
-
-	public void setUsuarioService(IUsuarioService usuarioService) {
-		this.usuarioService = usuarioService;
-	}
-
-	public Util getUtil() {
-		return util;
-	}
-
-	public void setUtil(Util util) {
-		this.util = util;
-	}
-
-	public Usuario getUsuario() {
-		return usuario;
-	}
-
-	public void setUsuario(Usuario usuario) {
-		this.usuario = usuario;
-	}
-
-	public Usuario getSelectedUsuario() {
-		return selectedUsuario;
-	}
-
-	public void setSelectedUsuario(Usuario selectedUsuario) {
-		this.selectedUsuario = selectedUsuario;
-	}
-
-	public List<Usuario> getListaUsuarios() {
-		return listaUsuarios;
-	}
-
-	public void setListaUsuarios(List<Usuario> listaUsuarios) {
-		this.listaUsuarios = listaUsuarios;
-	}
-
-	public ListasGenericas getListasGenericas() {
-		return listasGenericas;
-	}
-
-	public void setListasGenericas(ListasGenericas listasGenericas) {
-		this.listasGenericas = listasGenericas;
-	}
-	
-	public UploadedFile getFile() {
-	    return file;
-	}
-
-	public void setFile(UploadedFile file) {
-	    this.file = file;
-	}
-	
 	public void uploadPlanoUsuarios(FileUploadEvent event) {
 		
 		try {
@@ -390,15 +337,5 @@ public class UsuarioBB extends SpringBeanAutowiringSupport implements Serializab
 			getUsuarioService().addUsuario(usuario);		
 		}
 	}
-
-	public List<Validacion> getListaValidacion() {
-		return listaValidacion;
-	}
-
-	public void setListaValidacion(List<Validacion> listaValidacion) {
-		this.listaValidacion = listaValidacion;
-	}
-    
-    
 
  }

@@ -10,8 +10,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import com.marketingpersonal.model.entity.CentroCosto.CentroCostoBuilder;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -35,10 +33,10 @@ public class CentroCostoPorCuenta implements java.io.Serializable {
 	
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "id_cuenta", nullable = false)
-	private Cuenta cuenta;
+	private Cuenta cuenta = new Cuenta();
 	
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "id_centrocosto", nullable = false)
-	private CentroCosto centroCosto;
+	private CentroCosto centroCosto = new CentroCosto();
 
 }
