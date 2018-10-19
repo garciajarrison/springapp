@@ -58,8 +58,9 @@ public class DireccionBB extends SpringBeanAutowiringSupport implements Serializ
 				
 				//Validar que no exista un registro duplicado
 				for(Direccion dir : listaDirecciones) {
-					if(dir.getNombre().equals(direccion.getNombre())) {
-						guardar = false;						
+					if(dir.getNombre().equals(direccion.getNombre().trim())) {
+						guardar = false;	
+						break;
 					}
 				}
 				
@@ -81,11 +82,27 @@ public class DireccionBB extends SpringBeanAutowiringSupport implements Serializ
 
 	public void updateDireccion() {
 		try {
+			boolean actualizar = true;
 			if(validar(selectedDireccion)) {
-				getDireccionService().updateDireccion(selectedDireccion);
-				listaDirecciones = getDireccionService().getDirecciones(false);
-				selectedDireccion = new Direccion();
-				util.mostrarMensaje("Registro actualizado con éxito.");
+				
+				//Validar que no exista un registro duplicado
+				for(Direccion dir : listaDirecciones) {
+					if(dir.getId() != selectedDireccion.getId())	 {
+						if(dir.getNombre().equals(selectedDireccion.getNombre().trim()))	 {
+							actualizar = false;	
+							break;
+						}					
+					}					
+				}
+				
+				if(actualizar) {
+					getDireccionService().updateDireccion(selectedDireccion);
+					listaDirecciones = getDireccionService().getDirecciones(false);
+					selectedDireccion = new Direccion();
+					util.mostrarMensaje("Registro actualizado con éxito.");
+				}else {
+					util.mostrarError("Ya existe una Dirección con el mismo nombre");
+				}
 			}
 			
 		} catch (DataAccessException e) {

@@ -58,8 +58,9 @@ public class JefaturaBB extends SpringBeanAutowiringSupport implements Serializa
 				
 				//Validar que no existe un registro duplicado
 				for(Jefatura jef : listaJefaturas) {
-					if(jef.getNombre().equals(jefatura.getNombre())) {
-						guardar = false;						
+					if(jef.getNombre().equals(jefatura.getNombre().trim())) {
+						guardar = false;	
+						break;
 					}
 				}
 				
@@ -81,11 +82,27 @@ public class JefaturaBB extends SpringBeanAutowiringSupport implements Serializa
 
 	public void updateJefatura() {
 		try {
+			boolean actualizar = true;
+			
 			if(validar(selectedJefatura)) {
+				//Validar que no exista un registro duplicado
+				for(Jefatura jef : listaJefaturas) {
+					if(jef.getId() != selectedJefatura.getId())	 {
+						if(jef.getNombre().equals(selectedJefatura.getNombre().trim()))	 {
+							actualizar = false;	
+							break;
+						}					
+					}					
+				}
+				
+				if(actualizar) {
 				getJefaturaService().updateJefatura(selectedJefatura);
 				listaJefaturas = getJefaturaService().getJefaturas(false);
 				selectedJefatura = new Jefatura();
 				util.mostrarMensaje("Registro actualizado con éxito.");
+				}else {
+					util.mostrarError("Ya existe una Gerencia con el mismo nombre ingresado");
+				}
 			}
 			
 		} catch (DataAccessException e) {

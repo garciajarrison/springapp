@@ -24,6 +24,7 @@ import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
 import com.marketingpersonal.common.ListasGenericas;
 import com.marketingpersonal.common.Util;
+import com.marketingpersonal.model.entity.Cuenta;
 import com.marketingpersonal.model.entity.Usuario;
 import com.marketingpersonal.model.entity.Validacion;
 import com.marketingpersonal.service.IUsuarioService;
@@ -184,6 +185,8 @@ public class UsuarioBB extends SpringBeanAutowiringSupport implements Serializab
 			XSSFSheet sheet = workbook.getSheetAt(0);
 						
 			if(validarArchivoPlano(workbook)) {
+				//getUsuarioService().addUsuariosArchivoPlano(sheet);
+				
 				insertarUsuarios(sheet);
 				
 				FacesMessage msg = new FacesMessage("Carga Archivo Plano de Usuarios", event.getFile().getFileName() + " fue cargado correctamente");
@@ -197,6 +200,26 @@ public class UsuarioBB extends SpringBeanAutowiringSupport implements Serializab
 		}
 		
 	}
+	
+	 public void insertarUsuarios(XSSFSheet sheet) {
+			Row row;
+			int numFilas = sheet.getPhysicalNumberOfRows();	
+			for (int fila = 1; fila < numFilas; fila++) {
+				row = sheet.getRow(fila);
+				
+				usuario = new Usuario();
+
+				usuario.setNumeroDocumento(row.getCell(0)+"");
+				usuario.setNombre(row.getCell(1)+"");
+				usuario.setUsuario(row.getCell(2)+"");
+				usuario.setCorreo(row.getCell(3)+"");
+				usuario.setCargo(row.getCell(4)+"");
+				usuario.setRol(row.getCell(5)+"");
+							
+							
+				getUsuarioService().addUsuario(usuario);		
+			}
+		}
 	
 	public StreamedContent getFileDescargar() {
     	InputStream stream = FacesContext.getCurrentInstance().getExternalContext().getResourceAsStream("/resources/files/Archivo Plano Usuarios.xlsx");
@@ -304,12 +327,15 @@ public class UsuarioBB extends SpringBeanAutowiringSupport implements Serializab
 			
 			rol = row.getCell(5)+"";
 			
-			if(!rol.equals("Administrador") || !rol.equals("Usuario")) {
-				validacion = new Validacion();
-				validacion.setMensaje("El rol: "+ row.getCell(5)+ " ingresado no es valido");
-				validacion.setFila((fila+1)+"");
-				validacion.setColumna("F");
-				listaValidacion.add(validacion);
+			if(!rol.equals("Administrador")) {
+				if(!rol.equals("Usuario")) {
+					validacion = new Validacion();
+					validacion.setMensaje("El rol: "+ row.getCell(5)+ " ingresado no es valido");
+					validacion.setFila((fila+1)+"");
+					validacion.setColumna("F");
+					listaValidacion.add(validacion);
+				}
+				
 			}	
 		}
 		if(listaValidacion.size()>=1) {
@@ -319,6 +345,7 @@ public class UsuarioBB extends SpringBeanAutowiringSupport implements Serializab
 		return permiteGuardar;
 	}
     
+
     public void insertarUsuarios(XSSFSheet sheet) {
 		Row row;
 		int numFilas = sheet.getPhysicalNumberOfRows();	

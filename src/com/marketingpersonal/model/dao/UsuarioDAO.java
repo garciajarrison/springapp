@@ -2,6 +2,8 @@ package com.marketingpersonal.model.dao;
 
 import java.util.List;
 
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -89,6 +91,30 @@ public class UsuarioDAO implements IUsuarioDAO {
 	public List<UsuarioPorCentroCosto> getUsuarioPorCentroCostos() {
 		Session session = getSessionFactory().getCurrentSession();
 		return session.createQuery("from UsuarioPorCentroCosto").list();
+	}
+
+	public void addUsuariosArchivoPlano(XSSFSheet sheet) {
+		Session session = getSessionFactory().getCurrentSession();
+		
+		Row row;
+		Usuario usuario;
+		int numFilas = sheet.getPhysicalNumberOfRows();	
+		for (int fila = 1; fila < numFilas; fila++) {
+			row = sheet.getRow(fila);
+			
+			usuario = new Usuario();
+
+			usuario.setNumeroDocumento(row.getCell(0)+"");
+			usuario.setNombre(row.getCell(1)+"");
+			usuario.setUsuario(row.getCell(2)+"");
+			usuario.setCorreo(row.getCell(3)+"");
+			usuario.setCargo(row.getCell(4)+"");
+			usuario.setRol(row.getCell(5)+"");
+						
+			session.save(usuario);	
+		}
+		
+		
 	}
 	
 	
