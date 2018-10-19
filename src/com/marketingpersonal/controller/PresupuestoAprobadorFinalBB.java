@@ -1,31 +1,16 @@
 package com.marketingpersonal.controller;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
-import org.primefaces.event.SelectEvent;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessException;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
-import com.marketingpersonal.common.EnumEstadosPresupuesto;
-import com.marketingpersonal.common.EnumSessionAttributes;
-import com.marketingpersonal.common.ListasGenericas;
-import com.marketingpersonal.common.Util;
-import com.marketingpersonal.model.entity.CentroCosto;
-import com.marketingpersonal.model.entity.Cuenta;
-import com.marketingpersonal.model.entity.Presupuesto;
-import com.marketingpersonal.model.entity.PresupuestoDetalleMes;
-import com.marketingpersonal.model.entity.Usuario;
-import com.marketingpersonal.service.ICentroCostoService;
-import com.marketingpersonal.service.ICuentaService;
-import com.marketingpersonal.service.IPresupuestoService;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter @Setter
 @ManagedBean(name = "preAprFinBB")
 @ViewScoped
 public class PresupuestoAprobadorFinalBB extends SpringBeanAutowiringSupport implements Serializable {

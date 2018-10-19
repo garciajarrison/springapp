@@ -14,6 +14,10 @@ import com.marketingpersonal.common.Util;
 import com.marketingpersonal.model.entity.Jefatura;
 import com.marketingpersonal.service.IJefaturaService;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter @Setter
 @ManagedBean(name = "jefaturaBB")
 @ViewScoped
 public class JefaturaBB extends SpringBeanAutowiringSupport implements Serializable {
@@ -118,47 +122,5 @@ public class JefaturaBB extends SpringBeanAutowiringSupport implements Serializa
 			util.mostrarError("Error eliminando el registro.");
 		} 	
 	}
-
-	public IJefaturaService getJefaturaService() {
-		return jefaturaService;
-	}
-
-	public void setJefaturaService(IJefaturaService jefaturaService) {
-		this.jefaturaService = jefaturaService;
-	}
-
-	public Util getUtil() {
-		return util;
-	}
-
-	public void setUtil(Util util) {
-		this.util = util;
-	}
-
-	public Jefatura getJefatura() {
-		return jefatura;
-	}
-
-	public void setJefatura(Jefatura jefatura) {
-		this.jefatura = jefatura;
-	}
-
-	public Jefatura getSelectedJefatura() {
-		return selectedJefatura;
-	}
-
-	public void setSelectedJefatura(Jefatura selectedJefatura) {
-		this.selectedJefatura = selectedJefatura;
-	}
-
-	public List<Jefatura> getListaJefaturas() {
-		return listaJefaturas;
-	}
-
-	public void setListaJefaturas(List<Jefatura> listaJefaturas) {
-		this.listaJefaturas = listaJefaturas;
-	}
-
-	
 
  }

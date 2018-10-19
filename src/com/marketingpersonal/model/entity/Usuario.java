@@ -8,102 +8,49 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 @Entity
+@Getter @Setter
+@AllArgsConstructor
+@Builder
+@NoArgsConstructor
 @Table(name = "usuario", schema = "presupuestoMD")
 public class Usuario implements java.io.Serializable {
 
 	private static final long serialVersionUID = 1L;
-	private int id;
-	private String numeroDocumento;
-	private String nombre;
-	private String usuario;
-	private String correo;
-	private String cargo;
-	private String rol;
-	private String contrasena;
-	private boolean estado = true;
-
+	
 	@Id
 	@GeneratedValue( strategy=GenerationType.IDENTITY)
 	@Column(columnDefinition = "serial", name = "id", unique = true, nullable = false)
-	public int getId() {
-		return this.id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
+	private int id;
 	
 	@Column(name = "numero_documento")
-	public String getNumeroDocumento() {
-		return numeroDocumento;
-	}
-
-	public void setNumeroDocumento(String numeroDocumento) {
-		this.numeroDocumento = numeroDocumento;
-	}
+	private String numeroDocumento;
 	
 	@Column(name = "nombre")
-	public String getNombre() {
-		return this.nombre;
-	}
-
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
+	private String nombre;
 	
 	@Column(name = "usuario")
-	public String getUsuario() {
-		return this.usuario;
-	}
-
-	public void setUsuario(String usuario) {
-		this.usuario = usuario;
-	}
-
-	@Column(name = "correo")
-	public String getCorreo() {
-		return this.correo;
-	}
+	private String usuario;
 	
-	public void setCorreo(String correo) {
-		this.correo = correo;
-	}
+	@Column(name = "correo")
+	private String correo;
+	
+	@Column(name = "cargo")
+	private String cargo;
 	
 	@Column(name = "rol")
-	public String getRol() {
-		return rol;
-	}
-
-	public void setRol(String rol) {
-		this.rol = rol;
-	}
-
-	@Column(name = "cargo")
-	public String getCargo() {
-		return cargo;
-	}
-
-	public void setCargo(String cargo) {
-		this.cargo = cargo;
-	}
-
+	private String rol;
+	
 	@Transient
-	public String getContrasena() {
-		return contrasena;
-	}
-
-	public void setContrasena(String contrasena) {
-		this.contrasena = contrasena;
-	}
+	private String contrasena;
 	
 	@Column(name = "estado")
-	public boolean getEstado() {
-		return estado;
-	}
-
-	public void setEstado(boolean estado) {
-		this.estado = estado;
-	}
+	private boolean estado = true;
 
 }

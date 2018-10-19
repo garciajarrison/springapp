@@ -25,6 +25,10 @@ import com.marketingpersonal.common.Util;
 import com.marketingpersonal.model.entity.Cuenta;
 import com.marketingpersonal.service.ICuentaService;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter @Setter
 @ManagedBean(name = "cuentaBB")
 @ViewScoped
 public class CuentaBB extends SpringBeanAutowiringSupport implements Serializable {
@@ -118,54 +122,6 @@ public class CuentaBB extends SpringBeanAutowiringSupport implements Serializabl
 			e.printStackTrace();
 			util.mostrarError("Error eliminando el registro.");
 		} 	
-	}
-
-	public ICuentaService getCuentaService() {
-		return cuentaService;
-	}
-
-	public void setCuentaService(ICuentaService cuentaService) {
-		this.cuentaService = cuentaService;
-	}
-
-	public Util getUtil() {
-		return util;
-	}
-
-	public void setUtil(Util util) {
-		this.util = util;
-	}
-
-	public Cuenta getCuenta() {
-		return cuenta;
-	}
-
-	public void setCuenta(Cuenta cuenta) {
-		this.cuenta = cuenta;
-	}
-
-	public Cuenta getSelectedCuenta() {
-		return selectedCuenta;
-	}
-
-	public void setSelectedCuenta(Cuenta selectedCuenta) {
-		this.selectedCuenta = selectedCuenta;
-	}
-
-	public List<Cuenta> getListaCuentas() {
-		return listaCuentas;
-	}
-
-	public void setListaCuentas(List<Cuenta> listaCuentas) {
-		this.listaCuentas = listaCuentas;
-	}
-	
-	public UploadedFile getFile() {
-	    return file;
-	}
-
-	public void setFile(UploadedFile file) {
-	    this.file = file;
 	}
 	
 	public void uploadPlanoCuentas(FileUploadEvent event) {

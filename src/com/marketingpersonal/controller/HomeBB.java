@@ -17,6 +17,10 @@ import com.marketingpersonal.common.Util;
 import com.marketingpersonal.model.entity.Home;
 import com.marketingpersonal.service.IHomeService;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter @Setter
 @ManagedBean(name = "homeBB")
 @ViewScoped
 public class HomeBB extends SpringBeanAutowiringSupport implements Serializable {
@@ -129,54 +133,6 @@ public class HomeBB extends SpringBeanAutowiringSupport implements Serializable 
 			e.printStackTrace();
 			util.mostrarError("Error eliminando el registro.");
 		} 	
-	}
-
-	public IHomeService getHomeService() {
-		return homeService;
-	}
-
-	public void setHomeService(IHomeService homeService) {
-		this.homeService = homeService;
-	}
-
-	public Util getUtil() {
-		return util;
-	}
-
-	public void setUtil(Util util) {
-		this.util = util;
-	}
-
-	public Home getHome() {
-		return home;
-	}
-
-	public void setHome(Home home) {
-		this.home = home;
-	}
-
-	public Home getSelectedHome() {
-		return selectedHome;
-	}
-
-	public void setSelectedHome(Home selectedHome) {
-		this.selectedHome = selectedHome;
-	}
-
-	public List<Home> getListaHomes() {
-		return listaHomes;
-	}
-
-	public void setListaHomes(List<Home> listaHomes) {
-		this.listaHomes = listaHomes;
-	}
-
-	public UploadedFile getImagen() {
-		return imagen;
-	}
-
-	public void setImagen(UploadedFile imagen) {
-		this.imagen = imagen;
 	}
 
  }
