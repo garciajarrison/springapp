@@ -345,24 +345,4 @@ public class UsuarioBB extends SpringBeanAutowiringSupport implements Serializab
 		return permiteGuardar;
 	}
     
-
-    public void insertarUsuarios(XSSFSheet sheet) {
-		Row row;
-		int numFilas = sheet.getPhysicalNumberOfRows();	
-		for (int fila = 1; fila < numFilas; fila++) {
-			row = sheet.getRow(fila);
-			
-			usuario = new Usuario();
-
-			usuario.setNumeroDocumento(row.getCell(0)+"");
-			usuario.setNombre(row.getCell(1)+"");
-			usuario.setUsuario(row.getCell(2)+"");
-			usuario.setCorreo(row.getCell(3)+"");
-			usuario.setCargo(row.getCell(4)+"");
-			usuario.setRol(row.getCell(5)+"");
-						
-			getUsuarioService().addUsuario(usuario);		
-		}
-	}
-
  }

@@ -49,9 +49,31 @@
 									scrollable="false" paginatorPosition="bottom"
 									rows="10" rowsPerPageTemplate="5,10,20,50"
 									currentPageReportTemplate="Páginas {totalPages} - Registros {totalRecords}"
-									paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" 
+									paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown} {Exporters}" 
 									paginator="true">
-									
+								
+								<f:facet name="{Exporters}">
+						            <h:commandLink>
+						                <p:graphicImage name="images/excel.png" library="omega-layout"  width="24"/>
+						                <p:dataExporter type="xls" target="tblCuentasPorCentrosCosto" fileName="CuentaCentroCosto" />
+						            </h:commandLink>
+						 
+						            <h:commandLink>
+						                <p:graphicImage name="images/pdf.png" library="omega-layout"  width="24"/>
+						                <p:dataExporter type="pdf" target="tblCuentasPorCentrosCosto" fileName="CuentaCentroCosto"/>
+						            </h:commandLink>
+						 
+						            <h:commandLink>
+						                <p:graphicImage name="images/csv.png" library="omega-layout" width="24"/>
+						                <p:dataExporter type="csv" target="tblCuentasPorCentrosCosto" fileName="CuentaCentroCosto" />
+						            </h:commandLink>
+						 
+						            <h:commandLink>
+						                <p:graphicImage name="images/xml.png" library="omega-layout"  width="24"/>
+						                <p:dataExporter type="xml" target="tblCuentasPorCentrosCosto" fileName="CuentaCentroCosto" />
+						            </h:commandLink>
+						        </f:facet>
+								
                                 <f:facet name="header">
                                     Cuentas por Centros de Costo
                                 </f:facet>
@@ -66,7 +88,7 @@
                                     <h:outputText value="#{centroCostoPorCuenta.centroCosto.centroCosto}" />
                                 </p:column>
 								                                
-                                <p:column headerText="Acciones">
+                                <p:column headerText="Acciones" exportable="false">
                                     <p:splitButton value="Accion" icon="fa fa-edit">
 								        <p:menuitem value="Actualizar" actionListener="#{centroCostoPorCuentaBB.setSelectedCentroCostoPorCuenta(centroCostoPorCuenta)}"  
 								        			update=":#{p:component('dlgActualizar')} :#{p:component('tblCuentasPorCentrosCosto')}" oncomplete="PF('dlgActualizar').show();"

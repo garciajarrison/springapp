@@ -108,6 +108,7 @@ public class CalculadoraBB extends SpringBeanAutowiringSupport implements Serial
 			this.getCalculadoraService().addCampaniaCalculadora(camapanaMaxima);
 			
 			cargarListaCalculadora();
+			util.mostrarMensaje("Registro agregado con éxito."); 
 			
 		}catch(Exception e) {
 			e.printStackTrace();
@@ -124,6 +125,7 @@ public class CalculadoraBB extends SpringBeanAutowiringSupport implements Serial
 			this.getCalculadoraService().eliminarCampaniaCalculadora(camapanaMaxima);
 			
 			cargarListaCalculadora();
+			util.mostrarMensaje("Registro eliminado con éxito."); 
 			
 		}catch(Exception e) {
 			e.printStackTrace();
@@ -168,6 +170,7 @@ public class CalculadoraBB extends SpringBeanAutowiringSupport implements Serial
 			if(validarCampanas()) {
 				this.getCalculadoraService().updateCalculadoras(listaCalculadoraCM, "CM", camapanaMaxima);
 				this.getCalculadoraService().updateCalculadoras(listaCalculadoraMC, "MC", camapanaMaxima);
+				util.mostrarMensaje("Registro guardado con éxito."); 
 			}
 		}catch(Exception e) {
 			e.printStackTrace();
@@ -265,23 +268,6 @@ public class CalculadoraBB extends SpringBeanAutowiringSupport implements Serial
 			
 		}
 		return totales;
-	}
-	
-	public void guardar(String tipo) {
-		try {
-			if("CM".equals(tipo)) {
-				for(Calculadora[] objSuma : listaCalculadoraCM) {
-					for(int m = 0; m <= 11; m++) {
-						this.getCalculadoraService().updateCalculadora(objSuma[m]);
-					}
-				}
-			}else {
-				
-				
-			}
-		}catch(Exception e) {
-			e.printStackTrace();
-		}
 	}
 
  }

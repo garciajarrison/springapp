@@ -35,6 +35,7 @@
                         
                          <p:submenu id="submenu_administracion" label="Administración" icon="fa fa-fw fa-cog" rendered="#{globalBB.usuario.rol eq 'Administrador'}">
                             <p:submenu id="submenu_maestros" label="Maestros" icon="fa fa-table">
+                            	<p:menuitem id="menuitem_parametros" value="Parametros" icon="fa fa-user" outcome="/maestros/parametros" />
                                 <p:menuitem id="menuitem_usuarios" value="Usuarios" icon="fa fa-user" outcome="/maestros/usuarios" />
                                 <p:menuitem id="menuitem_gerencias" value="Gerencias" icon="fa fa-anchor" outcome="/maestros/gerencias" />
                                 <p:menuitem id="menuitem_direcciones" value="Direcciones" icon="fa fa-paper-plane-o" outcome="/maestros/direcciones" />

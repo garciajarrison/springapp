@@ -49,6 +49,17 @@
             </f:facet>
         </p:ajaxStatus>
         
+        <p:ajaxStatus onstart="PF('statusDialog').show();" onsuccess="PF('statusDialog').hide();" />
+		<p:dialog modal="true" widgetVar="statusDialog" header="#{msg['procesando']}"  
+		    resizable="false" draggable="false" closable="false" width="20%">    
+		    <div align="center">
+		        <p:graphicImage name="images/loading.gif" library="omega-layout" width="100%"
+		        		alt="Cargando..." title="Cargando..."/>
+		        <br /><br />
+		       <strong>#{msg['cargando']}</strong> 
+		    </div>
+		</p:dialog> 
+        
         <p:idleMonitor timeout="600000" onidle="redirectSesion();" />
         <p:dialog position="center center" header="#{msg['cerrar.session']}" resizable="false" closable="true"
 		           id="cerrarSesion" widgetVar="cerrarSesion" modal="true">  

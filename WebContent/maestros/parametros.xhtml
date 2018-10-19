@@ -1,0 +1,76 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+    <ui:define name="title">Parametros</ui:define>
+
+    <ui:define name="content">
+	<h:form>
+			<p:growl id="growl" sticky="true" autoUpdate="true" />
+            <div class="ui-fluid">
+                <div class="ui-g">
+                    <div class="ui-g-12">
+                        
+                        <div class="card">
+                            <h1>Listado de Parametros</h1>
+                            <br/>
+                            <p:dataTable id="tblParametros" var="parametro" value="#{parametroBB.listaParametros}" 
+                            		reflow="true" selectionMode="single" rowKey="#{parametro.id}"
+                            		emptyMessage="No se encontraron registros."
+									scrollable="false" paginatorPosition="bottom"
+									rows="10" rowsPerPageTemplate="5,10,20,50"
+									currentPageReportTemplate="Páginas {totalPages} - Registros {totalRecords}"
+									paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" 
+									paginator="true">
+									
+                                <f:facet name="header">
+                                    Parametros
+                                </f:facet>
+
+                                <p:column headerText="Nombre" sortBy="#{parametro.nombre}"
+                                		 filterMatchMode="contains" filterBy="#{parametro.nombre}">
+                                    <h:outputText value="#{parametro.nombre}" />
+                                </p:column>
+
+                                <p:column headerText="Valor" sortBy="#{parametro.valor}">
+                                     <h:outputText value="#{parametro.valor}" />
+                                </p:column>
+                                
+                                <p:column headerText="Acciones" exportable="false">
+                                    <p:splitButton value="Accion" icon="fa fa-edit">
+								        <p:menuitem value="Actualizar" actionListener="#{parametroBB.setSelectedParametro(parametro)}"  
+								        			update=":#{p:component('dlgActualizar')} :#{p:component('tblParametros')}" oncomplete="PF('dlgActualizar').show();"
+								        			icon="ui-icon-arrowrefresh-1-w" >								        	
+								        </p:menuitem>
+								    </p:splitButton>
+                                </p:column>
+                            </p:dataTable>
+                        </div>
+                        
+                        <p:dialog header="Actualizar" id="dlgActualizar" widgetVar="dlgActualizar" minHeight="40">
+							<div align="center">
+								<h:panelGrid columns="2" cellspacing="2" cellpadding="2">									
+									<h:outputLabel value="Nombre" />
+									<h:outputLabel value="#{parametroBB.selectedParametro.nombre}" />
+							   			
+							   		<h:outputLabel value="Nombre" />
+									<p:inputText value="#{parametroBB.selectedParametro.valor}" maxlength="50" />	
+							   				
+							   	</h:panelGrid>
+							   	<br />
+						   	
+						   		<p:commandButton id="btnActualizarParametro" actionListener="#{parametroBB.updateParametro}" update="@form" title="Actualizar" value="Actualizar" />
+								
+					   		</div>
+						</p:dialog>		
+                        
+                    </div>                    
+                </div>
+            </div>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

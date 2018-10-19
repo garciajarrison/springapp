@@ -58,8 +58,6 @@ public class LoginBB extends SpringBeanAutowiringSupport implements Serializable
 
 	public void login() {
 		
-		//Util util = Util.getInstance();
-		
 		try {
 			if(validar()) {
 				usuario = this.getUsuarioService().login(usuario);

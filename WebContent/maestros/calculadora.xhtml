@@ -42,8 +42,30 @@
         						
 		                            <p:dataTable id="tblCalculadoraCM" var="cal" value="#{calculadoraBB.listaCalculadoraCM}" reflow="true" 
 		                            		emptyMessage="No se encontraron registros."
-											paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" 
+											paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown} {Exporters}" 
 											paginator="false">
+											
+										<f:facet name="{Exporters}">
+								            <h:commandLink>
+								                <p:graphicImage name="images/excel.png" library="omega-layout"  width="24"/>
+								                <p:dataExporter type="xls" target="tblCalculadoraCM" fileName="CalculadoraCampanaMes" />
+								            </h:commandLink>
+								 
+								            <h:commandLink>
+								                <p:graphicImage name="images/pdf.png" library="omega-layout"  width="24"/>
+								                <p:dataExporter type="pdf" target="tblCalculadoraCM" fileName="CalculadoraCampanaMes"/>
+								            </h:commandLink>
+								 
+								            <h:commandLink>
+								                <p:graphicImage name="images/csv.png" library="omega-layout" width="24"/>
+								                <p:dataExporter type="csv" target="tblCalculadoraCM" fileName="CalculadoraCampanaMes" />
+								            </h:commandLink>
+								 
+								            <h:commandLink>
+								                <p:graphicImage name="images/xml.png" library="omega-layout"  width="24"/>
+								                <p:dataExporter type="xml" target="tblCalculadoraCM" fileName="CalculadoraCampanaMes" />
+								            </h:commandLink>
+								        </f:facet>	
 											
 		                                <f:facet name="header">
 		                                    Calculadora Campaña / Mes
@@ -150,8 +172,30 @@
                             <p:tab title="Calculadora Mes / Campaña">
 	                            <p:dataTable id="tblCalculadoraMC" var="cal" value="#{calculadoraBB.listaCalculadoraMC}" reflow="true" 
 	                            		emptyMessage="No se encontraron registros."
-										paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" 
+										paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown} {Exporters}" 
 										paginator="false">
+										
+									<f:facet name="{Exporters}">
+						            <h:commandLink>
+						                <p:graphicImage name="images/excel.png" library="omega-layout"  width="24"/>
+						                <p:dataExporter type="xls" target="tblCalculadoraMC" fileName="CalculadoraMesCampana" />
+						            </h:commandLink>
+						 
+						            <h:commandLink>
+						                <p:graphicImage name="images/pdf.png" library="omega-layout"  width="24"/>
+						                <p:dataExporter type="pdf" target="tblCalculadoraMC" fileName="CalculadoraMesCampana"/>
+						            </h:commandLink>
+						 
+						            <h:commandLink>
+						                <p:graphicImage name="images/csv.png" library="omega-layout" width="24"/>
+						                <p:dataExporter type="csv" target="tblCalculadoraMC" fileName="CalculadoraMesCampana" />
+						            </h:commandLink>
+						 
+						            <h:commandLink>
+						                <p:graphicImage name="images/xml.png" library="omega-layout"  width="24"/>
+						                <p:dataExporter type="xml" target="tblCalculadoraMC" fileName="CalculadoraMesCampana" />
+						            </h:commandLink>
+						        </f:facet>	
 										
 	                                <f:facet name="header">
 	                                    Calculadora Mes / Campaña

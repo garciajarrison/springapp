@@ -215,6 +215,28 @@
 									currentPageReportTemplate="Páginas {totalPages} - Registros {totalRecords}"
 									paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}  {Exporters}" 
 									paginator="true">
+								
+								<f:facet name="{Exporters}">
+						            <h:commandLink>
+						                <p:graphicImage name="images/excel.png" library="omega-layout"  width="24"/>
+						                <p:dataExporter type="xls" target="tblPresupuestoDetalleMes" fileName="DetalleMes" />
+						            </h:commandLink>
+						 
+						            <h:commandLink>
+						                <p:graphicImage name="images/pdf.png" library="omega-layout"  width="24"/>
+						                <p:dataExporter type="pdf" target="tblPresupuestoDetalleMes" fileName="DetalleMes"/>
+						            </h:commandLink>
+						 
+						            <h:commandLink>
+						                <p:graphicImage name="images/csv.png" library="omega-layout" width="24"/>
+						                <p:dataExporter type="csv" target="tblPresupuestoDetalleMes" fileName="DetalleMes" />
+						            </h:commandLink>
+						 
+						            <h:commandLink>
+						                <p:graphicImage name="images/xml.png" library="omega-layout"  width="24"/>
+						                <p:dataExporter type="xml" target="tblPresupuestoDetalleMes" fileName="DetalleMes" />
+						            </h:commandLink>
+						        </f:facet>
 									
 								<f:facet name="header">
                                     Detalle
@@ -447,6 +469,28 @@
 									currentPageReportTemplate="Páginas {totalPages} - Registros {totalRecords}"
 									paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}  {Exporters}" 
 									paginator="true">
+								
+								<f:facet name="{Exporters}">
+						            <h:commandLink>
+						                <p:graphicImage name="images/excel.png" library="omega-layout"  width="24"/>
+						                <p:dataExporter type="xls" target="tblPresupuestoDetalleCampania" fileName="DetalleCampana" />
+						            </h:commandLink>
+						 
+						            <h:commandLink>
+						                <p:graphicImage name="images/pdf.png" library="omega-layout"  width="24"/>
+						                <p:dataExporter type="pdf" target="tblPresupuestoDetalleCampania" fileName="DetalleCampana"/>
+						            </h:commandLink>
+						 
+						            <h:commandLink>
+						                <p:graphicImage name="images/csv.png" library="omega-layout" width="24"/>
+						                <p:dataExporter type="csv" target="tblPresupuestoDetalleCampania" fileName="DetalleCampana" />
+						            </h:commandLink>
+						 
+						            <h:commandLink>
+						                <p:graphicImage name="images/xml.png" library="omega-layout"  width="24"/>
+						                <p:dataExporter type="xml" target="tblPresupuestoDetalleCampania" fileName="DetalleCampana" />
+						            </h:commandLink>
+						        </f:facet>
 									
 								<f:facet name="header">
                                     Detalle

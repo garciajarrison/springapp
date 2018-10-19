@@ -435,4 +435,31 @@ WITH (OIDS = FALSE);
 ALTER TABLE presupuestoMD.calculadora
     OWNER to postgres;	 
 
+ -- -----------------------------------------------------
+-- Table presupuestoMD.parametro
+-- -----------------------------------------------------
+-- DROP SEQUENCE presupuestoMD.parametro_seq;
+CREATE SEQUENCE presupuestoMD.parametro_seq;
+ALTER SEQUENCE presupuestoMD.parametro_seq
+    OWNER TO postgres;
+    
+-- DROP TABLE presupuestoMD.parametro ;
+CREATE TABLE presupuestoMD.parametro
+(
+   id                  INTEGER NOT NULL DEFAULT nextval ('presupuestoMD.parametro_seq'::regclass),
+   codigo    		   CHARACTER VARYING (50) NULL,
+   nombre    		   CHARACTER VARYING (50) NULL,
+   valor         	   CHARACTER VARYING (50) NULL,
+   CONSTRAINT pk_parametro PRIMARY KEY (id)
+)
+WITH (OIDS = FALSE);
+
+ALTER TABLE presupuestoMD.parametro
+    OWNER to postgres;	 
+
+insert into presupuestoMD.parametro(codigo, nombre, valor)
+values ('ANIO_CALCULADORA', 'Año Calculadora', '2018');
+    
+	   
+    
 	

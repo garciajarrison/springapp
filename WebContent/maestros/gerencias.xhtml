@@ -31,8 +31,30 @@
 									scrollable="false" paginatorPosition="bottom"
 									rows="10" rowsPerPageTemplate="5,10,20,50"
 									currentPageReportTemplate="Páginas {totalPages} - Registros {totalRecords}"
-									paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" 
+									paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown} {Exporters}" 
 									paginator="true">
+									
+								<f:facet name="{Exporters}">
+						            <h:commandLink>
+						                <p:graphicImage name="images/excel.png" library="omega-layout"  width="24"/>
+						                <p:dataExporter type="xls" target="tblGerencias" fileName="Gerencias" />
+						            </h:commandLink>
+						 
+						            <h:commandLink>
+						                <p:graphicImage name="images/pdf.png" library="omega-layout"  width="24"/>
+						                <p:dataExporter type="pdf" target="tblGerencias" fileName="Gerencias"/>
+						            </h:commandLink>
+						 
+						            <h:commandLink>
+						                <p:graphicImage name="images/csv.png" library="omega-layout" width="24"/>
+						                <p:dataExporter type="csv" target="tblGerencias" fileName="Gerencias" />
+						            </h:commandLink>
+						 
+						            <h:commandLink>
+						                <p:graphicImage name="images/xml.png" library="omega-layout"  width="24"/>
+						                <p:dataExporter type="xml" target="tblGerencias" fileName="Gerencias" />
+						            </h:commandLink>
+						        </f:facet>	
 									
                                 <f:facet name="header">
                                     Gerencias
@@ -46,7 +68,7 @@
                                 	<h:outputText value="#{gerencia.estado ? 'Activo' : 'Inactivo'}" />
                                 </p:column>
                                 
-                                <p:column headerText="Acciones">
+                                <p:column headerText="Acciones" exportable="false">
                                     <p:splitButton value="Accion" icon="fa fa-edit">
 								        <p:menuitem value="Actualizar" actionListener="#{gerenciaBB.setSelectedGerencia(gerencia)}"  
 								        			update=":#{p:component('dlgActualizar')} :#{p:component('tblGerencias')}" oncomplete="PF('dlgActualizar').show();"

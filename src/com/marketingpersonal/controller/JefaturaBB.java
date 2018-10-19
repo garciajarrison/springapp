@@ -96,10 +96,10 @@ public class JefaturaBB extends SpringBeanAutowiringSupport implements Serializa
 				}
 				
 				if(actualizar) {
-				getJefaturaService().updateJefatura(selectedJefatura);
-				listaJefaturas = getJefaturaService().getJefaturas(false);
-				selectedJefatura = new Jefatura();
-				util.mostrarMensaje("Registro actualizado con éxito.");
+					getJefaturaService().updateJefatura(selectedJefatura);
+					listaJefaturas = getJefaturaService().getJefaturas(false);
+					selectedJefatura = new Jefatura();
+					util.mostrarMensaje("Registro actualizado con éxito.");
 				}else {
 					util.mostrarError("Ya existe una Gerencia con el mismo nombre ingresado");
 				}
