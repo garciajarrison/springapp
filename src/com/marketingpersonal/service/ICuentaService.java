@@ -18,4 +18,6 @@ public interface ICuentaService {
 	List<Cuenta> getCuentas(boolean activo);
 	
 	List<Cuenta> getCuentaPorCentroCosto(int idCentroCosto);
+
+	List<Cuenta> getCuentasPorUsuario(int idUsuario);
 }

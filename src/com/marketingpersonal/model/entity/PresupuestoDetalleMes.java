@@ -237,7 +237,7 @@ public class PresupuestoDetalleMes implements java.io.Serializable {
 		this.usuarioAprobadorFinal = usuarioAprobadorFinal;
 	}
 	
-	@OneToMany(fetch = FetchType.EAGER)
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "presupuestoDetalleMes")
 	public List<Observacion> getObservaciones() {
 		return observaciones;
 	}

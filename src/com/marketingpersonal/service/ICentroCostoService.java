@@ -35,4 +35,6 @@ public interface ICentroCostoService {
 	Usuario getUsuarioAprobadorInicial(int idCentroCosto);
 
 	Usuario getUsuarioAprobadorFinal(int idCentroCosto);
+
+	List<CentroCosto> getCentroCostosPorCuenta(int idCuenta, int idUsuario);
 }

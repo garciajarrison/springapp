@@ -274,11 +274,6 @@ public class UsuarioPorCentroCostoBB extends SpringBeanAutowiringSupport impleme
 				idAprobadorInicial = getIdUsuarioByUsuario(row.getCell(2)+"");
 				idAprobadorFinal = getIdUsuarioByUsuario(row.getCell(3)+"");
 				
-				System.out.println(idCentroCosto);
-				System.out.println(idResponsable);
-				System.out.println(idAprobadorInicial);
-				System.out.println(idAprobadorFinal);
-				
 				if((usceco.getCentroCosto().getId()==idCentroCosto) 
 						&& (usceco.getUsuarioResponsable().getId()==idResponsable)
 						&& (usceco.getUsuarioAprobadorInicial().getId()==idAprobadorInicial)
@@ -299,6 +294,8 @@ public class UsuarioPorCentroCostoBB extends SpringBeanAutowiringSupport impleme
 			row = sheet.getRow(fila);
 			
 			usuarioPorCentroCosto = new UsuarioPorCentroCosto();
+			
+			System.out.println("fila"+fila+ " - "+row.getCell(0)+"");
 			
 			centroCosto = new CentroCosto();
 			centroCosto.setId(getIdCentroCostoByCentroCosto(row.getCell(0)+""));		

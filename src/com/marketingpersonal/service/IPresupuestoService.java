@@ -44,7 +44,9 @@ public interface IPresupuestoService {
 	List<PresupuestoDetalleCampania> getPresupuestoDetallesCampania();
 
 	void actualizarEstadoPresupuestoDetalleCampania(PresupuestoDetalleCampania selectedPresupuesto);
-	
-	//void addObservacion(Observacion entity);
+
+	List<PresupuestoDetalleMes> getPresupuestoDetallesMes(int idPresupuesto);
+
+	List<PresupuestoDetalleCampania> getPresupuestoDetallesCampania(int idPresupuesto);
 	
 }

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import com.marketingpersonal.model.entity.CentroCosto;
 import com.marketingpersonal.model.entity.CentroCostoPorCuenta;
+import com.marketingpersonal.model.entity.Cuenta;
 import com.marketingpersonal.model.entity.Usuario;
 
 
@@ -100,15 +101,31 @@ public class CentroCostoDAO implements ICentroCostoDAO {
 	public Usuario getUsuarioAprobadorInicial(int idCentroCosto) {
 		Session session = getSessionFactory().getCurrentSession();
 		return (Usuario) session.createQuery("select u from UsuarioPorCentroCosto as c, "
-					+ "usuario as u where = u.id = c.usuarioAprobadorInicial.id and c.centroCosto.id  = :id")
+					+ " Usuario as u where u.id = c.usuarioAprobadorInicial.id and c.centroCosto.id  = :id")
 					.setParameter("id", idCentroCosto).uniqueResult();
 	}
 
 	public Usuario getUsuarioAprobadorFinal(int idCentroCosto) {
 		Session session = getSessionFactory().getCurrentSession();
 		return (Usuario) session.createQuery("select u from UsuarioPorCentroCosto as c, "
-					+ "usuario as u where = u.id = c.usuarioAprobadorFinal.id and c.centroCosto.id  = :id")
+					+ " Usuario as u where u.id = c.usuarioAprobadorFinal.id and c.centroCosto.id  = :id")
 					.setParameter("id", idCentroCosto).uniqueResult();
+	}
+
+	public List<CentroCosto> getCentroCostosPorCuenta(int idCuenta, int idUsuario) {
+		StringBuilder sql = new StringBuilder()
+				.append("select cc from CentroCostoPorCuenta as ccc, ")
+				.append(" CentroCosto as cc, UsuarioPorCentroCosto as ucc ")
+				.append(" where ccc.cuenta.id = :idCuenta ")
+				.append(" and ccc.centroCosto.id = cc.id ")
+				.append(" and ccc.centroCosto.id = ucc.centroCosto.id ")
+				.append(" and ucc.usuarioResponsable.id = :idUsuario");
+				
+		Session session = getSessionFactory().getCurrentSession();
+		return (List<CentroCosto>) session.createQuery(sql.toString())
+					.setParameter("idUsuario", idUsuario)
+					.setParameter("idCuenta", idCuenta)
+					.list();
 	}
 	
 }

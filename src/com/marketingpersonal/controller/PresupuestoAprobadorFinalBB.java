@@ -177,7 +177,7 @@ public class PresupuestoAprobadorFinalBB extends SpringBeanAutowiringSupport imp
 		} 	
 	}*/
 	
-	public void deletePresupuesto() {
+	/*public void deletePresupuesto() {
 		try {
 			getPresupuestoService().deletePresupuesto(selectedPresupuesto);
 			listaPresupuestos = getPresupuestoService().getPresupuestos();
@@ -187,7 +187,7 @@ public class PresupuestoAprobadorFinalBB extends SpringBeanAutowiringSupport imp
 			e.printStackTrace();
 			util.mostrarError("Error eliminando el registro.");
 		} 	
-	}
+	}*/
 	
 	/*public void cargarListaCuentas(String actualiza) {
 		try {
@@ -209,7 +209,7 @@ public class PresupuestoAprobadorFinalBB extends SpringBeanAutowiringSupport imp
 		} 
 	}*/
 
-	public IPresupuestoService getPresupuestoService() {
+	/*public IPresupuestoService getPresupuestoService() {
 		return presupuestoService;
 	}
 

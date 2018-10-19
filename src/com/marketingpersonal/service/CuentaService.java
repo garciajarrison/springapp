@@ -52,4 +52,8 @@ public class CuentaService implements ICuentaService {
 		return getEntityDAO().getCuentaPorCentroCosto(idCuenta);
 	}
 
+	public List<Cuenta> getCuentasPorUsuario(int idUsuario) {
+		return getEntityDAO().getCuentasPorUsuario(idUsuario);
+	}
+
 }

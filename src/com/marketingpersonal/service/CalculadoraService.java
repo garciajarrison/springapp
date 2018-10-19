@@ -79,5 +79,9 @@ public class CalculadoraService implements ICalculadoraService {
 	public void updateCalculadoras(List<Calculadora[]> listaCalculadora, String tipo, int camapanaMaxima) {
 		getEntityDAO().updateCalculadoras(listaCalculadora, tipo, camapanaMaxima);
 	}
+
+	public int getCampanaMaxima() {
+		return getEntityDAO().getCampanaMaxima();
+	}
 	
 }

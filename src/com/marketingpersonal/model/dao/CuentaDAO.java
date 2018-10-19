@@ -61,5 +61,18 @@ public class CuentaDAO implements ICuentaDAO {
 					+ "Cuenta as c where u.cuenta.id = c.id and u.centroCosto.id = :id")
 					.setParameter("id", idCentroCosto).list();
 	}
-
+	
+	public List<Cuenta> getCuentasPorUsuario(int idUsuario) {
+		
+		StringBuilder sql = new StringBuilder()
+				.append("select c from CentroCostoPorCuenta as cc, ")
+				.append(" Cuenta as c, UsuarioPorCentroCosto as ucc ")
+				.append(" where cc.cuenta.id = c.id ")
+				.append(" and cc.centroCosto.id = ucc.centroCosto.id ")
+				.append(" and ucc.usuarioResponsable.id = :id");
+				
+		Session session = getSessionFactory().getCurrentSession();
+		return (List<Cuenta>) session.createQuery(sql.toString())
+					.setParameter("id", idUsuario).list();
+	}
 }

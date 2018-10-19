@@ -23,6 +23,7 @@ import com.marketingpersonal.model.entity.Presupuesto;
 import com.marketingpersonal.model.entity.PresupuestoDetalleCampania;
 import com.marketingpersonal.model.entity.PresupuestoDetalleMes;
 import com.marketingpersonal.model.entity.Usuario;
+import com.marketingpersonal.service.ICalculadoraService;
 import com.marketingpersonal.service.ICentroCostoService;
 import com.marketingpersonal.service.ICuentaService;
 import com.marketingpersonal.service.IPresupuestoService;
@@ -39,9 +40,12 @@ public class PresupuestoBB extends SpringBeanAutowiringSupport implements Serial
 	private ICuentaService cuentaService;
 	@Autowired
 	private ICentroCostoService centroCostoService;
+	@Autowired
+	private ICalculadoraService calculadoraService;
 	
 	private Util util;
 	private Presupuesto presupuesto;
+	private Presupuesto detalle;
 	private Presupuesto selectedPresupuesto;
 	private PresupuestoDetalleMes presupuestoDetalleMes;
 	private PresupuestoDetalleMes selectedPresupuestoDetalleMes;
@@ -54,8 +58,8 @@ public class PresupuestoBB extends SpringBeanAutowiringSupport implements Serial
 	private Usuario usuario;
 	private List<Cuenta> listaCuentas;
 	private List<CentroCosto> listaCentroCostos;
-	private List<PresupuestoDetalleMes> listaPresupuestoDetalleMes;
-	private List<PresupuestoDetalleCampania> listaPresupuestoDetalleCampania;
+	private boolean mostrarDetalle;
+	private int camapanaMaxima;
 	
 	
 	public PresupuestoBB() {
@@ -68,7 +72,207 @@ public class PresupuestoBB extends SpringBeanAutowiringSupport implements Serial
 		listaPresupuestos = getPresupuestoService().getPresupuestos();
 		listasGenericas = ListasGenericas.getInstance();
 		usuario = (Usuario) Util.getInstance().getSessionAttribute(EnumSessionAttributes.USUARIO);
-		listaCentroCostos = this.getCentroCostoService().getCentroCostoPorUsuario(usuario.getId());
+		listaCuentas = this.getCuentaService().getCuentasPorUsuario(usuario.getId());
+		mostrarDetalle = false;
+		camapanaMaxima = getCalculadoraService().getCampanaMaxima();
+	}
+	
+	public void verDetalle(SelectEvent event) {
+		detalle = (Presupuesto) event.getObject();
+		mostrarDetalle = true;
+	}
+	
+	private boolean validar(Presupuesto pr) {
+		boolean permiteGuardar = true;
+		
+		if(pr.getNombre() == null || 
+				"".equals(pr.getNombre().trim())) {
+			util.mostrarError("El campo Nombre es requerido.");
+			permiteGuardar = false;
+		}
+		
+		if(pr.getClasificacion() == null || 
+				"".equals(pr.getClasificacion().trim())) {
+			util.mostrarError("El campo Clasificación es requerido.");
+			permiteGuardar = false;
+		}
+				
+		if(pr.getTipo() == null || 
+				"".equals(pr.getTipo().trim())) {
+			util.mostrarError("El campo Tipo es requerido.");
+			permiteGuardar = false;
+		}
+		
+		return permiteGuardar;
+	}
+
+	public void addPresupuesto() {
+		try {
+			if(validar(presupuesto)) {
+				presupuesto.setUsuario(usuario);
+				getPresupuestoService().addPresupuesto(presupuesto);
+				listaPresupuestos = getPresupuestoService().getPresupuestos();
+				presupuesto = new Presupuesto();
+				util.mostrarMensaje("Registro agregado con éxito."); 
+			}
+			
+		} catch (DataAccessException e) {
+			e.printStackTrace();
+			util.mostrarError("Error guardando el registro.");
+		} 	
+	}
+	
+	private boolean validarDetalle(Presupuesto detalle, PresupuestoDetalleMes mes, PresupuestoDetalleCampania campania) {
+		
+		boolean permiteGuardar = true;
+		Cuenta cuentaV = null;
+		CentroCosto centroCostoV = null;
+		
+		if("Mensual".equals(detalle.getTipo())) {
+			cuentaV = mes.getCuenta();
+			centroCostoV = mes.getCentroCosto();
+		}else {
+			cuentaV = campania.getCuenta();
+			centroCostoV = campania.getCentroCosto();
+		}
+		
+		if(cuentaV == null || cuentaV.getId() <= 0) {
+			util.mostrarError("El campo Cuenta es requerido.");
+			permiteGuardar = false;
+		}
+		
+		if(centroCostoV == null || centroCostoV.getId() <= 0) {
+			util.mostrarError("El campo Centro costo es requerido.");
+			permiteGuardar = false;
+		}
+		
+		return permiteGuardar;
+	}
+	
+	public void addPresupuestoMes(){
+		try {
+			if(validarDetalle(detalle, presupuestoDetalleMes, null)){
+				
+				presupuestoDetalleMes.setEstado(EnumEstadosPresupuesto.PENDIENTE.getNombre());
+				presupuestoDetalleMes.setPresupuesto(detalle);
+				presupuestoDetalleMes.setUsuarioAprobadorInicial(
+						this.getCentroCostoService().getUsuarioAprobadorInicial(presupuestoDetalleMes.getCentroCosto().getId()));
+				presupuestoDetalleMes.setUsuarioAprobadorFinal(
+						this.getCentroCostoService().getUsuarioAprobadorFinal(presupuestoDetalleMes.getCentroCosto().getId()));
+				
+				this.getPresupuestoService().addPresupuestoDetalleMes(presupuestoDetalleMes);
+				this.detalle.setDetalleMes(this.getPresupuestoService().getPresupuestoDetallesMes(detalle.getId()));
+				presupuestoDetalleMes = new PresupuestoDetalleMes();
+			}
+		} catch (DataAccessException e) {
+			e.printStackTrace();
+			util.mostrarError("Error guardando el registro.");
+		}
+	}
+	
+	public void addPresupuestoCampania(){
+		try {
+			if(validarDetalle(detalle, null,  presupuestoDetalleCampania)){
+				
+				presupuestoDetalleCampania.setEstado(EnumEstadosPresupuesto.PENDIENTE.getNombre());
+				presupuestoDetalleCampania.setPresupuesto(detalle);
+				presupuestoDetalleCampania.setUsuarioAprobadorInicial(
+								this.getCentroCostoService().getUsuarioAprobadorInicial(presupuestoDetalleCampania.getCentroCosto().getId()));
+				presupuestoDetalleCampania.setUsuarioAprobadorFinal(
+						this.getCentroCostoService().getUsuarioAprobadorFinal(presupuestoDetalleCampania.getCentroCosto().getId()));
+				
+				this.getPresupuestoService().addPresupuestoDetalleCampania(presupuestoDetalleCampania);
+				this.detalle.setDetalleCampania(this.getPresupuestoService().getPresupuestoDetallesCampania(detalle.getId()));
+				presupuestoDetalleCampania = new PresupuestoDetalleCampania();
+			}
+		} catch (DataAccessException e) {
+			e.printStackTrace();
+			util.mostrarError("Error guardando el registro.");
+		}
+	}
+	
+	public void updatePresupuesto() {
+		try {
+			if(validar(selectedPresupuesto)) {
+				getPresupuestoService().updatePresupuesto(selectedPresupuesto);
+				listaPresupuestos = getPresupuestoService().getPresupuestos();
+				selectedPresupuesto = new Presupuesto();
+				util.mostrarMensaje("Registro actualizado con éxito.");
+			}
+			
+		} catch (DataAccessException e) {
+			e.printStackTrace();
+			util.mostrarError("Error actualizando el registro.");
+		} 	
+	}
+	
+	public void deletePresupuesto() {
+		try {
+			getPresupuestoService().deletePresupuesto(selectedPresupuesto);
+			listaPresupuestos = getPresupuestoService().getPresupuestos();
+			util.mostrarMensaje("Registro eliminado con éxito.");  
+			
+		} catch (DataAccessException e) {
+			e.printStackTrace();
+			util.mostrarError("Error eliminando el registro.");
+		}
+	}
+	
+	public void cargarListaCentroCostosPresupuestoMes(String actualiza) {
+		try {
+			PresupuestoDetalleMes prepDetMesTmp = null;
+			if("SI".equals(actualiza)) {
+				prepDetMesTmp = selectedPresupuestoDetalleMes;
+			}else {
+				prepDetMesTmp = presupuestoDetalleMes;
+			}
+			
+			listaCentroCostos = new ArrayList<>();
+			
+			if(prepDetMesTmp.getCuenta() != null &&
+					prepDetMesTmp.getCuenta().getId() > 0) {
+				listaCentroCostos = this.getCentroCostoService().getCentroCostosPorCuenta(prepDetMesTmp.getCuenta().getId(), usuario.getId());
+			}
+		} catch (DataAccessException e) {
+			e.printStackTrace();
+		} 
+	}
+	
+	
+	public void cargarListaCentroCostosPresupuestoCampania(String actualiza) {
+		try {
+			PresupuestoDetalleCampania prepDetCampaniaTmp = null;
+			if("SI".equals(actualiza)) {
+				prepDetCampaniaTmp = selectedPresupuestoDetalleCampania;
+			}else {
+				prepDetCampaniaTmp = presupuestoDetalleCampania;
+			}
+			
+			listaCentroCostos = new ArrayList<>();
+			
+			if(prepDetCampaniaTmp.getCuenta() != null &&
+					prepDetCampaniaTmp.getCuenta().getId() > 0) {
+				listaCentroCostos = this.getCentroCostoService().getCentroCostosPorCuenta(prepDetCampaniaTmp.getCuenta().getId(), usuario.getId());
+			}
+		} catch (DataAccessException e) {
+			e.printStackTrace();
+		} 
+	}
+		
+	public Presupuesto getSelectedPresupuesto() {
+		return selectedPresupuesto;
+	}
+
+	public void setSelectedPresupuesto(Presupuesto selectedPresupuesto) {
+		this.selectedPresupuesto = selectedPresupuesto;
+	}	
+	
+	public ICuentaService getCuentaService() {
+		return cuentaService;
+	}
+
+	public void setCuentaService(ICuentaService cuentaService) {
+		this.cuentaService = cuentaService;
 	}
 	
 	public Presupuesto getPresupuesto() {
@@ -127,97 +331,6 @@ public class PresupuestoBB extends SpringBeanAutowiringSupport implements Serial
 		this.listaPresupuestos = listaPresupuestos;
 	}
 	
-	private boolean validar(Presupuesto pr) {
-		boolean permiteGuardar = true;
-		
-		if(pr.getNombre() == null || 
-				"".equals(pr.getNombre().trim())) {
-			util.mostrarError("El campo Nombre es requerido.");
-			permiteGuardar = false;
-		}
-		
-		if(pr.getClasificacion() == null || 
-				"".equals(pr.getClasificacion().trim())) {
-			util.mostrarError("El campo Clasificación es requerido.");
-			permiteGuardar = false;
-		}
-				
-		if(pr.getTipo() == null || 
-				"".equals(pr.getTipo().trim())) {
-			util.mostrarError("El campo Tipo es requerido.");
-			permiteGuardar = false;
-		}
-		
-		return permiteGuardar;
-	}
-
-	public void addPresupuesto() {
-		try {
-			if(validar(presupuesto)) {
-				presupuesto.setUsuario(usuario);
-				getPresupuestoService().addPresupuesto(presupuesto);
-				listaPresupuestos = getPresupuestoService().getPresupuestos();
-				presupuesto = new Presupuesto();
-				util.mostrarMensaje("Registro agregado con éxito."); 
-			}
-			
-		} catch (DataAccessException e) {
-			e.printStackTrace();
-			util.mostrarError("Error guardando el registro.");
-		} 	
-	}
-	
-	public Presupuesto getSelectedPresupuesto() {
-		return selectedPresupuesto;
-	}
-
-	public void setSelectedPresupuesto(Presupuesto selectedPresupuesto) {
-		this.selectedPresupuesto = selectedPresupuesto;
-	}	
-	
-	public void updatePresupuesto() {
-		try {
-			if(validar(selectedPresupuesto)) {
-				getPresupuestoService().updatePresupuesto(selectedPresupuesto);
-				listaPresupuestos = getPresupuestoService().getPresupuestos();
-				selectedPresupuesto = new Presupuesto();
-				util.mostrarMensaje("Registro actualizado con éxito.");
-			}
-			
-		} catch (DataAccessException e) {
-			e.printStackTrace();
-			util.mostrarError("Error actualizando el registro.");
-		} 	
-	}
-	
-	public void deletePresupuesto() {
-		try {
-			getPresupuestoService().deletePresupuesto(selectedPresupuesto);
-			listaPresupuestos = getPresupuestoService().getPresupuestos();
-			util.mostrarMensaje("Registro eliminado con éxito.");  
-			
-		} catch (DataAccessException e) {
-			e.printStackTrace();
-			util.mostrarError("Error eliminando el registro.");
-		} 	
-	}
-	
-	public List<PresupuestoDetalleMes> getListaPresupuestoDetalleMes() {
-		return listaPresupuestoDetalleMes;
-	}
-
-	public void setListaPresupuestoDetalleMes(List<PresupuestoDetalleMes> listaPresupuestoDetalleMes) {
-		this.listaPresupuestoDetalleMes = listaPresupuestoDetalleMes;
-	}
-	
-	public List<PresupuestoDetalleCampania> getListaPresupuestoDetalleCampania() {
-		return listaPresupuestoDetalleCampania;
-	}
-
-	public void setListaPresupuestoDetalleCampania(List<PresupuestoDetalleCampania> listaPresupuestoDetalleCampania) {
-		this.listaPresupuestoDetalleCampania = listaPresupuestoDetalleCampania;
-	}
-	
 	public List<CentroCosto> getListaCentroCostos() {
 		return listaCentroCostos;
 	}
@@ -242,109 +355,39 @@ public class PresupuestoBB extends SpringBeanAutowiringSupport implements Serial
 		this.listaCuentas = listaCuentas;
 	}
 	
-	public void cargarListaCuentasPresupuestoMes(String actualiza) {
-		try {
-			PresupuestoDetalleMes prepDetMesTmp = null;
-			if("SI".equals(actualiza)) {
-				prepDetMesTmp = selectedPresupuestoDetalleMes;
-			}else {
-				prepDetMesTmp = presupuestoDetalleMes;
-			}
-			
-			listaCuentas = new ArrayList<>();
-			
-			if(prepDetMesTmp.getCentroCosto() != null &&
-					prepDetMesTmp.getCentroCosto().getId() > 0) {
-				listaCuentas = this.getCuentaService().getCuentaPorCentroCosto(prepDetMesTmp.getCentroCosto().getId());
-			}
-		} catch (DataAccessException e) {
-			e.printStackTrace();
-		} 
-	}
-	
-	public void cargarListaCuentasPresupuestoCampania(String actualiza) {
-		try {
-			PresupuestoDetalleCampania prepDetCampaniaTmp = null;
-			if("SI".equals(actualiza)) {
-				prepDetCampaniaTmp = selectedPresupuestoDetalleCampania;
-			}else {
-				prepDetCampaniaTmp = presupuestoDetalleCampania;
-			}
-			
-			listaCuentas = new ArrayList<>();
-			
-			if(prepDetCampaniaTmp.getCentroCosto() != null &&
-					prepDetCampaniaTmp.getCentroCosto().getId() > 0) {
-				listaCuentas = this.getCuentaService().getCuentaPorCentroCosto(prepDetCampaniaTmp.getCentroCosto().getId());
-			}
-		} catch (DataAccessException e) {
-			e.printStackTrace();
-		} 
-	}
-		
-	
-	public ICuentaService getCuentaService() {
-		return cuentaService;
+	public boolean isMostrarDetalle() {
+		return mostrarDetalle;
 	}
 
-	public void setCuentaService(ICuentaService cuentaService) {
-		this.cuentaService = cuentaService;
+	public void setMostrarDetalle(boolean mostrarDetalle) {
+		this.mostrarDetalle = mostrarDetalle;
+	}
+
+	public int getCamapanaMaxima() {
+		return camapanaMaxima;
+	}
+
+	public void setCamapanaMaxima(int camapanaMaxima) {
+		this.camapanaMaxima = camapanaMaxima;
+	}
+
+	public ICalculadoraService getCalculadoraService() {
+		return calculadoraService;
+	}
+
+	public void setCalculadoraService(ICalculadoraService calculadoraService) {
+		this.calculadoraService = calculadoraService;
+	}
+	
+	public Presupuesto getDetalle() {
+		return detalle;
+	}
+
+	public void setDetalle(Presupuesto detalle) {
+		this.detalle = detalle;
 	}
 	
 	/*	
-	
-	
-	public void verDetalle(SelectEvent event) {
-		detalle = (Presupuesto) event.getObject();
-		mostrarDetalle = true;
-	}
-	
-	public void agregarRegistro1() {
-		try {
-			presupuesto.getDetalle().add(new PresupuestoDetalleMes());
-		}catch(Exception e) {
-			e.printStackTrace();
-		}
-	}
-	
-	public void agregarRegistro2() {
-		try {
-			detalle.getDetalle().add(new PresupuestoDetalleMes());
-		}catch(Exception e) {
-			e.printStackTrace();
-		}
-	}
-	
-	public void eliminarRegistro1(int indice) {
-		try {
-			presupuesto.getDetalle().remove(indice);
-		}catch(Exception e) {
-			e.printStackTrace();
-		}
-	}
-	
-	public void eliminarRegistro2(int indice) {
-		try {
-			detalle.getDetalle().remove(indice);
-		}catch(Exception e) {
-			e.printStackTrace();
-		}
-	}
-	
-	public void cambioTipo() {
-		presupuesto.setDetalle(new ArrayList<>());
-		if("Campañal".equals(presupuesto.getTipo())) {
-			for(int i = 0; i <= 17; i++) {
-				presupuesto.getDetalle().add(new PresupuestoDetalleMes());
-			}
-		}else if("Mensual".equals(presupuesto.getTipo())) {
-			for(int i = 0; i <= 11; i++) {
-				presupuesto.getDetalle().add(new PresupuestoDetalleMes());
-			}
-		}
-	}
-	
-	
 	
 	public void enviarPresupuestoAprobadorInicial(){
 		try {
@@ -401,28 +444,6 @@ public class PresupuestoBB extends SpringBeanAutowiringSupport implements Serial
 		} 	
 	}
 
-	
-	
-	
-	
-	
-
-	public Presupuesto getDetalle() {
-		return detalle;
-	}
-
-	public void setDetalle(Presupuesto detalle) {
-		this.detalle = detalle;
-	}
-
-	public boolean isMostrarDetalle() {
-		return mostrarDetalle;
-	}
-
-	public void setMostrarDetalle(boolean mostrarDetalle) {
-		this.mostrarDetalle = mostrarDetalle;
-	}
-
 	public Observacion getObservacion() {
 		return observacion;
 	}
@@ -431,12 +452,5 @@ public class PresupuestoBB extends SpringBeanAutowiringSupport implements Serial
 		this.observacion = observacion;
 	}
 
-	
-
-	
-
-	
-
-	
 */
  }

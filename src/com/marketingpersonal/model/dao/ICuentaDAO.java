@@ -19,4 +19,6 @@ public interface ICuentaDAO {
 
 	List<Cuenta> getCuentaPorCentroCosto(int idCuenta);
 
+	List<Cuenta> getCuentasPorUsuario(int idUsuario);
+
 }
