@@ -11,74 +11,42 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 @Entity
+@Getter @Setter
+@AllArgsConstructor
+@Builder
+@NoArgsConstructor
 @Table(name = "home", schema = "presupuestoMD")
 public class Home implements java.io.Serializable {
 
 	private static final long serialVersionUID = 1L;
-	private int id;
-	private String nombre;
-	private String url;
-	private Date fechaInicio;
-	private Date fechaFin;
-	private boolean estado = true;
-
+	
 	@Id
 	@GeneratedValue( strategy=GenerationType.IDENTITY)
 	@Column(columnDefinition = "serial", name = "id", unique = true, nullable = false)
-	public int getId() {
-		return this.id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
+	private int id;
 	
 	@Column(name = "nombre")
-	public String getNombre() {
-		return this.nombre;
-	}
-
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
+	private String nombre;
 	
-	@Column(name = "estado")
-	public boolean getEstado() {
-		return estado;
-	}
-
-	public void setEstado(boolean estado) {
-		this.estado = estado;
-	}
-
 	@Column(name = "url")
-	public String getUrl() {
-		return url;
-	}
-
-	public void setUrl(String url) {
-		this.url = url;
-	}
-
+	private String url;
+	
 	@Temporal(TemporalType.DATE)
 	@Column(name = "fecha_inicio")
-	public Date getFechaInicio() {
-		return fechaInicio;
-	}
-
-	public void setFechaInicio(Date fechaInicio) {
-		this.fechaInicio = fechaInicio;
-	}
-
+	private Date fechaInicio;
+	
 	@Temporal(TemporalType.DATE)
 	@Column(name = "fecha_fin")
-	public Date getFechaFin() {
-		return fechaFin;
-	}
-
-	public void setFechaFin(Date fechaFin) {
-		this.fechaFin = fechaFin;
-	}
+	private Date fechaFin;
+	
+	@Column(name = "estado")
+	private boolean estado = true;
 
 }

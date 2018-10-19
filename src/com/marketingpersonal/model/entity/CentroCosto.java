@@ -10,81 +10,43 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 @Entity
+@Getter @Setter
+@AllArgsConstructor
+@Builder
+@NoArgsConstructor
 @Table(name = "centrocosto", schema = "presupuestoMD")
 public class CentroCosto implements java.io.Serializable {
 
 	private static final long serialVersionUID = 1L;
-	private int id;
-	private String centroCosto;
-	private Gerencia gerencia;
-	private Direccion direccion;
-	private Jefatura jefatura;
-	private boolean estado = true;
 	
-	public CentroCosto() {
-		gerencia = new Gerencia();
-		direccion = new Direccion();
-		jefatura = new Jefatura();
-	}
-
 	@Id
 	@GeneratedValue( strategy=GenerationType.IDENTITY)
 	@Column(columnDefinition = "serial", name = "id", unique = true, nullable = false)
-	public int getId() {
-		return this.id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
+	private int id;
 	
 	@Column(name = "centrocosto")
-	public String getCentroCosto() {
-		return centroCosto;
-	}
-
-	public void setCentroCosto(String centroCosto) {
-		this.centroCosto = centroCosto;
-	}
-
+	private String centroCosto;
+	
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "id_gerencia", nullable = false)
-	public Gerencia getGerencia() {
-		return gerencia;
-	}
-
-	public void setGerencia(Gerencia gerencia) {
-		this.gerencia = gerencia;
-	}
-
+	private Gerencia gerencia;
+	
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "id_direccion", nullable = false)
-	public Direccion getDireccion() {
-		return direccion;
-	}
-
-	public void setDireccion(Direccion direccion) {
-		this.direccion = direccion;
-	}
-
+	private Direccion direccion;
+	
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "id_jefatura", nullable = false)
-	public Jefatura getJefatura() {
-		return jefatura;
-	}
-
-	public void setJefatura(Jefatura jefatura) {
-		this.jefatura = jefatura;
-	}
-
+	private Jefatura jefatura;
+	
 	@Column(name = "estado")
-	public boolean isEstado() {
-		return estado;
-	}
-
-	public void setEstado(boolean estado) {
-		this.estado = estado;
-	}
+	private boolean estado = true;
 
 }
