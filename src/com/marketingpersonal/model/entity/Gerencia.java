@@ -12,56 +12,36 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.marketingpersonal.model.entity.Direccion.DireccionBuilder;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 @Entity
+@Getter @Setter
+@AllArgsConstructor
+@Builder
+@NoArgsConstructor
 @Table(name = "gerencia", schema = "presupuestoMD")
 public class Gerencia implements java.io.Serializable {
 
 	private static final long serialVersionUID = 1L;
-	private int id;
-	private String nombre;
-	private boolean estado = true;
 	
-	private List<CentroCosto> lstCentroCostos = new ArrayList<>();
-
-	public Gerencia() {
-	}
-
 	@Id
 	@GeneratedValue( strategy=GenerationType.IDENTITY)
 	@Column(columnDefinition = "serial", name = "id", unique = true, nullable = false)
-	public int getId() {
-		return this.id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
+	private int id;
 	
 	@Column(name = "nombre")
-	public String getNombre() {
-		return this.nombre;
-	}
-
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
+	private String nombre;
 	
 	@Column(name = "estado")
-	public boolean getEstado() {
-		return estado;
-	}
-
-	public void setEstado(boolean estado) {
-		this.estado = estado;
-	}
-
+	private boolean estado = true;
+	
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "gerencia")
-	public List<CentroCosto> getLstCentroCostos() {
-		return lstCentroCostos;
-	}
-
-	public void setLstCentroCostos(List<CentroCosto> lstCentroCostos) {
-		this.lstCentroCostos = lstCentroCostos;
-	}
+	private List<CentroCosto> lstCentroCostos = new ArrayList<>();
 
 }

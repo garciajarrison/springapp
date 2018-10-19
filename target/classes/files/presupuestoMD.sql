@@ -1,53 +1,20 @@
--- -----------------------------------------------------
--- Schema PresupuestoMD
--- -----------------------------------------------------
-CREATE DATABASE presupuestoMD
+-- Database: presupuestoMD
+
+-- DROP DATABASE "presupuestoMD";
+
+CREATE DATABASE "presupuestoMD"
     WITH 
     OWNER = postgres
-    ENCODING = UTF8
-    LC_COLLATE = Spanish_Colombia.1252
-    LC_CTYPE = Spanish_Colombia.1252
+    ENCODING = 'UTF8'
+    LC_COLLATE = 'Spanish_Colombia.1252'
+    LC_CTYPE = 'Spanish_Colombia.1252'
     TABLESPACE = pg_default
     CONNECTION LIMIT = -1;
-
+    
 -- SCHEMA: presupuestoMD
 -- DROP SCHEMA presupuestoMD ;
 CREATE SCHEMA presupuestoMD
     AUTHORIZATION postgres;
-	
-    
--- -----------------------------------------------------
--- CAMBIOS
--- -----------------------------------------------------
--- actualizacion de tabla presupuesto
--- creacion de tabla observaciones
-
-
--- -----------------------------------------------------
--- Table presupuestoMD.calculadora
--- -----------------------------------------------------
--- DROP SEQUENCE presupuestoMD.calculadora_seq;
-CREATE SEQUENCE presupuestoMD.calculadora_seq;
-ALTER SEQUENCE presupuestoMD.calculadora_seq
-    OWNER TO postgres;
-    
--- DROP TABLE presupuestoMD.calculadora ;
-CREATE TABLE presupuestoMD.calculadora
-(
-   id                  INTEGER NOT NULL DEFAULT nextval ('presupuestoMD.calculadora_seq'::regclass),
-   campana    		   INTEGER NULL,
-   mes         		   INTEGER NULL,
-   anio                INTEGER NULL,
-   tipo    			   CHARACTER VARYING (20) NULL,
-   porcentaje		   real null,
-   CONSTRAINT pk_calculadora PRIMARY KEY (id)
-)
-WITH (OIDS = FALSE);
-
-ALTER TABLE presupuestoMD.calculadora
-    OWNER to postgres;	 
-
-
 	
 -- -----------------------------------------------------
 -- Table presupuestoMD.usuario
@@ -321,8 +288,8 @@ CREATE TABLE presupuestoMD.detalle_presupuesto_mes
    valor_m11           real NOT NULL,
    valor_m12           real NOT NULL,	
    estado              CHARACTER VARYING (20) NULL DEFAULT 'PENDIENTE',
-   id_centrocosto	   INTEGER NOT NULL,
    id_cuenta		   INTEGER NOT NULL,
+   id_centrocosto	   INTEGER NOT NULL,
    id_usuario_aprini   INTEGER NOT NULL,
    id_usuario_aprfin   INTEGER NOT NULL,
    CONSTRAINT pk_detalle_presupuesto_mes PRIMARY KEY (id),
@@ -331,7 +298,7 @@ CREATE TABLE presupuestoMD.detalle_presupuesto_mes
    CONSTRAINT fk_detalle_presupuesto_mes_cuenta FOREIGN KEY (id_cuenta)
         REFERENCES presupuestoMD.cuenta (id) MATCH SIMPLE,
    CONSTRAINT fk_detalle_presupuesto_mes_centrocosto FOREIGN KEY (id_centrocosto)
-        REFERENCES presupuestoMD.centrocosto (id) MATCH SIMPLE,
+        REFERENCES presupuestoMD.centrocosto(id) MATCH SIMPLE,
    CONSTRAINT fk_detalle_presupuesto_mes_usuario_aprini FOREIGN KEY (id_usuario_aprini)
         REFERENCES presupuestoMD.usuario (id) MATCH SIMPLE,
    CONSTRAINT fk_detalle_presupuesto_mes_usuario_aprfin FOREIGN KEY (id_usuario_aprfin)
@@ -418,8 +385,8 @@ CREATE TABLE presupuestoMD.observacion
    observacion    	   CHARACTER VARYING (200) NULL,
    usuario_envia       INTEGER NOT NULL,
    usuario_recibe      INTEGER NOT NULL,
-   id_detalle_presupuesto_mes  INTEGER NULL,
-   id_detalle_presupuesto_campania  INTEGER NULL,
+   id_detalle_presupuesto_mes  INTEGER NOT NULL,
+   id_detalle_presupuesto_campania  INTEGER NOT NULL,
    fecha			   DATE NOT NULL,
    estado              CHARACTER VARYING (20) NOT NULL,
    CONSTRAINT pk_observacion PRIMARY KEY (id),
@@ -436,4 +403,36 @@ WITH (OIDS = FALSE);
 
 ALTER TABLE presupuestoMD.observacion
     OWNER to postgres;	
+								  
+ -- -----------------------------------------------------
+-- CAMBIOS
+-- -----------------------------------------------------
+-- actualizacion de tabla presupuesto
+-- creacion de tabla observaciones
+
+
+-- -----------------------------------------------------
+-- Table presupuestoMD.calculadora
+-- -----------------------------------------------------
+-- DROP SEQUENCE presupuestoMD.calculadora_seq;
+CREATE SEQUENCE presupuestoMD.calculadora_seq;
+ALTER SEQUENCE presupuestoMD.calculadora_seq
+    OWNER TO postgres;
+    
+-- DROP TABLE presupuestoMD.calculadora ;
+CREATE TABLE presupuestoMD.calculadora
+(
+   id                  INTEGER NOT NULL DEFAULT nextval ('presupuestoMD.calculadora_seq'::regclass),
+   campana    		   INTEGER NULL,
+   mes         		   INTEGER NULL,
+   anio                INTEGER NULL,
+   tipo    			   CHARACTER VARYING (20) NULL,
+   porcentaje		   real null,
+   CONSTRAINT pk_calculadora PRIMARY KEY (id)
+)
+WITH (OIDS = FALSE);
+
+ALTER TABLE presupuestoMD.calculadora
+    OWNER to postgres;	 
+
 	

@@ -85,7 +85,7 @@ public class CalculadoraBB extends SpringBeanAutowiringSupport implements Serial
 			//La ultima fila es para totalizar
 			objTmp = new Calculadora[12];
 			for(int m = 1; m <= 12; m++) {
-				objTmp[m-1] = new Calculadora((camapanaMaxima+1),m,0d,"MC");
+				objTmp[m-1] = new Calculadora(0,(camapanaMaxima+1),m,0,"MC",0d);
 			}
 			listaCalculadoraMC.add(objTmp);
 		}catch(Exception e) {

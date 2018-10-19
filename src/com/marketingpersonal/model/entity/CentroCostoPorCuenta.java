@@ -10,49 +10,35 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.marketingpersonal.model.entity.CentroCosto.CentroCostoBuilder;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 @Entity
+@Getter @Setter
+@AllArgsConstructor
+@Builder
+@NoArgsConstructor
 @Table(name = "cuenta_x_centrocosto", schema = "presupuestoMD")
 public class CentroCostoPorCuenta implements java.io.Serializable {
 
 	private static final long serialVersionUID = 1L;
-	private int id;
-	private Cuenta cuenta;
-	private CentroCosto centroCosto;
 	
-	public CentroCostoPorCuenta() {
-		centroCosto = new CentroCosto();
-		cuenta = new Cuenta();
-	}
-
 	@Id
 	@GeneratedValue( strategy=GenerationType.IDENTITY)
 	@Column(columnDefinition = "serial", name = "id", unique = true, nullable = false)
-	public int getId() {
-		return this.id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
+	private int id;
 	
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "id_cuenta", nullable = false)
-	public Cuenta getCuenta() {
-		return cuenta;
-	}
-
-	public void setCuenta(Cuenta cuenta) {
-		this.cuenta = cuenta;
-	}
+	private Cuenta cuenta;
 	
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "id_centrocosto", nullable = false)
-	public CentroCosto getCentroCosto() {
-		return centroCosto;
-	}
-
-	public void setCentroCosto(CentroCosto centroCosto) {
-		this.centroCosto = centroCosto;
-	}
+	private CentroCosto centroCosto;
 
 }
