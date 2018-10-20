@@ -24,6 +24,7 @@ public class DireccionDAO implements IDireccionDAO {
 
 	public void addDireccion(Direccion entity) {
 		Session session = getSessionFactory().getCurrentSession();
+		
 		session.save(entity);
 	}
 

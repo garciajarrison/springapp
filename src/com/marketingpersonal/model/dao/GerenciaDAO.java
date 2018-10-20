@@ -24,6 +24,7 @@ public class GerenciaDAO implements IGerenciaDAO {
 
 	public void addGerencia(Gerencia entity) {
 		Session session = getSessionFactory().getCurrentSession();
+		
 		session.save(entity);
 	}
 
@@ -34,6 +35,7 @@ public class GerenciaDAO implements IGerenciaDAO {
 
 	public void updateGerencia(Gerencia entity) {
 		Session session = getSessionFactory().getCurrentSession();
+		
 		session.update(entity);
 	}
 

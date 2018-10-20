@@ -60,6 +60,7 @@ public class JefaturaBB extends SpringBeanAutowiringSupport implements Serializa
 				for(Jefatura jef : listaJefaturas) {
 					if(jef.getNombre().equals(jefatura.getNombre().trim())) {
 						guardar = false;	
+						
 						break;
 					}
 				}

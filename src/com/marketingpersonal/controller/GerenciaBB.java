@@ -58,6 +58,7 @@ public class GerenciaBB extends SpringBeanAutowiringSupport implements Serializa
 				
 				//Validar que no exista un registro duplicado
 				for(Gerencia ger : listaGerencias) {
+					
 					if(ger.getNombre().equals(gerencia.getNombre().trim())) {
 						guardar = false;	
 						break;

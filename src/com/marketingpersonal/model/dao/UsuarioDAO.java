@@ -2,6 +2,7 @@ package com.marketingpersonal.model.dao;
 
 import java.util.List;
 
+import org.apache.commons.lang3.text.WordUtils;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.hibernate.Session;
@@ -37,6 +38,8 @@ public class UsuarioDAO implements IUsuarioDAO {
 	
 	public void addUsuario(Usuario entity) {
 		Session session = getSessionFactory().getCurrentSession();
+		entity.setNombre(WordUtils.capitalizeFully(entity.getNombre()));
+		entity.setUsuario(entity.getUsuario().toLowerCase());
 		session.save(entity);
 	}
 
@@ -47,6 +50,8 @@ public class UsuarioDAO implements IUsuarioDAO {
 
 	public void updateUsuario(Usuario entity) {
 		Session session = getSessionFactory().getCurrentSession();
+		entity.setNombre(WordUtils.capitalizeFully(entity.getNombre()));
+		entity.setUsuario(entity.getUsuario().toLowerCase());
 		session.update(entity);
 	}
 
@@ -112,9 +117,7 @@ public class UsuarioDAO implements IUsuarioDAO {
 			usuario.setRol(row.getCell(5)+"");
 						
 			session.save(usuario);	
-		}
-		
-		
+		}		
 	}
 	
 	

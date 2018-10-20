@@ -25,6 +25,7 @@ public class CuentaDAO implements ICuentaDAO {
 
 	public void addCuenta(Cuenta entity) {
 		Session session = getSessionFactory().getCurrentSession();
+		entity.setNombre(entity.getNombre().toUpperCase());
 		session.save(entity);
 	}
 
@@ -35,6 +36,7 @@ public class CuentaDAO implements ICuentaDAO {
 
 	public void updateCuenta(Cuenta entity) {
 		Session session = getSessionFactory().getCurrentSession();
+		entity.setNombre(entity.getNombre().toUpperCase());
 		session.update(entity);
 	}
 

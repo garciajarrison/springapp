@@ -11,6 +11,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
+import org.apache.commons.lang3.text.WordUtils;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -29,10 +30,10 @@ import com.marketingpersonal.model.entity.Usuario;
 import com.marketingpersonal.model.entity.Validacion;
 import com.marketingpersonal.service.IUsuarioService;
 
-import lombok.Getter;
-import lombok.Setter;
+//import lombok.Getter;
+//import lombok.Setter;
 
-@Getter @Setter
+//@Getter @Setter
 @ManagedBean(name = "usuarioBB")
 @ViewScoped
 public class UsuarioBB extends SpringBeanAutowiringSupport implements Serializable {
@@ -103,11 +104,10 @@ public class UsuarioBB extends SpringBeanAutowiringSupport implements Serializab
 			
 			//Validar obligatoriedad de campos
 			if(validar(usuario)) {
-				
 				//Validar que no exista un registro duplicado
 				for(Usuario usr : listaUsuarios) {
 					if((usr.getNumeroDocumento().equals(usuario.getNumeroDocumento().trim())) ||
-							(usr.getUsuario().equals(usuario.getUsuario().trim())))	 {
+							(usr.getUsuario().equals(usuario.getUsuario().trim().toLowerCase())))	 {
 						guardar = false;
 						break;
 					}
@@ -138,7 +138,7 @@ public class UsuarioBB extends SpringBeanAutowiringSupport implements Serializab
 				for(Usuario usr : listaUsuarios) {
 					if(usr.getId() != selectedUsuario.getId())	 {
 						if((usr.getNumeroDocumento().equals(selectedUsuario.getNumeroDocumento())) ||
-								(usr.getUsuario().equals(selectedUsuario.getUsuario())))	 {
+								(usr.getUsuario().equals(selectedUsuario.getUsuario().toLowerCase())))	 {
 							actualizar = false;	
 							break;
 						}					
@@ -311,7 +311,7 @@ public class UsuarioBB extends SpringBeanAutowiringSupport implements Serializab
 					listaValidacion.add(validacion);
 				}	
 				
-				if(usr.getUsuario().equals(row.getCell(2)+"")) {
+				if(usr.getUsuario().equals(row.getCell(2)+"".toLowerCase())) {
 					validacion = new Validacion();
 					validacion.setMensaje("Ya existe un usuario con el usuario: "+row.getCell(2));
 					validacion.setFila((fila+1)+"");
@@ -343,6 +343,14 @@ public class UsuarioBB extends SpringBeanAutowiringSupport implements Serializab
 		}
 		
 		return permiteGuardar;
+	}
+
+	public IUsuarioService getUsuarioService() {
+		return usuarioService;
+	}
+
+	public void setUsuarioService(IUsuarioService usuarioService) {
+		this.usuarioService = usuarioService;
 	}
     
  }

@@ -24,6 +24,7 @@ public class JefaturaDAO implements IJefaturaDAO {
 
 	public void addJefatura(Jefatura entity) {
 		Session session = getSessionFactory().getCurrentSession();
+		
 		session.save(entity);
 	}
 
