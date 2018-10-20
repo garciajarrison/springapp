@@ -25,10 +25,6 @@ import com.marketingpersonal.model.entity.UsuarioPorCentroCosto;
 import com.marketingpersonal.service.IHomeService;
 import com.marketingpersonal.service.IUsuarioService;
 
-import lombok.Getter;
-import lombok.Setter;
-
-@Getter @Setter
 @ManagedBean(name = "globalBB")
 @SessionScoped
 public class GlobalBB extends SpringBeanAutowiringSupport implements Serializable {
@@ -155,6 +151,118 @@ public class GlobalBB extends SpringBeanAutowiringSupport implements Serializabl
 			}	
 		}	
 		return false;
+	}
+
+	public IUsuarioService getUsuarioService() {
+		return usuarioService;
+	}
+
+	public void setUsuarioService(IUsuarioService usuarioService) {
+		this.usuarioService = usuarioService;
+	}
+
+	public IHomeService getHomeService() {
+		return homeService;
+	}
+
+	public void setHomeService(IHomeService homeService) {
+		this.homeService = homeService;
+	}
+
+	public Usuario getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
+	}
+
+	public Locale getLocale() {
+		return locale;
+	}
+
+	public void setLocale(Locale locale) {
+		this.locale = locale;
+	}
+
+	public Util getUtil() {
+		return util;
+	}
+
+	public void setUtil(Util util) {
+		this.util = util;
+	}
+
+	public UploadedFile getFoto() {
+		return foto;
+	}
+
+	public void setFoto(UploadedFile foto) {
+		this.foto = foto;
+	}
+
+	public String getUrlFotoPerfil() {
+		return urlFotoPerfil;
+	}
+
+	public void setUrlFotoPerfil(String urlFotoPerfil) {
+		this.urlFotoPerfil = urlFotoPerfil;
+	}
+
+	public ListasGenericas getListasGenericas() {
+		return listasGenericas;
+	}
+
+	public void setListasGenericas(ListasGenericas listasGenericas) {
+		this.listasGenericas = listasGenericas;
+	}
+
+	public List<Home> getVariablesMacroeconomicas() {
+		return variablesMacroeconomicas;
+	}
+
+	public void setVariablesMacroeconomicas(List<Home> variablesMacroeconomicas) {
+		this.variablesMacroeconomicas = variablesMacroeconomicas;
+	}
+
+	public boolean isVariasVariables() {
+		return variasVariables;
+	}
+
+	public void setVariasVariables(boolean variasVariables) {
+		this.variasVariables = variasVariables;
+	}
+
+	public boolean isResponsable() {
+		return responsable;
+	}
+
+	public void setResponsable(boolean responsable) {
+		this.responsable = responsable;
+	}
+
+	public boolean isAprobadorInicial() {
+		return aprobadorInicial;
+	}
+
+	public void setAprobadorInicial(boolean aprobadorInicial) {
+		this.aprobadorInicial = aprobadorInicial;
+	}
+
+	public boolean isAprobadorFinal() {
+		return aprobadorFinal;
+	}
+
+	public void setAprobadorFinal(boolean aprobadorFinal) {
+		this.aprobadorFinal = aprobadorFinal;
+	}
+
+	public List<UsuarioPorCentroCosto> getListaUsuarioPorCentroCosto() {
+		return listaUsuarioPorCentroCosto;
+	}
+
+	public void setListaUsuarioPorCentroCosto(List<UsuarioPorCentroCosto> listaUsuarioPorCentroCosto) {
+		this.listaUsuarioPorCentroCosto = listaUsuarioPorCentroCosto;
 	}
 
  }

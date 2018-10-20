@@ -10,17 +10,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
 @Entity
-@Getter @Setter
-@AllArgsConstructor
-@Builder
-@NoArgsConstructor
 @Table(name = "usuario_x_centrocosto", schema = "presupuestoMD")
 public class UsuarioPorCentroCosto implements java.io.Serializable {
 
@@ -46,5 +36,45 @@ public class UsuarioPorCentroCosto implements java.io.Serializable {
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "id_usuario_aprfin", nullable = false)
 	private Usuario usuarioAprobadorFinal = new Usuario();
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public CentroCosto getCentroCosto() {
+		return centroCosto;
+	}
+
+	public void setCentroCosto(CentroCosto centroCosto) {
+		this.centroCosto = centroCosto;
+	}
+
+	public Usuario getUsuarioResponsable() {
+		return usuarioResponsable;
+	}
+
+	public void setUsuarioResponsable(Usuario usuarioResponsable) {
+		this.usuarioResponsable = usuarioResponsable;
+	}
+
+	public Usuario getUsuarioAprobadorInicial() {
+		return usuarioAprobadorInicial;
+	}
+
+	public void setUsuarioAprobadorInicial(Usuario usuarioAprobadorInicial) {
+		this.usuarioAprobadorInicial = usuarioAprobadorInicial;
+	}
+
+	public Usuario getUsuarioAprobadorFinal() {
+		return usuarioAprobadorFinal;
+	}
+
+	public void setUsuarioAprobadorFinal(Usuario usuarioAprobadorFinal) {
+		this.usuarioAprobadorFinal = usuarioAprobadorFinal;
+	}
 	
 }

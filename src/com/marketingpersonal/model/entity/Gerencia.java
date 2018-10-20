@@ -12,17 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
 @Entity
-@Getter @Setter
-@AllArgsConstructor
-@Builder
-@NoArgsConstructor
 @Table(name = "gerencia", schema = "presupuestoMD")
 public class Gerencia implements java.io.Serializable {
 
@@ -41,5 +31,37 @@ public class Gerencia implements java.io.Serializable {
 	
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "gerencia")
 	private List<CentroCosto> lstCentroCostos = new ArrayList<>();
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public String getNombre() {
+		return nombre;
+	}
+
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+
+	public boolean isEstado() {
+		return estado;
+	}
+
+	public void setEstado(boolean estado) {
+		this.estado = estado;
+	}
+
+	public List<CentroCosto> getLstCentroCostos() {
+		return lstCentroCostos;
+	}
+
+	public void setLstCentroCostos(List<CentroCosto> lstCentroCostos) {
+		this.lstCentroCostos = lstCentroCostos;
+	}
 
 }

@@ -14,10 +14,6 @@ import com.marketingpersonal.common.Util;
 import com.marketingpersonal.model.entity.Usuario;
 import com.marketingpersonal.service.IUsuarioService;
 
-import lombok.Getter;
-import lombok.Setter;
-
-@Getter @Setter
 @ManagedBean(name = "loginBB")
 @ViewScoped
 public class LoginBB extends SpringBeanAutowiringSupport implements Serializable {
@@ -81,6 +77,38 @@ public class LoginBB extends SpringBeanAutowiringSupport implements Serializable
 		try {
 			FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
 		}catch(Exception e) {}
+	}
+
+	public IUsuarioService getUsuarioService() {
+		return usuarioService;
+	}
+
+	public void setUsuarioService(IUsuarioService usuarioService) {
+		this.usuarioService = usuarioService;
+	}
+
+	public String getClave() {
+		return clave;
+	}
+
+	public void setClave(String clave) {
+		this.clave = clave;
+	}
+
+	public Util getUtil() {
+		return util;
+	}
+
+	public void setUtil(Util util) {
+		this.util = util;
+	}
+
+	public Usuario getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
 	}
 	
  }

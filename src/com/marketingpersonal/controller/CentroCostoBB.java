@@ -31,10 +31,7 @@ import com.marketingpersonal.service.IDireccionService;
 import com.marketingpersonal.service.IGerenciaService;
 import com.marketingpersonal.service.IJefaturaService;
 
-import lombok.Getter;
-import lombok.Setter;
 
-@Getter @Setter
 @ManagedBean(name = "centroCostoBB")
 @ViewScoped
 public class CentroCostoBB extends SpringBeanAutowiringSupport implements Serializable {
@@ -281,6 +278,130 @@ public class CentroCostoBB extends SpringBeanAutowiringSupport implements Serial
 			}	
 		}		
 		return 9999;
+	}
+
+	public ICentroCostoService getCentroCostoService() {
+		return centroCostoService;
+	}
+
+	public void setCentroCostoService(ICentroCostoService centroCostoService) {
+		this.centroCostoService = centroCostoService;
+	}
+
+	public IGerenciaService getGerenciaService() {
+		return gerenciaService;
+	}
+
+	public void setGerenciaService(IGerenciaService gerenciaService) {
+		this.gerenciaService = gerenciaService;
+	}
+
+	public IDireccionService getDireccionService() {
+		return direccionService;
+	}
+
+	public void setDireccionService(IDireccionService direccionService) {
+		this.direccionService = direccionService;
+	}
+
+	public IJefaturaService getJefaturaService() {
+		return jefaturaService;
+	}
+
+	public void setJefaturaService(IJefaturaService jefaturaService) {
+		this.jefaturaService = jefaturaService;
+	}
+
+	public Util getUtil() {
+		return util;
+	}
+
+	public void setUtil(Util util) {
+		this.util = util;
+	}
+
+	public CentroCosto getCentroCosto() {
+		return centroCosto;
+	}
+
+	public void setCentroCosto(CentroCosto centroCosto) {
+		this.centroCosto = centroCosto;
+	}
+
+	public CentroCosto getSelectedCentroCosto() {
+		return selectedCentroCosto;
+	}
+
+	public void setSelectedCentroCosto(CentroCosto selectedCentroCosto) {
+		this.selectedCentroCosto = selectedCentroCosto;
+	}
+
+	public List<CentroCosto> getListaCentroCostos() {
+		return listaCentroCostos;
+	}
+
+	public void setListaCentroCostos(List<CentroCosto> listaCentroCostos) {
+		this.listaCentroCostos = listaCentroCostos;
+	}
+
+	public UploadedFile getFile() {
+		return file;
+	}
+
+	public void setFile(UploadedFile file) {
+		this.file = file;
+	}
+
+	public Gerencia getGerencia() {
+		return gerencia;
+	}
+
+	public void setGerencia(Gerencia gerencia) {
+		this.gerencia = gerencia;
+	}
+
+	public Direccion getDireccion() {
+		return direccion;
+	}
+
+	public void setDireccion(Direccion direccion) {
+		this.direccion = direccion;
+	}
+
+	public Jefatura getJefatura() {
+		return jefatura;
+	}
+
+	public void setJefatura(Jefatura jefatura) {
+		this.jefatura = jefatura;
+	}
+
+	public List<Gerencia> getLstGerencias() {
+		return lstGerencias;
+	}
+
+	public void setLstGerencias(List<Gerencia> lstGerencias) {
+		this.lstGerencias = lstGerencias;
+	}
+
+	public List<Direccion> getLstDireccions() {
+		return lstDireccions;
+	}
+
+	public void setLstDireccions(List<Direccion> lstDireccions) {
+		this.lstDireccions = lstDireccions;
+	}
+
+	public List<Jefatura> getLstJefaturas() {
+		return lstJefaturas;
+	}
+
+	public void setLstJefaturas(List<Jefatura> lstJefaturas) {
+		this.lstJefaturas = lstJefaturas;
+	}
+
+	public void setFileDescargar(StreamedContent fileDescargar) {
+		this.fileDescargar = fileDescargar;
 	}
 	
  }

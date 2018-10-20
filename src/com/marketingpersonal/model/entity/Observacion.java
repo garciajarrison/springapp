@@ -12,17 +12,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
 @Entity
-@Getter @Setter
-@AllArgsConstructor
-@Builder
-@NoArgsConstructor
 @Table(name = "observacion", schema = "presupuestoMD")
 public class Observacion implements java.io.Serializable {
 
@@ -57,5 +47,69 @@ public class Observacion implements java.io.Serializable {
 	
 	@Column(name = "estado")
 	private String estado;
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public String getObservacion() {
+		return observacion;
+	}
+
+	public void setObservacion(String observacion) {
+		this.observacion = observacion;
+	}
+
+	public Usuario getUsuarioEnvia() {
+		return usuarioEnvia;
+	}
+
+	public void setUsuarioEnvia(Usuario usuarioEnvia) {
+		this.usuarioEnvia = usuarioEnvia;
+	}
+
+	public Usuario getUsuarioRecibe() {
+		return usuarioRecibe;
+	}
+
+	public void setUsuarioRecibe(Usuario usuarioRecibe) {
+		this.usuarioRecibe = usuarioRecibe;
+	}
+
+	public PresupuestoDetalleMes getPresupuestoDetalleMes() {
+		return presupuestoDetalleMes;
+	}
+
+	public void setPresupuestoDetalleMes(PresupuestoDetalleMes presupuestoDetalleMes) {
+		this.presupuestoDetalleMes = presupuestoDetalleMes;
+	}
+
+	public PresupuestoDetalleCampania getPresupuestoDetalleCampania() {
+		return presupuestoDetalleCampania;
+	}
+
+	public void setPresupuestoDetalleCampania(PresupuestoDetalleCampania presupuestoDetalleCampania) {
+		this.presupuestoDetalleCampania = presupuestoDetalleCampania;
+	}
+
+	public Date getFecha() {
+		return fecha;
+	}
+
+	public void setFecha(Date fecha) {
+		this.fecha = fecha;
+	}
+
+	public String getEstado() {
+		return estado;
+	}
+
+	public void setEstado(String estado) {
+		this.estado = estado;
+	}
 
 }

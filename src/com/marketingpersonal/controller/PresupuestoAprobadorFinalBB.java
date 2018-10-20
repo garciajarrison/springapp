@@ -7,10 +7,6 @@ import javax.faces.bean.ViewScoped;
 
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
-import lombok.Getter;
-import lombok.Setter;
-
-@Getter @Setter
 @ManagedBean(name = "preAprFinBB")
 @ViewScoped
 public class PresupuestoAprobadorFinalBB extends SpringBeanAutowiringSupport implements Serializable {

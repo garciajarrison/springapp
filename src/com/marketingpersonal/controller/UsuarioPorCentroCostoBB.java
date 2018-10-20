@@ -28,10 +28,6 @@ import com.marketingpersonal.model.entity.UsuarioPorCentroCosto;
 import com.marketingpersonal.service.ICentroCostoService;
 import com.marketingpersonal.service.IUsuarioService;
 
-import lombok.Getter;
-import lombok.Setter;
-
-@Getter @Setter
 @ManagedBean(name = "usuarioPorCentroCostoBB")
 @ViewScoped
 public class UsuarioPorCentroCostoBB extends SpringBeanAutowiringSupport implements Serializable {
@@ -266,6 +262,114 @@ public class UsuarioPorCentroCostoBB extends SpringBeanAutowiringSupport impleme
 			}	
 		}		
 		return 9999;
+	}
+
+	public IUsuarioService getUsuarioService() {
+		return usuarioService;
+	}
+
+	public void setUsuarioService(IUsuarioService usuarioService) {
+		this.usuarioService = usuarioService;
+	}
+
+	public ICentroCostoService getCentroCostoService() {
+		return centroCostoService;
+	}
+
+	public void setCentroCostoService(ICentroCostoService centroCostoService) {
+		this.centroCostoService = centroCostoService;
+	}
+
+	public Util getUtil() {
+		return util;
+	}
+
+	public void setUtil(Util util) {
+		this.util = util;
+	}
+
+	public UsuarioPorCentroCosto getUsuarioPorCentroCosto() {
+		return usuarioPorCentroCosto;
+	}
+
+	public void setUsuarioPorCentroCosto(UsuarioPorCentroCosto usuarioPorCentroCosto) {
+		this.usuarioPorCentroCosto = usuarioPorCentroCosto;
+	}
+
+	public UsuarioPorCentroCosto getSelectedUsuarioPorCentroCosto() {
+		return selectedUsuarioPorCentroCosto;
+	}
+
+	public void setSelectedUsuarioPorCentroCosto(UsuarioPorCentroCosto selectedUsuarioPorCentroCosto) {
+		this.selectedUsuarioPorCentroCosto = selectedUsuarioPorCentroCosto;
+	}
+
+	public List<UsuarioPorCentroCosto> getListaUsuarioPorCentroCostos() {
+		return listaUsuarioPorCentroCostos;
+	}
+
+	public void setListaUsuarioPorCentroCostos(List<UsuarioPorCentroCosto> listaUsuarioPorCentroCostos) {
+		this.listaUsuarioPorCentroCostos = listaUsuarioPorCentroCostos;
+	}
+
+	public UploadedFile getFile() {
+		return file;
+	}
+
+	public void setFile(UploadedFile file) {
+		this.file = file;
+	}
+
+	public CentroCosto getCentroCosto() {
+		return centroCosto;
+	}
+
+	public void setCentroCosto(CentroCosto centroCosto) {
+		this.centroCosto = centroCosto;
+	}
+
+	public Usuario getResponsable() {
+		return responsable;
+	}
+
+	public void setResponsable(Usuario responsable) {
+		this.responsable = responsable;
+	}
+
+	public Usuario getAprobadorInicial() {
+		return aprobadorInicial;
+	}
+
+	public void setAprobadorInicial(Usuario aprobadorInicial) {
+		this.aprobadorInicial = aprobadorInicial;
+	}
+
+	public Usuario getAprobadorFinal() {
+		return aprobadorFinal;
+	}
+
+	public void setAprobadorFinal(Usuario aprobadorFinal) {
+		this.aprobadorFinal = aprobadorFinal;
+	}
+
+	public List<CentroCosto> getLstCentroCostos() {
+		return lstCentroCostos;
+	}
+
+	public void setLstCentroCostos(List<CentroCosto> lstCentroCostos) {
+		this.lstCentroCostos = lstCentroCostos;
+	}
+
+	public List<Usuario> getLstUsuarios() {
+		return lstUsuarios;
+	}
+
+	public void setLstUsuarios(List<Usuario> lstUsuarios) {
+		this.lstUsuarios = lstUsuarios;
+	}
+
+	public void setFileDescargar(StreamedContent fileDescargar) {
+		this.fileDescargar = fileDescargar;
 	}
         
  }

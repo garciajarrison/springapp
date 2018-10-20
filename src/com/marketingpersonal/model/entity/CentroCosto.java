@@ -10,17 +10,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
 @Entity
-@Getter @Setter
-@AllArgsConstructor
-@Builder
-@NoArgsConstructor
 @Table(name = "centrocosto", schema = "presupuestoMD")
 public class CentroCosto implements java.io.Serializable {
 
@@ -48,5 +38,53 @@ public class CentroCosto implements java.io.Serializable {
 	
 	@Column(name = "estado")
 	private boolean estado = true;
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public String getCentroCosto() {
+		return centroCosto;
+	}
+
+	public void setCentroCosto(String centroCosto) {
+		this.centroCosto = centroCosto;
+	}
+
+	public Gerencia getGerencia() {
+		return gerencia;
+	}
+
+	public void setGerencia(Gerencia gerencia) {
+		this.gerencia = gerencia;
+	}
+
+	public Direccion getDireccion() {
+		return direccion;
+	}
+
+	public void setDireccion(Direccion direccion) {
+		this.direccion = direccion;
+	}
+
+	public Jefatura getJefatura() {
+		return jefatura;
+	}
+
+	public void setJefatura(Jefatura jefatura) {
+		this.jefatura = jefatura;
+	}
+
+	public boolean isEstado() {
+		return estado;
+	}
+
+	public void setEstado(boolean estado) {
+		this.estado = estado;
+	}
 
 }

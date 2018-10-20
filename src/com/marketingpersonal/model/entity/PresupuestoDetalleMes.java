@@ -14,17 +14,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
 @Entity
-@Getter @Setter
-@AllArgsConstructor
-@Builder
-@NoArgsConstructor
 @Table(name = "detalle_presupuesto_mes", schema = "presupuestoMD")
 public class PresupuestoDetalleMes implements java.io.Serializable {
 
@@ -99,5 +89,173 @@ public class PresupuestoDetalleMes implements java.io.Serializable {
 	
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "presupuestoDetalleMes")
 	private List<Observacion> observaciones = new ArrayList<>();
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public Presupuesto getPresupuesto() {
+		return presupuesto;
+	}
+
+	public void setPresupuesto(Presupuesto presupuesto) {
+		this.presupuesto = presupuesto;
+	}
+
+	public String getObservacion() {
+		return observacion;
+	}
+
+	public void setObservacion(String observacion) {
+		this.observacion = observacion;
+	}
+
+	public Double getValorM1() {
+		return valorM1;
+	}
+
+	public void setValorM1(Double valorM1) {
+		this.valorM1 = valorM1;
+	}
+
+	public Double getValorM2() {
+		return valorM2;
+	}
+
+	public void setValorM2(Double valorM2) {
+		this.valorM2 = valorM2;
+	}
+
+	public Double getValorM3() {
+		return valorM3;
+	}
+
+	public void setValorM3(Double valorM3) {
+		this.valorM3 = valorM3;
+	}
+
+	public Double getValorM4() {
+		return valorM4;
+	}
+
+	public void setValorM4(Double valorM4) {
+		this.valorM4 = valorM4;
+	}
+
+	public Double getValorM5() {
+		return valorM5;
+	}
+
+	public void setValorM5(Double valorM5) {
+		this.valorM5 = valorM5;
+	}
+
+	public Double getValorM6() {
+		return valorM6;
+	}
+
+	public void setValorM6(Double valorM6) {
+		this.valorM6 = valorM6;
+	}
+
+	public Double getValorM7() {
+		return valorM7;
+	}
+
+	public void setValorM7(Double valorM7) {
+		this.valorM7 = valorM7;
+	}
+
+	public Double getValorM8() {
+		return valorM8;
+	}
+
+	public void setValorM8(Double valorM8) {
+		this.valorM8 = valorM8;
+	}
+
+	public Double getValorM9() {
+		return valorM9;
+	}
+
+	public void setValorM9(Double valorM9) {
+		this.valorM9 = valorM9;
+	}
+
+	public Double getValorM10() {
+		return valorM10;
+	}
+
+	public void setValorM10(Double valorM10) {
+		this.valorM10 = valorM10;
+	}
+
+	public Double getValorM11() {
+		return valorM11;
+	}
+
+	public void setValorM11(Double valorM11) {
+		this.valorM11 = valorM11;
+	}
+
+	public Double getValorM12() {
+		return valorM12;
+	}
+
+	public void setValorM12(Double valorM12) {
+		this.valorM12 = valorM12;
+	}
+
+	public String getEstado() {
+		return estado;
+	}
+
+	public void setEstado(String estado) {
+		this.estado = estado;
+	}
+
+	public CentroCosto getCentroCosto() {
+		return centroCosto;
+	}
+
+	public void setCentroCosto(CentroCosto centroCosto) {
+		this.centroCosto = centroCosto;
+	}
+
+	public Cuenta getCuenta() {
+		return cuenta;
+	}
+
+	public void setCuenta(Cuenta cuenta) {
+		this.cuenta = cuenta;
+	}
+
+	public Usuario getUsuarioAprobadorInicial() {
+		return usuarioAprobadorInicial;
+	}
+
+	public void setUsuarioAprobadorInicial(Usuario usuarioAprobadorInicial) {
+		this.usuarioAprobadorInicial = usuarioAprobadorInicial;
+	}
+
+	public Usuario getUsuarioAprobadorFinal() {
+		return usuarioAprobadorFinal;
+	}
+
+	public void setUsuarioAprobadorFinal(Usuario usuarioAprobadorFinal) {
+		this.usuarioAprobadorFinal = usuarioAprobadorFinal;
+	}
+
+	public List<Observacion> getObservaciones() {
+		return observaciones;
+	}
+
+	public void setObservaciones(List<Observacion> observaciones) {
+		this.observaciones = observaciones;
+	}
 
 }

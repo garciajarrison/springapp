@@ -14,10 +14,6 @@ import com.marketingpersonal.common.Util;
 import com.marketingpersonal.model.entity.Gerencia;
 import com.marketingpersonal.service.IGerenciaService;
 
-import lombok.Getter;
-import lombok.Setter;
-
-@Getter @Setter
 @ManagedBean(name = "gerenciaBB")
 @ViewScoped
 public class GerenciaBB extends SpringBeanAutowiringSupport implements Serializable {
@@ -122,6 +118,46 @@ public class GerenciaBB extends SpringBeanAutowiringSupport implements Serializa
 			e.printStackTrace();
 			util.mostrarError("Error eliminando el registro.");
 		} 	
+	}
+
+	public IGerenciaService getGerenciaService() {
+		return gerenciaService;
+	}
+
+	public void setGerenciaService(IGerenciaService gerenciaService) {
+		this.gerenciaService = gerenciaService;
+	}
+
+	public Util getUtil() {
+		return util;
+	}
+
+	public void setUtil(Util util) {
+		this.util = util;
+	}
+
+	public Gerencia getGerencia() {
+		return gerencia;
+	}
+
+	public void setGerencia(Gerencia gerencia) {
+		this.gerencia = gerencia;
+	}
+
+	public Gerencia getSelectedGerencia() {
+		return selectedGerencia;
+	}
+
+	public void setSelectedGerencia(Gerencia selectedGerencia) {
+		this.selectedGerencia = selectedGerencia;
+	}
+
+	public List<Gerencia> getListaGerencias() {
+		return listaGerencias;
+	}
+
+	public void setListaGerencias(List<Gerencia> listaGerencias) {
+		this.listaGerencias = listaGerencias;
 	}
 	
  }

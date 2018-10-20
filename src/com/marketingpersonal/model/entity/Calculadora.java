@@ -7,17 +7,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
 @Entity
-@Getter @Setter
-@AllArgsConstructor
-@Builder
-@NoArgsConstructor
 @Table(name = "calculadora", schema = "presupuestoMD")
 public class Calculadora implements java.io.Serializable {
 
@@ -36,5 +26,54 @@ public class Calculadora implements java.io.Serializable {
 	private String tipo;
 	@Column(name = "porcentaje")
 	private double porcentaje;
+	
+	public Calculadora() {
+	}
+	
+	public Calculadora(int id, int campana, int mes, int anio, String tipo, double porcentaje) {
+		this.id = id;
+		this.campana = campana;
+		this.mes = mes;
+		this.anio = anio;
+		this.tipo = tipo;
+		this.porcentaje = porcentaje;
+	}
+	
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
+	public int getCampana() {
+		return campana;
+	}
+	public void setCampana(int campana) {
+		this.campana = campana;
+	}
+	public int getMes() {
+		return mes;
+	}
+	public void setMes(int mes) {
+		this.mes = mes;
+	}
+	public int getAnio() {
+		return anio;
+	}
+	public void setAnio(int anio) {
+		this.anio = anio;
+	}
+	public String getTipo() {
+		return tipo;
+	}
+	public void setTipo(String tipo) {
+		this.tipo = tipo;
+	}
+	public double getPorcentaje() {
+		return porcentaje;
+	}
+	public void setPorcentaje(double porcentaje) {
+		this.porcentaje = porcentaje;
+	}
 	
 }

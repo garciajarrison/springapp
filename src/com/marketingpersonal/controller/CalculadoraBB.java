@@ -14,10 +14,6 @@ import com.marketingpersonal.common.Util;
 import com.marketingpersonal.model.entity.Calculadora;
 import com.marketingpersonal.service.ICalculadoraService;
 
-import lombok.Getter;
-import lombok.Setter;
-
-@Getter @Setter
 @ManagedBean(name = "calculadoraBB")
 @ViewScoped
 public class CalculadoraBB extends SpringBeanAutowiringSupport implements Serializable {
@@ -268,6 +264,70 @@ public class CalculadoraBB extends SpringBeanAutowiringSupport implements Serial
 			
 		}
 		return totales;
+	}
+
+	public ICalculadoraService getCalculadoraService() {
+		return calculadoraService;
+	}
+
+	public void setCalculadoraService(ICalculadoraService calculadoraService) {
+		this.calculadoraService = calculadoraService;
+	}
+
+	public Util getUtil() {
+		return util;
+	}
+
+	public void setUtil(Util util) {
+		this.util = util;
+	}
+
+	public Calculadora getCalculadora() {
+		return calculadora;
+	}
+
+	public void setCalculadora(Calculadora calculadora) {
+		this.calculadora = calculadora;
+	}
+
+	public Calculadora getSelectedCalculadora() {
+		return selectedCalculadora;
+	}
+
+	public void setSelectedCalculadora(Calculadora selectedCalculadora) {
+		this.selectedCalculadora = selectedCalculadora;
+	}
+
+	public List<Calculadora> getListaCalculadoras() {
+		return listaCalculadoras;
+	}
+
+	public void setListaCalculadoras(List<Calculadora> listaCalculadoras) {
+		this.listaCalculadoras = listaCalculadoras;
+	}
+
+	public List<Calculadora[]> getListaCalculadoraCM() {
+		return listaCalculadoraCM;
+	}
+
+	public void setListaCalculadoraCM(List<Calculadora[]> listaCalculadoraCM) {
+		this.listaCalculadoraCM = listaCalculadoraCM;
+	}
+
+	public List<Calculadora[]> getListaCalculadoraMC() {
+		return listaCalculadoraMC;
+	}
+
+	public void setListaCalculadoraMC(List<Calculadora[]> listaCalculadoraMC) {
+		this.listaCalculadoraMC = listaCalculadoraMC;
+	}
+
+	public int getCamapanaMaxima() {
+		return camapanaMaxima;
+	}
+
+	public void setCamapanaMaxima(int camapanaMaxima) {
+		this.camapanaMaxima = camapanaMaxima;
 	}
 
  }
