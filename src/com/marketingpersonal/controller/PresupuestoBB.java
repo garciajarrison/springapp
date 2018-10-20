@@ -59,7 +59,9 @@ public class PresupuestoBB extends SpringBeanAutowiringSupport implements Serial
 	private List<CentroCosto> listaCentroCostos;
 	private boolean mostrarDetalle;
 	private int camapanaMaxima;
-	
+	private boolean botonActualizar = false;
+	private Double totalMes = 0d;
+	private Double totalCamp = 0d;
 	
 	public PresupuestoBB() {
 		util = Util.getInstance();
@@ -76,9 +78,59 @@ public class PresupuestoBB extends SpringBeanAutowiringSupport implements Serial
 		camapanaMaxima = getCalculadoraService().getCampanaMaxima();
 	}
 	
-	public void verDetalle(SelectEvent event) {
-		detalle = (Presupuesto) event.getObject();
-		mostrarDetalle = true;
+	public void totalizarMes() {
+		try {
+			totalMes = 0d;
+			totalMes += presupuestoDetalleMes.getValorM1();
+			totalMes += presupuestoDetalleMes.getValorM2();
+			totalMes += presupuestoDetalleMes.getValorM3();
+			totalMes += presupuestoDetalleMes.getValorM4();
+			totalMes += presupuestoDetalleMes.getValorM5();
+			totalMes += presupuestoDetalleMes.getValorM6();
+			totalMes += presupuestoDetalleMes.getValorM7();
+			totalMes += presupuestoDetalleMes.getValorM8();
+			totalMes += presupuestoDetalleMes.getValorM9();
+			totalMes += presupuestoDetalleMes.getValorM10();
+			totalMes += presupuestoDetalleMes.getValorM11();
+			totalMes += presupuestoDetalleMes.getValorM12();
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void totalizarCamp() {
+		try {
+			totalCamp = 0d;
+			totalCamp += presupuestoDetalleCampania.getValorC1();
+			totalCamp += presupuestoDetalleCampania.getValorC2();
+			totalCamp += presupuestoDetalleCampania.getValorC3();
+			totalCamp += presupuestoDetalleCampania.getValorC4();
+			totalCamp += presupuestoDetalleCampania.getValorC5();
+			totalCamp += presupuestoDetalleCampania.getValorC6();
+			totalCamp += presupuestoDetalleCampania.getValorC7();
+			totalCamp += presupuestoDetalleCampania.getValorC8();
+			totalCamp += presupuestoDetalleCampania.getValorC9();
+			totalCamp += presupuestoDetalleCampania.getValorC10();
+			totalCamp += presupuestoDetalleCampania.getValorC11();
+			totalCamp += presupuestoDetalleCampania.getValorC12();
+			totalCamp += presupuestoDetalleCampania.getValorC13();
+			totalCamp += presupuestoDetalleCampania.getValorC14();
+			totalCamp += presupuestoDetalleCampania.getValorC15();
+			totalCamp += presupuestoDetalleCampania.getValorC16();
+			totalCamp += presupuestoDetalleCampania.getValorC17();
+			totalCamp += presupuestoDetalleCampania.getValorC18();
+			totalCamp += presupuestoDetalleCampania.getValorC19();
+			totalCamp += presupuestoDetalleCampania.getValorC20();
+			totalCamp += presupuestoDetalleCampania.getValorC21();
+			totalCamp += presupuestoDetalleCampania.getValorC22();
+			totalCamp += presupuestoDetalleCampania.getValorC23();
+			totalCamp += presupuestoDetalleCampania.getValorC24();
+			totalCamp += presupuestoDetalleCampania.getValorC25();
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 	private boolean validar(Presupuesto pr) {
@@ -162,6 +214,8 @@ public class PresupuestoBB extends SpringBeanAutowiringSupport implements Serial
 				this.getPresupuestoService().addPresupuestoDetalleMes(presupuestoDetalleMes);
 				this.detalle.setDetalleMes(this.getPresupuestoService().getPresupuestoDetallesMes(detalle.getId()));
 				presupuestoDetalleMes = new PresupuestoDetalleMes();
+				totalMes = 0d;
+				util.mostrarMensaje("Registro actualizado con éxito.");
 			}
 		} catch (DataAccessException e) {
 			e.printStackTrace();
@@ -183,6 +237,8 @@ public class PresupuestoBB extends SpringBeanAutowiringSupport implements Serial
 				this.getPresupuestoService().addPresupuestoDetalleCampania(presupuestoDetalleCampania);
 				this.detalle.setDetalleCampania(this.getPresupuestoService().getPresupuestoDetallesCampania(detalle.getId()));
 				presupuestoDetalleCampania = new PresupuestoDetalleCampania();
+				totalCamp = 0d;
+				util.mostrarMensaje("Registro actualizado con éxito.");
 			}
 		} catch (DataAccessException e) {
 			e.printStackTrace();
@@ -190,6 +246,9 @@ public class PresupuestoBB extends SpringBeanAutowiringSupport implements Serial
 		}
 	}
 	
+	/**
+	 * Actualizaciones
+	 */
 	public void updatePresupuesto() {
 		try {
 			if(validar(selectedPresupuesto)) {
@@ -205,9 +264,61 @@ public class PresupuestoBB extends SpringBeanAutowiringSupport implements Serial
 		} 	
 	}
 	
+	public void actualizarMes(PresupuestoDetalleMes detPpto) {
+		try {
+			this.presupuestoDetalleMes = detPpto;
+			this.cargarListaCentroCostosPresupuestoMes("NO");
+			totalizarMes();
+			this.botonActualizar = true;
+		} catch (DataAccessException e) {
+			e.printStackTrace();
+			util.mostrarError("Error actualizando el registro.");
+		} 	
+	}
+	
+	public void actualizarCamp(PresupuestoDetalleCampania detPpto) {
+		try {
+			this.presupuestoDetalleCampania = detPpto;
+			this.cargarListaCentroCostosPresupuestoCampania("NO");
+			totalizarCamp();
+			this.botonActualizar = true;
+		} catch (DataAccessException e) {
+			e.printStackTrace();
+			util.mostrarError("Error actualizando el registro.");
+		} 	
+	}
+	
+	/***
+	 * Elimiaciones de presupuesto y detalle
+	 */
+	
 	public void deletePresupuesto() {
 		try {
 			getPresupuestoService().deletePresupuesto(selectedPresupuesto);
+			listaPresupuestos = getPresupuestoService().getPresupuestos();
+			util.mostrarMensaje("Registro eliminado con éxito.");  
+			
+		} catch (DataAccessException e) {
+			e.printStackTrace();
+			util.mostrarError("Error eliminando el registro.");
+		}
+	}
+	
+	public void deletePresupuestoMes() {
+		try {
+			getPresupuestoService().deletePresupuestoDetalleMes(selectedPresupuestoDetalleMes);
+			listaPresupuestos = getPresupuestoService().getPresupuestos();
+			util.mostrarMensaje("Registro eliminado con éxito.");  
+			
+		} catch (DataAccessException e) {
+			e.printStackTrace();
+			util.mostrarError("Error eliminando el registro.");
+		}
+	}
+	
+	public void deletePresupuestoCamp() {
+		try {
+			getPresupuestoService().deletePresupuestoDetalleCampania(selectedPresupuestoDetalleCampania);
 			listaPresupuestos = getPresupuestoService().getPresupuestos();
 			util.mostrarMensaje("Registro eliminado con éxito.");  
 			
@@ -236,7 +347,6 @@ public class PresupuestoBB extends SpringBeanAutowiringSupport implements Serial
 			e.printStackTrace();
 		} 
 	}
-	
 	
 	public void cargarListaCentroCostosPresupuestoCampania(String actualiza) {
 		try {
@@ -312,6 +422,9 @@ public class PresupuestoBB extends SpringBeanAutowiringSupport implements Serial
 
 	public void setDetalle(Presupuesto detalle) {
 		this.detalle = detalle;
+		if(detalle != null) {
+			mostrarDetalle = true;
+		}
 	}
 
 	public Presupuesto getSelectedPresupuesto() {
@@ -408,6 +521,22 @@ public class PresupuestoBB extends SpringBeanAutowiringSupport implements Serial
 
 	public void setCamapanaMaxima(int camapanaMaxima) {
 		this.camapanaMaxima = camapanaMaxima;
+	}
+
+	public Double getTotalMes() {
+		return totalMes;
+	}
+
+	public void setTotalMes(Double totalMes) {
+		this.totalMes = totalMes;
+	}
+
+	public Double getTotalCamp() {
+		return totalCamp;
+	}
+
+	public void setTotalCamp(Double totalCamp) {
+		this.totalCamp = totalCamp;
 	}
 		
 	/*	

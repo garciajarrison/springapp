@@ -8,7 +8,7 @@
     <ui:define name="title">Presupuestos</ui:define>
 
     <ui:define name="content">
-	<h:form>
+	<h:form id="FormulId">
 			<p:growl id="growl" sticky="true" autoUpdate="true" />
             <div class="ui-fluid">
                 <div class="ui-g">
@@ -50,16 +50,12 @@
                         <div class="card">
                             <h1>Listado de Presupuestos</h1>
                             <p:dataTable id="tblPresupuestos" var="presupuesto" value="#{presupuestoBB.listaPresupuestos}" 
-                            		selectionMode="single" rowKey="#{presupuesto.id}"
-                            		reflow="true" selection="#{presupuestoBB.detalle}"
-                            		emptyMessage="No se encontraron registros."
+                            		reflow="true" emptyMessage="No se encontraron registros."
 									scrollable="false" paginatorPosition="bottom"
 									rows="10" rowsPerPageTemplate="5,10,20,50"
 									currentPageReportTemplate="Páginas {totalPages} - Registros {totalRecords}"
 									paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}  {Exporters}" 
 									paginator="true">
-									
-								<p:ajax event="rowSelect" update="@form" listener="#{presupuestoBB.verDetalle}" />	
 									
 								<f:facet name="{Exporters}">
 						            <h:commandLink>
@@ -111,16 +107,21 @@
                                     <h:outputText value="#{presupuesto.usuario.usuario}" />
                                 </p:column>
                                                                 
-                                <p:column headerText="Acciones" width="15%" exportable="false">
+                                <p:column headerText="Acciones" width="15%" exportable="false" >
+                                
                                     <p:splitButton value="Accion" icon="fa fa-edit">
 								        <p:menuitem value="Actualizar" actionListener="#{presupuestoBB.setSelectedPresupuesto(presupuesto)}"  
-								        			update=":#{p:component('dlgActualizar')} :#{p:component('tblPresupuestos')}" oncomplete="PF('dlgActualizar').show();"
+								        			update=":#{p:component('dlgActualizar')} :#{p:component('tblPresupuestos')}" 
+								        			oncomplete="PF('dlgActualizar').show();"
 								        			icon="ui-icon-arrowrefresh-1-w" >
 								        	
 								        </p:menuitem>
 								        <p:menuitem value="Eliminar" actionListener="#{presupuestoBB.setSelectedPresupuesto(presupuesto)}" 
 								        			update=":#{p:component('dlgEliminar')}" oncomplete="PF('dlgEliminar').show();"
 								        			icon="ui-icon-close" >
+								        </p:menuitem>
+								        <p:menuitem value="Detalle" actionListener="#{presupuestoBB.setDetalle(presupuesto)}" 
+								        			update="@form" icon="ui-icon-refresh" >
 								        </p:menuitem>
 								    </p:splitButton>
                                 </p:column>
@@ -162,42 +163,71 @@
                                 		maxlength="200"/>
                                 
                                 <p:outputLabel for="inMes1" value="Mes 1"/>
-                                <p:inputNumber id="inMes1" value="#{presupuestoBB.presupuestoDetalleMes.valorM1}" minValue="0" emptyValue="zero"/>
+                                <p:inputNumber id="inMes1" value="#{presupuestoBB.presupuestoDetalleMes.valorM1}" minValue="0" emptyValue="zero">
+                                	<p:ajax update=":#{p:component('inTotal')}" listener="#{presupuestoBB.totalizarMes}"/>
+                                </p:inputNumber>
                                 
                                 <p:outputLabel for="inMes2" value="Mes 2"/>
-                                <p:inputNumber id="inMes2" value="#{presupuestoBB.presupuestoDetalleMes.valorM2}" minValue="0" emptyValue="zero"/>
+                                <p:inputNumber id="inMes2" value="#{presupuestoBB.presupuestoDetalleMes.valorM2}" minValue="0" emptyValue="zero">
+                                	<p:ajax update=":#{p:component('inTotal')}" listener="#{presupuestoBB.totalizarMes}"/>
+                                </p:inputNumber>
                                 
                                 <p:outputLabel for="inMes3" value="Mes 3"/>
-                                <p:inputNumber id="inMes3" value="#{presupuestoBB.presupuestoDetalleMes.valorM3}" minValue="0" emptyValue="zero"/>
+                                <p:inputNumber id="inMes3" value="#{presupuestoBB.presupuestoDetalleMes.valorM3}" minValue="0" emptyValue="zero">
+                                	<p:ajax update=":#{p:component('inTotal')}" listener="#{presupuestoBB.totalizarMes}"/>
+                                </p:inputNumber>
                                 
                                 <p:outputLabel for="inMes4" value="Mes 4"/>
-                                <p:inputNumber id="inMes4" value="#{presupuestoBB.presupuestoDetalleMes.valorM4}" minValue="0" emptyValue="zero"/>
+                                <p:inputNumber id="inMes4" value="#{presupuestoBB.presupuestoDetalleMes.valorM4}" minValue="0" emptyValue="zero">
+                                	<p:ajax update=":#{p:component('inTotal')}" listener="#{presupuestoBB.totalizarMes}"/>
+                                </p:inputNumber>
                                                                 
                                 <p:outputLabel for="inMes5" value="Mes 5"/>
-                                <p:inputNumber id="inMes5" value="#{presupuestoBB.presupuestoDetalleMes.valorM5}" minValue="0" emptyValue="zero"/>
+                                <p:inputNumber id="inMes5" value="#{presupuestoBB.presupuestoDetalleMes.valorM5}" minValue="0" emptyValue="zero">
+                                	<p:ajax update=":#{p:component('inTotal')}" listener="#{presupuestoBB.totalizarMes}"/>
+                                </p:inputNumber>
                                 
                                 <p:outputLabel for="inMes6" value="Mes 6"/>
-                                <p:inputNumber id="inMes6" value="#{presupuestoBB.presupuestoDetalleMes.valorM6}" minValue="0" emptyValue="zero"/>
+                                <p:inputNumber id="inMes6" value="#{presupuestoBB.presupuestoDetalleMes.valorM6}" minValue="0" emptyValue="zero">
+                                	<p:ajax update=":#{p:component('inTotal')}" listener="#{presupuestoBB.totalizarMes}"/>
+                                </p:inputNumber>
                                 
                                 <p:outputLabel for="inMes7" value="Mes 7"/>
-                                <p:inputNumber id="inMes7" value="#{presupuestoBB.presupuestoDetalleMes.valorM7}" minValue="0" emptyValue="zero"/>
+                                <p:inputNumber id="inMes7" value="#{presupuestoBB.presupuestoDetalleMes.valorM7}" minValue="0" emptyValue="zero">
+                                	<p:ajax update=":#{p:component('inTotal')}" listener="#{presupuestoBB.totalizarMes}"/>
+                                </p:inputNumber>
                                 
                                 <p:outputLabel for="inMes8" value="Mes 8"/>
-                                <p:inputNumber id="inMes8" value="#{presupuestoBB.presupuestoDetalleMes.valorM8}" minValue="0" emptyValue="zero"/>
+                                <p:inputNumber id="inMes8" value="#{presupuestoBB.presupuestoDetalleMes.valorM8}" minValue="0" emptyValue="zero">
+                                	<p:ajax update=":#{p:component('inTotal')}" listener="#{presupuestoBB.totalizarMes}"/>
+                                </p:inputNumber>
                                 
                                 <p:outputLabel for="inMes9" value="Mes 9"/>
-                                <p:inputNumber id="inMes9" value="#{presupuestoBB.presupuestoDetalleMes.valorM9}" minValue="0" emptyValue="zero"/>
+                                <p:inputNumber id="inMes9" value="#{presupuestoBB.presupuestoDetalleMes.valorM9}" minValue="0" emptyValue="zero">
+                                	<p:ajax update=":#{p:component('inTotal')}" listener="#{presupuestoBB.totalizarMes}"/>
+                                </p:inputNumber>
                                 
                                 <p:outputLabel for="inMes10" value="Mes 10"/>
-                                <p:inputNumber id="inMes10" value="#{presupuestoBB.presupuestoDetalleMes.valorM10}" minValue="0" emptyValue="zero"/>
+                                <p:inputNumber id="inMes10" value="#{presupuestoBB.presupuestoDetalleMes.valorM10}" minValue="0" emptyValue="zero">
+                                	<p:ajax update=":#{p:component('inTotal')}" listener="#{presupuestoBB.totalizarMes}"/>
+                                </p:inputNumber>
                                 
                                 <p:outputLabel for="inMes11" value="Mes 11"/>
-                                <p:inputNumber id="inMes11" value="#{presupuestoBB.presupuestoDetalleMes.valorM11}" minValue="0" emptyValue="zero"/>
+                                <p:inputNumber id="inMes11" value="#{presupuestoBB.presupuestoDetalleMes.valorM11}" minValue="0" emptyValue="zero">
+                                	<p:ajax update=":#{p:component('inTotal')}" listener="#{presupuestoBB.totalizarMes}"/>
+                                </p:inputNumber>
                                 
                                 <p:outputLabel for="inMes12" value="Mes 12"/>
-                                <p:inputNumber id="inMes12" value="#{presupuestoBB.presupuestoDetalleMes.valorM12}" minValue="0" emptyValue="zero"/>
+                                <p:inputNumber id="inMes12" value="#{presupuestoBB.presupuestoDetalleMes.valorM12}" minValue="0" emptyValue="zero">
+                                	<p:ajax update=":#{p:component('inTotal')}" listener="#{presupuestoBB.totalizarMes}"/>
+                                </p:inputNumber>
                                                                 
                             </p:panelGrid>
+                            <br/><br/>
+                            
+                            <p:outputLabel for="inTotal" value="Total"/>
+                             <p:inputNumber id="inTotal" value="#{presupuestoBB.totalMes}"
+                             		 minValue="0" emptyValue="zero" readonly="true"/>
                             
                             <br/><br/>
                             <p:commandButton id="btnAgregarMes" value="Agregar" 
@@ -307,13 +337,11 @@
                                                                 
                                 <p:column headerText="Acciones" exportable="false">
                                     <p:splitButton value="Accion" icon="fa fa-edit">
-								        <p:menuitem value="Actualizar" actionListener="#{presupuestoBB.setSelectedPresupuestoDetalleMes(presupuestoDetalleMes)}"  
-								        			update=":#{p:component('dlgActualizar')} :#{p:component('tblPresupuestoDetalleMes')}" oncomplete="PF('dlgActualizar').show();"
-								        			icon="ui-icon-arrowrefresh-1-w" >
-								        	
+								        <p:menuitem value="Actualizar" actionListener="#{presupuestoBB.actualizarMes(presupuestoDetalleMes)}"  
+								        			update="@form" icon="ui-icon-arrowrefresh-1-w" >
 								        </p:menuitem>
 								        <p:menuitem value="Eliminar" actionListener="#{presupuestoBB.setSelectedPresupuestoDetalleMes(presupuestoDetalleMes)}" 
-								        			update=":#{p:component('dlgEliminar')}" oncomplete="PF('dlgEliminar').show();"
+								        			update=":#{p:component('dlgEliminarMes')}" oncomplete="PF('dlgEliminarMes').show();"
 								        			icon="ui-icon-close" >
 								        </p:menuitem>
 								    </p:splitButton>
@@ -352,105 +380,161 @@
                                 
                                 <p:outputLabel for="inCampania1" value="Campaña 1"/>
                                 <p:inputNumber id="inCampania1" minValue="0"
-                                		value="#{presupuestoBB.presupuestoDetalleCampania.valorC1}"/>
+                                		value="#{presupuestoBB.presupuestoDetalleCampania.valorC1}">
+                                	<p:ajax update=":#{p:component('inTotalCamp')}" listener="#{presupuestoBB.totalizarCamp}"/>
+                                </p:inputNumber>
                                 
                                 <p:outputLabel for="inCampania2" value="Campaña 2" rendered="#{presupuestoBB.camapanaMaxima > 1}"/>
                                 <p:inputNumber id="inCampania2" rendered="#{presupuestoBB.camapanaMaxima > 1}"
-                                		value="#{presupuestoBB.presupuestoDetalleCampania.valorC2}" minValue="0" emptyValue="zero"/>
+                                		value="#{presupuestoBB.presupuestoDetalleCampania.valorC2}" minValue="0" emptyValue="zero">
+                                	<p:ajax update=":#{p:component('inTotalCamp')}" listener="#{presupuestoBB.totalizarCamp}"/>
+                                </p:inputNumber>
                                 
                                 <p:outputLabel for="inCampania3" value="Campaña 3" rendered="#{presupuestoBB.camapanaMaxima > 2}"/>
                                 <p:inputNumber id="inCampania3" rendered="#{presupuestoBB.camapanaMaxima > 2}"
-                                		value="#{presupuestoBB.presupuestoDetalleCampania.valorC3}" minValue="0" emptyValue="zero"/>
+                                		value="#{presupuestoBB.presupuestoDetalleCampania.valorC3}" minValue="0" emptyValue="zero">
+                                	<p:ajax update=":#{p:component('inTotalCamp')}" listener="#{presupuestoBB.totalizarCamp}"/>
+                                </p:inputNumber>
                                 
                                 <p:outputLabel for="inCampania4" value="Campaña 4" rendered="#{presupuestoBB.camapanaMaxima > 3}"/>
                                 <p:inputNumber id="inCampania4" rendered="#{presupuestoBB.camapanaMaxima > 3}"
-                                		value="#{presupuestoBB.presupuestoDetalleCampania.valorC4}" minValue="0" emptyValue="zero"/>
+                                		value="#{presupuestoBB.presupuestoDetalleCampania.valorC4}" minValue="0" emptyValue="zero">
+                                	<p:ajax update=":#{p:component('inTotalCamp')}" listener="#{presupuestoBB.totalizarCamp}"/>
+                                </p:inputNumber>
                                                                 
                                 <p:outputLabel for="inCampania5" value="Campaña 5" rendered="#{presupuestoBB.camapanaMaxima > 4}"/>
                                 <p:inputNumber id="inCampania5" rendered="#{presupuestoBB.camapanaMaxima > 4}"
-                                		value="#{presupuestoBB.presupuestoDetalleCampania.valorC5}" minValue="0" emptyValue="zero"/>
+                                		value="#{presupuestoBB.presupuestoDetalleCampania.valorC5}" minValue="0" emptyValue="zero">
+                                	<p:ajax update=":#{p:component('inTotalCamp')}" listener="#{presupuestoBB.totalizarCamp}"/>
+                                </p:inputNumber>
                                 
                                 <p:outputLabel for="inCampania6" value="Campaña 6" rendered="#{presupuestoBB.camapanaMaxima > 5}"/>
                                 <p:inputNumber id="inCampania6" rendered="#{presupuestoBB.camapanaMaxima > 5}"
-                                		value="#{presupuestoBB.presupuestoDetalleCampania.valorC6}" minValue="0" emptyValue="zero"/>
+                                		value="#{presupuestoBB.presupuestoDetalleCampania.valorC6}" minValue="0" emptyValue="zero">
+                                	<p:ajax update=":#{p:component('inTotalCamp')}" listener="#{presupuestoBB.totalizarCamp}"/>
+                                </p:inputNumber>
                                 
                                 <p:outputLabel for="inCampania7" value="Campaña 7" rendered="#{presupuestoBB.camapanaMaxima > 6}"/>
                                 <p:inputNumber id="inCampania7" rendered="#{presupuestoBB.camapanaMaxima > 6}"
-                                		value="#{presupuestoBB.presupuestoDetalleCampania.valorC7}" minValue="0" emptyValue="zero"/>
+                                		value="#{presupuestoBB.presupuestoDetalleCampania.valorC7}" minValue="0" emptyValue="zero">
+                                	<p:ajax update=":#{p:component('inTotalCamp')}" listener="#{presupuestoBB.totalizarCamp}"/>
+                                </p:inputNumber>
                                 
                                 <p:outputLabel for="inCampania8" value="Campaña 8" rendered="#{presupuestoBB.camapanaMaxima > 7}"/>
                                 <p:inputNumber id="inCampania8" rendered="#{presupuestoBB.camapanaMaxima > 7}"
-                                		value="#{presupuestoBB.presupuestoDetalleCampania.valorC8}" minValue="0" emptyValue="zero"/>
+                                		value="#{presupuestoBB.presupuestoDetalleCampania.valorC8}" minValue="0" emptyValue="zero">
+                                	<p:ajax update=":#{p:component('inTotalCamp')}" listener="#{presupuestoBB.totalizarCamp}"/>
+                                </p:inputNumber>
                                 
                                 <p:outputLabel for="inCampania9" value="Campaña 9" rendered="#{presupuestoBB.camapanaMaxima > 8}"/>
                                 <p:inputNumber id="inCampania9" rendered="#{presupuestoBB.camapanaMaxima > 8}"
-                                		value="#{presupuestoBB.presupuestoDetalleCampania.valorC9}" minValue="0" emptyValue="zero"/>
+                                		value="#{presupuestoBB.presupuestoDetalleCampania.valorC9}" minValue="0" emptyValue="zero">
+                                	<p:ajax update=":#{p:component('inTotalCamp')}" listener="#{presupuestoBB.totalizarCamp}"/>
+                                </p:inputNumber>
                                 
                                 <p:outputLabel for="inCampania10" value="Campaña 10" rendered="#{presupuestoBB.camapanaMaxima > 9}"/>
                                 <p:inputNumber id="inCampania10" rendered="#{presupuestoBB.camapanaMaxima > 9}"
-                                		value="#{presupuestoBB.presupuestoDetalleCampania.valorC10}" minValue="0" emptyValue="zero"/>
+                                		value="#{presupuestoBB.presupuestoDetalleCampania.valorC10}" minValue="0" emptyValue="zero">
+                                	<p:ajax update=":#{p:component('inTotalCamp')}" listener="#{presupuestoBB.totalizarCamp}"/>
+                                </p:inputNumber>
                                 
                                 <p:outputLabel for="inCampania11" value="Campaña 11" rendered="#{presupuestoBB.camapanaMaxima > 10}"/>
                                 <p:inputNumber id="inCampania11" rendered="#{presupuestoBB.camapanaMaxima > 10}"
-                                		value="#{presupuestoBB.presupuestoDetalleCampania.valorC11}" minValue="0" emptyValue="zero"/>
+                                		value="#{presupuestoBB.presupuestoDetalleCampania.valorC11}" minValue="0" emptyValue="zero">
+                                	<p:ajax update=":#{p:component('inTotalCamp')}" listener="#{presupuestoBB.totalizarCamp}"/>
+                                </p:inputNumber>
                                 
                                 <p:outputLabel for="inCampania12" value="Campaña 12" rendered="#{presupuestoBB.camapanaMaxima > 11}"/>
                                 <p:inputNumber id="inCampania12" rendered="#{presupuestoBB.camapanaMaxima > 11}"
-                                		value="#{presupuestoBB.presupuestoDetalleCampania.valorC12}" minValue="0" emptyValue="zero"/>
+                                		value="#{presupuestoBB.presupuestoDetalleCampania.valorC12}" minValue="0" emptyValue="zero">
+                                	<p:ajax update=":#{p:component('inTotalCamp')}" listener="#{presupuestoBB.totalizarCamp}"/>
+                                </p:inputNumber>
                                 
                                 <p:outputLabel for="inCampania13" value="Campaña 13" rendered="#{presupuestoBB.camapanaMaxima > 12}"/>
                                 <p:inputNumber id="inCampania13" rendered="#{presupuestoBB.camapanaMaxima > 12}"
-                                		value="#{presupuestoBB.presupuestoDetalleCampania.valorC13}" minValue="0" emptyValue="zero"/>
+                                		value="#{presupuestoBB.presupuestoDetalleCampania.valorC13}" minValue="0" emptyValue="zero">
+                                	<p:ajax update=":#{p:component('inTotalCamp')}" listener="#{presupuestoBB.totalizarCamp}"/>
+                                </p:inputNumber>
                                 
                                 <p:outputLabel for="inCampania14" value="Campaña 14" rendered="#{presupuestoBB.camapanaMaxima > 13}"/>
                                 <p:inputNumber id="inCampania14" rendered="#{presupuestoBB.camapanaMaxima > 13}"
-                                		value="#{presupuestoBB.presupuestoDetalleCampania.valorC14}" minValue="0" emptyValue="zero"/>
+                                		value="#{presupuestoBB.presupuestoDetalleCampania.valorC14}" minValue="0" emptyValue="zero">
+                                	<p:ajax update=":#{p:component('inTotalCamp')}" listener="#{presupuestoBB.totalizarCamp}"/>
+                                </p:inputNumber>
                                 
                                 <p:outputLabel for="inCampania15" value="Campaña 15" rendered="#{presupuestoBB.camapanaMaxima > 14}"/>
                                 <p:inputNumber id="inCampania15" rendered="#{presupuestoBB.camapanaMaxima > 14}"
-                                		value="#{presupuestoBB.presupuestoDetalleCampania.valorC15}" minValue="0" emptyValue="zero"/>
+                                		value="#{presupuestoBB.presupuestoDetalleCampania.valorC15}" minValue="0" emptyValue="zero">
+                                	<p:ajax update=":#{p:component('inTotalCamp')}" listener="#{presupuestoBB.totalizarCamp}"/>
+                                </p:inputNumber>
                                 
                                 <p:outputLabel for="inCampania16" value="Campaña 16" rendered="#{presupuestoBB.camapanaMaxima > 15}"/>
                                 <p:inputNumber id="inCampania16" rendered="#{presupuestoBB.camapanaMaxima > 15}"
-                                		value="#{presupuestoBB.presupuestoDetalleCampania.valorC16}" minValue="0" emptyValue="zero"/>
+                                		value="#{presupuestoBB.presupuestoDetalleCampania.valorC16}" minValue="0" emptyValue="zero">
+                                	<p:ajax update=":#{p:component('inTotalCamp')}" listener="#{presupuestoBB.totalizarCamp}"/>
+                                </p:inputNumber>
                                 
                                 <p:outputLabel for="inCampania17" value="Campaña 17" rendered="#{presupuestoBB.camapanaMaxima > 16}"/>
                                 <p:inputNumber id="inCampania17" rendered="#{presupuestoBB.camapanaMaxima > 16}"
-                                		value="#{presupuestoBB.presupuestoDetalleCampania.valorC17}" minValue="0" emptyValue="zero"/>
+                                		value="#{presupuestoBB.presupuestoDetalleCampania.valorC17}" minValue="0" emptyValue="zero">
+                                	<p:ajax update=":#{p:component('inTotalCamp')}" listener="#{presupuestoBB.totalizarCamp}"/>
+                                </p:inputNumber>
                                 
                                 <p:outputLabel for="inCampania18" value="Campaña 18" rendered="#{presupuestoBB.camapanaMaxima > 17}"/>
                                 <p:inputNumber id="inCampania18" rendered="#{presupuestoBB.camapanaMaxima > 17}"
-                                		value="#{presupuestoBB.presupuestoDetalleCampania.valorC18}" minValue="0" emptyValue="zero"/>
+                                		value="#{presupuestoBB.presupuestoDetalleCampania.valorC18}" minValue="0" emptyValue="zero">
+                                	<p:ajax update=":#{p:component('inTotalCamp')}" listener="#{presupuestoBB.totalizarCamp}"/>
+                                </p:inputNumber>
                                 
                                 <p:outputLabel for="inCampania19" value="Campaña 19" rendered="#{presupuestoBB.camapanaMaxima > 18}"/>
                                 <p:inputNumber id="inCampania19" rendered="#{presupuestoBB.camapanaMaxima > 18}"
-                                		value="#{presupuestoBB.presupuestoDetalleCampania.valorC19}" minValue="0" emptyValue="zero"/>
+                                		value="#{presupuestoBB.presupuestoDetalleCampania.valorC19}" minValue="0" emptyValue="zero">
+                                	<p:ajax update=":#{p:component('inTotalCamp')}" listener="#{presupuestoBB.totalizarCamp}"/>
+                                </p:inputNumber>
                                 
                                 <p:outputLabel for="inCampania20" value="Campaña 20" rendered="#{presupuestoBB.camapanaMaxima > 19}"/>
                                 <p:inputNumber id="inCampania20" rendered="#{presupuestoBB.camapanaMaxima > 19}"
-                                		value="#{presupuestoBB.presupuestoDetalleCampania.valorC20}" minValue="0" emptyValue="zero"/>
+                                		value="#{presupuestoBB.presupuestoDetalleCampania.valorC20}" minValue="0" emptyValue="zero">
+                                	<p:ajax update=":#{p:component('inTotalCamp')}" listener="#{presupuestoBB.totalizarCamp}"/>
+                                </p:inputNumber>
                                 
                                 <p:outputLabel for="inCampania21" value="Campaña 21" rendered="#{presupuestoBB.camapanaMaxima > 20}"/>
                                 <p:inputNumber id="inCampania21" rendered="#{presupuestoBB.camapanaMaxima > 20}"
-                                		value="#{presupuestoBB.presupuestoDetalleCampania.valorC21}" minValue="0" emptyValue="zero"/>
+                                		value="#{presupuestoBB.presupuestoDetalleCampania.valorC21}" minValue="0" emptyValue="zero">
+                                	<p:ajax update=":#{p:component('inTotalCamp')}" listener="#{presupuestoBB.totalizarCamp}"/>
+                                </p:inputNumber>
                                 
                                 <p:outputLabel for="inCampania22" value="Campaña 22" rendered="#{presupuestoBB.camapanaMaxima > 21}"/>
                                 <p:inputNumber id="inCampania22" rendered="#{presupuestoBB.camapanaMaxima > 21}"
-                                		value="#{presupuestoBB.presupuestoDetalleCampania.valorC22}" minValue="0" emptyValue="zero"/>
+                                		value="#{presupuestoBB.presupuestoDetalleCampania.valorC22}" minValue="0" emptyValue="zero">
+                                	<p:ajax update=":#{p:component('inTotalCamp')}" listener="#{presupuestoBB.totalizarCamp}"/>
+                                </p:inputNumber>
                                 
                                 <p:outputLabel for="inCampania23" value="Campaña 23" rendered="#{presupuestoBB.camapanaMaxima > 22}"/>
                                 <p:inputNumber id="inCampania23" rendered="#{presupuestoBB.camapanaMaxima > 22}"
-                                		value="#{presupuestoBB.presupuestoDetalleCampania.valorC23}" minValue="0" emptyValue="zero"/>
+                                		value="#{presupuestoBB.presupuestoDetalleCampania.valorC23}" minValue="0" emptyValue="zero">
+                                	<p:ajax update=":#{p:component('inTotalCamp')}" listener="#{presupuestoBB.totalizarCamp}"/>
+                                </p:inputNumber>
                                 
                                 <p:outputLabel for="inCampania24" value="Campaña 24" rendered="#{presupuestoBB.camapanaMaxima > 23}"/>
                                 <p:inputNumber id="inCampania24" rendered="#{presupuestoBB.camapanaMaxima > 23}"
-                                		value="#{presupuestoBB.presupuestoDetalleCampania.valorC24}" minValue="0" emptyValue="zero"/>
+                                		value="#{presupuestoBB.presupuestoDetalleCampania.valorC24}" minValue="0" emptyValue="zero">
+                                	<p:ajax update=":#{p:component('inTotalCamp')}" listener="#{presupuestoBB.totalizarCamp}"/>
+                                </p:inputNumber>
                                 
                                 <p:outputLabel for="inCampania25" value="Campaña 25" rendered="#{presupuestoBB.camapanaMaxima > 24}"/>
                                 <p:inputNumber id="inCampania25" rendered="#{presupuestoBB.camapanaMaxima > 24}"
-                                		value="#{presupuestoBB.presupuestoDetalleCampania.valorC25}" minValue="0" emptyValue="zero"/>
+                                		value="#{presupuestoBB.presupuestoDetalleCampania.valorC25}" minValue="0" emptyValue="zero">
+                                	<p:ajax update=":#{p:component('inTotalCamp')}" listener="#{presupuestoBB.totalizarCamp}"/>
+                                </p:inputNumber>
                                                                 
                             </p:panelGrid>
+                            
+                            <br/><br/>
+                            
+                            <p:outputLabel for="inTotalCamp" value="Total"/>
+                            <p:inputNumber id="inTotalCamp" value="#{presupuestoBB.totalCamp}"
+                             		 minValue="0" emptyValue="zero" readonly="true"/>
                             
                             <br/><br/>
                             
@@ -637,13 +721,11 @@
                                                                 
                                 <p:column headerText="Acciones" exportable="false">
                                     <p:splitButton value="Accion" icon="fa fa-edit">
-								        <p:menuitem value="Actualizar" actionListener="#{presupuestoBB.setSelectedPresupuestoDetalleCampania(presupuestoDetalleCampania)}"  
-								        			update=":#{p:component('dlgActualizar')} :#{p:component('tblPresupuestoDetalleCampania')}" oncomplete="PF('dlgActualizar').show();"
-								        			icon="ui-icon-arrowrefresh-1-w" >
-								        	
+								        <p:menuitem value="Actualizar" actionListener="#{presupuestoBB.actualizarCamp(presupuestoDetalleCampania)}"  
+								        			update="@form" icon="ui-icon-arrowrefresh-1-w" >
 								        </p:menuitem>
 								        <p:menuitem value="Eliminar" actionListener="#{presupuestoBB.setSelectedPresupuestoDetalleCampania(presupuestoDetalleCampania)}" 
-								        			update=":#{p:component('dlgEliminar')}" oncomplete="PF('dlgEliminar').show();"
+								        			update=":#{p:component('dlgEliminarCamp')}" oncomplete="PF('dlgEliminarCamp').show();"
 								        			icon="ui-icon-close" >
 								        </p:menuitem>
 								    </p:splitButton>
@@ -651,7 +733,7 @@
                             </p:dataTable> 
                             
                             
-                            <p:dialog header="Actualizar" id="dlgActualizar" widgetVar="dlgActualizar" minHeight="40">
+                        <p:dialog header="Actualizar" id="dlgActualizar" widgetVar="dlgActualizar" minHeight="40">
 							<div align="center">
 								<h:panelGrid columns="2" cellspacing="2" cellpadding="2">
 									
@@ -685,6 +767,30 @@
 								<br />
 								<br />
 								<p:commandButton id="btnEliminarPresupuesto" actionListener="#{presupuestoBB.deletePresupuesto}" 
+										update="@form" title="Eliminar" value="Eliminar" />						   		
+					   		</div>
+						</p:dialog>	
+						
+						<p:dialog header="Eliminar" id="dlgEliminarMes" widgetVar="dlgEliminarMes" minHeight="40">
+							<div align="center">
+								
+								<strong>¿Está seguro de borrar el registro?</strong>
+								<br />
+								<br />
+								<p:commandButton id="btnEliminarPresupuestoMes" 
+										actionListener="#{presupuestoBB.deletePresupuestoMes}" 
+										update="@form" title="Eliminar" value="Eliminar" />						   		
+					   		</div>
+						</p:dialog>	
+						
+						<p:dialog header="Eliminar" id="dlgEliminarCamp" widgetVar="dlgEliminarCamp" minHeight="40">
+							<div align="center">
+								
+								<strong>¿Está seguro de borrar el registro?</strong>
+								<br />
+								<br />
+								<p:commandButton id="btnEliminarPresupuestoCamp" 
+										actionListener="#{presupuestoBB.deletePresupuestoCamp}" 
 										update="@form" title="Eliminar" value="Eliminar" />						   		
 					   		</div>
 						</p:dialog>	
