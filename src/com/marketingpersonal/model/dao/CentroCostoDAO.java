@@ -27,6 +27,7 @@ public class CentroCostoDAO implements ICentroCostoDAO {
 
 	public void addCentroCosto(CentroCosto entity) {
 		Session session = getSessionFactory().getCurrentSession();
+		entity.setCentroCosto(entity.getCentroCosto().trim());
 		session.save(entity);
 	}
 
@@ -39,6 +40,7 @@ public class CentroCostoDAO implements ICentroCostoDAO {
 
 	public void updateCentroCosto(CentroCosto entity) {
 		Session session = getSessionFactory().getCurrentSession();
+		entity.setCentroCosto(entity.getCentroCosto().trim());
 		session.update(entity);
 	}
 

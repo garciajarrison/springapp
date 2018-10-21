@@ -194,7 +194,33 @@
 							<br />
 							<br />	
 							
-		                    <p:fileUpload fileUploadListener="#{usuarioPorCentroCostoBB.uploadPlanoUsuariosPorCentrosCosto}" mode="advanced" dragDropSupport="false" multiple="true" sizeLimit="1000000" fileLimit="3" allowTypes="/(\.|\/)(xlsx)$/" style="width:100%" />
+		                    <p:fileUpload fileUploadListener="#{usuarioPorCentroCostoBB.uploadPlanoUsuariosPorCentrosCosto}" update=":#{p:component('tblValidacionPlanoUsuariosPorCentrosCosto')} :#{p:component('tblUsuarioPorCentroCostos')}" mode="advanced" dragDropSupport="false" multiple="true" sizeLimit="1000000" fileLimit="3" allowTypes="/(\.|\/)(xlsx)$/" style="width:100%" />
+		                 
+		                 	<p:dataTable id="tblValidacionPlanoUsuariosPorCentrosCosto" var="validacion" value="#{usuarioPorCentroCostoBB.listaValidacion}" 
+                            		reflow="true" emptyMessage="No se encontraron registros."
+									scrollable="false" paginatorPosition="bottom"
+									rows="10" rowsPerPageTemplate="5,10,20,50"
+									currentPageReportTemplate="Páginas {totalPages} - Registros {totalRecords}"
+									paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown} {Exporters}" 
+									paginator="true">
+									
+                                <f:facet name="header">
+                                    Validaciones Archivo Plano
+                                </f:facet>
+                                
+                                <p:column headerText="Mensaje">
+                                    <h:outputText value="#{validacion.mensaje}" />
+                                </p:column>
+
+                                <p:column headerText="Fila">
+                                    <h:outputText value="#{validacion.fila}" />
+                                </p:column>
+                                
+                                <p:column headerText="Columna">
+                                    <h:outputText value="#{validacion.columna}" />
+                                </p:column>
+                               
+                            </p:dataTable>
 		                 </div>  
                         
                         

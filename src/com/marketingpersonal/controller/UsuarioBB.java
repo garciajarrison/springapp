@@ -11,7 +11,6 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
-import org.apache.commons.lang3.text.WordUtils;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -25,15 +24,10 @@ import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
 import com.marketingpersonal.common.ListasGenericas;
 import com.marketingpersonal.common.Util;
-import com.marketingpersonal.model.entity.Cuenta;
 import com.marketingpersonal.model.entity.Usuario;
 import com.marketingpersonal.model.entity.Validacion;
 import com.marketingpersonal.service.IUsuarioService;
 
-//import lombok.Getter;
-//import lombok.Setter;
-
-//@Getter @Setter
 @ManagedBean(name = "usuarioBB")
 @ViewScoped
 public class UsuarioBB extends SpringBeanAutowiringSupport implements Serializable {
@@ -104,10 +98,11 @@ public class UsuarioBB extends SpringBeanAutowiringSupport implements Serializab
 			
 			//Validar obligatoriedad de campos
 			if(validar(usuario)) {
+				
 				//Validar que no exista un registro duplicado
 				for(Usuario usr : listaUsuarios) {
 					if((usr.getNumeroDocumento().equals(usuario.getNumeroDocumento().trim())) ||
-							(usr.getUsuario().equals(usuario.getUsuario().trim().toLowerCase())))	 {
+							(usr.getUsuario().equals(usuario.getUsuario().toLowerCase().trim())))	 {
 						guardar = false;
 						break;
 					}
@@ -137,8 +132,8 @@ public class UsuarioBB extends SpringBeanAutowiringSupport implements Serializab
 				//Validar que no exista un registro duplicado
 				for(Usuario usr : listaUsuarios) {
 					if(usr.getId() != selectedUsuario.getId())	 {
-						if((usr.getNumeroDocumento().equals(selectedUsuario.getNumeroDocumento())) ||
-								(usr.getUsuario().equals(selectedUsuario.getUsuario().toLowerCase())))	 {
+						if((usr.getNumeroDocumento().equals(selectedUsuario.getNumeroDocumento().trim())) ||
+								(usr.getUsuario().equals(selectedUsuario.getUsuario().toLowerCase().trim())))	 {
 							actualizar = false;	
 							break;
 						}					
@@ -216,9 +211,9 @@ public class UsuarioBB extends SpringBeanAutowiringSupport implements Serializab
 				usuario.setCargo(row.getCell(4)+"");
 				usuario.setRol(row.getCell(5)+"");
 							
-							
 				getUsuarioService().addUsuario(usuario);		
 			}
+			listaUsuarios = getUsuarioService().getUsuarios();
 		}
 	
 	public StreamedContent getFileDescargar() {
@@ -303,7 +298,7 @@ public class UsuarioBB extends SpringBeanAutowiringSupport implements Serializab
 		for(Usuario usr : listaUsuarios) {
 			for (int fila = 1; fila < sheet.getPhysicalNumberOfRows(); fila++) {
 				row = sheet.getRow(fila);				
-				if(usr.getNumeroDocumento().equals(row.getCell(0)+"")) {
+				if(usr.getNumeroDocumento().equals(row.getCell(0)+"".trim())) {
 					validacion = new Validacion();
 					validacion.setMensaje("Ya existe un usuario con el número de documento: "+row.getCell(0));
 					validacion.setFila((fila+1)+"");
@@ -311,7 +306,7 @@ public class UsuarioBB extends SpringBeanAutowiringSupport implements Serializab
 					listaValidacion.add(validacion);
 				}	
 				
-				if(usr.getUsuario().equals(row.getCell(2)+"".toLowerCase())) {
+				if(usr.getUsuario().equals(row.getCell(2)+"".toLowerCase().trim())) {
 					validacion = new Validacion();
 					validacion.setMensaje("Ya existe un usuario con el usuario: "+row.getCell(2));
 					validacion.setFila((fila+1)+"");
@@ -325,7 +320,7 @@ public class UsuarioBB extends SpringBeanAutowiringSupport implements Serializab
 		for (int fila = 1; fila < sheet.getPhysicalNumberOfRows(); fila++) {
 			row = sheet.getRow(fila);	
 			
-			rol = row.getCell(5)+"";
+			rol = row.getCell(5)+"".trim();
 			
 			if(!rol.equals("Administrador")) {
 				if(!rol.equals("Usuario")) {
@@ -351,6 +346,74 @@ public class UsuarioBB extends SpringBeanAutowiringSupport implements Serializab
 
 	public void setUsuarioService(IUsuarioService usuarioService) {
 		this.usuarioService = usuarioService;
+	}
+
+	public Util getUtil() {
+		return util;
+	}
+
+	public void setUtil(Util util) {
+		this.util = util;
+	}
+
+	public Usuario getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
+	}
+
+	public Usuario getSelectedUsuario() {
+		return selectedUsuario;
+	}
+
+	public void setSelectedUsuario(Usuario selectedUsuario) {
+		this.selectedUsuario = selectedUsuario;
+	}
+
+	public List<Usuario> getListaUsuarios() {
+		return listaUsuarios;
+	}
+
+	public void setListaUsuarios(List<Usuario> listaUsuarios) {
+		this.listaUsuarios = listaUsuarios;
+	}
+
+	public ListasGenericas getListasGenericas() {
+		return listasGenericas;
+	}
+
+	public void setListasGenericas(ListasGenericas listasGenericas) {
+		this.listasGenericas = listasGenericas;
+	}
+
+	public UploadedFile getFile() {
+		return file;
+	}
+
+	public void setFile(UploadedFile file) {
+		this.file = file;
+	}
+	
+	public void setFileDescargar(StreamedContent fileDescargar) {
+		this.fileDescargar = fileDescargar;
+	}
+
+	public Validacion getValidacion() {
+		return validacion;
+	}
+
+	public void setValidacion(Validacion validacion) {
+		this.validacion = validacion;
+	}
+
+	public List<Validacion> getListaValidacion() {
+		return listaValidacion;
+	}
+
+	public void setListaValidacion(List<Validacion> listaValidacion) {
+		this.listaValidacion = listaValidacion;
 	}
     
  }

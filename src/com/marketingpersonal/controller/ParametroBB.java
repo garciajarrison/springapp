@@ -14,10 +14,6 @@ import com.marketingpersonal.common.Util;
 import com.marketingpersonal.model.entity.Parametro;
 import com.marketingpersonal.service.IParametroService;
 
-import lombok.Getter;
-import lombok.Setter;
-
-@Getter @Setter
 @ManagedBean(name = "parametroBB")
 @ViewScoped
 public class ParametroBB extends SpringBeanAutowiringSupport implements Serializable {
@@ -88,6 +84,38 @@ public class ParametroBB extends SpringBeanAutowiringSupport implements Serializ
 			e.printStackTrace();
 			util.mostrarError("Error eliminando el registro.");
 		} 	
+	}
+
+	public IParametroService getParametroService() {
+		return parametroService;
+	}
+
+	public void setParametroService(IParametroService parametroService) {
+		this.parametroService = parametroService;
+	}
+
+	public Util getUtil() {
+		return util;
+	}
+
+	public void setUtil(Util util) {
+		this.util = util;
+	}
+
+	public Parametro getSelectedParametro() {
+		return selectedParametro;
+	}
+
+	public void setSelectedParametro(Parametro selectedParametro) {
+		this.selectedParametro = selectedParametro;
+	}
+
+	public List<Parametro> getListaParametros() {
+		return listaParametros;
+	}
+
+	public void setListaParametros(List<Parametro> listaParametros) {
+		this.listaParametros = listaParametros;
 	}
 
  }

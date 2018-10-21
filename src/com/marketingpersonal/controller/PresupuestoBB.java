@@ -27,10 +27,6 @@ import com.marketingpersonal.service.ICentroCostoService;
 import com.marketingpersonal.service.ICuentaService;
 import com.marketingpersonal.service.IPresupuestoService;
 
-import lombok.Getter;
-import lombok.Setter;
-
-@Getter @Setter
 @ManagedBean(name = "presupuestoBB")
 @ViewScoped
 public class PresupuestoBB extends SpringBeanAutowiringSupport implements Serializable {
@@ -63,7 +59,9 @@ public class PresupuestoBB extends SpringBeanAutowiringSupport implements Serial
 	private List<CentroCosto> listaCentroCostos;
 	private boolean mostrarDetalle;
 	private int camapanaMaxima;
-	
+	private boolean botonActualizar = false;
+	private Double totalMes = 0d;
+	private Double totalCamp = 0d;
 	
 	public PresupuestoBB() {
 		util = Util.getInstance();
@@ -80,9 +78,59 @@ public class PresupuestoBB extends SpringBeanAutowiringSupport implements Serial
 		camapanaMaxima = getCalculadoraService().getCampanaMaxima();
 	}
 	
-	public void verDetalle(SelectEvent event) {
-		detalle = (Presupuesto) event.getObject();
-		mostrarDetalle = true;
+	public void totalizarMes() {
+		try {
+			totalMes = 0d;
+			totalMes += presupuestoDetalleMes.getValorM1();
+			totalMes += presupuestoDetalleMes.getValorM2();
+			totalMes += presupuestoDetalleMes.getValorM3();
+			totalMes += presupuestoDetalleMes.getValorM4();
+			totalMes += presupuestoDetalleMes.getValorM5();
+			totalMes += presupuestoDetalleMes.getValorM6();
+			totalMes += presupuestoDetalleMes.getValorM7();
+			totalMes += presupuestoDetalleMes.getValorM8();
+			totalMes += presupuestoDetalleMes.getValorM9();
+			totalMes += presupuestoDetalleMes.getValorM10();
+			totalMes += presupuestoDetalleMes.getValorM11();
+			totalMes += presupuestoDetalleMes.getValorM12();
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void totalizarCamp() {
+		try {
+			totalCamp = 0d;
+			totalCamp += presupuestoDetalleCampania.getValorC1();
+			totalCamp += presupuestoDetalleCampania.getValorC2();
+			totalCamp += presupuestoDetalleCampania.getValorC3();
+			totalCamp += presupuestoDetalleCampania.getValorC4();
+			totalCamp += presupuestoDetalleCampania.getValorC5();
+			totalCamp += presupuestoDetalleCampania.getValorC6();
+			totalCamp += presupuestoDetalleCampania.getValorC7();
+			totalCamp += presupuestoDetalleCampania.getValorC8();
+			totalCamp += presupuestoDetalleCampania.getValorC9();
+			totalCamp += presupuestoDetalleCampania.getValorC10();
+			totalCamp += presupuestoDetalleCampania.getValorC11();
+			totalCamp += presupuestoDetalleCampania.getValorC12();
+			totalCamp += presupuestoDetalleCampania.getValorC13();
+			totalCamp += presupuestoDetalleCampania.getValorC14();
+			totalCamp += presupuestoDetalleCampania.getValorC15();
+			totalCamp += presupuestoDetalleCampania.getValorC16();
+			totalCamp += presupuestoDetalleCampania.getValorC17();
+			totalCamp += presupuestoDetalleCampania.getValorC18();
+			totalCamp += presupuestoDetalleCampania.getValorC19();
+			totalCamp += presupuestoDetalleCampania.getValorC20();
+			totalCamp += presupuestoDetalleCampania.getValorC21();
+			totalCamp += presupuestoDetalleCampania.getValorC22();
+			totalCamp += presupuestoDetalleCampania.getValorC23();
+			totalCamp += presupuestoDetalleCampania.getValorC24();
+			totalCamp += presupuestoDetalleCampania.getValorC25();
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 	private boolean validar(Presupuesto pr) {
@@ -166,6 +214,8 @@ public class PresupuestoBB extends SpringBeanAutowiringSupport implements Serial
 				this.getPresupuestoService().addPresupuestoDetalleMes(presupuestoDetalleMes);
 				this.detalle.setDetalleMes(this.getPresupuestoService().getPresupuestoDetallesMes(detalle.getId()));
 				presupuestoDetalleMes = new PresupuestoDetalleMes();
+				totalMes = 0d;
+				util.mostrarMensaje("Registro actualizado con éxito.");
 			}
 		} catch (DataAccessException e) {
 			e.printStackTrace();
@@ -179,14 +229,14 @@ public class PresupuestoBB extends SpringBeanAutowiringSupport implements Serial
 				
 				presupuestoDetalleCampania.setEstado(EnumEstadosPresupuesto.PENDIENTE.getNombre());
 				presupuestoDetalleCampania.setPresupuesto(detalle);
-				presupuestoDetalleCampania.setUsuarioAprobadorInicial(
-								this.getCentroCostoService().getUsuarioAprobadorInicial(presupuestoDetalleCampania.getCentroCosto().getId()));
-				presupuestoDetalleCampania.setUsuarioAprobadorFinal(
-						this.getCentroCostoService().getUsuarioAprobadorFinal(presupuestoDetalleCampania.getCentroCosto().getId()));
+				presupuestoDetalleCampania.setUsuarioAprobadorInicial(this.getCentroCostoService().getUsuarioAprobadorInicial(presupuestoDetalleCampania.getCentroCosto().getId()));
+				presupuestoDetalleCampania.setUsuarioAprobadorFinal(this.getCentroCostoService().getUsuarioAprobadorFinal(presupuestoDetalleCampania.getCentroCosto().getId()));
 				
 				this.getPresupuestoService().addPresupuestoDetalleCampania(presupuestoDetalleCampania);
 				this.detalle.setDetalleCampania(this.getPresupuestoService().getPresupuestoDetallesCampania(detalle.getId()));
 				presupuestoDetalleCampania = new PresupuestoDetalleCampania();
+				totalCamp = 0d;
+				util.mostrarMensaje("Registro actualizado con éxito.");
 			}
 		} catch (DataAccessException e) {
 			e.printStackTrace();
@@ -194,6 +244,9 @@ public class PresupuestoBB extends SpringBeanAutowiringSupport implements Serial
 		}
 	}
 	
+	/**
+	 * Actualizaciones
+	 */
 	public void updatePresupuesto() {
 		try {
 			if(validar(selectedPresupuesto)) {
@@ -209,9 +262,61 @@ public class PresupuestoBB extends SpringBeanAutowiringSupport implements Serial
 		} 	
 	}
 	
+	public void actualizarMes(PresupuestoDetalleMes detPpto) {
+		try {
+			this.presupuestoDetalleMes = detPpto;
+			this.cargarListaCentroCostosPresupuestoMes("NO");
+			totalizarMes();
+			this.botonActualizar = true;
+		} catch (DataAccessException e) {
+			e.printStackTrace();
+			util.mostrarError("Error actualizando el registro.");
+		} 	
+	}
+	
+	public void actualizarCamp(PresupuestoDetalleCampania detPpto) {
+		try {
+			this.presupuestoDetalleCampania = detPpto;
+			this.cargarListaCentroCostosPresupuestoCampania("NO");
+			totalizarCamp();
+			this.botonActualizar = true;
+		} catch (DataAccessException e) {
+			e.printStackTrace();
+			util.mostrarError("Error actualizando el registro.");
+		} 	
+	}
+	
+	/***
+	 * Elimiaciones de presupuesto y detalle
+	 */
+	
 	public void deletePresupuesto() {
 		try {
 			getPresupuestoService().deletePresupuesto(selectedPresupuesto);
+			listaPresupuestos = getPresupuestoService().getPresupuestos();
+			util.mostrarMensaje("Registro eliminado con éxito.");  
+			
+		} catch (DataAccessException e) {
+			e.printStackTrace();
+			util.mostrarError("Error eliminando el registro.");
+		}
+	}
+	
+	public void deletePresupuestoMes() {
+		try {
+			getPresupuestoService().deletePresupuestoDetalleMes(selectedPresupuestoDetalleMes);
+			listaPresupuestos = getPresupuestoService().getPresupuestos();
+			util.mostrarMensaje("Registro eliminado con éxito.");  
+			
+		} catch (DataAccessException e) {
+			e.printStackTrace();
+			util.mostrarError("Error eliminando el registro.");
+		}
+	}
+	
+	public void deletePresupuestoCamp() {
+		try {
+			getPresupuestoService().deletePresupuestoDetalleCampania(selectedPresupuestoDetalleCampania);
 			listaPresupuestos = getPresupuestoService().getPresupuestos();
 			util.mostrarMensaje("Registro eliminado con éxito.");  
 			
@@ -241,7 +346,6 @@ public class PresupuestoBB extends SpringBeanAutowiringSupport implements Serial
 		} 
 	}
 	
-	
 	public void cargarListaCentroCostosPresupuestoCampania(String actualiza) {
 		try {
 			PresupuestoDetalleCampania prepDetCampaniaTmp = null;
@@ -260,6 +364,177 @@ public class PresupuestoBB extends SpringBeanAutowiringSupport implements Serial
 		} catch (DataAccessException e) {
 			e.printStackTrace();
 		} 
+	}
+
+	public IPresupuestoService getPresupuestoService() {
+		return presupuestoService;
+	}
+
+	public void setPresupuestoService(IPresupuestoService presupuestoService) {
+		this.presupuestoService = presupuestoService;
+	}
+
+	public ICuentaService getCuentaService() {
+		return cuentaService;
+	}
+
+	public void setCuentaService(ICuentaService cuentaService) {
+		this.cuentaService = cuentaService;
+	}
+
+	public ICentroCostoService getCentroCostoService() {
+		return centroCostoService;
+	}
+
+	public void setCentroCostoService(ICentroCostoService centroCostoService) {
+		this.centroCostoService = centroCostoService;
+	}
+
+	public ICalculadoraService getCalculadoraService() {
+		return calculadoraService;
+	}
+
+	public void setCalculadoraService(ICalculadoraService calculadoraService) {
+		this.calculadoraService = calculadoraService;
+	}
+
+	public Util getUtil() {
+		return util;
+	}
+
+	public void setUtil(Util util) {
+		this.util = util;
+	}
+
+	public Presupuesto getPresupuesto() {
+		return presupuesto;
+	}
+
+	public void setPresupuesto(Presupuesto presupuesto) {
+		this.presupuesto = presupuesto;
+	}
+
+	public Presupuesto getDetalle() {
+		return detalle;
+	}
+
+	public void setDetalle(Presupuesto detalle) {
+		this.detalle = detalle;
+		if(detalle != null) {
+			mostrarDetalle = true;
+		}
+	}
+
+	public Presupuesto getSelectedPresupuesto() {
+		return selectedPresupuesto;
+	}
+
+	public void setSelectedPresupuesto(Presupuesto selectedPresupuesto) {
+		this.selectedPresupuesto = selectedPresupuesto;
+	}
+
+	public PresupuestoDetalleMes getPresupuestoDetalleMes() {
+		return presupuestoDetalleMes;
+	}
+
+	public void setPresupuestoDetalleMes(PresupuestoDetalleMes presupuestoDetalleMes) {
+		this.presupuestoDetalleMes = presupuestoDetalleMes;
+	}
+
+	public PresupuestoDetalleMes getSelectedPresupuestoDetalleMes() {
+		return selectedPresupuestoDetalleMes;
+	}
+
+	public void setSelectedPresupuestoDetalleMes(PresupuestoDetalleMes selectedPresupuestoDetalleMes) {
+		this.selectedPresupuestoDetalleMes = selectedPresupuestoDetalleMes;
+	}
+
+	public PresupuestoDetalleCampania getPresupuestoDetalleCampania() {
+		return presupuestoDetalleCampania;
+	}
+
+	public void setPresupuestoDetalleCampania(PresupuestoDetalleCampania presupuestoDetalleCampania) {
+		this.presupuestoDetalleCampania = presupuestoDetalleCampania;
+	}
+
+	public PresupuestoDetalleCampania getSelectedPresupuestoDetalleCampania() {
+		return selectedPresupuestoDetalleCampania;
+	}
+
+	public void setSelectedPresupuestoDetalleCampania(PresupuestoDetalleCampania selectedPresupuestoDetalleCampania) {
+		this.selectedPresupuestoDetalleCampania = selectedPresupuestoDetalleCampania;
+	}
+
+	public List<Presupuesto> getListaPresupuestos() {
+		return listaPresupuestos;
+	}
+
+	public void setListaPresupuestos(List<Presupuesto> listaPresupuestos) {
+		this.listaPresupuestos = listaPresupuestos;
+	}
+
+	public ListasGenericas getListasGenericas() {
+		return listasGenericas;
+	}
+
+	public void setListasGenericas(ListasGenericas listasGenericas) {
+		this.listasGenericas = listasGenericas;
+	}
+
+	public Usuario getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
+	}
+
+	public List<Cuenta> getListaCuentas() {
+		return listaCuentas;
+	}
+
+	public void setListaCuentas(List<Cuenta> listaCuentas) {
+		this.listaCuentas = listaCuentas;
+	}
+
+	public List<CentroCosto> getListaCentroCostos() {
+		return listaCentroCostos;
+	}
+
+	public void setListaCentroCostos(List<CentroCosto> listaCentroCostos) {
+		this.listaCentroCostos = listaCentroCostos;
+	}
+
+	public boolean isMostrarDetalle() {
+		return mostrarDetalle;
+	}
+
+	public void setMostrarDetalle(boolean mostrarDetalle) {
+		this.mostrarDetalle = mostrarDetalle;
+	}
+
+	public int getCamapanaMaxima() {
+		return camapanaMaxima;
+	}
+
+	public void setCamapanaMaxima(int camapanaMaxima) {
+		this.camapanaMaxima = camapanaMaxima;
+	}
+
+	public Double getTotalMes() {
+		return totalMes;
+	}
+
+	public void setTotalMes(Double totalMes) {
+		this.totalMes = totalMes;
+	}
+
+	public Double getTotalCamp() {
+		return totalCamp;
+	}
+
+	public void setTotalCamp(Double totalCamp) {
+		this.totalCamp = totalCamp;
 	}
 		
 	/*	
