@@ -264,7 +264,7 @@ public class PresupuestoBB extends SpringBeanAutowiringSupport implements Serial
 	
 	public void actualizarMes(PresupuestoDetalleMes detPpto) {
 		try {
-			this.presupuestoDetalleMes = detPpto;
+			this.presupuestoDetalleMes = detPpto;    
 			this.cargarListaCentroCostosPresupuestoMes("NO");
 			totalizarMes();
 			this.botonActualizar = true;
