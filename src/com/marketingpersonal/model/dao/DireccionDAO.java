@@ -2,6 +2,7 @@ package com.marketingpersonal.model.dao;
 
 import java.util.List;
 
+import org.apache.commons.lang3.text.WordUtils;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,7 @@ public class DireccionDAO implements IDireccionDAO {
 
 	public void addDireccion(Direccion entity) {
 		Session session = getSessionFactory().getCurrentSession();
+		entity.setNombre(WordUtils.capitalizeFully(entity.getNombre()).trim());
 		session.save(entity);
 	}
 
@@ -34,6 +36,7 @@ public class DireccionDAO implements IDireccionDAO {
 
 	public void updateDireccion(Direccion entity) {
 		Session session = getSessionFactory().getCurrentSession();
+		entity.setNombre(WordUtils.capitalizeFully(entity.getNombre()).trim());
 		session.update(entity);
 	}
 

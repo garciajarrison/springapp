@@ -6,6 +6,7 @@ import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
+import org.apache.commons.lang3.text.WordUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
@@ -54,7 +55,7 @@ public class GerenciaBB extends SpringBeanAutowiringSupport implements Serializa
 				
 				//Validar que no exista un registro duplicado
 				for(Gerencia ger : listaGerencias) {
-					if(ger.getNombre().equals(gerencia.getNombre().trim())) {
+					if(ger.getNombre().equals(WordUtils.capitalizeFully(gerencia.getNombre().trim()))) {
 						guardar = false;	
 						break;
 					}
@@ -85,7 +86,7 @@ public class GerenciaBB extends SpringBeanAutowiringSupport implements Serializa
 				//Validar que no exista un registro duplicado
 				for(Gerencia ger : listaGerencias) {
 					if(ger.getId() != selectedGerencia.getId())	 {
-						if(ger.getNombre().equals(selectedGerencia.getNombre().trim()))	 {
+						if(ger.getNombre().equals(WordUtils.capitalizeFully(selectedGerencia.getNombre().trim())))	 {
 							actualizar = false;	
 							break;
 						}					
@@ -116,7 +117,11 @@ public class GerenciaBB extends SpringBeanAutowiringSupport implements Serializa
 			
 		} catch (DataAccessException e) {
 			e.printStackTrace();
-			util.mostrarError("Error eliminando el registro.");
+			if((e.toString()).contains("ConstraintViolationException")) {
+				util.mostrarError("Error eliminando el registro. No puede eliminar una gerencia que tenga centros de costo asociados");
+			}else {
+				util.mostrarError("Error eliminando el registro.");
+			}
 		} 	
 	}
 

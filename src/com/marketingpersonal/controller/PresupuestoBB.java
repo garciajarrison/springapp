@@ -229,10 +229,8 @@ public class PresupuestoBB extends SpringBeanAutowiringSupport implements Serial
 				
 				presupuestoDetalleCampania.setEstado(EnumEstadosPresupuesto.PENDIENTE.getNombre());
 				presupuestoDetalleCampania.setPresupuesto(detalle);
-				presupuestoDetalleCampania.setUsuarioAprobadorInicial(
-								this.getCentroCostoService().getUsuarioAprobadorInicial(presupuestoDetalleCampania.getCentroCosto().getId()));
-				presupuestoDetalleCampania.setUsuarioAprobadorFinal(
-						this.getCentroCostoService().getUsuarioAprobadorFinal(presupuestoDetalleCampania.getCentroCosto().getId()));
+				presupuestoDetalleCampania.setUsuarioAprobadorInicial(this.getCentroCostoService().getUsuarioAprobadorInicial(presupuestoDetalleCampania.getCentroCosto().getId()));
+				presupuestoDetalleCampania.setUsuarioAprobadorFinal(this.getCentroCostoService().getUsuarioAprobadorFinal(presupuestoDetalleCampania.getCentroCosto().getId()));
 				
 				this.getPresupuestoService().addPresupuestoDetalleCampania(presupuestoDetalleCampania);
 				this.detalle.setDetalleCampania(this.getPresupuestoService().getPresupuestoDetallesCampania(detalle.getId()));
@@ -266,7 +264,7 @@ public class PresupuestoBB extends SpringBeanAutowiringSupport implements Serial
 	
 	public void actualizarMes(PresupuestoDetalleMes detPpto) {
 		try {
-			this.presupuestoDetalleMes = detPpto;
+			this.presupuestoDetalleMes = detPpto;    
 			this.cargarListaCentroCostosPresupuestoMes("NO");
 			totalizarMes();
 			this.botonActualizar = true;

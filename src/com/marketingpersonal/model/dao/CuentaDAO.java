@@ -2,6 +2,7 @@ package com.marketingpersonal.model.dao;
 
 import java.util.List;
 
+import org.apache.commons.lang3.text.WordUtils;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,8 @@ public class CuentaDAO implements ICuentaDAO {
 
 	public void addCuenta(Cuenta entity) {
 		Session session = getSessionFactory().getCurrentSession();
+		entity.setCuenta(entity.getCuenta().trim());
+		entity.setNombre(entity.getNombre().toUpperCase().trim());
 		session.save(entity);
 	}
 
@@ -35,6 +38,8 @@ public class CuentaDAO implements ICuentaDAO {
 
 	public void updateCuenta(Cuenta entity) {
 		Session session = getSessionFactory().getCurrentSession();
+		entity.setCuenta(entity.getCuenta().trim());
+		entity.setNombre(entity.getNombre().toUpperCase().trim());
 		session.update(entity);
 	}
 

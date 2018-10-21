@@ -2,6 +2,7 @@ package com.marketingpersonal.model.dao;
 
 import java.util.List;
 
+import org.apache.commons.lang3.text.WordUtils;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.hibernate.Session;
@@ -37,6 +38,10 @@ public class UsuarioDAO implements IUsuarioDAO {
 	
 	public void addUsuario(Usuario entity) {
 		Session session = getSessionFactory().getCurrentSession();
+		entity.setNumeroDocumento(entity.getNumeroDocumento().trim());
+		entity.setUsuario(entity.getUsuario().toLowerCase().trim());
+		entity.setNombre(WordUtils.capitalizeFully(entity.getNombre().trim()));
+		entity.setCorreo(entity.getCorreo().toLowerCase().trim());
 		session.save(entity);
 	}
 
@@ -47,6 +52,10 @@ public class UsuarioDAO implements IUsuarioDAO {
 
 	public void updateUsuario(Usuario entity) {
 		Session session = getSessionFactory().getCurrentSession();
+		entity.setNumeroDocumento(entity.getNumeroDocumento().trim());
+		entity.setUsuario(entity.getUsuario().toLowerCase().trim());
+		entity.setNombre(WordUtils.capitalizeFully(entity.getNombre().trim()));
+		entity.setCorreo(entity.getCorreo().toLowerCase().trim());
 		session.update(entity);
 	}
 
@@ -104,17 +113,15 @@ public class UsuarioDAO implements IUsuarioDAO {
 			
 			usuario = new Usuario();
 
-			usuario.setNumeroDocumento(row.getCell(0)+"");
-			usuario.setNombre(row.getCell(1)+"");
-			usuario.setUsuario(row.getCell(2)+"");
-			usuario.setCorreo(row.getCell(3)+"");
+			usuario.setNumeroDocumento(row.getCell(0)+"".trim());
+			usuario.setNombre(WordUtils.capitalizeFully(row.getCell(1)+"".trim()));
+			usuario.setUsuario(row.getCell(2)+"".toLowerCase().trim());
+			usuario.setCorreo(row.getCell(3)+"".toLowerCase().trim());
 			usuario.setCargo(row.getCell(4)+"");
 			usuario.setRol(row.getCell(5)+"");
 						
 			session.save(usuario);	
 		}
-		
-		
 	}
 	
 	

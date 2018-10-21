@@ -102,7 +102,7 @@ public class UsuarioBB extends SpringBeanAutowiringSupport implements Serializab
 				//Validar que no exista un registro duplicado
 				for(Usuario usr : listaUsuarios) {
 					if((usr.getNumeroDocumento().equals(usuario.getNumeroDocumento().trim())) ||
-							(usr.getUsuario().equals(usuario.getUsuario().trim())))	 {
+							(usr.getUsuario().equals(usuario.getUsuario().toLowerCase().trim())))	 {
 						guardar = false;
 						break;
 					}
@@ -132,8 +132,8 @@ public class UsuarioBB extends SpringBeanAutowiringSupport implements Serializab
 				//Validar que no exista un registro duplicado
 				for(Usuario usr : listaUsuarios) {
 					if(usr.getId() != selectedUsuario.getId())	 {
-						if((usr.getNumeroDocumento().equals(selectedUsuario.getNumeroDocumento())) ||
-								(usr.getUsuario().equals(selectedUsuario.getUsuario())))	 {
+						if((usr.getNumeroDocumento().equals(selectedUsuario.getNumeroDocumento().trim())) ||
+								(usr.getUsuario().equals(selectedUsuario.getUsuario().toLowerCase().trim())))	 {
 							actualizar = false;	
 							break;
 						}					
@@ -211,9 +211,9 @@ public class UsuarioBB extends SpringBeanAutowiringSupport implements Serializab
 				usuario.setCargo(row.getCell(4)+"");
 				usuario.setRol(row.getCell(5)+"");
 							
-							
 				getUsuarioService().addUsuario(usuario);		
 			}
+			listaUsuarios = getUsuarioService().getUsuarios();
 		}
 	
 	public StreamedContent getFileDescargar() {
@@ -298,7 +298,7 @@ public class UsuarioBB extends SpringBeanAutowiringSupport implements Serializab
 		for(Usuario usr : listaUsuarios) {
 			for (int fila = 1; fila < sheet.getPhysicalNumberOfRows(); fila++) {
 				row = sheet.getRow(fila);				
-				if(usr.getNumeroDocumento().equals(row.getCell(0)+"")) {
+				if(usr.getNumeroDocumento().equals(row.getCell(0)+"".trim())) {
 					validacion = new Validacion();
 					validacion.setMensaje("Ya existe un usuario con el número de documento: "+row.getCell(0));
 					validacion.setFila((fila+1)+"");
@@ -306,7 +306,7 @@ public class UsuarioBB extends SpringBeanAutowiringSupport implements Serializab
 					listaValidacion.add(validacion);
 				}	
 				
-				if(usr.getUsuario().equals(row.getCell(2)+"")) {
+				if(usr.getUsuario().equals(row.getCell(2)+"".toLowerCase().trim())) {
 					validacion = new Validacion();
 					validacion.setMensaje("Ya existe un usuario con el usuario: "+row.getCell(2));
 					validacion.setFila((fila+1)+"");
@@ -320,7 +320,7 @@ public class UsuarioBB extends SpringBeanAutowiringSupport implements Serializab
 		for (int fila = 1; fila < sheet.getPhysicalNumberOfRows(); fila++) {
 			row = sheet.getRow(fila);	
 			
-			rol = row.getCell(5)+"";
+			rol = row.getCell(5)+"".trim();
 			
 			if(!rol.equals("Administrador")) {
 				if(!rol.equals("Usuario")) {
@@ -395,6 +395,10 @@ public class UsuarioBB extends SpringBeanAutowiringSupport implements Serializab
 	public void setFile(UploadedFile file) {
 		this.file = file;
 	}
+	
+	public void setFileDescargar(StreamedContent fileDescargar) {
+		this.fileDescargar = fileDescargar;
+	}
 
 	public Validacion getValidacion() {
 		return validacion;
@@ -410,10 +414,6 @@ public class UsuarioBB extends SpringBeanAutowiringSupport implements Serializab
 
 	public void setListaValidacion(List<Validacion> listaValidacion) {
 		this.listaValidacion = listaValidacion;
-	}
-
-	public void setFileDescargar(StreamedContent fileDescargar) {
-		this.fileDescargar = fileDescargar;
 	}
     
  }

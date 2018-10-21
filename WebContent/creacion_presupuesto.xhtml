@@ -131,7 +131,45 @@
 						            </p:commandButton>
 						        </p:column>
                             </p:dataTable>      
-                          </div>    
+                          </div> 
+                          
+                        <p:dialog header="Actualizar" id="dlgActualizar" widgetVar="dlgActualizar" minHeight="40">
+							<div align="center">
+								<h:panelGrid columns="2" cellspacing="2" cellpadding="2">
+									
+									<h:outputLabel for="txtNombreU" value="Nombre" />
+									<p:inputText id="txtNombreU" value="#{presupuestoBB.selectedPresupuesto.nombre}" maxlength="50"/>
+									
+							   		<p:outputLabel for="txtDescripcionU" value="Descripción"/>
+	                                <p:inputText id="txtDescripcionU" value="#{presupuestoBB.selectedPresupuesto.descripcion}" maxlength="100"/>
+	                                
+	                                <p:outputLabel for="selClasificacionU" value="Clasificación"/>
+	                                <p:selectOneMenu id="selClasificacionU" value="#{presupuestoBB.selectedPresupuesto.clasificacion}"
+	                                		 filter="true">
+	                                    <f:selectItem itemLabel="Seleccione" itemValue="" />
+	                                    <f:selectItems value="#{presupuestoBB.listasGenericas.lstClasificacionPpto}" />
+	                                </p:selectOneMenu>	                                
+	                                
+							   	</h:panelGrid>
+							   	<br />
+						   	
+						   		<p:commandButton id="btnActualizarPresupuesto" 
+						   				actionListener="#{presupuestoBB.updatePresupuesto}" 
+						   				update="@form" title="Actualizar" value="Actualizar" />
+								
+					   		</div>
+						</p:dialog>	
+						
+						<p:dialog header="Eliminar" id="dlgEliminar" widgetVar="dlgEliminar" minHeight="40">
+							<div align="center">
+								
+								<strong>¿Está seguro de borrar el registro?</strong>
+								<br />
+								<br />
+								<p:commandButton id="btnEliminarPresupuesto" actionListener="#{presupuestoBB.deletePresupuesto}" 
+										update="@form" title="Eliminar" value="Eliminar" />						   		
+					   		</div>
+						</p:dialog>	 
                           
 						<!-- DETALLE DE PRESUPUESTO MES SELECCIONADO -->
 						<div class="card" style="display:#{presupuestoBB.detalle.tipo eq 'Mensual' ? 'block;' : 'none;'}">
@@ -731,45 +769,8 @@
 								    </p:splitButton>
                                 </p:column>
                             </p:dataTable> 
-                            
-                            
-                        <p:dialog header="Actualizar" id="dlgActualizar" widgetVar="dlgActualizar" minHeight="40">
-							<div align="center">
-								<h:panelGrid columns="2" cellspacing="2" cellpadding="2">
-									
-									<h:outputLabel for="txtNombreU" value="Nombre" />
-									<p:inputText id="txtNombreU" value="#{presupuestoBB.selectedPresupuesto.nombre}" maxlength="50"/>
-									
-							   		<p:outputLabel for="txtDescripcionU" value="Descripción"/>
-	                                <p:inputText id="txtDescripcionU" value="#{presupuestoBB.selectedPresupuesto.descripcion}" maxlength="100"/>
-	                                
-	                                <p:outputLabel for="selClasificacionU" value="Clasificación"/>
-	                                <p:selectOneMenu id="selClasificacionU" value="#{presupuestoBB.selectedPresupuesto.clasificacion}"
-	                                		 filter="true">
-	                                    <f:selectItem itemLabel="Seleccione" itemValue="" />
-	                                    <f:selectItems value="#{presupuestoBB.listasGenericas.lstClasificacionPpto}" />
-	                                </p:selectOneMenu>	                                
-	                                
-							   	</h:panelGrid>
-							   	<br />
-						   	
-						   		<p:commandButton id="btnActualizarPresupuesto" 
-						   				actionListener="#{presupuestoBB.updatePresupuesto}" 
-						   				update="@form" title="Actualizar" value="Actualizar" />
-								
-					   		</div>
-						</p:dialog>		
 		
-						<p:dialog header="Eliminar" id="dlgEliminar" widgetVar="dlgEliminar" minHeight="40">
-							<div align="center">
-								
-								<strong>¿Está seguro de borrar el registro?</strong>
-								<br />
-								<br />
-								<p:commandButton id="btnEliminarPresupuesto" actionListener="#{presupuestoBB.deletePresupuesto}" 
-										update="@form" title="Eliminar" value="Eliminar" />						   		
-					   		</div>
-						</p:dialog>	
+						
 						
 						<p:dialog header="Eliminar" id="dlgEliminarMes" widgetVar="dlgEliminarMes" minHeight="40">
 							<div align="center">
