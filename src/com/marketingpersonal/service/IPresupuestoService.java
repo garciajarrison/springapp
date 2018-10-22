@@ -2,6 +2,7 @@ package com.marketingpersonal.service;
 
 import java.util.List;
 
+import com.marketingpersonal.model.entity.Observacion;
 import com.marketingpersonal.model.entity.Presupuesto;
 import com.marketingpersonal.model.entity.PresupuestoDetalleCampania;
 import com.marketingpersonal.model.entity.PresupuestoDetalleMes;
@@ -48,5 +49,7 @@ public interface IPresupuestoService {
 	List<PresupuestoDetalleMes> getPresupuestoDetallesMes(int idPresupuesto);
 
 	List<PresupuestoDetalleCampania> getPresupuestoDetallesCampania(int idPresupuesto);
+
+	void addObservacion(Observacion observacion);
 	
 }

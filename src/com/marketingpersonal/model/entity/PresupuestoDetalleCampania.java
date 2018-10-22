@@ -1,5 +1,6 @@
 package com.marketingpersonal.model.entity;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,6 +14,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name = "detalle_presupuesto_campania", schema = "presupuestoMD")
@@ -106,6 +108,9 @@ public class PresupuestoDetalleCampania implements java.io.Serializable {
 
 	@Column(name = "valor_c25")
 	private Double valorC25 = 0d;
+	
+	@Column(name = "total")
+	private Double total = 0d;
 	
 	@Column(name = "estado")
 	private String estado;
@@ -399,6 +404,14 @@ public class PresupuestoDetalleCampania implements java.io.Serializable {
 
 	public void setObservaciones(List<Observacion> observaciones) {
 		this.observaciones = observaciones;
+	}
+
+	public Double getTotal() {
+		return total;
+	}
+
+	public void setTotal(Double total) {
+		this.total = total;
 	}
 
 }

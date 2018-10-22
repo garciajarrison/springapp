@@ -17,6 +17,14 @@ public class ParametroService implements IParametroService {
 	@Autowired
 	private IParametroDAO entityDAO;
 
+	public IParametroDAO getEntityDAO() {
+		return entityDAO;
+	}
+
+	public void setEntityDAO(IParametroDAO entityDAO) {
+		this.entityDAO = entityDAO;
+	}
+	
 	@Transactional(readOnly = false)
 	public void addParametro(Parametro entity) {
 		getEntityDAO().addParametro(entity);
@@ -40,12 +48,8 @@ public class ParametroService implements IParametroService {
 		return getEntityDAO().getParametros();
 	}
 	
-	public IParametroDAO getEntityDAO() {
-		return entityDAO;
-	}
-
-	public void setEntityDAO(IParametroDAO entityDAO) {
-		this.entityDAO = entityDAO;
+	public Parametro getParametroByCodigo(String codigoParametro) {
+		return getEntityDAO().getParametroByCodigo(codigoParametro);
 	}
 
 }

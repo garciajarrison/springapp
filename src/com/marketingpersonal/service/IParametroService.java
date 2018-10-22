@@ -16,4 +16,6 @@ public interface IParametroService {
 	Parametro getParametroById(int id);
 	
 	List<Parametro> getParametros();
+
+	Parametro getParametroByCodigo(String codigoParametro);
 }

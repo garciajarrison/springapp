@@ -14,6 +14,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
+
+import com.marketingpersonal.common.EnumEstadosPresupuesto;
 
 @Entity
 @Table(name = "presupuesto", schema = "presupuestoMD")
@@ -132,6 +135,40 @@ public class Presupuesto implements java.io.Serializable {
 
 	public void setDetalleCampania(List<PresupuestoDetalleCampania> detalleCampania) {
 		this.detalleCampania = detalleCampania;
+	}
+	
+	@Transient
+	public boolean isPermiteAcciones() {
+		boolean retorno = true;
+		try {
+			if(this.getDetalleCampania() != null && !this.getDetalleCampania().isEmpty()) {
+				for(PresupuestoDetalleCampania  tmp: this.getDetalleCampania()) {
+					if(EnumEstadosPresupuesto.APROBADO.getCodigo().equals(tmp.getEstado()) || 
+							EnumEstadosPresupuesto.ENVIADO.getCodigo().equals(tmp.getEstado()) || 
+							EnumEstadosPresupuesto.FINALIZADO.getCodigo().equals(tmp.getEstado())  ||
+							EnumEstadosPresupuesto.RECHAZADO2.getCodigo().equals(tmp.getEstado()) ) {
+						retorno = false;
+						break;
+					}
+				}
+			}
+			
+			if(retorno && this.getDetalleMes() != null && !this.getDetalleMes().isEmpty()) {
+				for(PresupuestoDetalleMes tmp: this.getDetalleMes()) {
+					if(EnumEstadosPresupuesto.APROBADO.getCodigo().equals(tmp.getEstado()) || 
+							EnumEstadosPresupuesto.ENVIADO.getCodigo().equals(tmp.getEstado()) || 
+							EnumEstadosPresupuesto.FINALIZADO.getCodigo().equals(tmp.getEstado())  ||
+							EnumEstadosPresupuesto.RECHAZADO2.getCodigo().equals(tmp.getEstado()) ) {
+						retorno = false;
+						break;
+					}
+				}
+			}
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return retorno;
 	}
 	
 }

@@ -50,4 +50,11 @@ public class ParametroDAO implements IParametroDAO {
 		return (List<Parametro>) session.createQuery("from Parametro").list();
 	}
 
+	public Parametro getParametroByCodigo(String codigoParametro) {
+		Session session = getSessionFactory().getCurrentSession();
+		return (Parametro) session.createQuery("from Parametro where codigo = :codigo")
+				.setParameter("codigo", codigoParametro)
+				.uniqueResult();
+	}
+
 }

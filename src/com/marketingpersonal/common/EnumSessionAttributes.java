@@ -2,6 +2,7 @@ package com.marketingpersonal.common;
 
 public enum EnumSessionAttributes {
 
-	USUARIO;
+	USUARIO,
+	ANIO_GENERAL;
 	
 }

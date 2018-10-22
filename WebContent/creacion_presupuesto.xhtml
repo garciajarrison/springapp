@@ -18,8 +18,8 @@
                             <p:panelGrid id="pgPresupuesto" columns="2" columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4" layout="grid" 
                             		styleClass="ui-panelgrid-blank" style="border:0px none; background-color:transparent;">
                                 
-                                <p:outputLabel for="txtAnio" value="Año"/>
-                                <p:inputText id="txtAnio" value="#{presupuestoBB.presupuesto.anio}" maxlength="50"/>
+                                <p:outputLabel value="Año"/>
+                                <p:outputLabel value="#{presupuestoBB.anioGeneral}"/>
                                 
                                 <p:outputLabel for="txtNombre" value="Nombre"/>
                                 <p:inputText id="txtNombre" value="#{presupuestoBB.presupuesto.nombre}" maxlength="50"/>
@@ -93,6 +93,11 @@
                                     <h:outputText value="#{presupuesto.descripcion}" />
                                 </p:column>
                                 
+                                <p:column headerText="Año" sortBy="#{presupuesto.anio}" width="15%"
+                                		 filterMatchMode="contains" filterBy="#{presupuesto.anio}">
+                                    <h:outputText value="#{presupuesto.anio}" />
+                                </p:column>
+                                
                                 <p:column headerText="Clasificación" sortBy="#{presupuesto.clasificacion}" width="15%"
                                 		 filterMatchMode="contains" filterBy="#{presupuesto.clasificacion}">
                                     <h:outputText value="#{presupuesto.clasificacion}" />
@@ -110,13 +115,16 @@
                                 <p:column headerText="Acciones" width="15%" exportable="false" >
                                 
                                     <p:splitButton value="Accion" icon="fa fa-edit">
-								        <p:menuitem value="Actualizar" actionListener="#{presupuestoBB.setSelectedPresupuesto(presupuesto)}"  
+								        <p:menuitem value="Actualizar" 
+								        			rendered="#{presupuesto.permiteAcciones}"
+								        			actionListener="#{presupuestoBB.setSelectedPresupuesto(presupuesto)}"  
 								        			update=":#{p:component('dlgActualizar')} :#{p:component('tblPresupuestos')}" 
 								        			oncomplete="PF('dlgActualizar').show();"
 								        			icon="ui-icon-arrowrefresh-1-w" >
-								        	
 								        </p:menuitem>
-								        <p:menuitem value="Eliminar" actionListener="#{presupuestoBB.setSelectedPresupuesto(presupuesto)}" 
+								        <p:menuitem value="Eliminar" 
+								        			rendered="#{presupuesto.permiteAcciones}"
+								        			actionListener="#{presupuestoBB.setSelectedPresupuesto(presupuesto)}" 
 								        			update=":#{p:component('dlgEliminar')}" oncomplete="PF('dlgEliminar').show();"
 								        			icon="ui-icon-close" >
 								        </p:menuitem>
@@ -125,11 +133,6 @@
 								        </p:menuitem>
 								    </p:splitButton>
                                 </p:column>
-                                <p:column headerText="Iniciar" width="15%" exportable="false">
-						             <p:commandButton update=":#{p:component('tblPresupuestos')}" actionListener="#{presupuestoBB.setSelectedPresupuesto(presupuesto)}" icon="ui-icon-search" title="Iniciar">
-						                <f:setPropertyActionListener value="#{presupuesto}" target="#{presupuestoBB.setSelectedPresupuesto(presupuesto)}" />
-						            </p:commandButton>
-						        </p:column>
                             </p:dataTable>      
                           </div> 
                           
@@ -372,19 +375,146 @@
                                 <p:column headerText="Mes 12" sortBy="#{presupuestoDetalleMes.valorM12}" >
                                     <h:outputText value="#{presupuestoDetalleMes.valorM12}" />
                                 </p:column>
+                                
+                                <p:column headerText="Total" sortBy="#{presupuestoDetalleMes.total}" >
+                                    <h:outputText value="#{presupuestoDetalleMes.total}" />
+                                </p:column>
+                                
+                                <p:column headerText="Estado" sortBy="#{presupuestoDetalleMes.estado}" >
+                                    <h:outputText value="#{presupuestoBB.listasGenericas.getNombreEstado(presupuestoDetalleMes.estado)}" />
+                                </p:column>
                                                                 
                                 <p:column headerText="Acciones" exportable="false">
                                     <p:splitButton value="Accion" icon="fa fa-edit">
-								        <p:menuitem value="Actualizar" actionListener="#{presupuestoBB.actualizarMes(presupuestoDetalleMes)}"  
+								        <p:menuitem value="Actualizar" 
+								        			rendered="#{presupuestoDetalleMes.estado eq 'PENDIENTE' or presupuestoDetalleMes.estado eq 'RECHAZADO'}"
+								        			actionListener="#{presupuestoBB.actualizarMes(presupuestoDetalleMes)}"  
 								        			update="@form" icon="ui-icon-arrowrefresh-1-w" >
 								        </p:menuitem>
-								        <p:menuitem value="Eliminar" actionListener="#{presupuestoBB.setSelectedPresupuestoDetalleMes(presupuestoDetalleMes)}" 
+								        <p:menuitem value="Eliminar" 
+								        			rendered="#{presupuestoDetalleMes.estado eq 'PENDIENTE' or presupuestoDetalleMes.estado eq 'RECHAZADO'}"
+								        			actionListener="#{presupuestoBB.setSelectedPresupuestoDetalleMes(presupuestoDetalleMes)}" 
 								        			update=":#{p:component('dlgEliminarMes')}" oncomplete="PF('dlgEliminarMes').show();"
+								        			icon="ui-icon-close" >
+								        </p:menuitem>
+								        <p:menuitem value="Enviar" 
+								        			rendered="#{presupuestoDetalleMes.estado eq 'PENDIENTE' or presupuestoDetalleMes.estado eq 'RECHAZADO'}"
+								        			actionListener="#{presupuestoBB.setSelectedPresupuestoDetalleMes(presupuestoDetalleMes)}" 
+								        			update=":#{p:component('dlgEvniarMes')}" oncomplete="PF('dlgEvniarMes').show();"
+								        			icon="ui-icon-send" >
+								        </p:menuitem>
+								        <p:menuitem value="Observaciones" actionListener="#{presupuestoBB.setSelectedPresupuestoDetalleMes(presupuestoDetalleMes)}" 
+								        			update=":#{p:component('dlgObservacionesMes')}" oncomplete="PF('dlgObservacionesMes').show();"
 								        			icon="ui-icon-close" >
 								        </p:menuitem>
 								    </p:splitButton>
                                 </p:column>
-                            </p:dataTable>      
+                            </p:dataTable>  
+                            
+                            <p:dialog header="Enviar aprobador inicial" id="dlgEvniarMes"
+                            		widgetVar="dlgEvniarMes" minHeight="40">
+								<div align="center">
+									<strong>¿Está seguro de enviar el detalle al aprobador inicial?</strong>
+									<br/>
+									Tenga en cuenta que después de esto no podrá realizar operaciones sobre este registro.
+									<br /><br/>
+									<p:outputLabel value="Observación"/>
+									<p:inputTextarea value="#{presupuestoBB.observacion.observacion}" 
+										maxlength="200" cols="20"/>
+									<br />
+									<br />
+									<p:commandButton id="btnEnviarMes" 
+											actionListener="#{presupuestoBB.enviarPresupuestoAprobadorInicial('MES')}" 
+											update="@form" title="Enviar" value="Enviar" />			
+								</div>
+							</p:dialog>
+                            
+                            <p:dialog header="Observaciones" id="dlgObservacionesMes" width="80%"
+                            		widgetVar="dlgObservacionesMes" minHeight="40" modal="true">
+							<div align="center">
+								
+								<strong>Observaciones</strong>
+								<br />
+								<br />
+								 <p:dataTable id="tblObservaMes" var="presupuestoDetalleCampania" 
+                            		value="#{presupuestoBB.selectedPresupuestoDetalleMes.observaciones}" reflow="true" 
+                            		emptyMessage="No se encontraron registros."
+									scrollable="false" paginatorPosition="bottom"
+									rows="10" rowsPerPageTemplate="5,10,20,50"
+									currentPageReportTemplate="Páginas {totalPages} - Registros {totalRecords}"
+									paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}  {Exporters}" 
+									paginator="true">
+								
+								<f:facet name="{Exporters}">
+						            <h:commandLink>
+						                <p:graphicImage name="images/excel.png" library="omega-layout"  width="24"/>
+						                <p:dataExporter type="xls" target="tblObservaMes" fileName="DetalleCampana" />
+						            </h:commandLink>
+						 
+						            <h:commandLink>
+						                <p:graphicImage name="images/pdf.png" library="omega-layout"  width="24"/>
+						                <p:dataExporter type="pdf" target="tblPresupuestoDetalleCampania" fileName="DetalleCampana"/>
+						            </h:commandLink>
+						 
+						            <h:commandLink>
+						                <p:graphicImage name="images/csv.png" library="omega-layout" width="24"/>
+						                <p:dataExporter type="csv" target="tblPresupuestoDetalleCampania" fileName="DetalleCampana" />
+						            </h:commandLink>
+						 
+						            <h:commandLink>
+						                <p:graphicImage name="images/xml.png" library="omega-layout"  width="24"/>
+						                <p:dataExporter type="xml" target="tblPresupuestoDetalleCampania" fileName="DetalleCampana" />
+						            </h:commandLink>
+						        </f:facet>
+									
+								<f:facet name="header">
+                                    Histórico Estados 
+                                </f:facet>
+                                
+                                <p:column headerText="Observacion" sortBy="#{presupuestoDetalleCampania.observacion}" 
+                                		 filterMatchMode="contains" filterBy="#{presupuestoDetalleCampania.observacion}">
+                                    <h:outputText value="#{presupuestoDetalleCampania.observacion}" />
+                                </p:column>
+                                
+                                <p:column headerText="Envia" sortBy="#{presupuestoDetalleCampania.usuarioEnvia.nombre}" 
+                                		 filterMatchMode="contains" filterBy="#{presupuestoDetalleCampania.usuarioEnvia.nombre}">
+                                    <h:outputText value="#{presupuestoDetalleCampania.usuarioEnvia.nombre}" />
+                                </p:column>
+                                
+                                <p:column headerText="Recibe" sortBy="#{presupuestoDetalleCampania.usuarioRecibe.nombre}"
+                                		 filterMatchMode="contains" filterBy="#{presupuestoDetalleCampania.usuarioRecibe.nombre}">
+                                    <h:outputText value="#{presupuestoDetalleCampania.usuarioRecibe.nombre}" />
+                                </p:column>
+
+								<p:column headerText="Estado" sortBy="#{presupuestoDetalleCampania.estado}"
+                                		 filterMatchMode="contains" filterBy="#{presupuestoDetalleCampania.estado}">
+                                    <h:outputText value="#{presupuestoBB.listasGenericas.getNombreEstado(presupuestoDetalleCampania.estado)}" />
+                                </p:column>
+                                
+                                <p:column headerText="Fecha" sortBy="#{presupuestoDetalleCampania.fechaTXT}"
+                                		 filterMatchMode="contains" filterBy="#{presupuestoDetalleCampania.fechaTXT}">
+                                    <h:outputText value="#{presupuestoDetalleCampania.fechaTXT}" />
+                                </p:column>
+                             </p:dataTable>
+											   		
+					   		</div>
+						</p:dialog>	
+						
+						
+						<p:dialog header="Eliminar" id="dlgEliminarMes" widgetVar="dlgEliminarMes" minHeight="40">
+							<div align="center">
+								
+								<strong>¿Está seguro de borrar el registro?</strong>
+								<br />
+								<br />
+								<p:commandButton id="btnEliminarPresupuestoMes" 
+										actionListener="#{presupuestoBB.deletePresupuestoMes}" 
+										update="@form" title="Eliminar" value="Eliminar" />						   		
+					   		</div>
+						</p:dialog>
+                            
+                            
+                                
                           </div>  
                           
                           <div class="card" style="display:#{presupuestoBB.detalle.tipo eq 'Campañal' ? 'block;' : 'none;'}">
@@ -756,34 +886,133 @@
                                 		rendered="#{presupuestoBB.camapanaMaxima > 24}" exportable="#{presupuestoBB.camapanaMaxima > 24}">
                                     <h:outputText value="#{presupuestoDetalleCampania.valorC25}" />
                                 </p:column>
+                                
+                                <p:column headerText="Total" sortBy="#{presupuestoDetalleCampania.total}" >
+                                    <h:outputText value="#{presupuestoDetalleCampania.total}" />
+                                </p:column>
+                                
+                                <p:column headerText="Estado" sortBy="#{presupuestoDetalleCampania.estado}" >
+                                    <h:outputText value="#{presupuestoBB.listasGenericas.getNombreEstado(presupuestoDetalleCampania.estado)}" />
+                                </p:column>
                                                                 
                                 <p:column headerText="Acciones" exportable="false">
                                     <p:splitButton value="Accion" icon="fa fa-edit">
-								        <p:menuitem value="Actualizar" actionListener="#{presupuestoBB.actualizarCamp(presupuestoDetalleCampania)}"  
+								        <p:menuitem value="Actualizar" 
+								        			rendered="#{presupuestoDetalleCampania.estado eq 'PENDIENTE' or presupuestoDetalleCampania.estado eq 'RECHAZADO'}"
+								        			actionListener="#{presupuestoBB.actualizarCamp(presupuestoDetalleCampania)}"  
 								        			update="@form" icon="ui-icon-arrowrefresh-1-w" >
 								        </p:menuitem>
-								        <p:menuitem value="Eliminar" actionListener="#{presupuestoBB.setSelectedPresupuestoDetalleCampania(presupuestoDetalleCampania)}" 
+								        <p:menuitem value="Eliminar" 
+								        			rendered="#{presupuestoDetalleCampania.estado eq 'PENDIENTE' or presupuestoDetalleCampania.estado eq 'RECHAZADO'}"
+								        			actionListener="#{presupuestoBB.setSelectedPresupuestoDetalleCampania(presupuestoDetalleCampania)}" 
 								        			update=":#{p:component('dlgEliminarCamp')}" oncomplete="PF('dlgEliminarCamp').show();"
 								        			icon="ui-icon-close" >
 								        </p:menuitem>
+								        <p:menuitem value="Enviar" 
+								        			rendered="#{presupuestoDetalleCampania.estado eq 'PENDIENTE' or presupuestoDetalleCampania.estado eq 'RECHAZADO'}"
+								        			actionListener="#{presupuestoBB.setSelectedPresupuestoDetalleCampania(presupuestoDetalleCampania)}" 
+								        			update=":#{p:component('dlgEvniarCamp')}" oncomplete="PF('dlgEvniarCamp').show();"
+								        			icon="ui-icon-send" >
+								        </p:menuitem>
+								        <p:menuitem value="Observaciones" 
+								        			actionListener="#{presupuestoBB.setSelectedPresupuestoDetalleCampania(presupuestoDetalleCampania)}" 
+								        			update=":#{p:component('dlgObservacionesCamp')}" oncomplete="PF('dlgObservacionesCamp').show();"
+								        			icon="ui-icon-close" >
+								        </p:menuitem>
+								        
 								    </p:splitButton>
                                 </p:column>
                             </p:dataTable> 
-		
-						
-						
-						<p:dialog header="Eliminar" id="dlgEliminarMes" widgetVar="dlgEliminarMes" minHeight="40">
+                            
+                        <p:dialog header="Enviar aprobador inicial" id="dlgEvniarCamp"
+                            		widgetVar="dlgEvniarCamp" minHeight="40">
+							<div align="center">
+								<strong>¿Está seguro de enviar el detalle al aprobador inicial?</strong>
+								<br/>
+								Tenga en cuenta que después de esto no podrá realizar operaciones sobre este registro.
+								<br /><br/>
+								<p:outputLabel value="Observación"/>
+								<p:inputTextarea value="#{presupuestoBB.observacion.observacion}" 
+									maxlength="200" cols="20"/>
+								<br />
+								<br />
+								<p:commandButton id="btnEnviarCamp" process="@form"
+										actionListener="#{presupuestoBB.enviarPresupuestoAprobadorInicial('CAMPANIA')}" 
+										update="@form" title="Enviar" value="Enviar" />			
+							</div>
+						</p:dialog>
+                            
+                        <p:dialog header="Observaciones" id="dlgObservacionesCamp" width="80%"
+                            		widgetVar="dlgObservacionesCamp" minHeight="40" modal="true">
 							<div align="center">
 								
-								<strong>¿Está seguro de borrar el registro?</strong>
+								<strong>Observaciones</strong>
 								<br />
 								<br />
-								<p:commandButton id="btnEliminarPresupuestoMes" 
-										actionListener="#{presupuestoBB.deletePresupuestoMes}" 
-										update="@form" title="Eliminar" value="Eliminar" />						   		
+								 <p:dataTable id="tblObservaCamp" var="presupuestoDetalleCampania" 
+                            		value="#{presupuestoBB.selectedPresupuestoDetalleCampania.observaciones}" reflow="true" 
+                            		emptyMessage="No se encontraron registros."
+									scrollable="false" paginatorPosition="bottom"
+									rows="10" rowsPerPageTemplate="5,10,20,50"
+									currentPageReportTemplate="Páginas {totalPages} - Registros {totalRecords}"
+									paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}  {Exporters}" 
+									paginator="true">
+								
+								<f:facet name="{Exporters}">
+						            <h:commandLink>
+						                <p:graphicImage name="images/excel.png" library="omega-layout"  width="24"/>
+						                <p:dataExporter type="xls" target="tblObservaCamp" fileName="DetalleCampana" />
+						            </h:commandLink>
+						 
+						            <h:commandLink>
+						                <p:graphicImage name="images/pdf.png" library="omega-layout"  width="24"/>
+						                <p:dataExporter type="pdf" target="tblObservaCamp" fileName="DetalleCampana"/>
+						            </h:commandLink>
+						 
+						            <h:commandLink>
+						                <p:graphicImage name="images/csv.png" library="omega-layout" width="24"/>
+						                <p:dataExporter type="csv" target="tblObservaCamp" fileName="DetalleCampana" />
+						            </h:commandLink>
+						 
+						            <h:commandLink>
+						                <p:graphicImage name="images/xml.png" library="omega-layout"  width="24"/>
+						                <p:dataExporter type="xml" target="tblObservaCamp" fileName="DetalleCampana" />
+						            </h:commandLink>
+						        </f:facet>
+									
+								<f:facet name="header">
+                                    Histórico Estados 
+                                </f:facet>
+                                
+                                <p:column headerText="Observacion" sortBy="#{presupuestoDetalleCampania.observacion}" 
+                                		 filterMatchMode="contains" filterBy="#{presupuestoDetalleCampania.observacion}">
+                                    <h:outputText value="#{presupuestoDetalleCampania.observacion}" />
+                                </p:column>
+                                
+                                <p:column headerText="Envia" sortBy="#{presupuestoDetalleCampania.usuarioEnvia.nombre}" 
+                                		 filterMatchMode="contains" filterBy="#{presupuestoDetalleCampania.usuarioEnvia.nombre}">
+                                    <h:outputText value="#{presupuestoDetalleCampania.usuarioEnvia.nombre}" />
+                                </p:column>
+                                
+                                <p:column headerText="Recibe" sortBy="#{presupuestoDetalleCampania.usuarioRecibe.nombre}"
+                                		 filterMatchMode="contains" filterBy="#{presupuestoDetalleCampania.usuarioRecibe.nombre}">
+                                    <h:outputText value="#{presupuestoDetalleCampania.usuarioRecibe.nombre}" />
+                                </p:column>
+
+								<p:column headerText="Estado" sortBy="#{presupuestoDetalleCampania.estado}"
+                                		 filterMatchMode="contains" filterBy="#{presupuestoDetalleCampania.estado}">
+                                    <h:outputText value="#{presupuestoBB.listasGenericas.getNombreEstado(presupuestoDetalleCampania.estado)}" />
+                                </p:column>
+                                
+                                <p:column headerText="Fecha" sortBy="#{presupuestoDetalleCampania.fechaTXT}"
+                                		 filterMatchMode="contains" filterBy="#{presupuestoDetalleCampania.fechaTXT}">
+                                    <h:outputText value="#{presupuestoDetalleCampania.fechaTXT}" />
+                                </p:column>
+                             </p:dataTable>
+											   		
 					   		</div>
 						</p:dialog>	
-						
+                            
 						<p:dialog header="Eliminar" id="dlgEliminarCamp" widgetVar="dlgEliminarCamp" minHeight="40">
 							<div align="center">
 								

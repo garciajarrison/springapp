@@ -1,3 +1,16 @@
+- ldap login (Camilo)
+- historico ppto (Camilo)
+- nomina (Camilo)
+- ajustes generales calculadora (Jarrison)
+- prototipo conversion ppto (Camilo)
+- conversion ppto (Jarrison)
+- ajustes generales ppto (Jarrison) --------------- OK
+- aprobador inicial y final (Jarrison)
+- envio correo (Camilo)
+- sql server (migracion) ()
+- configuracion servidor y despliegue ()
+
+
 *************PENDIENTES:
 * Error al eliminar registro de maestro de centros de costo
 * Validar que al cargar plano de centros de costo no esten ingresando una gerencia, direccion o jefatura que no exista en los maestros

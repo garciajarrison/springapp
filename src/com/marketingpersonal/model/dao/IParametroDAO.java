@@ -17,4 +17,6 @@ public interface IParametroDAO {
 
 	List<Parametro> getParametros();
 
+	Parametro getParametroByCodigo(String codigoParametro);
+
 }
