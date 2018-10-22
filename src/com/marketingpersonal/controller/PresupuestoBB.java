@@ -2,12 +2,12 @@ package com.marketingpersonal.controller;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
-import org.primefaces.event.SelectEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
@@ -18,6 +18,7 @@ import com.marketingpersonal.common.ListasGenericas;
 import com.marketingpersonal.common.Util;
 import com.marketingpersonal.model.entity.CentroCosto;
 import com.marketingpersonal.model.entity.Cuenta;
+import com.marketingpersonal.model.entity.Observacion;
 import com.marketingpersonal.model.entity.Presupuesto;
 import com.marketingpersonal.model.entity.PresupuestoDetalleCampania;
 import com.marketingpersonal.model.entity.PresupuestoDetalleMes;
@@ -50,32 +51,32 @@ public class PresupuestoBB extends SpringBeanAutowiringSupport implements Serial
 	private PresupuestoDetalleMes selectedPresupuestoDetalleMes;
 	private PresupuestoDetalleCampania presupuestoDetalleCampania;
 	private PresupuestoDetalleCampania selectedPresupuestoDetalleCampania;
-	//private Observacion observacion;
 	private List<Presupuesto> listaPresupuestos;
 	private ListasGenericas listasGenericas;
-	//private boolean mostrarDetalle = false;
 	private Usuario usuario;
+	private Observacion observacion;
 	private List<Cuenta> listaCuentas;
 	private List<CentroCosto> listaCentroCostos;
 	private boolean mostrarDetalle;
 	private int camapanaMaxima;
-	private boolean botonActualizar = false;
 	private Double totalMes = 0d;
 	private Double totalCamp = 0d;
+	private Integer anioGeneral;
 	
 	public PresupuestoBB() {
 		util = Util.getInstance();
 		presupuesto = new Presupuesto();
 		presupuestoDetalleMes = new PresupuestoDetalleMes();
 		presupuestoDetalleCampania = new PresupuestoDetalleCampania();
-		//observacion = new Observacion();
 		selectedPresupuesto = new Presupuesto();
 		listaPresupuestos = getPresupuestoService().getPresupuestos();
 		listasGenericas = ListasGenericas.getInstance();
 		usuario = (Usuario) Util.getInstance().getSessionAttribute(EnumSessionAttributes.USUARIO);
+		anioGeneral = Integer.valueOf(util.getSessionAttribute(EnumSessionAttributes.ANIO_GENERAL).toString());
 		listaCuentas = this.getCuentaService().getCuentasPorUsuario(usuario.getId());
 		mostrarDetalle = false;
 		camapanaMaxima = getCalculadoraService().getCampanaMaxima();
+		observacion = new Observacion();
 	}
 	
 	public void totalizarMes() {
@@ -93,6 +94,7 @@ public class PresupuestoBB extends SpringBeanAutowiringSupport implements Serial
 			totalMes += presupuestoDetalleMes.getValorM10();
 			totalMes += presupuestoDetalleMes.getValorM11();
 			totalMes += presupuestoDetalleMes.getValorM12();
+			presupuestoDetalleMes.setTotal(totalMes);
 			
 		}catch(Exception e) {
 			e.printStackTrace();
@@ -127,6 +129,7 @@ public class PresupuestoBB extends SpringBeanAutowiringSupport implements Serial
 			totalCamp += presupuestoDetalleCampania.getValorC23();
 			totalCamp += presupuestoDetalleCampania.getValorC24();
 			totalCamp += presupuestoDetalleCampania.getValorC25();
+			presupuestoDetalleCampania.setTotal(totalCamp);
 			
 		}catch(Exception e) {
 			e.printStackTrace();
@@ -160,6 +163,7 @@ public class PresupuestoBB extends SpringBeanAutowiringSupport implements Serial
 	public void addPresupuesto() {
 		try {
 			if(validar(presupuesto)) {
+				presupuesto.setAnio(anioGeneral);
 				presupuesto.setUsuario(usuario);
 				getPresupuestoService().addPresupuesto(presupuesto);
 				listaPresupuestos = getPresupuestoService().getPresupuestos();
@@ -204,7 +208,7 @@ public class PresupuestoBB extends SpringBeanAutowiringSupport implements Serial
 		try {
 			if(validarDetalle(detalle, presupuestoDetalleMes, null)){
 				
-				presupuestoDetalleMes.setEstado(EnumEstadosPresupuesto.PENDIENTE.getNombre());
+				presupuestoDetalleMes.setEstado(EnumEstadosPresupuesto.PENDIENTE.getCodigo());
 				presupuestoDetalleMes.setPresupuesto(detalle);
 				presupuestoDetalleMes.setUsuarioAprobadorInicial(
 						this.getCentroCostoService().getUsuarioAprobadorInicial(presupuestoDetalleMes.getCentroCosto().getId()));
@@ -227,7 +231,7 @@ public class PresupuestoBB extends SpringBeanAutowiringSupport implements Serial
 		try {
 			if(validarDetalle(detalle, null,  presupuestoDetalleCampania)){
 				
-				presupuestoDetalleCampania.setEstado(EnumEstadosPresupuesto.PENDIENTE.getNombre());
+				presupuestoDetalleCampania.setEstado(EnumEstadosPresupuesto.PENDIENTE.getCodigo());
 				presupuestoDetalleCampania.setPresupuesto(detalle);
 				presupuestoDetalleCampania.setUsuarioAprobadorInicial(this.getCentroCostoService().getUsuarioAprobadorInicial(presupuestoDetalleCampania.getCentroCosto().getId()));
 				presupuestoDetalleCampania.setUsuarioAprobadorFinal(this.getCentroCostoService().getUsuarioAprobadorFinal(presupuestoDetalleCampania.getCentroCosto().getId()));
@@ -267,7 +271,6 @@ public class PresupuestoBB extends SpringBeanAutowiringSupport implements Serial
 			this.presupuestoDetalleMes = detPpto;    
 			this.cargarListaCentroCostosPresupuestoMes("NO");
 			totalizarMes();
-			this.botonActualizar = true;
 		} catch (DataAccessException e) {
 			e.printStackTrace();
 			util.mostrarError("Error actualizando el registro.");
@@ -279,7 +282,6 @@ public class PresupuestoBB extends SpringBeanAutowiringSupport implements Serial
 			this.presupuestoDetalleCampania = detPpto;
 			this.cargarListaCentroCostosPresupuestoCampania("NO");
 			totalizarCamp();
-			this.botonActualizar = true;
 		} catch (DataAccessException e) {
 			e.printStackTrace();
 			util.mostrarError("Error actualizando el registro.");
@@ -306,6 +308,7 @@ public class PresupuestoBB extends SpringBeanAutowiringSupport implements Serial
 		try {
 			getPresupuestoService().deletePresupuestoDetalleMes(selectedPresupuestoDetalleMes);
 			listaPresupuestos = getPresupuestoService().getPresupuestos();
+			detalle = this.getPresupuestoService().getPresupuestoById(detalle.getId());
 			util.mostrarMensaje("Registro eliminado con éxito.");  
 			
 		} catch (DataAccessException e) {
@@ -318,6 +321,7 @@ public class PresupuestoBB extends SpringBeanAutowiringSupport implements Serial
 		try {
 			getPresupuestoService().deletePresupuestoDetalleCampania(selectedPresupuestoDetalleCampania);
 			listaPresupuestos = getPresupuestoService().getPresupuestos();
+			detalle = this.getPresupuestoService().getPresupuestoById(detalle.getId());
 			util.mostrarMensaje("Registro eliminado con éxito.");  
 			
 		} catch (DataAccessException e) {
@@ -364,6 +368,35 @@ public class PresupuestoBB extends SpringBeanAutowiringSupport implements Serial
 		} catch (DataAccessException e) {
 			e.printStackTrace();
 		} 
+	}
+	
+	public void enviarPresupuestoAprobadorInicial(String tipo){
+		try {
+			if("MES".equals(tipo)) {
+				selectedPresupuestoDetalleMes.setEstado(EnumEstadosPresupuesto.ENVIADO.getCodigo());
+				getPresupuestoService().actualizarEstadoPresupuestoDetalleMes(selectedPresupuestoDetalleMes);
+				observacion.setPresupuestoDetalleMes(selectedPresupuestoDetalleMes);
+				observacion.setUsuarioRecibe(this.getCentroCostoService().getUsuarioAprobadorInicial(selectedPresupuestoDetalleMes.getCentroCosto().getId()));
+			}else {
+				selectedPresupuestoDetalleCampania.setEstado(EnumEstadosPresupuesto.ENVIADO.getCodigo());
+				getPresupuestoService().actualizarEstadoPresupuestoDetalleCampania(selectedPresupuestoDetalleCampania);
+				observacion.setPresupuestoDetalleCampania(selectedPresupuestoDetalleCampania);
+				observacion.setUsuarioRecibe(this.getCentroCostoService().getUsuarioAprobadorInicial(selectedPresupuestoDetalleCampania.getCentroCosto().getId()));
+			}
+
+			//Guardamos la observacion
+			observacion.setFecha(new Date());
+			observacion.setEstado(EnumEstadosPresupuesto.ENVIADO.getCodigo());
+			observacion.setUsuarioEnvia(usuario);
+			getPresupuestoService().addObservacion(observacion);
+			//TODO pendiente enviar correo al aprobador inicial
+			
+			observacion = new Observacion();
+			util.mostrarMensaje("El presupuesto fue enviado al aprobador incial con éxito.");
+		} catch (DataAccessException e) {
+			e.printStackTrace();
+			util.mostrarError("Error enviando el registro.");
+		} 	
 	}
 
 	public IPresupuestoService getPresupuestoService() {
@@ -536,62 +569,13 @@ public class PresupuestoBB extends SpringBeanAutowiringSupport implements Serial
 	public void setTotalCamp(Double totalCamp) {
 		this.totalCamp = totalCamp;
 	}
-		
-	/*	
-	
-	public void enviarPresupuestoAprobadorInicial(){
-		try {
-			selectedPresupuesto.setEstado(EnumEstadosPresupuesto.ENVIADO.getCodigo());
-			getPresupuestoService().actualizarEstadoPresupuesto(selectedPresupuesto);
-			
-			//Guardamos la observacion
-			observacion.setFecha(new Date());
-			observacion.setPresupuesto(selectedPresupuesto);
-			observacion.setEstado(selectedPresupuesto.getEstado());
-			observacion.setUsuarioEnvia(usuario);
-			//TODO pendiente consultar el usuario q recibe
-			observacion.setUsuarioRecibe(this.getCentroCostoService().getUsuarioAprobadorInicial(selectedPresupuesto.getCentroCosto().getId()));
-			getPresupuestoService().addObservacion(observacion);
-			
-			//TODO pendiente enviar correo al aprobador inicial
-			
-			observacion = new Observacion();
-			util.mostrarMensaje("El presupuesto fue enviado al aprobador incial con éxito.");
-		} catch (DataAccessException e) {
-			e.printStackTrace();
-			util.mostrarError("Error enviando el registro.");
-		} 	
+
+	public Integer getAnioGeneral() {
+		return anioGeneral;
 	}
-	
-	public void addPresupuesto() {
-		try {
-			if(validar(presupuesto)) {
-				getPresupuestoService().addPresupuesto(presupuesto);
-				for(PresupuestoDetalleMes pd : presupuesto.getDetalle()) {
-					pd.setPresupuesto(presupuesto);
-					getPresupuestoService().addPresupuestoDetalle(pd);
-				}
-				listaPresupuestos = getPresupuestoService().getPresupuestos();
-				presupuesto = new Presupuesto();
-				util.mostrarMensaje("Registro agregado con éxito."); 
-			}
-			
-		} catch (DataAccessException e) {
-			e.printStackTrace();
-			util.mostrarError("Error guardando el registro.");
-		} 	
-	}
-	
-	public void actualizarValores() {
-		try {
-			for(PresupuestoDetalleMes pd : detalle.getDetalle()) {
-				pd.setPresupuesto(presupuesto);
-				getPresupuestoService().addPresupuestoDetalle(pd);
-			}
-		} catch (DataAccessException e) {
-			e.printStackTrace();
-			util.mostrarError("Error guardando el registro.");
-		} 	
+
+	public void setAnioGeneral(Integer anioGeneral) {
+		this.anioGeneral = anioGeneral;
 	}
 
 	public Observacion getObservacion() {
@@ -601,6 +585,5 @@ public class PresupuestoBB extends SpringBeanAutowiringSupport implements Serial
 	public void setObservacion(Observacion observacion) {
 		this.observacion = observacion;
 	}
-
-*/
+	
  }

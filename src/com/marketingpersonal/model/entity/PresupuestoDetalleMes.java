@@ -68,6 +68,9 @@ public class PresupuestoDetalleMes implements java.io.Serializable {
 	@Column(name = "valor_m12")
 	private Double valorM12 = 0d;
 	
+	@Column(name = "total")
+	private Double total = 0d;
+	
 	@Column(name = "estado")
 	private String estado;
 	
@@ -256,6 +259,14 @@ public class PresupuestoDetalleMes implements java.io.Serializable {
 
 	public void setObservaciones(List<Observacion> observaciones) {
 		this.observaciones = observaciones;
+	}
+
+	public Double getTotal() {
+		return total;
+	}
+
+	public void setTotal(Double total) {
+		this.total = total;
 	}
 
 }
