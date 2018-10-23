@@ -80,8 +80,9 @@ public class CalculadoraService implements ICalculadoraService {
 		getEntityDAO().updateCalculadoras(listaCalculadora, tipo, camapanaMaxima);
 	}
 
-	public int getCampanaMaxima() {
-		return getEntityDAO().getCampanaMaxima();
+	public int getCampanaMaxima(Integer anioGeneral) {
+		return getEntityDAO().getCampanaMaxima(anioGeneral);
 	}
+
 	
 }

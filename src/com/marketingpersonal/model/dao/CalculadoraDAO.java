@@ -81,12 +81,12 @@ public class CalculadoraDAO implements ICalculadoraDAO {
 		}
 	}
 
-	public int getCampanaMaxima() {
+	public int getCampanaMaxima(Integer anioGeneral) {
 		int retorno = 0;
 		Session session = getSessionFactory().getCurrentSession();
-		retorno = (Integer)session.createSQLQuery("select max(campana) from presupuestomd.calculadora")
+		retorno = (Integer)session.createSQLQuery("select max(campana) from presupuestomd.calculadora where anio = '" + anioGeneral + "'")
 				.uniqueResult();
-		
+
 		return retorno;
 	}
 

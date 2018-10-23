@@ -8,121 +8,48 @@
     <ui:define name="title">Presupuestos</ui:define>
 
     <ui:define name="content">
-	<h:form>
+	<h:form id="FormulId">
 			<p:growl id="growl" sticky="true" autoUpdate="true" />
             <div class="ui-fluid">
                 <div class="ui-g">
                     <div class="ui-g-12">
                         <div class="card">
-                            <h1>Creación presupuesto</h1>
-                            <p:panelGrid columns="4" columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4" layout="grid" 
-                            		styleClass="ui-panelgrid-blank" style="border:0px none; background-color:transparent;">
-                                
-                                <p:outputLabel for="txtNombre" value="Nombre"/>
-                                <p:inputText id="txtNombre" value="#{preAprIniBB.presupuesto.nombre}" maxlength="50"/>
-                                
-                                <p:outputLabel for="txtDescripcion" value="Descripción"/>
-                                <p:inputText id="txtDescripcion" value="#{preAprIniBB.presupuesto.descripcion}" maxlength="100"/>
-                                
-                                <p:outputLabel for="selCentroCosto" value="Centro costo"/>
-                                <p:selectOneMenu id="selCentroCosto" value="#{preAprIniBB.presupuesto.centroCosto.id}"
-                                		 filter="true">
-                                    <f:selectItem itemLabel="Seleccione" itemValue="" />
-                                    <f:selectItems value="#{preAprIniBB.listaCentroCostos}" var="cc" 
-                                    		itemValue="#{cc.id}" itemLabel="#{cc.centroCosto}"/>
-                                    <p:ajax update="@form" listener="#{preAprIniBB.cargarListaCuentas('NO')}" process="@form" />
-                                </p:selectOneMenu>
-                                
-                                <p:outputLabel for="selCuenta" value="Cuenta"/>
-                                <p:selectOneMenu id="selCuenta" value="#{preAprIniBB.presupuesto.cuenta.id}"
-                                		 filter="true">
-                                    <f:selectItem itemLabel="Seleccione" itemValue="" />
-                                    <f:selectItems value="#{preAprIniBB.listaCuentas}" var="cc" 
-                                    		itemValue="#{cc.id}" itemLabel="#{cc.cuentaNombre}"/>
-                                </p:selectOneMenu>
-                                
-                                <p:outputLabel for="txtAnio" value="Año"/>
-                                <p:inputNumber id="txtAnio" value="#{preAprIniBB.presupuesto.anio}"
-                                		 maxValue="2999" size="10" minValue="0"/>
-                                		 
-                                <p:outputLabel for="txtTipo" value="Tipo"/>
-                                <p:selectOneMenu id="txtTipo" value="#{preAprIniBB.presupuesto.tipo}"
-                                		 filter="true">
-                                    <f:selectItem itemLabel="Seleccione" itemValue="" />
-                                    <f:selectItems value="#{preAprIniBB.listasGenericas.lstTipoPresupuesto}" />
-                                    <p:ajax update="@form" listener="#{preAprIniBB.cambioTipo}" process="@form" />
-                                </p:selectOneMenu>
-                                
-                                <p:outputLabel rendered="#{not empty preAprIniBB.presupuesto.tipo}"
-                                		value="#{preAprIniBB.presupuesto.tipo eq 'Mensual' ? 'Mes inicial' : 'Campaña inicial'}"/>
-                                <p:selectOneMenu id="txtMesCam" value="#{preAprIniBB.presupuesto.mesCampania}"
-                                		 filter="true" rendered="#{not empty preAprIniBB.presupuesto.tipo and preAprIniBB.presupuesto.tipo eq 'Mensual'}">
-                                    <f:selectItem itemLabel="Seleccione" itemValue="" />
-                                    <f:selectItems value="#{preAprIniBB.listasGenericas.lstMeses}"  />
-                                </p:selectOneMenu>
-                                <p:inputNumber id="txtMesCam2" value="#{preAprIniBB.presupuesto.mesCampania}"
-                                		 maxValue="9999" size="10"
-                                		 rendered="#{not empty preAprIniBB.presupuesto.tipo and preAprIniBB.presupuesto.tipo eq 'Campañal'}"/>
-                                
-                            </p:panelGrid>
-                            
-                            <div class="ui-g">
-                                <ui:repeat var="pr" value="#{preAprIniBB.presupuesto.detalle}" varStatus="myVarStatus">
-                                	<div class="ui-g-3 ui-m-6">
-                                		<div align="center">
-                                			<table>
-                                				<tr><td align="center" colspan="2">
-                                					<p:outputLabel value="#{preAprIniBB.presupuesto.tipo eq 'Mensual' ? 'Mes ' : 'Campaña '} #{myVarStatus.index+1}"/>
-                                				</td></tr>
-                                				<tr><td align="center">
-                                					<p:inputNumber value="#{pr.valor}" size="20"/>
-                                				</td>
-                                				<td>
-                                					<p:commandButton id="btnEliminar11" value="X" 
-					                                	actionListener="#{preAprIniBB.eliminarRegistro1(myVarStatus.index)}" 
-					                                	update="@form" 
-					                                	style="max-width:150px;"/>
-                                				</td></tr>
-                                			</table>
-                                		</div>
-                                	</div>
-                                </ui:repeat>
-                                
-                                <div class="ui-g-12">
-                                	<p:commandButton id="btnAddMes" value="Agregar Registro" 
-	                                	actionListener="#{preAprIniBB.agregarRegistro1}" 
-	                                	update="@form" icon="ui-icon-check fa fa-check Fs14 White" 
-	                                	style="max-width:150px;"
-	                                	rendered="#{not empty preAprIniBB.presupuesto.detalle}"/>
-                                	<p:spacer width="10px" height="0px" />
-                                	<p:commandButton id="btnGuardar" value="Guardar" 
-	                                	actionListener="#{preAprIniBB.addPresupuesto}" 
-	                                	update="@form" icon="ui-icon-check fa fa-check Fs14 White" 
-	                                	style="max-width:150px;"/>
-                                </div>
-                            </div>
-                            
-                        </div>
-                        
-                        <div class="card">
-                            <h1>Listado de Presupuestos</h1>
-                            <p:dataTable id="tblPresupuestos" var="presupuesto" value="#{preAprIniBB.listaPresupuestos}" reflow="true" 
-                            		selectionMode="single" rowKey="#{presupuesto.id}"
-                            		emptyMessage="No se encontraron registros."
+                            <h1>Listado de Presupuestos pendientes por aprobar</h1>
+                            <p:dataTable id="tblPresupuestos" var="presupuesto" value="#{preAprIniBB.listaPresupuestos}" 
+                            		reflow="true" emptyMessage="No se encontraron registros."
 									scrollable="false" paginatorPosition="bottom"
 									rows="10" rowsPerPageTemplate="5,10,20,50"
-									selection="#{preAprIniBB.detalle}"
-									currentPageReportTemplate="Páginas {totalPages}.  registros {totalRecords}"
-									paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown} {Exporters}" 
+									currentPageReportTemplate="Páginas {totalPages} - Registros {totalRecords}"
+									paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}  {Exporters}" 
 									paginator="true">
 									
-								<p:ajax event="rowSelect" update="@form" listener="#{preAprIniBB.verDetalle}" />
+								<f:facet name="{Exporters}">
+						            <h:commandLink>
+						                <p:graphicImage name="images/excel.png" library="omega-layout"  width="24"/>
+						                <p:dataExporter type="xls" target="tblPresupuestos" fileName="Presupuestos" />
+						            </h:commandLink>
+						 
+						            <h:commandLink>
+						                <p:graphicImage name="images/pdf.png" library="omega-layout"  width="24"/>
+						                <p:dataExporter type="pdf" target="tblPresupuestos" fileName="Presupuestos"/>
+						            </h:commandLink>
+						 
+						            <h:commandLink>
+						                <p:graphicImage name="images/csv.png" library="omega-layout" width="24"/>
+						                <p:dataExporter type="csv" target="tblPresupuestos" fileName="Presupuestos" />
+						            </h:commandLink>
+						 
+						            <h:commandLink>
+						                <p:graphicImage name="images/xml.png" library="omega-layout"  width="24"/>
+						                <p:dataExporter type="xml" target="tblPresupuestos" fileName="Presupuestos" />
+						            </h:commandLink>
+						        </f:facet>
 									
                                 <f:facet name="header">
                                     Presupuestos
                                 </f:facet>
 
-                                <p:column headerText="Nombre" sortBy="#{presupuesto.nombre}" width="30%"
+								<p:column headerText="Nombre" sortBy="#{presupuesto.nombre}" width="30%"
                                 		 filterMatchMode="contains" filterBy="#{presupuesto.nombre}">
                                     <h:outputText value="#{presupuesto.nombre}" />
                                 </p:column>
@@ -132,231 +59,600 @@
                                     <h:outputText value="#{presupuesto.descripcion}" />
                                 </p:column>
                                 
-                                <p:column headerText="Centro costo" sortBy="#{presupuesto.centroCosto.centroCosto}" width="40%"
-                                		 filterMatchMode="contains" filterBy="#{presupuesto.centroCosto.centroCosto}">
-                                    <h:outputText value="#{presupuesto.centroCosto.centroCosto}" />
+                                <p:column headerText="Año" sortBy="#{presupuesto.anio}" width="15%"
+                                		 filterMatchMode="contains" filterBy="#{presupuesto.anio}">
+                                    <h:outputText value="#{presupuesto.anio}" />
                                 </p:column>
                                 
-                                <p:column headerText="Cuenta" sortBy="#{presupuesto.cuenta.cuentaNombre}" width="40%"
-                                		 filterMatchMode="contains" filterBy="#{presupuesto.cuenta.cuentaNombre}">
-                                    <h:outputText value="#{presupuesto.cuenta.cuentaNombre}" />
+                                <p:column headerText="Clasificación" sortBy="#{presupuesto.clasificacion}" width="15%"
+                                		 filterMatchMode="contains" filterBy="#{presupuesto.clasificacion}">
+                                    <h:outputText value="#{presupuesto.clasificacion}" />
                                 </p:column>
                                 
-                                <p:column headerText="Año" sortBy="#{presupuesto.anio}" width="15%">
-                                     <h:outputText value="#{presupuesto.anio}" />
-                                </p:column>
-
                                 <p:column headerText="Tipo" sortBy="#{presupuesto.tipo}" width="15%">
                                      <h:outputText value="#{presupuesto.tipo}" />
                                 </p:column>
                                 
-                                <p:column headerText="Mes/Campaña inicial" sortBy="#{presupuesto.mesCampania}" width="15%">
-                                     <h:outputText value="#{presupuesto.mesCampania}" rendered="#{presupuesto.tipo eq 'Campañal'}" />
-                                     <h:outputText value="#{preAprIniBB.listasGenericas.getNombreMes(presupuesto.mesCampania)}" rendered="#{presupuesto.tipo eq 'Mensual'}" />
+                                <p:column headerText="Usuario" sortBy="#{presupuesto.usuario.usuario}" width="30%"
+                                		 filterMatchMode="contains" filterBy="#{presupuesto.usuario.usuario}">
+                                    <h:outputText value="#{presupuesto.usuario.usuario}" />
                                 </p:column>
+                                                                
+                                <p:column headerText="Acciones" width="15%" exportable="false" >
                                 
-                                <p:column headerText="Estado" sortBy="#{presupuesto.estado}" width="15%">
-                                     <h:outputText value="#{preAprIniBB.listasGenericas.getNombreEstado(presupuesto.estado)}" />
+                                    <p:commandButton value="Detalle" actionListener="#{preAprIniBB.setDetalle(presupuesto)}" 
+								        			update="@form" icon="ui-icon-refresh" />
                                 </p:column>
-                                
-                                <p:column headerText="Acciones" width="15%" exportable="false">
-                                    <p:splitButton value="Accion" icon="fa fa-edit">
-								        <p:menuitem value="Actualizar" rendered="#{presupuesto.estado eq 'PENDIENTE'}"
-								        			actionListener="#{preAprIniBB.setSelectedPresupuesto(presupuesto)}"  
-								        			update=":#{p:component('dlgActualizar')} :#{p:component('tblPresupuestos')}" oncomplete="PF('dlgActualizar').show();"
-								        			icon="ui-icon-arrowrefresh-1-w" >
-								        	
-								        </p:menuitem>
-								        <p:menuitem value="Eliminar" actionListener="#{preAprIniBB.setSelectedPresupuesto(presupuesto)}" 
-								        			update=":#{p:component('dlgEliminar')}" oncomplete="PF('dlgEliminar').show();"
-								        			icon="ui-icon-close" >
-								        </p:menuitem>
-								        <p:menuitem value="Enviar" rendered="#{presupuesto.estado eq 'PENDIENTE'}"
-								        			actionListener="#{preAprIniBB.setSelectedPresupuesto(presupuesto)}" 
-								        			update=":#{p:component('dlgEnviar')}" oncomplete="PF('dlgEnviar').show();"
-								        			icon="ui-icon-send" >
-								        </p:menuitem>
-								    </p:splitButton>
-                                </p:column>
-                            </p:dataTable>
+                            </p:dataTable>      
+                          </div> 
+                          
+						<!-- DETALLE DE PRESUPUESTO MES SELECCIONADO -->
+						<div class="card" style="display:#{preAprIniBB.detalle.tipo eq 'Mensual' ? 'block;' : 'none;'}">
+                            <h1>Detalle de Presupuesto Mensual Seleccionado</h1>
                             
-                            <div style="display:#{empty preAprIniBB.detalle.detalle ? 'none;' : 'block;'}">
-	                            <br/><br/>
-	                            
-	                            <!-- Detalle del presupuesto -->
-	                            <h1>Detalle</h1>
-	                            <div class="ui-g">
-		                            <ui:repeat var="det" value="#{preAprIniBB.detalle.detalle}" varStatus="myVarStatus">
-		                            	<div class="ui-g-3">
-		                            		<div align="center">
-	                                			<table>
-	                                				<tr><td align="center" colspan="2">
-	                                					#{preAprIniBB.detalle.tipo eq 'Mensual' ? 'Mes ' : 'Campaña '} #{myVarStatus.index+1}
-	                                				</td></tr>
-	                                				<tr><td align="center">
-	                                					<p:inputNumber value="#{det.valor}" readonly="#{preAprIniBB.detalle.estado eq 'PENDIENTE'}"/>
-	                                				</td>
-                                				<td>
-                                					<p:commandButton id="btnEliminar22" value="X" 
-                                						rendered="#{preAprIniBB.detalle.estado eq 'PENDIENTE'}"
-					                                	actionListener="#{preAprIniBB.eliminarRegistro2(myVarStatus.index)}" 
-					                                	update="@form" 
-					                                	style="max-width:150px;"/>
-                                				</td></tr>
-	                                			</table>
-	                                		</div>
-		                            	</div>
-		                            </ui:repeat>
-		                            
-		                            <div class="ui-g-12">
-		                            	<p:commandButton id="btnAddMes2" value="Agregar Registro" 
-		                                	actionListener="#{preAprIniBB.agregarRegistro2}" 
-		                                	update="@form" icon="ui-icon-check fa fa-check Fs14 White" 
-		                                	rendered="#{preAprIniBB.detalle.estado eq 'PENDIENTE'}"
-		                                	style="max-width:150px;"/>
-	                                	<p:spacer width="10px" height="0px" />
-	                                	<p:commandButton id="btnGuardar2" value="Actualizar registros" 
-		                                	actionListener="#{preAprIniBB.actualizarValores}" 
-		                                	rendered="#{preAprIniBB.detalle.estado eq 'PENDIENTE'}"
-		                                	update="@form" icon="ui-icon-check fa fa-check Fs14 White" 
-		                                	style="max-width:180px;"/>
-		                            </div>
-		                            
-	                            </div>
-                            </div>
-                        </div>
-                        
-                        <!-- Observaciones -->
-                        <div class="card" style="display:#{empty preAprIniBB.detalle.observaciones ? 'none;' : 'block;'}">
-                            <h1>Histórico de observaciones</h1>
-                            <p:dataTable id="tblObservaciones" var="obs" value="#{preAprIniBB.detalle.observaciones}" reflow="true" 
-                            		rendered="#{not empty preAprIniBB.detalle.observaciones}"
+                            <br/><br/>     		
+                            <p:dataTable id="tblPresupuestoDetalleMes" var="presupuestoDetalleMes" 
+                            		value="#{preAprIniBB.detalle.detalleMes}" reflow="true" 
+                            		rendered="#{preAprIniBB.detalle.tipo eq 'Mensual'}"
+                            		selectionMode="single" rowKey="#{presupuestoDetalleMes.id}"
                             		emptyMessage="No se encontraron registros."
 									scrollable="false" paginatorPosition="bottom"
 									rows="10" rowsPerPageTemplate="5,10,20,50"
-									currentPageReportTemplate="Páginas {totalPages}.  registros {totalRecords}"
-									paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown} {Exporters}" 
+									currentPageReportTemplate="Páginas {totalPages} - Registros {totalRecords}"
+									paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}  {Exporters}" 
 									paginator="true">
+								
+								<f:facet name="{Exporters}">
+						            <h:commandLink>
+						                <p:graphicImage name="images/excel.png" library="omega-layout"  width="24"/>
+						                <p:dataExporter type="xls" target="tblPresupuestoDetalleMes" fileName="DetalleMes" />
+						            </h:commandLink>
+						 
+						            <h:commandLink>
+						                <p:graphicImage name="images/pdf.png" library="omega-layout"  width="24"/>
+						                <p:dataExporter type="pdf" target="tblPresupuestoDetalleMes" fileName="DetalleMes"/>
+						            </h:commandLink>
+						 
+						            <h:commandLink>
+						                <p:graphicImage name="images/csv.png" library="omega-layout" width="24"/>
+						                <p:dataExporter type="csv" target="tblPresupuestoDetalleMes" fileName="DetalleMes" />
+						            </h:commandLink>
+						 
+						            <h:commandLink>
+						                <p:graphicImage name="images/xml.png" library="omega-layout"  width="24"/>
+						                <p:dataExporter type="xml" target="tblPresupuestoDetalleMes" fileName="DetalleMes" />
+						            </h:commandLink>
+						        </f:facet>
 									
-									
-                                <f:facet name="header">
-                                    Observaciones
+								<f:facet name="header">
+                                    Detalle
                                 </f:facet>
+                                
+                                <p:column headerText="Cuenta" sortBy="#{presupuestoDetalleMes.cuenta.nombre}" 
+                                		 filterMatchMode="contains" filterBy="#{presupuestoDetalleMes.cuenta.nombre}">
+                                    <h:outputText value="#{presupuestoDetalleMes.cuenta.nombre}" />
+                                </p:column>
+                                
+                                <p:column headerText="Centro de Costo" sortBy="#{presupuestoDetalleMes.centroCosto.centroCosto}" 
+                                		 filterMatchMode="contains" filterBy="#{presupuestoDetalleMes.centroCosto.centroCosto}">
+                                    <h:outputText value="#{presupuestoDetalleMes.centroCosto.centroCosto}" />
+                                </p:column>
+                                
+                                <p:column headerText="Observación" sortBy="#{presupuestoDetalleMes.observacion}" 
+                                		 filterMatchMode="contains" filterBy="#{presupuestoDetalleMes.observacion}">
+                                    <h:outputText value="#{presupuestoDetalleMes.observacion}" />
+                                </p:column>
 
-                                <p:column headerText="Observación" sortBy="#{obs.observacion}" width="30%"
-                                		 filterMatchMode="contains" filterBy="#{obs.observacion}">
-                                    <h:outputText value="#{obs.observacion}" />
+								<p:column headerText="Mes 1" sortBy="#{presupuestoDetalleMes.valorM1}" >
+                                    <h:outputText value="#{presupuestoDetalleMes.valorM1}" />
                                 </p:column>
                                 
-                                <p:column headerText="Usuario envia" sortBy="#{obs.usuarioEnvia.nombre}" width="15%"
-                                		 filterMatchMode="contains" filterBy="#{obs.usuarioEnvia.nombre}">
-                                    <h:outputText value="#{obs.usuarioEnvia.nombre}" />
+                                <p:column headerText="Mes 2" sortBy="#{presupuestoDetalleMes.valorM2}">
+                                    <h:outputText value="#{presupuestoDetalleMes.valorM2}" />
                                 </p:column>
                                 
-                                <p:column headerText="Usuario recibe" sortBy="#{obs.usuarioRecibe.nombre}" width="15%"
-                                		 filterMatchMode="contains" filterBy="#{obs.usuarioRecibe.nombre}">
-                                    <h:outputText value="#{obs.usuarioRecibe.nombre}" />
+                                <p:column headerText="Mes 3" sortBy="#{presupuestoDetalleMes.valorM3}" >
+                                    <h:outputText value="#{presupuestoDetalleMes.valorM3}" />
                                 </p:column>
                                 
-                                <p:column headerText="Fecha" sortBy="#{obs.fechaTXT}" width="15%"
-                                		 filterMatchMode="contains" filterBy="#{obs.fechaTXT}">
-                                    <h:outputText value="#{obs.fechaTXT}" />
+                                <p:column headerText="Mes 4" sortBy="#{presupuestoDetalleMes.valorM4}">
+                                    <h:outputText value="#{presupuestoDetalleMes.valorM4}" />
                                 </p:column>
                                 
-                                <p:column headerText="Estado" sortBy="#{obs.estado}" width="25%">
-                                     <h:outputText value="#{preAprIniBB.listasGenericas.getNombreEstado(obs.estado)}" />
+                                <p:column headerText="Mes 5" sortBy="#{presupuestoDetalleMes.valorM5}">
+                                    <h:outputText value="#{presupuestoDetalleMes.valorM5}" />
                                 </p:column>
-                            </p:dataTable>
+                                
+                                <p:column headerText="Mes 6" sortBy="#{presupuestoDetalleMes.valorM6}">
+                                    <h:outputText value="#{presupuestoDetalleMes.valorM6}" />
+                                </p:column>
+                                
+                                <p:column headerText="Mes 7" sortBy="#{presupuestoDetalleMes.valorM7}" >
+                                    <h:outputText value="#{presupuestoDetalleMes.valorM7}" />
+                                </p:column>
+                                
+                                <p:column headerText="Mes 8" sortBy="#{presupuestoDetalleMes.valorM8}" >
+                                    <h:outputText value="#{presupuestoDetalleMes.valorM8}" />
+                                </p:column>
+                                
+                                <p:column headerText="Mes 9" sortBy="#{presupuestoDetalleMes.valorM9}" >
+                                    <h:outputText value="#{presupuestoDetalleMes.valorM9}" />
+                                </p:column>
+                                
+                                <p:column headerText="Mes 10" sortBy="#{presupuestoDetalleMes.valorM10}">
+                                    <h:outputText value="#{presupuestoDetalleMes.valorM10}" />
+                                </p:column>
+                                
+                                <p:column headerText="Mes 11" sortBy="#{presupuestoDetalleMes.valorM11}" >
+                                    <h:outputText value="#{presupuestoDetalleMes.valorM11}" />
+                                </p:column>
+                                
+                                <p:column headerText="Mes 12" sortBy="#{presupuestoDetalleMes.valorM12}" >
+                                    <h:outputText value="#{presupuestoDetalleMes.valorM12}" />
+                                </p:column>
+                                
+                                <p:column headerText="Total" sortBy="#{presupuestoDetalleMes.total}" >
+                                    <h:outputText value="#{presupuestoDetalleMes.total}" />
+                                </p:column>
+                                
+                                <p:column headerText="Estado" sortBy="#{presupuestoDetalleMes.estado}" >
+                                    <h:outputText value="#{preAprIniBB.listasGenericas.getNombreEstado(presupuestoDetalleMes.estado)}" />
+                                </p:column>
+                                                                
+                                <p:column headerText="Acciones" exportable="false">
+                                    <p:splitButton value="Accion" icon="fa fa-edit">
+								        <p:menuitem value="Aprobar" 
+								        			rendered="#{presupuestoDetalleMes.estado eq 'ENVIADO'}"
+								        			actionListener="#{preAprIniBB.setSelectedPresupuestoDetalleMes(presupuestoDetalleMes)}" 
+								        			update=":#{p:component('dlgAprobarMes')}" oncomplete="PF('dlgAprobarMes').show();"
+								        			icon="ui-icon-send" >
+								        </p:menuitem>
+								        <p:menuitem value="Rechazar" 
+													rendered="#{presupuestoDetalleMes.estado eq 'ENVIADO'}"				
+													actionListener="#{preAprIniBB.setSelectedPresupuestoDetalleMes(presupuestoDetalleMes)}" 
+								        			update=":#{p:component('dlgRechazarMes')}" oncomplete="PF('dlgRechazarMes').show();"
+								        			icon="ui-icon-send" >
+								        </p:menuitem>
+								        <p:menuitem value="Observaciones" actionListener="#{preAprIniBB.setSelectedPresupuestoDetalleMes(presupuestoDetalleMes)}" 
+								        			update=":#{p:component('dlgObservacionesMes')}" oncomplete="PF('dlgObservacionesMes').show();"
+								        			icon="ui-icon-close" >
+								        </p:menuitem>
+								    </p:splitButton>
+                                </p:column>
+                            </p:dataTable>  
                             
-                        </div>
-                        
-                        
-                        <p:dialog header="Actualizar" id="dlgActualizar" widgetVar="dlgActualizar" minHeight="40">
-							<div align="center">
-								<h:panelGrid columns="2" cellspacing="2" cellpadding="2">
-									
-									<h:outputLabel for="txtNombreU" value="Nombre" />
-									<p:inputText id="txtNombreU" value="#{preAprIniBB.selectedPresupuesto.nombre}" maxlength="50"/>
-									
-							   		<p:outputLabel for="txtDescripcionU" value="Descripción"/>
-	                                <p:inputText id="txtDescripcionU" value="#{preAprIniBB.selectedPresupuesto.descripcion}" maxlength="100"/>
-	                                
-	                                <p:outputLabel for="selCentroCosto2" value="Centro costo"/>
-	                                <p:selectOneMenu id="selCentroCosto2" value="#{preAprIniBB.selectedPresupuesto.centroCosto.id}"
-	                                		 filter="true">
-	                                    <f:selectItem itemLabel="Seleccione" itemValue="" />
-	                                    <f:selectItems value="#{preAprIniBB.listaCentroCostos}" var="cc" 
-	                                    		itemValue="#{cc.id}" itemLabel="#{cc.centroCosto}"/>
-	                                    <p:ajax update="@form" listener="#{preAprIniBB.cargarListaCuentas('SI')}" process="@form" />
-	                                </p:selectOneMenu>
-	                                
-	                                <p:outputLabel for="selCuenta2" value="Cuenta"/>
-	                                <p:selectOneMenu id="selCuenta2" value="#{preAprIniBB.selectedPresupuesto.cuenta.id}"
-	                                		 filter="true">
-	                                    <f:selectItem itemLabel="Seleccione" itemValue="" />
-	                                    <f:selectItems value="#{preAprIniBB.listaCuentas}" var="cc" 
-	                                    		itemValue="#{cc.id}" itemLabel="#{cc.cuentaNombre}"/>
-	                                </p:selectOneMenu>
-	                                
-	                                <p:outputLabel for="txtAnio2" value="Año"/>
-	                                <p:inputNumber id="txtAnio2" value="#{preAprIniBB.selectedPresupuesto.anio}"
-	                                		 maxValue="2999" size="10" minValue="0"/>
-	                                
-	                                <p:outputLabel for="txtTipoU" value="Tipo"/>
-	                                <p:selectOneMenu id="txtTipoU" value="#{preAprIniBB.selectedPresupuesto.tipo}"
-	                                		 filter="true">
-	                                    <f:selectItem itemLabel="Seleccione" itemValue="" />
-	                                    <f:selectItems value="#{preAprIniBB.listasGenericas.lstTipoPresupuesto}" />
-	                                </p:selectOneMenu>
-	                                
-	                                <p:outputLabel rendered="#{not empty preAprIniBB.selectedPresupuesto.tipo}"
-	                                		value="#{preAprIniBB.selectedPresupuesto.tipo eq 'Mensual' ? 'Mes inicial' : 'Campaña inicial'}"/>
-	                                <p:selectOneMenu id="txtMesCam23" value="#{preAprIniBB.selectedPresupuesto.mesCampania}"
-	                                		 filter="true" rendered="#{not empty preAprIniBB.selectedPresupuesto.tipo and preAprIniBB.selectedPresupuesto.tipo eq 'Mensual'}">
-	                                    <f:selectItem itemLabel="Seleccione" itemValue="" />
-	                                    <f:selectItems value="#{preAprIniBB.listasGenericas.lstMeses}"  />
-	                                </p:selectOneMenu>
-	                                <p:inputNumber id="txtMesCam22" value="#{preAprIniBB.selectedPresupuesto.mesCampania}"
-	                                		 maxValue="9999" size="10"
-	                                		 rendered="#{not empty preAprIniBB.selectedPresupuesto.tipo and preAprIniBB.selectedPresupuesto.tipo eq 'Campañal'}"/>
-	                                
-							   	</h:panelGrid>
-							   	<br />
-						   	
-						   		<p:commandButton id="btnActualizarPresupuesto" 
-						   				actionListener="#{preAprIniBB.updatePresupuesto}" 
-						   				update="@form" title="Actualizar" value="Actualizar" />
-								
-					   		</div>
-						</p:dialog>		
-		
-						<p:dialog header="Eliminar" id="dlgEliminar" widgetVar="dlgEliminar" minHeight="40">
+                            <p:dialog header="Aprobar" id="dlgAprobarMes"
+                            		widgetVar="dlgAprobarMes" minHeight="40">
+								<div align="center">
+									<strong>¿Está seguro de aprobar el detalle de presupuesto?</strong>
+									<br/>
+									Tenga en cuenta que después de esto no podrá realizar operaciones sobre este registro.
+									<br /><br/>
+									<p:outputLabel value="Observación"/>
+									<p:inputTextarea value="#{preAprIniBB.observacion.observacion}" 
+										maxlength="200" cols="20"/>
+									<br />
+									<br />
+									<p:commandButton id="btnAprobarMes" 
+											actionListener="#{preAprIniBB.aprobarPresupuesto('MES')}" 
+											update="@form" title="Aprobar" value="Aprobar" />			
+								</div>
+							</p:dialog>
+							
+							<p:dialog header="Rechazar" id="dlgRechazarMes"
+                            		widgetVar="dlgRechazarMes" minHeight="40">
+								<div align="center">
+									<strong>¿Está seguro de rechazar el detalle de presupuesto?</strong>
+									<br/>
+									Tenga en cuenta que después de esto no podrá realizar operaciones sobre este registro.
+									<br /><br/>
+									<p:outputLabel value="Observación"/>
+									<p:inputTextarea value="#{preAprIniBB.observacion.observacion}" 
+										maxlength="200" cols="20"/>
+									<br />
+									<br />
+									<p:commandButton id="btnAprobarMes" 
+											actionListener="#{preAprIniBB.rechazarPresupuesto('MES')}" 
+											update="@form" title="Rechazar" value="Rechazar" />			
+								</div>
+							</p:dialog>
+                            
+                            <p:dialog header="Observaciones" id="dlgObservacionesMes" width="80%"
+                            		widgetVar="dlgObservacionesMes" minHeight="40" modal="true">
 							<div align="center">
 								
-								<strong>¿Está seguro de borrar el registro?</strong>
+								<strong>Observaciones</strong>
 								<br />
 								<br />
-								<p:commandButton id="btnEliminarPresupuesto" actionListener="#{preAprIniBB.deletePresupuesto}" 
-										update="@form" title="Eliminar" value="Eliminar" />						   		
+								 <p:dataTable id="tblObservaMes" var="presupuestoDetalleCampania" 
+                            		value="#{preAprIniBB.selectedPresupuestoDetalleMes.observaciones}" reflow="true" 
+                            		emptyMessage="No se encontraron registros."
+									scrollable="false" paginatorPosition="bottom"
+									rows="10" rowsPerPageTemplate="5,10,20,50"
+									currentPageReportTemplate="Páginas {totalPages} - Registros {totalRecords}"
+									paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}  {Exporters}" 
+									paginator="true">
+								
+								<f:facet name="{Exporters}">
+						            <h:commandLink>
+						                <p:graphicImage name="images/excel.png" library="omega-layout"  width="24"/>
+						                <p:dataExporter type="xls" target="tblObservaMes" fileName="DetalleCampana" />
+						            </h:commandLink>
+						 
+						            <h:commandLink>
+						                <p:graphicImage name="images/pdf.png" library="omega-layout"  width="24"/>
+						                <p:dataExporter type="pdf" target="tblPresupuestoDetalleCampania" fileName="DetalleCampana"/>
+						            </h:commandLink>
+						 
+						            <h:commandLink>
+						                <p:graphicImage name="images/csv.png" library="omega-layout" width="24"/>
+						                <p:dataExporter type="csv" target="tblPresupuestoDetalleCampania" fileName="DetalleCampana" />
+						            </h:commandLink>
+						 
+						            <h:commandLink>
+						                <p:graphicImage name="images/xml.png" library="omega-layout"  width="24"/>
+						                <p:dataExporter type="xml" target="tblPresupuestoDetalleCampania" fileName="DetalleCampana" />
+						            </h:commandLink>
+						        </f:facet>
+									
+								<f:facet name="header">
+                                    Histórico Estados 
+                                </f:facet>
+                                
+                                <p:column headerText="Observacion" sortBy="#{presupuestoDetalleCampania.observacion}" 
+                                		 filterMatchMode="contains" filterBy="#{presupuestoDetalleCampania.observacion}">
+                                    <h:outputText value="#{presupuestoDetalleCampania.observacion}" />
+                                </p:column>
+                                
+                                <p:column headerText="Envia" sortBy="#{presupuestoDetalleCampania.usuarioEnvia.nombre}" 
+                                		 filterMatchMode="contains" filterBy="#{presupuestoDetalleCampania.usuarioEnvia.nombre}">
+                                    <h:outputText value="#{presupuestoDetalleCampania.usuarioEnvia.nombre}" />
+                                </p:column>
+                                
+                                <p:column headerText="Recibe" sortBy="#{presupuestoDetalleCampania.usuarioRecibe.nombre}"
+                                		 filterMatchMode="contains" filterBy="#{presupuestoDetalleCampania.usuarioRecibe.nombre}">
+                                    <h:outputText value="#{presupuestoDetalleCampania.usuarioRecibe.nombre}" />
+                                </p:column>
+
+								<p:column headerText="Estado" sortBy="#{presupuestoDetalleCampania.estado}"
+                                		 filterMatchMode="contains" filterBy="#{presupuestoDetalleCampania.estado}">
+                                    <h:outputText value="#{preAprIniBB.listasGenericas.getNombreEstado(presupuestoDetalleCampania.estado)}" />
+                                </p:column>
+                                
+                                <p:column headerText="Fecha" sortBy="#{presupuestoDetalleCampania.fechaTXT}"
+                                		 filterMatchMode="contains" filterBy="#{presupuestoDetalleCampania.fechaTXT}">
+                                    <h:outputText value="#{presupuestoDetalleCampania.fechaTXT}" />
+                                </p:column>
+                             </p:dataTable>
+											   		
 					   		</div>
 						</p:dialog>	
+                                
+                          </div>  
+                          
+                          <div class="card" style="display:#{preAprIniBB.detalle.tipo eq 'Campañal' ? 'block;' : 'none;'}">
+                            <h1>Detalle de Presupuesto Campañal Seleccionado</h1>
+                            
+                            <br/><br/>
+                            
+                            <p:dataTable id="tblPresupuestoDetalleCampania" var="presupuestoDetalleCampania" 
+                            		rendered="#{preAprIniBB.detalle.tipo eq 'Campañal'}"
+                            		value="#{preAprIniBB.detalle.detalleCampania}" reflow="true" 
+                            		selectionMode="single" rowKey="#{presupuestoDetalleCampania.id}"
+                            		emptyMessage="No se encontraron registros."
+									scrollable="false" paginatorPosition="bottom"
+									rows="10" rowsPerPageTemplate="5,10,20,50"
+									currentPageReportTemplate="Páginas {totalPages} - Registros {totalRecords}"
+									paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}  {Exporters}" 
+									paginator="true">
+								
+								<f:facet name="{Exporters}">
+						            <h:commandLink>
+						                <p:graphicImage name="images/excel.png" library="omega-layout"  width="24"/>
+						                <p:dataExporter type="xls" target="tblPresupuestoDetalleCampania" fileName="DetalleCampana" />
+						            </h:commandLink>
+						 
+						            <h:commandLink>
+						                <p:graphicImage name="images/pdf.png" library="omega-layout"  width="24"/>
+						                <p:dataExporter type="pdf" target="tblPresupuestoDetalleCampania" fileName="DetalleCampana"/>
+						            </h:commandLink>
+						 
+						            <h:commandLink>
+						                <p:graphicImage name="images/csv.png" library="omega-layout" width="24"/>
+						                <p:dataExporter type="csv" target="tblPresupuestoDetalleCampania" fileName="DetalleCampana" />
+						            </h:commandLink>
+						 
+						            <h:commandLink>
+						                <p:graphicImage name="images/xml.png" library="omega-layout"  width="24"/>
+						                <p:dataExporter type="xml" target="tblPresupuestoDetalleCampania" fileName="DetalleCampana" />
+						            </h:commandLink>
+						        </f:facet>
+									
+								<f:facet name="header">
+                                    Detalle
+                                </f:facet>
+                                
+                                <p:column headerText="Cuenta" sortBy="#{presupuestoDetalleCampania.cuenta.nombre}" 
+                                		 filterMatchMode="contains" filterBy="#{presupuestoDetalleCampania.cuenta.nombre}">
+                                    <h:outputText value="#{presupuestoDetalleCampania.cuenta.nombre}" />
+                                </p:column>
+                                
+                                <p:column headerText="Centro de Costo" sortBy="#{presupuestoDetalleCampania.centroCosto.centroCosto}" 
+                                		 filterMatchMode="contains" filterBy="#{presupuestoDetalleCampania.centroCosto.centroCosto}">
+                                    <h:outputText value="#{presupuestoDetalleCampania.centroCosto.centroCosto}" />
+                                </p:column>
+                                
+                                <p:column headerText="Observación" sortBy="#{presupuestoDetalleCampania.observacion}"
+                                		 filterMatchMode="contains" filterBy="#{presupuestoDetalleCampania.observacion}">
+                                    <h:outputText value="#{presupuestoDetalleCampania.observacion}" />
+                                </p:column>
+
+								<p:column headerText="Campaña 1" sortBy="#{presupuestoDetalleCampania.valorC1}">
+                                    <h:outputText value="#{presupuestoDetalleCampania.valorC1}" />
+                                </p:column>
+                                
+                                <p:column headerText="Campaña 2" sortBy="#{presupuestoDetalleCampania.valorC2}"
+                                		rendered="#{preAprIniBB.camapanaMaxima > 1}" exportable="#{preAprIniBB.camapanaMaxima > 1}">
+                                    <h:outputText value="#{presupuestoDetalleCampania.valorC2}" />
+                                </p:column>
+                                
+                                <p:column headerText="Campaña 3" sortBy="#{presupuestoDetalleCampania.valorC3}" 
+                                		rendered="#{preAprIniBB.camapanaMaxima > 2}" exportable="#{preAprIniBB.camapanaMaxima > 2}">
+                                    <h:outputText value="#{presupuestoDetalleCampania.valorC3}" />
+                                </p:column>
+                                
+                                <p:column headerText="Campaña 4" sortBy="#{presupuestoDetalleCampania.valorC4}"
+                                		rendered="#{preAprIniBB.camapanaMaxima > 3}" exportable="#{preAprIniBB.camapanaMaxima > 3}">
+                                    <h:outputText value="#{presupuestoDetalleCampania.valorC4}" />
+                                </p:column>
+                                
+                                <p:column headerText="Campaña 5" sortBy="#{presupuestoDetalleCampania.valorC5}" 
+                                		rendered="#{preAprIniBB.camapanaMaxima > 4}" exportable="#{preAprIniBB.camapanaMaxima > 4}">
+                                    <h:outputText value="#{presupuestoDetalleCampania.valorC5}" />
+                                </p:column>
+                                
+                                <p:column headerText="Campaña 6" sortBy="#{presupuestoDetalleCampania.valorC6}" 
+                                		rendered="#{preAprIniBB.camapanaMaxima > 5}" exportable="#{preAprIniBB.camapanaMaxima > 5}">
+                                    <h:outputText value="#{presupuestoDetalleCampania.valorC6}" />
+                                </p:column>
+                                
+                                <p:column headerText="Campaña 7" sortBy="#{presupuestoDetalleCampania.valorC7}" 
+                                		rendered="#{preAprIniBB.camapanaMaxima > 6}" exportable="#{preAprIniBB.camapanaMaxima > 6}">
+                                    <h:outputText value="#{presupuestoDetalleCampania.valorC7}" />
+                                </p:column>
+                                
+                                <p:column headerText="Campaña 8" sortBy="#{presupuestoDetalleCampania.valorC8}" 
+                                		rendered="#{preAprIniBB.camapanaMaxima > 7}" exportable="#{preAprIniBB.camapanaMaxima > 7}">
+                                    <h:outputText value="#{presupuestoDetalleCampania.valorC8}" />
+                                </p:column>
+                                
+                                <p:column headerText="Campaña 9" sortBy="#{presupuestoDetalleCampania.valorC9}" 
+                                		rendered="#{preAprIniBB.camapanaMaxima > 8}" exportable="#{preAprIniBB.camapanaMaxima > 8}">
+                                    <h:outputText value="#{presupuestoDetalleCampania.valorC9}" />
+                                </p:column>
+                                
+                                <p:column headerText="Campaña 10" sortBy="#{presupuestoDetalleCampania.valorC10}"
+                                		rendered="#{preAprIniBB.camapanaMaxima > 9}" exportable="#{preAprIniBB.camapanaMaxima > 9}">
+                                    <h:outputText value="#{presupuestoDetalleCampania.valorC10}" />
+                                </p:column>
+                                
+                                <p:column headerText="Campaña 11" sortBy="#{presupuestoDetalleCampania.valorC11}"
+                                		rendered="#{preAprIniBB.camapanaMaxima > 10}" exportable="#{preAprIniBB.camapanaMaxima > 10}">
+                                    <h:outputText value="#{presupuestoDetalleCampania.valorC11}" />
+                                </p:column>
+                                
+                                <p:column headerText="Campaña 12" sortBy="#{presupuestoDetalleCampania.valorC12}" 
+                                		rendered="#{preAprIniBB.camapanaMaxima > 11}" exportable="#{preAprIniBB.camapanaMaxima > 11}">
+                                    <h:outputText value="#{presupuestoDetalleCampania.valorC12}" />
+                                </p:column>
+                                
+                                <p:column headerText="Campaña 13" sortBy="#{presupuestoDetalleCampania.valorC13}" 
+                                		rendered="#{preAprIniBB.camapanaMaxima > 12}" exportable="#{preAprIniBB.camapanaMaxima > 12}">
+                                    <h:outputText value="#{presupuestoDetalleCampania.valorC13}" />
+                                </p:column>
+                                
+                                <p:column headerText="Campaña 14" sortBy="#{presupuestoDetalleCampania.valorC14}" 
+                                		rendered="#{preAprIniBB.camapanaMaxima > 13}" exportable="#{preAprIniBB.camapanaMaxima > 13}">
+                                    <h:outputText value="#{presupuestoDetalleCampania.valorC14}" />
+                                </p:column>
+                                
+                                <p:column headerText="Campaña 15" sortBy="#{presupuestoDetalleCampania.valorC15}" 
+                                		rendered="#{preAprIniBB.camapanaMaxima > 14}" exportable="#{preAprIniBB.camapanaMaxima > 14}">
+                                    <h:outputText value="#{presupuestoDetalleCampania.valorC15}" />
+                                </p:column>
+                                
+                                <p:column headerText="Campaña 16" sortBy="#{presupuestoDetalleCampania.valorC16}" 
+                                		rendered="#{preAprIniBB.camapanaMaxima > 15}" exportable="#{preAprIniBB.camapanaMaxima > 15}">
+                                    <h:outputText value="#{presupuestoDetalleCampania.valorC16}" />
+                                </p:column>
+                                
+                                <p:column headerText="Campaña 17" sortBy="#{presupuestoDetalleCampania.valorC17}" 
+                                		rendered="#{preAprIniBB.camapanaMaxima > 16}" exportable="#{preAprIniBB.camapanaMaxima > 16}">
+                                    <h:outputText value="#{presupuestoDetalleCampania.valorC17}" />
+                                </p:column>
+                                
+                                <p:column headerText="Campaña 18" sortBy="#{presupuestoDetalleCampania.valorC18}" 
+                                		rendered="#{preAprIniBB.camapanaMaxima > 17}" exportable="#{preAprIniBB.camapanaMaxima > 17}">
+                                    <h:outputText value="#{presupuestoDetalleCampania.valorC18}" />
+                                </p:column>
+                                
+                                <p:column headerText="Campaña 19" sortBy="#{presupuestoDetalleCampania.valorC19}" 
+                                		rendered="#{preAprIniBB.camapanaMaxima > 18}" exportable="#{preAprIniBB.camapanaMaxima > 18}">
+                                    <h:outputText value="#{presupuestoDetalleCampania.valorC19}" />
+                                </p:column>
+                                
+                                <p:column headerText="Campaña 20" sortBy="#{presupuestoDetalleCampania.valorC20}" 
+                                		rendered="#{preAprIniBB.camapanaMaxima > 19}" exportable="#{preAprIniBB.camapanaMaxima > 19}">
+                                    <h:outputText value="#{presupuestoDetalleCampania.valorC20}" />
+                                </p:column>
+                                
+                                <p:column headerText="Campaña 21" sortBy="#{presupuestoDetalleCampania.valorC21}"
+                                		rendered="#{preAprIniBB.camapanaMaxima > 20}" exportable="#{preAprIniBB.camapanaMaxima > 20}">
+                                    <h:outputText value="#{presupuestoDetalleCampania.valorC21}" />
+                                </p:column>
+                                
+                                <p:column headerText="Campaña 22" sortBy="#{presupuestoDetalleCampania.valorC22}" 
+                                		rendered="#{preAprIniBB.camapanaMaxima > 21}" exportable="#{preAprIniBB.camapanaMaxima > 21}">
+                                    <h:outputText value="#{presupuestoDetalleCampania.valorC22}" />
+                                </p:column>
+                                
+                                <p:column headerText="Campaña 23" sortBy="#{presupuestoDetalleCampania.valorC23}"
+                                		rendered="#{preAprIniBB.camapanaMaxima > 22}" exportable="#{preAprIniBB.camapanaMaxima > 22}">
+                                    <h:outputText value="#{presupuestoDetalleCampania.valorC23}" />
+                                </p:column>
+                                
+                                <p:column headerText="Campaña 24" sortBy="#{presupuestoDetalleCampania.valorC24}"
+                                		rendered="#{preAprIniBB.camapanaMaxima > 23}" exportable="#{preAprIniBB.camapanaMaxima > 23}">
+                                    <h:outputText value="#{presupuestoDetalleCampania.valorC24}" />
+                                </p:column>
+                                
+                                <p:column headerText="Campaña 25" sortBy="#{presupuestoDetalleCampania.valorC25}"
+                                		rendered="#{preAprIniBB.camapanaMaxima > 24}" exportable="#{preAprIniBB.camapanaMaxima > 24}">
+                                    <h:outputText value="#{presupuestoDetalleCampania.valorC25}" />
+                                </p:column>
+                                
+                                <p:column headerText="Total" sortBy="#{presupuestoDetalleCampania.total}" >
+                                    <h:outputText value="#{presupuestoDetalleCampania.total}" />
+                                </p:column>
+                                
+                                <p:column headerText="Estado" sortBy="#{presupuestoDetalleCampania.estado}" >
+                                    <h:outputText value="#{preAprIniBB.listasGenericas.getNombreEstado(presupuestoDetalleCampania.estado)}" />
+                                </p:column>
+                                                                
+                                <p:column headerText="Acciones" exportable="false">
+                                    <p:splitButton value="Accion" icon="fa fa-edit">
+								        <p:menuitem value="Aprobar" 
+								        			rendered="#{presupuestoDetalleCampania.estado eq 'PENDIENTE' or presupuestoDetalleCampania.estado eq 'RECHAZADO'}"
+								        			actionListener="#{preAprIniBB.setSelectedPresupuestoDetalleCampania(presupuestoDetalleCampania)}" 
+								        			update=":#{p:component('dlgAprobarCamp')}" oncomplete="PF('dlgAprobarCamp').show();"
+								        			icon="ui-icon-send" >
+								        </p:menuitem>
+								        <p:menuitem value="Rechazar" 
+								        			rendered="#{presupuestoDetalleCampania.estado eq 'PENDIENTE' or presupuestoDetalleCampania.estado eq 'RECHAZADO'}"
+								        			actionListener="#{preAprIniBB.setSelectedPresupuestoDetalleCampania(presupuestoDetalleCampania)}" 
+								        			update=":#{p:component('dlgRechazarCamp')}" oncomplete="PF('dlgRechazarCamp').show();"
+								        			icon="ui-icon-send" >
+								        </p:menuitem>
+								        <p:menuitem value="Observaciones" 
+								        			actionListener="#{preAprIniBB.setSelectedPresupuestoDetalleCampania(presupuestoDetalleCampania)}" 
+								        			update=":#{p:component('dlgObservacionesCamp')}" oncomplete="PF('dlgObservacionesCamp').show();"
+								        			icon="ui-icon-close" >
+								        </p:menuitem>
+								        
+								    </p:splitButton>
+                                </p:column>
+                            </p:dataTable> 
 						
-						<p:dialog header="Enviar al aprobador inicial" id="dlgEnviar" 
-								widgetVar="dlgEnviar" minHeight="40">
+						<p:dialog header="Aprobar" id="dlgAprobarCamp"
+                            		widgetVar="dlgAprobarCamp" minHeight="40">
+								<div align="center">
+									<strong>¿Está seguro de aprobar el detalle de presupuesto?</strong>
+									<br/>
+									Tenga en cuenta que después de esto no podrá realizar operaciones sobre este registro.
+									<br /><br/>
+									<p:outputLabel value="Observación"/>
+									<p:inputTextarea value="#{preAprIniBB.observacion.observacion}" 
+										maxlength="200" cols="20"/>
+									<br />
+									<br />
+									<p:commandButton id="btnAprobarMes" 
+											actionListener="#{preAprIniBB.aprobarPresupuesto('CAMPANIA')}" 
+											update="@form" title="Aprobar" value="Aprobar" />			
+								</div>
+							</p:dialog>
+							
+							<p:dialog header="Rechazar" id="dlgRechazarCamp"
+                            		widgetVar="dlgRechazarCamp" minHeight="40">
+								<div align="center">
+									<strong>¿Está seguro de rechazar el detalle de presupuesto?</strong>
+									<br/>
+									Tenga en cuenta que después de esto no podrá realizar operaciones sobre este registro.
+									<br /><br/>
+									<p:outputLabel value="Observación"/>
+									<p:inputTextarea value="#{preAprIniBB.observacion.observacion}" 
+										maxlength="200" cols="20"/>
+									<br />
+									<br />
+									<p:commandButton id="btnAprobarMes" 
+											actionListener="#{preAprIniBB.rechazarPresupuesto('CAMPANIA')}" 
+											update="@form" title="Rechazar" value="Rechazar" />			
+								</div>
+							</p:dialog>
+						
+                            
+                        <p:dialog header="Observaciones" id="dlgObservacionesCamp" width="80%"
+                            		widgetVar="dlgObservacionesCamp" minHeight="40" modal="true">
 							<div align="center">
 								
-								<strong>¿Está seguro de enviar el registro al aprobador inicial?</strong>
-								<br /><br /><br />
-								<p:inputTextarea value="#{preAprIniBB.observacion.observacion}"/>
-								<br /><br />
-								<p:spacer width="20px" height="20px" />
-								<p:commandButton id="btnEnviarPresupuesto" 
-											actionListener="#{preAprIniBB.enviarPresupuestoAprobadorInicial}" 
-											update="@form" title="Enviar" value="Enviar" />						   		
+								<strong>Observaciones</strong>
+								<br />
+								<br />
+								 <p:dataTable id="tblObservaCamp" var="presupuestoDetalleCampania" 
+                            		value="#{preAprIniBB.selectedPresupuestoDetalleCampania.observaciones}" reflow="true" 
+                            		emptyMessage="No se encontraron registros."
+									scrollable="false" paginatorPosition="bottom"
+									rows="10" rowsPerPageTemplate="5,10,20,50"
+									currentPageReportTemplate="Páginas {totalPages} - Registros {totalRecords}"
+									paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}  {Exporters}" 
+									paginator="true">
+								
+								<f:facet name="{Exporters}">
+						            <h:commandLink>
+						                <p:graphicImage name="images/excel.png" library="omega-layout"  width="24"/>
+						                <p:dataExporter type="xls" target="tblObservaCamp" fileName="DetalleCampana" />
+						            </h:commandLink>
+						 
+						            <h:commandLink>
+						                <p:graphicImage name="images/pdf.png" library="omega-layout"  width="24"/>
+						                <p:dataExporter type="pdf" target="tblObservaCamp" fileName="DetalleCampana"/>
+						            </h:commandLink>
+						 
+						            <h:commandLink>
+						                <p:graphicImage name="images/csv.png" library="omega-layout" width="24"/>
+						                <p:dataExporter type="csv" target="tblObservaCamp" fileName="DetalleCampana" />
+						            </h:commandLink>
+						 
+						            <h:commandLink>
+						                <p:graphicImage name="images/xml.png" library="omega-layout"  width="24"/>
+						                <p:dataExporter type="xml" target="tblObservaCamp" fileName="DetalleCampana" />
+						            </h:commandLink>
+						        </f:facet>
+									
+								<f:facet name="header">
+                                    Histórico Estados 
+                                </f:facet>
+                                
+                                <p:column headerText="Observacion" sortBy="#{presupuestoDetalleCampania.observacion}" 
+                                		 filterMatchMode="contains" filterBy="#{presupuestoDetalleCampania.observacion}">
+                                    <h:outputText value="#{presupuestoDetalleCampania.observacion}" />
+                                </p:column>
+                                
+                                <p:column headerText="Envia" sortBy="#{presupuestoDetalleCampania.usuarioEnvia.nombre}" 
+                                		 filterMatchMode="contains" filterBy="#{presupuestoDetalleCampania.usuarioEnvia.nombre}">
+                                    <h:outputText value="#{presupuestoDetalleCampania.usuarioEnvia.nombre}" />
+                                </p:column>
+                                
+                                <p:column headerText="Recibe" sortBy="#{presupuestoDetalleCampania.usuarioRecibe.nombre}"
+                                		 filterMatchMode="contains" filterBy="#{presupuestoDetalleCampania.usuarioRecibe.nombre}">
+                                    <h:outputText value="#{presupuestoDetalleCampania.usuarioRecibe.nombre}" />
+                                </p:column>
+
+								<p:column headerText="Estado" sortBy="#{presupuestoDetalleCampania.estado}"
+                                		 filterMatchMode="contains" filterBy="#{presupuestoDetalleCampania.estado}">
+                                    <h:outputText value="#{preAprIniBB.listasGenericas.getNombreEstado(presupuestoDetalleCampania.estado)}" />
+                                </p:column>
+                                
+                                <p:column headerText="Fecha" sortBy="#{presupuestoDetalleCampania.fechaTXT}"
+                                		 filterMatchMode="contains" filterBy="#{presupuestoDetalleCampania.fechaTXT}">
+                                    <h:outputText value="#{presupuestoDetalleCampania.fechaTXT}" />
+                                </p:column>
+                             </p:dataTable>
+											   		
 					   		</div>
 						</p:dialog>	
-                        
-                        
+                            
+                          </div>          
+                       
                     </div>                    
                 </div>
             </div>

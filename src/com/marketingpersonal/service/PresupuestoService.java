@@ -11,6 +11,7 @@ import com.marketingpersonal.model.entity.Observacion;
 import com.marketingpersonal.model.entity.Presupuesto;
 import com.marketingpersonal.model.entity.PresupuestoDetalleCampania;
 import com.marketingpersonal.model.entity.PresupuestoDetalleMes;
+import com.marketingpersonal.model.entity.Usuario;
 
 
 @Service
@@ -120,6 +121,14 @@ public class PresupuestoService implements IPresupuestoService {
 	@Transactional(readOnly = false)
 	public void addObservacion(Observacion observacion) {
 		getEntityDAO().addObservacion(observacion);
+	}
+
+	public List<Presupuesto> getPresupuestosAprobadorInicial(Usuario usuario) {
+		return getEntityDAO().getPresupuestosAprobadorInicial(usuario);
+	}
+
+	public List<Presupuesto> getPresupuestosAprobadorFinal(Usuario usuario) {
+		return getEntityDAO().getPresupuestosAprobadorFinal(usuario);
 	}
 	
 

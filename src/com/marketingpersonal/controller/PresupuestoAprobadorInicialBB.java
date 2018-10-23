@@ -1,219 +1,140 @@
 package com.marketingpersonal.controller;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
+
+import com.marketingpersonal.common.EnumEstadosPresupuesto;
+import com.marketingpersonal.common.EnumSessionAttributes;
+import com.marketingpersonal.common.ListasGenericas;
+import com.marketingpersonal.common.Util;
+import com.marketingpersonal.model.entity.CentroCosto;
+import com.marketingpersonal.model.entity.Cuenta;
+import com.marketingpersonal.model.entity.Observacion;
+import com.marketingpersonal.model.entity.Presupuesto;
+import com.marketingpersonal.model.entity.PresupuestoDetalleCampania;
+import com.marketingpersonal.model.entity.PresupuestoDetalleMes;
+import com.marketingpersonal.model.entity.Usuario;
+import com.marketingpersonal.service.ICalculadoraService;
+import com.marketingpersonal.service.ICentroCostoService;
+import com.marketingpersonal.service.ICuentaService;
+import com.marketingpersonal.service.IPresupuestoService;
 
 @ManagedBean(name = "preAprIniBB")
 @ViewScoped
 public class PresupuestoAprobadorInicialBB extends SpringBeanAutowiringSupport implements Serializable {
 	
-	/*private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
 	@Autowired
 	private IPresupuestoService presupuestoService;
 	@Autowired
+	private ICuentaService cuentaService;
+	@Autowired
 	private ICentroCostoService centroCostoService;
 	@Autowired
-	private ICuentaService cuentaService;
+	private ICalculadoraService calculadoraService;
+	
 	private Util util;
 	private Presupuesto presupuesto;
-	private Presupuesto selectedPresupuesto;
 	private Presupuesto detalle;
-	private Observacion observacion;
+	private Presupuesto selectedPresupuesto;
+	private PresupuestoDetalleMes presupuestoDetalleMes;
+	private PresupuestoDetalleMes selectedPresupuestoDetalleMes;
+	private PresupuestoDetalleCampania presupuestoDetalleCampania;
+	private PresupuestoDetalleCampania selectedPresupuestoDetalleCampania;
 	private List<Presupuesto> listaPresupuestos;
 	private ListasGenericas listasGenericas;
-	private boolean mostrarDetalle = false;
 	private Usuario usuario;
-	private List<CentroCosto> listaCentroCostos;
+	private Observacion observacion;
 	private List<Cuenta> listaCuentas;
-	
-	
-	@Autowired
-	private IUsuarioService usuarioService;
-	
-	private Usuario responsable;
-	private UsuarioPorCentroCosto usuarioPorCentroCosto;
-	private List<UsuarioPorCentroCosto> listaUsuarioPorCentroCostos;
+	private List<CentroCosto> listaCentroCostos;
+	private boolean mostrarDetalle;
+	private int camapanaMaxima;
+	private Double totalMes = 0d;
+	private Double totalCamp = 0d;
+	private Integer anioGeneral;
 	
 	public PresupuestoAprobadorInicialBB() {
 		util = Util.getInstance();
-		presupuesto = new Presupuesto();
-		observacion = new Observacion();
-		selectedPresupuesto = new Presupuesto();
-		listaPresupuestos = getPresupuestoService().getPresupuestos();
-		listasGenericas = ListasGenericas.getInstance();
 		usuario = (Usuario) Util.getInstance().getSessionAttribute(EnumSessionAttributes.USUARIO);
-		listaCentroCostos = this.getCentroCostoService().getCentroCostoPorUsuario(usuario.getId());
+		listaPresupuestos = getPresupuestoService().getPresupuestosAprobadorInicial(usuario);
 		
+		presupuestoDetalleMes = new PresupuestoDetalleMes();
+		presupuestoDetalleCampania = new PresupuestoDetalleCampania();
+		selectedPresupuesto = new Presupuesto();
 		
-		usuarioPorCentroCosto = new UsuarioPorCentroCosto();
-		listaUsuarioPorCentroCostos = getUsuarioService().getUsuarioPorCentroCostos();
-		
+		listasGenericas = ListasGenericas.getInstance();
+		anioGeneral = Integer.valueOf(util.getSessionAttribute(EnumSessionAttributes.ANIO_GENERAL).toString());
+		camapanaMaxima = getCalculadoraService().getCampanaMaxima(anioGeneral);
+		observacion = new Observacion();
+		mostrarDetalle = false;
 	}
 	
-	public void verDetalle(SelectEvent event) {
-		detalle = (Presupuesto) event.getObject();
-		mostrarDetalle = true;
-	}
-	
-	
-	/*public void cambioTipo() {
-		presupuesto.setDetalle(new ArrayList<>());
-		if("Campañal".equals(presupuesto.getTipo())) {
-			for(int i = 0; i <= 17; i++) {
-				presupuesto.getDetalle().add(new PresupuestoDetalleMes());
-			}
-		}else if("Mensual".equals(presupuesto.getTipo())) {
-			for(int i = 0; i <= 11; i++) {
-				presupuesto.getDetalle().add(new PresupuestoDetalleMes());
-			}
-		}
-	}
-	
-	private boolean validar(Presupuesto pr) {
-		boolean permiteGuardar = true;
-		
-		if(pr.getNombre() == null || 
-				"".equals(pr.getNombre().trim())) {
-			util.mostrarError("El campo Nombre es requerido.");
-			permiteGuardar = false;
-		}
-		
-		if(pr.getCentroCosto() == null || 
-				pr.getCentroCosto().getId() < 1) {
-			util.mostrarError("El campo Centro costo es requerido.");
-			permiteGuardar = false;
-		}
-		
-		if(pr.getCuenta() == null || 
-				pr.getCuenta().getId() < 1) {
-			util.mostrarError("El campo Cuenta es requerido.");
-			permiteGuardar = false;
-		}
-		
-		if(pr.getAnio() == null || pr.getAnio() < 1) {
-			util.mostrarError("El campo Año es requerido.");
-			permiteGuardar = false;
-		}
-		
-		if(pr.getTipo() == null || 
-				"".equals(pr.getTipo().trim())) {
-			util.mostrarError("El campo Tipo es requerido.");
-			permiteGuardar = false;
-			
-		}else if(pr.getMesCampania() == null || pr.getMesCampania() < 1) {
-			String tipo = ("Mensual".equals(pr.getTipo()) ? "Mes inicial" : "Campaña inicial");
-			util.mostrarError("El campo "+ tipo + " es requerido.");
-			permiteGuardar = false;
-		}
-		
-		return permiteGuardar;
-	}*/
-	
-	/*public void enviarPresupuestoAprobadorInicial(){
+	public void aprobarPresupuesto(String tipo){
 		try {
-			selectedPresupuesto.setEstado(EnumEstadosPresupuesto.ENVIADO.getCodigo());
-			getPresupuestoService().actualizarEstadoPresupuesto(selectedPresupuesto);
-			
+			if("MES".equals(tipo)) {
+				selectedPresupuestoDetalleMes.setEstado(EnumEstadosPresupuesto.APROBADO.getCodigo());
+				getPresupuestoService().actualizarEstadoPresupuestoDetalleMes(selectedPresupuestoDetalleMes);
+				observacion.setPresupuestoDetalleMes(selectedPresupuestoDetalleMes);
+				observacion.setUsuarioRecibe(this.getCentroCostoService().getUsuarioAprobadorFinal(selectedPresupuestoDetalleMes.getCentroCosto().getId()));
+			}else {
+				selectedPresupuestoDetalleCampania.setEstado(EnumEstadosPresupuesto.APROBADO.getCodigo());
+				getPresupuestoService().actualizarEstadoPresupuestoDetalleCampania(selectedPresupuestoDetalleCampania);
+				observacion.setPresupuestoDetalleCampania(selectedPresupuestoDetalleCampania);
+				observacion.setUsuarioRecibe(this.getCentroCostoService().getUsuarioAprobadorFinal(selectedPresupuestoDetalleCampania.getCentroCosto().getId()));
+			}
+
 			//Guardamos la observacion
 			observacion.setFecha(new Date());
-			observacion.setPresupuesto(selectedPresupuesto);
-			observacion.setEstado(selectedPresupuesto.getEstado());
+			observacion.setEstado(EnumEstadosPresupuesto.APROBADO.getCodigo());
 			observacion.setUsuarioEnvia(usuario);
-			//TODO pendiente consultar el usuario q recibe
-			observacion.setUsuarioRecibe(this.getCentroCostoService().getUsuarioAprobadorInicial(selectedPresupuesto.getCentroCosto().getId()));
 			getPresupuestoService().addObservacion(observacion);
-			
 			//TODO pendiente enviar correo al aprobador inicial
 			
 			observacion = new Observacion();
-			util.mostrarMensaje("El presupuesto fue enviado al aprobador incial con éxito.");
+			util.mostrarMensaje("El presupuesto fue enviado al aprobador final con éxito.");
 		} catch (DataAccessException e) {
 			e.printStackTrace();
 			util.mostrarError("Error enviando el registro.");
 		} 	
 	}
 	
-	public void addPresupuesto() {
+	public void rechazarPresupuesto(String tipo){
 		try {
-			if(validar(presupuesto)) {
-				getPresupuestoService().addPresupuesto(presupuesto);
-				for(PresupuestoDetalleMes pd : presupuesto.getDetalle()) {
-					pd.setPresupuesto(presupuesto);
-					getPresupuestoService().addPresupuestoDetalle(pd);
-				}
-				listaPresupuestos = getPresupuestoService().getPresupuestos();
-				presupuesto = new Presupuesto();
-				util.mostrarMensaje("Registro agregado con éxito."); 
-			}
-			
-		} catch (DataAccessException e) {
-			e.printStackTrace();
-			util.mostrarError("Error guardando el registro.");
-		} 	
-	}
-	
-	public void actualizarValores() {
-		try {
-			for(PresupuestoDetalleMes pd : detalle.getDetalle()) {
-				pd.setPresupuesto(presupuesto);
-				getPresupuestoService().addPresupuestoDetalle(pd);
-			}
-		} catch (DataAccessException e) {
-			e.printStackTrace();
-			util.mostrarError("Error guardando el registro.");
-		} 	
-	}*/
-
-/*	public void updatePresupuesto() {
-		try {
-			if(validar(selectedPresupuesto)) {
-				getPresupuestoService().updatePresupuesto(selectedPresupuesto);
-				listaPresupuestos = getPresupuestoService().getPresupuestos();
-				selectedPresupuesto = new Presupuesto();
-				util.mostrarMensaje("Registro actualizado con éxito.");
-			}
-			
-		} catch (DataAccessException e) {
-			e.printStackTrace();
-			util.mostrarError("Error actualizando el registro.");
-		} 	
-	}
-	
-	public void deletePresupuesto() {
-		try {
-			getPresupuestoService().deletePresupuesto(selectedPresupuesto);
-			listaPresupuestos = getPresupuestoService().getPresupuestos();
-			util.mostrarMensaje("Registro eliminado con éxito.");  
-			
-		} catch (DataAccessException e) {
-			e.printStackTrace();
-			util.mostrarError("Error eliminando el registro.");
-		} 	
-	}
-	
-	/*public void cargarListaCuentas(String actualiza) {
-		try {
-			Presupuesto prepTmp = null;
-			if("SI".equals(actualiza)) {
-				prepTmp = selectedPresupuesto;
+			if("MES".equals(tipo)) {
+				selectedPresupuestoDetalleMes.setEstado(EnumEstadosPresupuesto.RECHAZADO.getCodigo());
+				getPresupuestoService().actualizarEstadoPresupuestoDetalleMes(selectedPresupuestoDetalleMes);
+				observacion.setPresupuestoDetalleMes(selectedPresupuestoDetalleMes);
+				observacion.setUsuarioRecibe(detalle.getUsuario());
 			}else {
-				prepTmp = presupuesto;
+				selectedPresupuestoDetalleCampania.setEstado(EnumEstadosPresupuesto.RECHAZADO.getCodigo());
+				getPresupuestoService().actualizarEstadoPresupuestoDetalleCampania(selectedPresupuestoDetalleCampania);
+				observacion.setPresupuestoDetalleCampania(selectedPresupuestoDetalleCampania);
+				observacion.setUsuarioRecibe(detalle.getUsuario());
 			}
+
+			//Guardamos la observacion
+			observacion.setFecha(new Date());
+			observacion.setEstado(EnumEstadosPresupuesto.RECHAZADO.getCodigo());
+			observacion.setUsuarioEnvia(usuario);
+			getPresupuestoService().addObservacion(observacion);
+			//TODO pendiente enviar correo al aprobador inicial
 			
-			listaCuentas = new ArrayList<>();
-			
-			if(prepTmp.getCentroCosto() != null &&
-					prepTmp.getCentroCosto().getId() > 0) {
-				listaCuentas = this.getCuentaService().getCuentaPorCentroCosto(prepTmp.getCentroCosto().getId());
-			}
+			observacion = new Observacion();
+			util.mostrarMensaje("El presupuesto fue enviado al aprobador final con éxito.");
 		} catch (DataAccessException e) {
 			e.printStackTrace();
-		} 
+			util.mostrarError("Error enviando el registro.");
+		} 	
 	}
 
 	public IPresupuestoService getPresupuestoService() {
@@ -222,6 +143,30 @@ public class PresupuestoAprobadorInicialBB extends SpringBeanAutowiringSupport i
 
 	public void setPresupuestoService(IPresupuestoService presupuestoService) {
 		this.presupuestoService = presupuestoService;
+	}
+
+	public ICuentaService getCuentaService() {
+		return cuentaService;
+	}
+
+	public void setCuentaService(ICuentaService cuentaService) {
+		this.cuentaService = cuentaService;
+	}
+
+	public ICentroCostoService getCentroCostoService() {
+		return centroCostoService;
+	}
+
+	public void setCentroCostoService(ICentroCostoService centroCostoService) {
+		this.centroCostoService = centroCostoService;
+	}
+
+	public ICalculadoraService getCalculadoraService() {
+		return calculadoraService;
+	}
+
+	public void setCalculadoraService(ICalculadoraService calculadoraService) {
+		this.calculadoraService = calculadoraService;
 	}
 
 	public Util getUtil() {
@@ -240,12 +185,55 @@ public class PresupuestoAprobadorInicialBB extends SpringBeanAutowiringSupport i
 		this.presupuesto = presupuesto;
 	}
 
+	public Presupuesto getDetalle() {
+		return detalle;
+	}
+
+	public void setDetalle(Presupuesto detalle) {
+		this.detalle = detalle;
+		if(detalle != null) {
+			mostrarDetalle = true;
+		}
+	}
+
 	public Presupuesto getSelectedPresupuesto() {
 		return selectedPresupuesto;
 	}
 
 	public void setSelectedPresupuesto(Presupuesto selectedPresupuesto) {
 		this.selectedPresupuesto = selectedPresupuesto;
+	}
+
+	public PresupuestoDetalleMes getPresupuestoDetalleMes() {
+		return presupuestoDetalleMes;
+	}
+
+	public void setPresupuestoDetalleMes(PresupuestoDetalleMes presupuestoDetalleMes) {
+		this.presupuestoDetalleMes = presupuestoDetalleMes;
+	}
+
+	public PresupuestoDetalleMes getSelectedPresupuestoDetalleMes() {
+		return selectedPresupuestoDetalleMes;
+	}
+
+	public void setSelectedPresupuestoDetalleMes(PresupuestoDetalleMes selectedPresupuestoDetalleMes) {
+		this.selectedPresupuestoDetalleMes = selectedPresupuestoDetalleMes;
+	}
+
+	public PresupuestoDetalleCampania getPresupuestoDetalleCampania() {
+		return presupuestoDetalleCampania;
+	}
+
+	public void setPresupuestoDetalleCampania(PresupuestoDetalleCampania presupuestoDetalleCampania) {
+		this.presupuestoDetalleCampania = presupuestoDetalleCampania;
+	}
+
+	public PresupuestoDetalleCampania getSelectedPresupuestoDetalleCampania() {
+		return selectedPresupuestoDetalleCampania;
+	}
+
+	public void setSelectedPresupuestoDetalleCampania(PresupuestoDetalleCampania selectedPresupuestoDetalleCampania) {
+		this.selectedPresupuestoDetalleCampania = selectedPresupuestoDetalleCampania;
 	}
 
 	public List<Presupuesto> getListaPresupuestos() {
@@ -264,44 +252,20 @@ public class PresupuestoAprobadorInicialBB extends SpringBeanAutowiringSupport i
 		this.listasGenericas = listasGenericas;
 	}
 
-	public Presupuesto getDetalle() {
-		return detalle;
+	public Usuario getUsuario() {
+		return usuario;
 	}
 
-	public void setDetalle(Presupuesto detalle) {
-		this.detalle = detalle;
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
 	}
 
-	public boolean isMostrarDetalle() {
-		return mostrarDetalle;
+	public List<Cuenta> getListaCuentas() {
+		return listaCuentas;
 	}
 
-	public void setMostrarDetalle(boolean mostrarDetalle) {
-		this.mostrarDetalle = mostrarDetalle;
-	}
-
-	public Observacion getObservacion() {
-		return observacion;
-	}
-
-	public void setObservacion(Observacion observacion) {
-		this.observacion = observacion;
-	}
-
-	public ICentroCostoService getCentroCostoService() {
-		return centroCostoService;
-	}
-
-	public void setCentroCostoService(ICentroCostoService centroCostoService) {
-		this.centroCostoService = centroCostoService;
-	}
-
-	public ICuentaService getCuentaService() {
-		return cuentaService;
-	}
-
-	public void setCuentaService(ICuentaService cuentaService) {
-		this.cuentaService = cuentaService;
+	public void setListaCuentas(List<Cuenta> listaCuentas) {
+		this.listaCuentas = listaCuentas;
 	}
 
 	public List<CentroCosto> getListaCentroCostos() {
@@ -312,21 +276,52 @@ public class PresupuestoAprobadorInicialBB extends SpringBeanAutowiringSupport i
 		this.listaCentroCostos = listaCentroCostos;
 	}
 
-	public List<Cuenta> getListaCuentas() {
-		return listaCuentas;
+	public boolean isMostrarDetalle() {
+		return mostrarDetalle;
 	}
 
-	public void setListaCuentas(List<Cuenta> listaCuentas) {
-		this.listaCuentas = listaCuentas;
-	}
-	
-	
-	public IUsuarioService getUsuarioService() {
-		return usuarioService;
+	public void setMostrarDetalle(boolean mostrarDetalle) {
+		this.mostrarDetalle = mostrarDetalle;
 	}
 
-	public void setUsuarioService(IUsuarioService usuarioService) {
-		this.usuarioService = usuarioService;
+	public int getCamapanaMaxima() {
+		return camapanaMaxima;
 	}
-*/
+
+	public void setCamapanaMaxima(int camapanaMaxima) {
+		this.camapanaMaxima = camapanaMaxima;
+	}
+
+	public Double getTotalMes() {
+		return totalMes;
+	}
+
+	public void setTotalMes(Double totalMes) {
+		this.totalMes = totalMes;
+	}
+
+	public Double getTotalCamp() {
+		return totalCamp;
+	}
+
+	public void setTotalCamp(Double totalCamp) {
+		this.totalCamp = totalCamp;
+	}
+
+	public Integer getAnioGeneral() {
+		return anioGeneral;
+	}
+
+	public void setAnioGeneral(Integer anioGeneral) {
+		this.anioGeneral = anioGeneral;
+	}
+
+	public Observacion getObservacion() {
+		return observacion;
+	}
+
+	public void setObservacion(Observacion observacion) {
+		this.observacion = observacion;
+	}
+	
  }

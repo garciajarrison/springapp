@@ -23,6 +23,6 @@ public interface ICalculadoraService {
 
 	void updateCalculadoras(List<Calculadora[]> listaCalculadora, String string, int camapanaMaxima);
 
-	int getCampanaMaxima();
+	int getCampanaMaxima(Integer anioGeneral);
 	
 }

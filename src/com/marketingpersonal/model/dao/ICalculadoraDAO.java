@@ -21,6 +21,6 @@ public interface ICalculadoraDAO {
 
 	void updateCalculadoras(List<Calculadora[]> listaCalculadora, String tipo, int camapanaMaxima);
 
-	int getCampanaMaxima();
+	int getCampanaMaxima(Integer anioGeneral);
 
 }

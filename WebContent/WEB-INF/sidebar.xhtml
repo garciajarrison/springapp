@@ -58,7 +58,7 @@
                         
                         <p:menuitem id="menuitem_aprobacion_inicial_presupuesto" value="Aprobación Inicial de Presupuesto" icon="fa fa-adjust" outcome="/presupuesto_aprobador_inicial" rendered="#{globalBB.aprobadorInicial or globalBB.usuario.rol eq 'Administrador'}"/>
                         
-                        <p:menuitem id="menuitem_aprobacion_final_presupuesto" value="Aprobación Final de Presupuesto" icon="fa fa-circle" outcome="/inicio" rendered="#{globalBB.aprobadorFinal or globalBB.usuario.rol eq 'Administrador'}"/>
+                        <p:menuitem id="menuitem_aprobacion_final_presupuesto" value="Aprobación Final de Presupuesto" icon="fa fa-circle" outcome="/presupuesto_aprobador_final" rendered="#{globalBB.aprobadorFinal or globalBB.usuario.rol eq 'Administrador'}"/>
                         
                         
                     </po:menu>

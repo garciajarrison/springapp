@@ -75,7 +75,7 @@ public class PresupuestoBB extends SpringBeanAutowiringSupport implements Serial
 		anioGeneral = Integer.valueOf(util.getSessionAttribute(EnumSessionAttributes.ANIO_GENERAL).toString());
 		listaCuentas = this.getCuentaService().getCuentasPorUsuario(usuario.getId());
 		mostrarDetalle = false;
-		camapanaMaxima = getCalculadoraService().getCampanaMaxima();
+		camapanaMaxima = getCalculadoraService().getCampanaMaxima(anioGeneral);
 		observacion = new Observacion();
 	}
 	

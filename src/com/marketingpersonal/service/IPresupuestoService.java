@@ -6,6 +6,7 @@ import com.marketingpersonal.model.entity.Observacion;
 import com.marketingpersonal.model.entity.Presupuesto;
 import com.marketingpersonal.model.entity.PresupuestoDetalleCampania;
 import com.marketingpersonal.model.entity.PresupuestoDetalleMes;
+import com.marketingpersonal.model.entity.Usuario;
 
 
 public interface IPresupuestoService {
@@ -51,5 +52,9 @@ public interface IPresupuestoService {
 	List<PresupuestoDetalleCampania> getPresupuestoDetallesCampania(int idPresupuesto);
 
 	void addObservacion(Observacion observacion);
+
+	List<Presupuesto> getPresupuestosAprobadorInicial(Usuario usuario);
+	
+	List<Presupuesto> getPresupuestosAprobadorFinal(Usuario usuario);
 	
 }
