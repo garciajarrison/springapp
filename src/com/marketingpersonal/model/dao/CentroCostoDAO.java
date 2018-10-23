@@ -99,18 +99,18 @@ public class CentroCostoDAO implements ICentroCostoDAO {
 					.setParameter("id", idUsuario).list();
 	}
 	
-	public Usuario getUsuarioAprobadorInicial(int idCentroCosto) {
+	public List<Usuario> getUsuarioAprobadorInicial(int idCentroCosto) {
 		Session session = getSessionFactory().getCurrentSession();
-		return (Usuario) session.createQuery("select u from UsuarioPorCentroCosto as c, "
+		return (List<Usuario>) session.createQuery("select u from UsuarioPorCentroCosto as c, "
 					+ " Usuario as u where u.id = c.usuarioAprobadorInicial.id and c.centroCosto.id  = :id")
-					.setParameter("id", idCentroCosto).uniqueResult();
+					.setParameter("id", idCentroCosto).list();
 	}
 
-	public Usuario getUsuarioAprobadorFinal(int idCentroCosto) {
+	public List<Usuario> getUsuarioAprobadorFinal(int idCentroCosto) {
 		Session session = getSessionFactory().getCurrentSession();
-		return (Usuario) session.createQuery("select u from UsuarioPorCentroCosto as c, "
+		return (List<Usuario>) session.createQuery("select u from UsuarioPorCentroCosto as c, "
 					+ " Usuario as u where u.id = c.usuarioAprobadorFinal.id and c.centroCosto.id  = :id")
-					.setParameter("id", idCentroCosto).uniqueResult();
+					.setParameter("id", idCentroCosto).list();
 	}
 
 	public List<CentroCosto> getCentroCostosPorCuenta(int idCuenta, int idUsuario) {

@@ -4,9 +4,8 @@ public enum EnumEstadosPresupuesto {
 
 	PENDIENTE("PENDIENTE", "Pendiente de envio"),
 	ENVIADO("ENVIADO", "Enviado al aprobador inicial"),
-	RECHAZADO("RECHAZADO", "Rechazado aprobador incial"),
+	RECHAZADO("RECHAZADO", "Rechazado"),
 	APROBADO("APROBADO", "Enviado al aprobador final"),
-	RECHAZADO2("RECHAZADO2", "Rechazado por aprobador final"),
 	FINALIZADO("FINALIZADO", "Finalizado");
 	
 	private String codigo;

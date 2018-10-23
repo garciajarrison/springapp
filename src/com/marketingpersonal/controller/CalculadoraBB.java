@@ -6,6 +6,8 @@ import java.util.List;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.event.AjaxBehaviorEvent;
+import javax.faces.model.SelectItem;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
@@ -13,6 +15,7 @@ import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 import com.marketingpersonal.common.Util;
 import com.marketingpersonal.model.entity.Calculadora;
 import com.marketingpersonal.service.ICalculadoraService;
+import com.marketingpersonal.service.IParametroService;
 
 @ManagedBean(name = "calculadoraBB")
 @ViewScoped
@@ -22,26 +25,42 @@ public class CalculadoraBB extends SpringBeanAutowiringSupport implements Serial
 
 	@Autowired
 	private ICalculadoraService calculadoraService;
+	@Autowired
+	private IParametroService parametroService;
 	private Util util;
 	private Calculadora calculadora;
 	private Calculadora selectedCalculadora;
 	private List<Calculadora> listaCalculadoras;
 	private List<Calculadora[]> listaCalculadoraCM;
 	private List<Calculadora[]> listaCalculadoraMC;
+	private List<SelectItem> listaAnios;
 	private int camapanaMaxima;
+	private Integer anioGeneral;
+	private Integer anioConsulta;
 	
 	public CalculadoraBB() {
 		util = Util.getInstance();
 		calculadora = new Calculadora();
 		selectedCalculadora = new Calculadora();
+		anioGeneral = Integer.valueOf(parametroService.getParametroByCodigo("ANIO_CALCULADORA").getValor());
+		anioConsulta = anioGeneral;
 		this.cargarListaCalculadora();
 		this.totalizar("CM");
 		this.totalizar("MC");
+		listaAnios = calculadoraService.getListaAnios();
+	}
+	
+	public void cambioAnio(final AjaxBehaviorEvent event){
+		try {
+			cargarListaCalculadora();
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public void cargarListaCalculadora() {
 		try {
-			listaCalculadoras = getCalculadoraService().getCalculadoras("CM");
+			listaCalculadoras = getCalculadoraService().getCalculadoras("CM", anioConsulta);
 			
 			//Carga de calculadora campaña / mes
 			listaCalculadoraCM = new ArrayList<>();
@@ -64,7 +83,7 @@ public class CalculadoraBB extends SpringBeanAutowiringSupport implements Serial
 			
 			camapanaMaxima = listaCalculadoraCM.size();
 			
-			listaCalculadoras = getCalculadoraService().getCalculadoras("MC");
+			listaCalculadoras = getCalculadoraService().getCalculadoras("MC", anioConsulta);
 			
 			//Carga de calculadora Mes / campaña
 			listaCalculadoraMC = new ArrayList<>();
@@ -101,7 +120,7 @@ public class CalculadoraBB extends SpringBeanAutowiringSupport implements Serial
 			this.guardarCampana("MC");
 			camapanaMaxima = camapanaMaxima + 1;
 			
-			this.getCalculadoraService().addCampaniaCalculadora(camapanaMaxima);
+			this.getCalculadoraService().addCampaniaCalculadora(camapanaMaxima, anioGeneral);
 			
 			cargarListaCalculadora();
 			util.mostrarMensaje("Registro agregado con éxito."); 
@@ -330,4 +349,36 @@ public class CalculadoraBB extends SpringBeanAutowiringSupport implements Serial
 		this.camapanaMaxima = camapanaMaxima;
 	}
 
+	public IParametroService getParametroService() {
+		return parametroService;
+	}
+
+	public void setParametroService(IParametroService parametroService) {
+		this.parametroService = parametroService;
+	}
+
+	public Integer getAnioGeneral() {
+		return anioGeneral;
+	}
+
+	public void setAnioGeneral(Integer anioGeneral) {
+		this.anioGeneral = anioGeneral;
+	}
+
+	public Integer getAnioConsulta() {
+		return anioConsulta;
+	}
+
+	public void setAnioConsulta(Integer anioConsulta) {
+		this.anioConsulta = anioConsulta;
+	}
+
+	public List<SelectItem> getListaAnios() {
+		return listaAnios;
+	}
+
+	public void setListaAnios(List<SelectItem> listaAnios) {
+		this.listaAnios = listaAnios;
+	}
+	
  }

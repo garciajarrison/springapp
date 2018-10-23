@@ -17,8 +17,9 @@ public class EnviarCorreo {
 	private String mailServer = "172.23.1.4";
 	private String from = "delfos@jra.com.co";
 	
-	public void enviaCorreoResponsable(Presupuesto presupuesto, Usuario aprobadorInicialFinal, String estado) {
+	public void enviaCorreoResponsable(Presupuesto presupuesto, Usuario aprobadorInicialFinal, EnumEstadosPresupuesto estado) {
 		try {
+			String estadotxt = "";
 			if (aprobadorInicialFinal.getCorreo() == null || aprobadorInicialFinal.getCorreo().equals("")) {
 				return;
 			}
@@ -42,10 +43,11 @@ public class EnviarCorreo {
 
 			html = html.replace(":responsable", presupuesto.getUsuario().getNombre());
 			
-			if(estado.equals("APROBADO INICIAL")||estado.equals("APROBADO FINAL")) {
-				estado = "<span style='color:green'>"+estado+"</span>";
+			if(EnumEstadosPresupuesto.APROBADO.equals(estado) ||
+					EnumEstadosPresupuesto.FINALIZADO.equals(estado)){
+				estadotxt = "<span style='color:green'>"+estado.getNombre()+"</span>";
 			}else {
-				estado = "<span style='color:red'>"+estado+"</span>";
+				estadotxt = "<span style='color:red'>"+estado.getNombre()+"</span>";
 			}
 			
 			html = html.replace(":nombrePresupuesto", presupuesto.getNombre());
@@ -94,7 +96,7 @@ public class EnviarCorreo {
 		}
 	}
 
-	public void enviaCorreoAprobadorInicial(Presupuesto presupuesto, Usuario responsable, List<Usuario> listaAprobadorInicial, String estado) {
+	public void enviaCorreoAprobadorInicial(Presupuesto presupuesto, Usuario responsable, List<Usuario> listaAprobadorInicial, EnumEstadosPresupuesto estado) {
 		try {
 			if (responsable.getCorreo() == null || responsable.getCorreo().equals("")) {
 				return;
@@ -180,7 +182,7 @@ public class EnviarCorreo {
 		}
 	}
 	
-	public void enviaCorreoAprobadorFinal(Presupuesto presupuesto, Usuario aprobadorInicial, List<Usuario> listaAprobadorFinal, String estado) {
+	public void enviaCorreoAprobadorFinal(Presupuesto presupuesto, Usuario aprobadorInicial, List<Usuario> listaAprobadorFinal, EnumEstadosPresupuesto estado) {
 		try {
 			if (aprobadorInicial.getCorreo() == null || aprobadorInicial.getCorreo().equals("")) {
 				return;

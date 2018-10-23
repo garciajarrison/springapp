@@ -164,6 +164,7 @@ public class PresupuestoDAO implements IPresupuestoDAO {
 				.append("			   		UsuarioPorCentroCosto ucc             	   ")
 				.append("			   where p.id = dpc.presupuesto.id                 ")
 				.append("			  and dpc.centroCosto.id = ucc.centroCosto.id      ")
+				.append("			  and dpc.estado = 'ENVIADO'      				   ")
 				.append("			  and ucc.usuarioAprobadorInicial.id = :idUsuario) ")
 				.append("	 or                                                        ")
 				.append("	   p.id in (select dpm.presupuesto.id                      ")
@@ -171,6 +172,7 @@ public class PresupuestoDAO implements IPresupuestoDAO {
 				.append("			   		UsuarioPorCentroCosto ucc             	   ")
 				.append("			   where p.id = dpm.presupuesto.id                 ")
 				.append("			  and dpm.centroCosto.id = ucc.centroCosto.id      ")
+				.append("			  and dpm.estado = 'ENVIADO'      				   ")
 				.append("			  and ucc.usuarioAprobadorInicial.id = :idUsuario))");
 		
 		return (List<Presupuesto>) session.createQuery(query.toString())
@@ -187,14 +189,16 @@ public class PresupuestoDAO implements IPresupuestoDAO {
 				.append("			   		UsuarioPorCentroCosto ucc             	   ")
 				.append("			   where p.id = dpc.presupuesto.id                 ")
 				.append("			  and dpc.centroCosto.id = ucc.centroCosto.id      ")
-				.append("			  and ucc.usuarioAprobadorFinal.id = :idUsuario) ")
+				.append("			  and dpc.estado = 'ENVIADO'      				   ")
+				.append("			  and ucc.usuarioAprobadorFinal.id = :idUsuario)   ")
 				.append("	 or                                                        ")
 				.append("	   p.id in (select dpm.presupuesto.id                      ")
 				.append("			   from PresupuestoDetalleMes dpm,     			   ")
 				.append("			   		UsuarioPorCentroCosto ucc             	   ")
 				.append("			   where p.id = dpm.presupuesto.id                 ")
 				.append("			  and dpm.centroCosto.id = ucc.centroCosto.id      ")
-				.append("			  and ucc.usuarioAprobadorFinal.id = :idUsuario))");
+				.append("			  and dpm.estado = 'ENVIADO'      				   ")
+				.append("			  and ucc.usuarioAprobadorFinal.id = :idUsuario))  ");
 		
 		return (List<Presupuesto>) session.createQuery(query.toString())
 				.setParameter("idUsuario", usuario.getId()).list();

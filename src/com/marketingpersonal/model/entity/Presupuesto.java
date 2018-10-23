@@ -145,8 +145,7 @@ public class Presupuesto implements java.io.Serializable {
 				for(PresupuestoDetalleCampania  tmp: this.getDetalleCampania()) {
 					if(EnumEstadosPresupuesto.APROBADO.getCodigo().equals(tmp.getEstado()) || 
 							EnumEstadosPresupuesto.ENVIADO.getCodigo().equals(tmp.getEstado()) || 
-							EnumEstadosPresupuesto.FINALIZADO.getCodigo().equals(tmp.getEstado())  ||
-							EnumEstadosPresupuesto.RECHAZADO2.getCodigo().equals(tmp.getEstado()) ) {
+							EnumEstadosPresupuesto.FINALIZADO.getCodigo().equals(tmp.getEstado())) {
 						retorno = false;
 						break;
 					}
@@ -157,8 +156,7 @@ public class Presupuesto implements java.io.Serializable {
 				for(PresupuestoDetalleMes tmp: this.getDetalleMes()) {
 					if(EnumEstadosPresupuesto.APROBADO.getCodigo().equals(tmp.getEstado()) || 
 							EnumEstadosPresupuesto.ENVIADO.getCodigo().equals(tmp.getEstado()) || 
-							EnumEstadosPresupuesto.FINALIZADO.getCodigo().equals(tmp.getEstado())  ||
-							EnumEstadosPresupuesto.RECHAZADO2.getCodigo().equals(tmp.getEstado()) ) {
+							EnumEstadosPresupuesto.FINALIZADO.getCodigo().equals(tmp.getEstado())) {
 						retorno = false;
 						break;
 					}

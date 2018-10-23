@@ -22,8 +22,6 @@ public class LoginBB extends SpringBeanAutowiringSupport implements Serializable
 	private static final long serialVersionUID = 1L;
 	@Autowired
 	private IUsuarioService usuarioService;
-	@Autowired
-	private IParametroService parametroService;
 	private String clave;
 	private Util util;
 	
@@ -62,7 +60,6 @@ public class LoginBB extends SpringBeanAutowiringSupport implements Serializable
 				usuario = this.getUsuarioService().login(usuario);
 
 				if(usuario != null) {
-					util.setSessionAttribute(EnumSessionAttributes.ANIO_GENERAL, parametroService.getParametroByCodigo("ANIO_CALCULADORA").getValor());
 					util.setSessionAttribute(EnumSessionAttributes.USUARIO, usuario);
 					util.mostrarMensajeRedirect("Bienvenido: " + usuario.getNombre(), true);
 					util.redirect("inicio.xhtml");
@@ -113,14 +110,6 @@ public class LoginBB extends SpringBeanAutowiringSupport implements Serializable
 
 	public void setUsuario(Usuario usuario) {
 		this.usuario = usuario;
-	}
-
-	public IParametroService getParametroService() {
-		return parametroService;
-	}
-
-	public void setParametroService(IParametroService parametroService) {
-		this.parametroService = parametroService;
 	}
 	
  }

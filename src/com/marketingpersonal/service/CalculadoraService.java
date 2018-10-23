@@ -3,6 +3,8 @@ package com.marketingpersonal.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.faces.model.SelectItem;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -46,27 +48,27 @@ public class CalculadoraService implements ICalculadoraService {
 	}
 	
 	@Transactional(readOnly = false)
-	public List<Calculadora> getCalculadoras(String tipo) {	
-		List<Calculadora> retorno = getEntityDAO().getCalculadoras(tipo);
+	public List<Calculadora> getCalculadoras(String tipo, Integer anio) {	
+		List<Calculadora> retorno = getEntityDAO().getCalculadoras(tipo, anio);
 		
 		if(retorno == null || retorno.size() < 1) {
 			retorno = new ArrayList<>();
 			for(int c = 1; c <= 18; c++) {
 				for(int m = 1; m <=12; m++) {
-					this.addCalculadora(new Calculadora(0,c, m, 0, tipo, 0d));
+					this.addCalculadora(new Calculadora(0,c, m, anio, tipo, 0d));
 				}
 			}
-			retorno = getEntityDAO().getCalculadoras(tipo);
+			retorno = getEntityDAO().getCalculadoras(tipo, anio);
 		}
 		
 		return retorno;
 	}
 
 	@Transactional(readOnly = false)
-	public void addCampaniaCalculadora(int campania) {
+	public void addCampaniaCalculadora(int campania, Integer anio) {
 		for(int m = 1; m <=12; m++) {
-			this.addCalculadora(new Calculadora(0,campania, m, 0, "CM", 0d));
-			this.addCalculadora(new Calculadora(0,campania, m, 0, "MC", 0d));
+			this.addCalculadora(new Calculadora(0,campania, m, anio, "CM", 0d));
+			this.addCalculadora(new Calculadora(0,campania, m, anio, "MC", 0d));
 		}
 	}
 
@@ -82,6 +84,10 @@ public class CalculadoraService implements ICalculadoraService {
 
 	public int getCampanaMaxima(Integer anioGeneral) {
 		return getEntityDAO().getCampanaMaxima(anioGeneral);
+	}
+
+	public List<SelectItem> getListaAnios() {
+		return getEntityDAO().getListaAnios();
 	}
 
 	

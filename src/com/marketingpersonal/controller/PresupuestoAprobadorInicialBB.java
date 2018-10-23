@@ -1,7 +1,6 @@
 package com.marketingpersonal.controller;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -14,6 +13,7 @@ import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
 import com.marketingpersonal.common.EnumEstadosPresupuesto;
 import com.marketingpersonal.common.EnumSessionAttributes;
+import com.marketingpersonal.common.EnviarCorreo;
 import com.marketingpersonal.common.ListasGenericas;
 import com.marketingpersonal.common.Util;
 import com.marketingpersonal.model.entity.CentroCosto;
@@ -26,6 +26,7 @@ import com.marketingpersonal.model.entity.Usuario;
 import com.marketingpersonal.service.ICalculadoraService;
 import com.marketingpersonal.service.ICentroCostoService;
 import com.marketingpersonal.service.ICuentaService;
+import com.marketingpersonal.service.IParametroService;
 import com.marketingpersonal.service.IPresupuestoService;
 
 @ManagedBean(name = "preAprIniBB")
@@ -37,11 +38,11 @@ public class PresupuestoAprobadorInicialBB extends SpringBeanAutowiringSupport i
 	@Autowired
 	private IPresupuestoService presupuestoService;
 	@Autowired
-	private ICuentaService cuentaService;
-	@Autowired
 	private ICentroCostoService centroCostoService;
 	@Autowired
 	private ICalculadoraService calculadoraService;
+	@Autowired
+	private IParametroService parametroService;
 	
 	private Util util;
 	private Presupuesto presupuesto;
@@ -73,7 +74,7 @@ public class PresupuestoAprobadorInicialBB extends SpringBeanAutowiringSupport i
 		selectedPresupuesto = new Presupuesto();
 		
 		listasGenericas = ListasGenericas.getInstance();
-		anioGeneral = Integer.valueOf(util.getSessionAttribute(EnumSessionAttributes.ANIO_GENERAL).toString());
+		anioGeneral = Integer.valueOf(parametroService.getParametroByCodigo("ANIO_CALCULADORA").getValor());
 		camapanaMaxima = getCalculadoraService().getCampanaMaxima(anioGeneral);
 		observacion = new Observacion();
 		mostrarDetalle = false;
@@ -81,16 +82,19 @@ public class PresupuestoAprobadorInicialBB extends SpringBeanAutowiringSupport i
 	
 	public void aprobarPresupuesto(String tipo){
 		try {
+			Integer centroCosto;
 			if("MES".equals(tipo)) {
 				selectedPresupuestoDetalleMes.setEstado(EnumEstadosPresupuesto.APROBADO.getCodigo());
 				getPresupuestoService().actualizarEstadoPresupuestoDetalleMes(selectedPresupuestoDetalleMes);
 				observacion.setPresupuestoDetalleMes(selectedPresupuestoDetalleMes);
-				observacion.setUsuarioRecibe(this.getCentroCostoService().getUsuarioAprobadorFinal(selectedPresupuestoDetalleMes.getCentroCosto().getId()));
+				observacion.setUsuarioRecibe(this.getCentroCostoService().getUsuarioAprobadorFinal(selectedPresupuestoDetalleMes.getCentroCosto().getId()).get(0));
+				centroCosto = selectedPresupuestoDetalleMes.getCentroCosto().getId();
 			}else {
 				selectedPresupuestoDetalleCampania.setEstado(EnumEstadosPresupuesto.APROBADO.getCodigo());
 				getPresupuestoService().actualizarEstadoPresupuestoDetalleCampania(selectedPresupuestoDetalleCampania);
 				observacion.setPresupuestoDetalleCampania(selectedPresupuestoDetalleCampania);
-				observacion.setUsuarioRecibe(this.getCentroCostoService().getUsuarioAprobadorFinal(selectedPresupuestoDetalleCampania.getCentroCosto().getId()));
+				observacion.setUsuarioRecibe(this.getCentroCostoService().getUsuarioAprobadorFinal(selectedPresupuestoDetalleCampania.getCentroCosto().getId()).get(0));
+				centroCosto = selectedPresupuestoDetalleCampania.getCentroCosto().getId();
 			}
 
 			//Guardamos la observacion
@@ -98,7 +102,13 @@ public class PresupuestoAprobadorInicialBB extends SpringBeanAutowiringSupport i
 			observacion.setEstado(EnumEstadosPresupuesto.APROBADO.getCodigo());
 			observacion.setUsuarioEnvia(usuario);
 			getPresupuestoService().addObservacion(observacion);
-			//TODO pendiente enviar correo al aprobador inicial
+			
+			//Envio de correo
+			EnviarCorreo enviarCorreo = new EnviarCorreo();
+			enviarCorreo.enviaCorreoAprobadorFinal(presupuesto, 
+					presupuesto.getUsuario(), 
+					this.getCentroCostoService().getUsuarioAprobadorFinal(centroCosto), 
+					EnumEstadosPresupuesto.APROBADO);
 			
 			observacion = new Observacion();
 			util.mostrarMensaje("El presupuesto fue enviado al aprobador final con éxito.");
@@ -110,16 +120,19 @@ public class PresupuestoAprobadorInicialBB extends SpringBeanAutowiringSupport i
 	
 	public void rechazarPresupuesto(String tipo){
 		try {
+			Integer centroCosto = null;
 			if("MES".equals(tipo)) {
 				selectedPresupuestoDetalleMes.setEstado(EnumEstadosPresupuesto.RECHAZADO.getCodigo());
 				getPresupuestoService().actualizarEstadoPresupuestoDetalleMes(selectedPresupuestoDetalleMes);
 				observacion.setPresupuestoDetalleMes(selectedPresupuestoDetalleMes);
 				observacion.setUsuarioRecibe(detalle.getUsuario());
+				centroCosto = selectedPresupuestoDetalleMes.getCentroCosto().getId();
 			}else {
 				selectedPresupuestoDetalleCampania.setEstado(EnumEstadosPresupuesto.RECHAZADO.getCodigo());
 				getPresupuestoService().actualizarEstadoPresupuestoDetalleCampania(selectedPresupuestoDetalleCampania);
 				observacion.setPresupuestoDetalleCampania(selectedPresupuestoDetalleCampania);
 				observacion.setUsuarioRecibe(detalle.getUsuario());
+				centroCosto = selectedPresupuestoDetalleCampania.getCentroCosto().getId();
 			}
 
 			//Guardamos la observacion
@@ -127,10 +140,15 @@ public class PresupuestoAprobadorInicialBB extends SpringBeanAutowiringSupport i
 			observacion.setEstado(EnumEstadosPresupuesto.RECHAZADO.getCodigo());
 			observacion.setUsuarioEnvia(usuario);
 			getPresupuestoService().addObservacion(observacion);
-			//TODO pendiente enviar correo al aprobador inicial
+			
+			//Envio de correo
+			EnviarCorreo enviarCorreo = new EnviarCorreo();
+			enviarCorreo.enviaCorreoResponsable(presupuesto, 
+					presupuesto.getUsuario(), 
+					EnumEstadosPresupuesto.RECHAZADO);
 			
 			observacion = new Observacion();
-			util.mostrarMensaje("El presupuesto fue enviado al aprobador final con éxito.");
+			util.mostrarMensaje("El presupuesto rechazado con éxito.");
 		} catch (DataAccessException e) {
 			e.printStackTrace();
 			util.mostrarError("Error enviando el registro.");
@@ -143,14 +161,6 @@ public class PresupuestoAprobadorInicialBB extends SpringBeanAutowiringSupport i
 
 	public void setPresupuestoService(IPresupuestoService presupuestoService) {
 		this.presupuestoService = presupuestoService;
-	}
-
-	public ICuentaService getCuentaService() {
-		return cuentaService;
-	}
-
-	public void setCuentaService(ICuentaService cuentaService) {
-		this.cuentaService = cuentaService;
 	}
 
 	public ICentroCostoService getCentroCostoService() {
@@ -323,5 +333,12 @@ public class PresupuestoAprobadorInicialBB extends SpringBeanAutowiringSupport i
 	public void setObservacion(Observacion observacion) {
 		this.observacion = observacion;
 	}
-	
+
+	public IParametroService getParametroService() {
+		return parametroService;
+	}
+
+	public void setParametroService(IParametroService parametroService) {
+		this.parametroService = parametroService;
+	}
  }

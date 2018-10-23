@@ -1,6 +1,9 @@
 package com.marketingpersonal.model.dao;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import javax.faces.model.SelectItem;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -46,10 +49,12 @@ public class CalculadoraDAO implements ICalculadoraDAO {
 				.uniqueResult();
 	}
 
-	public List<Calculadora> getCalculadoras(String tipo) {
+	public List<Calculadora> getCalculadoras(String tipo, Integer anio) {
 		Session session = getSessionFactory().getCurrentSession();
-		return (List<Calculadora>) session.createQuery("from Calculadora where tipo = :tipo order by tipo, campana, mes")
-				.setParameter("tipo", tipo).list();
+		return (List<Calculadora>) session.createQuery("from Calculadora where tipo = :tipo and anio = :anio order by tipo, campana, mes")
+				.setParameter("tipo", tipo)
+				.setParameter("anio", anio)
+				.list();
 	}
 
 	public void eliminarCampaniaCalculadora(int camapanaMaxima) {
@@ -82,11 +87,21 @@ public class CalculadoraDAO implements ICalculadoraDAO {
 	}
 
 	public int getCampanaMaxima(Integer anioGeneral) {
-		int retorno = 0;
 		Session session = getSessionFactory().getCurrentSession();
-		retorno = (Integer)session.createSQLQuery("select max(campana) from presupuestomd.calculadora where anio = '" + anioGeneral + "'")
+		return (Integer)session.createSQLQuery("select max(campana) from presupuestomd.calculadora where anio = '" + anioGeneral + "'")
 				.uniqueResult();
+	}
 
+	public List<SelectItem> getListaAnios() {
+		List<SelectItem> retorno = new ArrayList<>();
+		Session session = getSessionFactory().getCurrentSession();
+		List<Integer> listado = (List<Integer>)session.createSQLQuery("select distinct anio from presupuestomd.calculadora").list();
+		if(listado != null && !listado.isEmpty()) {
+			for(Integer tmp: listado) {
+				retorno.add(new SelectItem(String.valueOf(tmp), String.valueOf(tmp)));
+			}
+		}
+		
 		return retorno;
 	}
 

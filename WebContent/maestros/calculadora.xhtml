@@ -19,18 +19,29 @@
                         
                         <div class="card">
                             <h1>Listado de Calculadoras</h1>
+                            <br/><br/>
+                            Año:
+                            <p:selectOneMenu value="#{calculadoraBB.anioConsulta}">
+                            	<f:selectItems value="#{calculadoraBB.listaAnios}"/>
+                            	 <p:ajax event="change" update="@form"
+        								listener="#{calculadoraBB.cambioAnio}" />
+                            </p:selectOneMenu>
                             
+                            <br/><br/>
                             <p:commandButton id="btnCampana" value="Agregar Campaña" 
+                            		rendered="#{calculadoraBB.anioGeneral eq calculadoraBB.anioConsulta}"
 	                               	actionListener="#{calculadoraBB.agregarCampana}" 
 	                               	update="@form" icon="ui-icon-check fa fa-check Fs14 White" 
 	                               	style="max-width:150px;"/>
                                	
                             <p:commandButton value="Eliminar Campaña"
+                            		  rendered="#{calculadoraBB.anioGeneral eq calculadoraBB.anioConsulta}"
 								      update=":#{p:component('dlgEliminar')}" 
 								      oncomplete="PF('dlgEliminar').show();"
 								      icon="ui-icon-close" style="max-width:150px;" />  	
                                	
 	                        <p:commandButton id="btnGuardar" value="Guardar" 
+	                        		rendered="#{calculadoraBB.anioGeneral eq calculadoraBB.anioConsulta}"
 	                               	actionListener="#{calculadoraBB.guardarCampana}" 
 	                               	update="@form" icon="ui-icon-check fa fa-check Fs14 White" 
 	                               	style="max-width:150px;"/>
@@ -76,84 +87,96 @@
 		                                <p:column headerText="Enero">
 		                                    <p:inputNumber id="Enero" value="#{cal[0].porcentaje}" symbol="%" 
 		                                			symbolPosition="s" required="true" emptyValue="empty"
-		                                			maxValue="100" minValue="0">
+		                                			maxValue="100" minValue="0"
+		                                			readonly="#{calculadoraBB.anioGeneral ne calculadoraBB.anioConsulta}">
 		                                		<p:ajax update="@form" process="@form" listener="#{calculadoraBB.totalizar('CM')}"/>
 		                                	</p:inputNumber>
 		                                </p:column>
 		                                <p:column headerText="Febrero">
 		                                    <p:inputNumber id="Febrero" value="#{cal[1].porcentaje}" symbol="%" 
 			                                		symbolPosition="s" required="true" emptyValue="empty"
-			                                		maxValue="100" minValue="0">
+			                                		maxValue="100" minValue="0"
+			                                		readonly="#{calculadoraBB.anioGeneral ne calculadoraBB.anioConsulta}">
 		                                		<p:ajax update="@form" process="@form" listener="#{calculadoraBB.totalizar('CM')}"/>
 		                                	</p:inputNumber>
 		                                </p:column>
 		                                <p:column headerText="Marzo">
 		                                    <p:inputNumber id="Marzo" value="#{cal[2].porcentaje}" symbol="%" 
 		                                		symbolPosition="s" required="true" emptyValue="empty"
-		                                		maxValue="100" minValue="0">
+		                                		maxValue="100" minValue="0"
+		                                		readonly="#{calculadoraBB.anioGeneral ne calculadoraBB.anioConsulta}">
 		                                		<p:ajax update="@form" process="@form" listener="#{calculadoraBB.totalizar('CM')}"/>
 		                                	</p:inputNumber>
 		                                </p:column>
 		                                <p:column headerText="Abril">
 		                                    <p:inputNumber id="Abril" value="#{cal[3].porcentaje}" symbol="%" 
 		                                		symbolPosition="s" required="true" emptyValue="empty"
-		                                		maxValue="100" minValue="0">
+		                                		maxValue="100" minValue="0"
+		                                		readonly="#{calculadoraBB.anioGeneral ne calculadoraBB.anioConsulta}">
 		                                		<p:ajax update="@form" process="@form" listener="#{calculadoraBB.totalizar('CM')}"/>
 		                                	</p:inputNumber>
 		                                </p:column>
 		                                <p:column headerText="Mayo">
 		                                    <p:inputNumber id="Mayo" value="#{cal[4].porcentaje}" symbol="%" 
 		                                		symbolPosition="s" required="true" emptyValue="empty"
-		                                		maxValue="100" minValue="0">
+		                                		maxValue="100" minValue="0"
+		                                		readonly="#{calculadoraBB.anioGeneral ne calculadoraBB.anioConsulta}">
 		                                		<p:ajax update="@form" process="@form" listener="#{calculadoraBB.totalizar('CM')}"/>
 		                                	</p:inputNumber>
 		                                </p:column>
 		                                <p:column headerText="Junio">
 		                                    <p:inputNumber id="Junio" value="#{cal[5].porcentaje}" symbol="%" 
 		                                		symbolPosition="s" required="true" emptyValue="empty"
-		                                		maxValue="100" minValue="0">
+		                                		maxValue="100" minValue="0"
+		                                		readonly="#{calculadoraBB.anioGeneral ne calculadoraBB.anioConsulta}">
 		                                		<p:ajax update="@form" process="@form" listener="#{calculadoraBB.totalizar('CM')}"/>
 		                                	</p:inputNumber>
 		                                </p:column>
 		                                <p:column headerText="Julio">
 		                                    <p:inputNumber id="Julio" value="#{cal[6].porcentaje}" symbol="%" 
 		                                		symbolPosition="s" required="true" emptyValue="empty"
-		                                		maxValue="100" minValue="0">
+		                                		maxValue="100" minValue="0"
+		                                		readonly="#{calculadoraBB.anioGeneral ne calculadoraBB.anioConsulta}">
 		                                		<p:ajax update="@form" process="@form" listener="#{calculadoraBB.totalizar('CM')}"/>
 		                                	</p:inputNumber>
 		                                </p:column>
 		                                <p:column headerText="Agosto">
 		                                    <p:inputNumber id="Agosto" value="#{cal[7].porcentaje}" symbol="%" 
 		                                		symbolPosition="s" required="true" emptyValue="empty"
-		                                		maxValue="100" minValue="0">
+		                                		maxValue="100" minValue="0"
+		                                		readonly="#{calculadoraBB.anioGeneral ne calculadoraBB.anioConsulta}">
 		                                		<p:ajax update="@form" process="@form" listener="#{calculadoraBB.totalizar('CM')}"/>
 		                                	</p:inputNumber>
 		                                </p:column>
 		                                <p:column headerText="Septiembre">
 		                                    <p:inputNumber id="Septiembre" value="#{cal[8].porcentaje}" symbol="%" 
 		                                		symbolPosition="s" required="true" emptyValue="empty"
-		                                		maxValue="100" minValue="0">
+		                                		maxValue="100" minValue="0"
+		                                		readonly="#{calculadoraBB.anioGeneral ne calculadoraBB.anioConsulta}">
 		                                		<p:ajax update="@form" process="@form" listener="#{calculadoraBB.totalizar('CM')}"/>
 		                                	</p:inputNumber>
 		                                </p:column>
 		                                <p:column headerText="Octubre">
 		                                    <p:inputNumber id="Octubre" value="#{cal[9].porcentaje}" symbol="%" 
 		                                		symbolPosition="s" required="true" emptyValue="empty"
-		                                		maxValue="100" minValue="0">
+		                                		maxValue="100" minValue="0"
+		                                		readonly="#{calculadoraBB.anioGeneral ne calculadoraBB.anioConsulta}">
 		                                		<p:ajax update="@form" process="@form" listener="#{calculadoraBB.totalizar('CM')}"/>
 		                                	</p:inputNumber>
 		                                </p:column>
 		                                <p:column headerText="Noviembre">
 		                                    <p:inputNumber id="Noviembre" value="#{cal[10].porcentaje}" symbol="%" 
 		                                		symbolPosition="s" required="true" emptyValue="empty"
-		                                		maxValue="100" minValue="0">
+		                                		maxValue="100" minValue="0"
+		                                		readonly="#{calculadoraBB.anioGeneral ne calculadoraBB.anioConsulta}">
 		                                		<p:ajax update="@form" process="@form" listener="#{calculadoraBB.totalizar('CM')}"/>
 		                                	</p:inputNumber>
 		                                </p:column>
 		                                <p:column headerText="Diciembre">
 		                                    <p:inputNumber id="Diciembre" value="#{cal[11].porcentaje}" symbol="%" 
 		                                		symbolPosition="s" required="true" emptyValue="empty"
-		                                		maxValue="100" minValue="0">
+		                                		maxValue="100" minValue="0"
+		                                		readonly="#{calculadoraBB.anioGeneral ne calculadoraBB.anioConsulta}">
 		                                		<p:ajax update="@form" process="@form" listener="#{calculadoraBB.totalizar('CM')}"/>
 		                                	</p:inputNumber>
 		                                </p:column>
@@ -208,7 +231,7 @@
 		                                    <p:inputNumber id="Enero" value="#{cal[0].porcentaje}" symbol="%" 
 		                                		symbolPosition="s" required="true" emptyValue="empty"
 		                                		maxValue="100" minValue="0"
-		                                		readonly="#{cal[0].campana gt calculadoraBB.camapanaMaxima}">
+		                                		readonly="#{cal[0].campana gt calculadoraBB.camapanaMaxima or calculadoraBB.anioGeneral ne calculadoraBB.anioConsulta}">
 		                                		<p:ajax update="@form" process="@form" listener="#{calculadoraBB.totalizar('MC')}"/>
 		                                	</p:inputNumber>
 		                                </p:column>
@@ -216,7 +239,7 @@
 		                                    <p:inputNumber id="Febrero" value="#{cal[1].porcentaje}" symbol="%" 
 		                                		symbolPosition="s" required="true" emptyValue="empty"
 		                                		maxValue="100" minValue="0"
-		                                		readonly="#{cal[0].campana gt calculadoraBB.camapanaMaxima}">
+		                                		readonly="#{cal[0].campana gt calculadoraBB.camapanaMaxima or calculadoraBB.anioGeneral ne calculadoraBB.anioConsulta}">
 		                                		<p:ajax update="@form" process="@form" listener="#{calculadoraBB.totalizar('MC')}"/>
 		                                	</p:inputNumber>
 		                                </p:column>
@@ -224,7 +247,7 @@
 		                                    <p:inputNumber id="Marzo" value="#{cal[2].porcentaje}" symbol="%" 
 		                                		symbolPosition="s" required="true" emptyValue="empty"
 		                                		maxValue="100" minValue="0"
-		                                		readonly="#{cal[0].campana gt calculadoraBB.camapanaMaxima}">
+		                                		readonly="#{cal[0].campana gt calculadoraBB.camapanaMaxima or calculadoraBB.anioGeneral ne calculadoraBB.anioConsulta}">
 		                                		<p:ajax update="@form" process="@form" listener="#{calculadoraBB.totalizar('MC')}"/>
 		                                	</p:inputNumber>
 		                                </p:column>
@@ -232,7 +255,7 @@
 		                                    <p:inputNumber id="Abril" value="#{cal[3].porcentaje}" symbol="%" 
 		                                		symbolPosition="s" required="true" emptyValue="empty"
 		                                		maxValue="100" minValue="0"
-		                                		readonly="#{cal[0].campana gt calculadoraBB.camapanaMaxima}">
+		                                		readonly="#{cal[0].campana gt calculadoraBB.camapanaMaxima or calculadoraBB.anioGeneral ne calculadoraBB.anioConsulta}">
 		                                		<p:ajax update="@form" process="@form" listener="#{calculadoraBB.totalizar('MC')}"/>
 		                                	</p:inputNumber>
 		                                </p:column>
@@ -240,7 +263,7 @@
 		                                    <p:inputNumber id="Mayo" value="#{cal[4].porcentaje}" symbol="%" 
 		                                		symbolPosition="s" required="true" emptyValue="empty"
 		                                		maxValue="100" minValue="0"
-		                                		readonly="#{cal[0].campana gt calculadoraBB.camapanaMaxima}">
+		                                		readonly="#{cal[0].campana gt calculadoraBB.camapanaMaxima or calculadoraBB.anioGeneral ne calculadoraBB.anioConsulta}">
 		                                		<p:ajax update="@form" process="@form" listener="#{calculadoraBB.totalizar('MC')}"/>
 		                                	</p:inputNumber>
 		                                </p:column>
@@ -248,7 +271,7 @@
 		                                    <p:inputNumber id="Junio" value="#{cal[5].porcentaje}" symbol="%" 
 		                                		symbolPosition="s" required="true" emptyValue="empty"
 		                                		maxValue="100" minValue="0"
-		                                		readonly="#{cal[0].campana gt calculadoraBB.camapanaMaxima}">
+		                                		readonly="#{cal[0].campana gt calculadoraBB.camapanaMaxima or calculadoraBB.anioGeneral ne calculadoraBB.anioConsulta}">
 		                                		<p:ajax update="@form" process="@form" listener="#{calculadoraBB.totalizar('MC')}"/>
 		                                	</p:inputNumber>
 		                                </p:column>
@@ -256,7 +279,7 @@
 		                                    <p:inputNumber id="Julio" value="#{cal[6].porcentaje}" symbol="%" 
 		                                		symbolPosition="s" required="true" emptyValue="empty"
 		                                		maxValue="100" minValue="0"
-		                                		readonly="#{cal[0].campana gt calculadoraBB.camapanaMaxima}">
+		                                		readonly="#{cal[0].campana gt calculadoraBB.camapanaMaxima or calculadoraBB.anioGeneral ne calculadoraBB.anioConsulta}">
 		                                		<p:ajax update="@form" process="@form" listener="#{calculadoraBB.totalizar('MC')}"/>
 		                                	</p:inputNumber>
 		                                </p:column>
@@ -264,7 +287,7 @@
 		                                    <p:inputNumber id="Agosto" value="#{cal[7].porcentaje}" symbol="%" 
 		                                		symbolPosition="s" required="true" emptyValue="empty"
 		                                		maxValue="100" minValue="0"
-		                                		readonly="#{cal[0].campana gt calculadoraBB.camapanaMaxima}">
+		                                		readonly="#{cal[0].campana gt calculadoraBB.camapanaMaxima or calculadoraBB.anioGeneral ne calculadoraBB.anioConsulta}">
 		                                		<p:ajax update="@form" process="@form" listener="#{calculadoraBB.totalizar('MC')}"/>
 		                                	</p:inputNumber>
 		                                </p:column>
@@ -272,7 +295,7 @@
 		                                    <p:inputNumber id="Septiembre" value="#{cal[8].porcentaje}" symbol="%" 
 		                                		symbolPosition="s" required="true" emptyValue="empty"
 		                                		maxValue="100" minValue="0"
-		                                		readonly="#{cal[0].campana gt calculadoraBB.camapanaMaxima}">
+		                                		readonly="#{cal[0].campana gt calculadoraBB.camapanaMaxima or calculadoraBB.anioGeneral ne calculadoraBB.anioConsulta}">
 		                                		<p:ajax update="@form" process="@form" listener="#{calculadoraBB.totalizar('MC')}"/>
 		                                	</p:inputNumber>
 		                                </p:column>
@@ -280,7 +303,7 @@
 		                                    <p:inputNumber id="Octubre" value="#{cal[9].porcentaje}" symbol="%" 
 		                                		symbolPosition="s" required="true" emptyValue="empty"
 		                                		maxValue="100" minValue="0"
-		                                		readonly="#{cal[0].campana gt calculadoraBB.camapanaMaxima}">
+		                                		readonly="#{cal[0].campana gt calculadoraBB.camapanaMaxima or calculadoraBB.anioGeneral ne calculadoraBB.anioConsulta}">
 		                                		<p:ajax update="@form" process="@form" listener="#{calculadoraBB.totalizar('MC')}"/>
 		                                	</p:inputNumber>
 		                                </p:column>
@@ -288,7 +311,7 @@
 		                                    <p:inputNumber id="Noviembre" value="#{cal[10].porcentaje}" symbol="%" 
 		                                		symbolPosition="s" required="true" emptyValue="empty"
 		                                		maxValue="100" minValue="0"
-		                                		readonly="#{cal[0].campana gt calculadoraBB.camapanaMaxima}">
+		                                		readonly="#{cal[0].campana gt calculadoraBB.camapanaMaxima or calculadoraBB.anioGeneral ne calculadoraBB.anioConsulta}">
 		                                		<p:ajax update="@form" process="@form" listener="#{calculadoraBB.totalizar('MC')}"/>
 		                                	</p:inputNumber>
 		                                </p:column>
@@ -296,7 +319,7 @@
 		                                    <p:inputNumber id="Diciembre" value="#{cal[11].porcentaje}" symbol="%" 
 		                                		symbolPosition="s" required="true" emptyValue="empty"
 		                                		maxValue="100" minValue="0"
-		                                		readonly="#{cal[0].campana gt calculadoraBB.camapanaMaxima}">
+		                                		readonly="#{cal[0].campana gt calculadoraBB.camapanaMaxima or calculadoraBB.anioGeneral ne calculadoraBB.anioConsulta}">
 		                                		<p:ajax update="@form" process="@form" listener="#{calculadoraBB.totalizar('MC')}"/>
 		                                	</p:inputNumber>
 		                                </p:column>
