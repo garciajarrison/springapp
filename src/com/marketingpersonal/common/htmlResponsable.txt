@@ -1,0 +1,70 @@
+<html>
+	
+	<body style="font-family: Helvetica, Arial, sans-serif; color: #666; background: white; width: 800px;  margin: 0 auto;">
+		
+		<table style = "width: 100%; height:10px;">
+				<tr>
+					<th width='100%' bgcolor='#3787B6' ></th>
+				</tr>
+			</table>
+		
+		<table style = "width: 100%; height:100px;">
+			<tr>
+				<th width='20%' align=left ><img src="https://picsum.photos/g/100/?random" /></th>
+				<th style = "font-family:Tahoma; font-weight: bolder; font-size:20px;">NOTIFICACIÓN DE PRESUPUESTO</th>
+				<th width='20%' align=right><img src="https://picsum.photos/g/100/?random" /></th>
+			</tr>
+		</table>	
+		
+		<table style = "width: 100%; height:10px;">
+				<tr>
+					<th width='100%' bgcolor='#3787B6' ></th>
+				</tr>
+		</table>
+		
+		<br>
+
+		<p style="font-family:Tahoma; color: rgba(0,0,0,.4);  margin: 10px 0; font-weight: 100;  font-size: 12px">
+			<b>Hola</b>, :responsable
+		</p>
+		<br>
+		<p style="font-family:Tahoma; color: rgba(0,0,0,.4);  margin: 10px 0; font-weight: 100;  font-size: 12px">
+			El siguiente presupuesto ha sido :estadoPresupuesto:
+		</p>
+		<br>
+				
+		<h1 style="margin: 10px 0 10px 0;  font-size: 1.25em;  color: rgba(0,0,0,0.8);">Información de Presupuesto</h1>		
+		<table  style = "font-family:Tahoma; 	font-size:11px; 	border:1px solid gainsboro; margin: 0 auto; WIDTH:100%">
+			<tr>
+				<td bgcolor='#f7921e' style="color:white" ><b>NOMBRE PRESUPUESTO</b></td>
+				<td bgcolor='#f7921e' style="color:white"><b>DESCRIPCION</b></td>
+				<td bgcolor='#f7921e' style="color:white"><b>TIPO</b></td>
+				<td bgcolor='#f7921e' style="color:white"><b>CLASIFICACION</b></td>
+				<td bgcolor='#f7921e' style="color:white"><b>:tituloAprobadorInicialFinal</b></td>
+			</tr>			
+			<tr>
+				<td><b>:nombrePresupuesto</b></td>
+				<td><b>:descripcionPresupuesto</b></td>
+				<td><b>:tipoPresupuesto</b></td>
+				<td><b>:clasificacionPresupuesto</b></td>
+				<td><b>:aprobadorInicialFinal</b></td>
+			</tr>			
+		</table>
+		
+			
+			<br>
+			
+			<p style="font-family:Tahoma; color: rgba(0,0,0,.4);  margin: 10px 0; font-weight: 100;  font-size: 12px">
+				Para obtener mas detalle ingrese al aplicativo haciendo clic en el siguiente enlace:
+				<a href="localhost:8080/presupuesto_marketing_personal">localhost:8080/presupuesto_marketing_personal</a>
+			</p>
+			
+			<br>
+			
+			<table style = "width: 100%; height:50px;">
+				<tr>
+					<th width='100%' bgcolor='#3787B6' ></th>
+				</tr>
+			</table>
+	</body>
+</html>
