@@ -202,13 +202,13 @@
                                 <p:column headerText="Acciones" exportable="false">
                                     <p:splitButton value="Accion" icon="fa fa-edit">
 								        <p:menuitem value="Aprobar" 
-								        			rendered="#{presupuestoDetalleMes.estado eq 'ENVIADO'}"
+								        			rendered="#{presupuestoDetalleMes.estado eq 'APROBADO'}"
 								        			actionListener="#{preAprFinBB.setSelectedPresupuestoDetalleMes(presupuestoDetalleMes)}" 
 								        			update=":#{p:component('dlgAprobarMes')}" oncomplete="PF('dlgAprobarMes').show();"
 								        			icon="ui-icon-send" >
 								        </p:menuitem>
 								        <p:menuitem value="Rechazar" 
-													rendered="#{presupuestoDetalleMes.estado eq 'ENVIADO'}"				
+													rendered="#{presupuestoDetalleMes.estado eq 'APROBADO'}"				
 													actionListener="#{preAprFinBB.setSelectedPresupuestoDetalleMes(presupuestoDetalleMes)}" 
 								        			update=":#{p:component('dlgRechazarMes')}" oncomplete="PF('dlgRechazarMes').show();"
 								        			icon="ui-icon-send" >
@@ -522,13 +522,13 @@
                                 <p:column headerText="Acciones" exportable="false">
                                     <p:splitButton value="Accion" icon="fa fa-edit">
 								        <p:menuitem value="Aprobar" 
-								        			rendered="#{presupuestoDetalleCampania.estado eq 'PENDIENTE' or presupuestoDetalleCampania.estado eq 'RECHAZADO'}"
+								        			rendered="#{presupuestoDetalleCampania.estado eq 'APROBADO'}"
 								        			actionListener="#{preAprFinBB.setSelectedPresupuestoDetalleCampania(presupuestoDetalleCampania)}" 
 								        			update=":#{p:component('dlgAprobarCamp')}" oncomplete="PF('dlgAprobarCamp').show();"
 								        			icon="ui-icon-send" >
 								        </p:menuitem>
 								        <p:menuitem value="Rechazar" 
-								        			rendered="#{presupuestoDetalleCampania.estado eq 'PENDIENTE' or presupuestoDetalleCampania.estado eq 'RECHAZADO'}"
+								        			rendered="#{presupuestoDetalleCampania.estado eq 'APROBADO'}"
 								        			actionListener="#{preAprFinBB.setSelectedPresupuestoDetalleCampania(presupuestoDetalleCampania)}" 
 								        			update=":#{p:component('dlgRechazarCamp')}" oncomplete="PF('dlgRechazarCamp').show();"
 								        			icon="ui-icon-send" >

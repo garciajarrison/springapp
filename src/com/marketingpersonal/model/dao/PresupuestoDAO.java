@@ -211,8 +211,7 @@ public class PresupuestoDAO implements IPresupuestoDAO {
 				.append("select dpc                                         ")
 				.append(" from PresupuestoDetalleCampania dpc,			    ")
 				.append("	   UsuarioPorCentroCosto ucc             	    ")
-				.append(" where p.id = dpc.presupuesto.id                   ")
-				.append("   and dpc.presupuesto.id = :idPresupuesto         ")
+				.append(" where dpc.presupuesto.id = :idPresupuesto         ")
 				.append("	and dpc.centroCosto.id = ucc.centroCosto.id     ")
 				.append("	and dpc.estado = 'ENVIADO'      				")
 				.append("	and ucc.usuarioAprobadorInicial.id = :idUsuario ");
@@ -229,8 +228,7 @@ public class PresupuestoDAO implements IPresupuestoDAO {
 				.append("select dpm                                         ")
 				.append(" from PresupuestoDetalleMes dpm,			        ")
 				.append("	   UsuarioPorCentroCosto ucc             	    ")
-				.append(" where p.id = dpm.presupuesto.id                   ")
-				.append("   and dpm.presupuesto.id = :idPresupuesto         ")
+				.append(" where dpm.presupuesto.id = :idPresupuesto         ")
 				.append("	and dpm.centroCosto.id = ucc.centroCosto.id     ")
 				.append("	and dpm.estado = 'ENVIADO'      				")
 				.append("	and ucc.usuarioAprobadorInicial.id = :idUsuario ");
@@ -247,8 +245,7 @@ public class PresupuestoDAO implements IPresupuestoDAO {
 				.append("select dpc                                         ")
 				.append(" from PresupuestoDetalleCampania dpc,			    ")
 				.append("	   UsuarioPorCentroCosto ucc             	    ")
-				.append(" where p.id = dpc.presupuesto.id                   ")
-				.append("   and dpc.presupuesto.id = :idPresupuesto         ")
+				.append(" where dpc.presupuesto.id = :idPresupuesto         ")
 				.append("	and dpc.centroCosto.id = ucc.centroCosto.id     ")
 				.append("	and dpc.estado = 'APROBADO'      				")
 				.append("	and ucc.usuarioAprobadorInicial.id = :idUsuario ");
@@ -264,8 +261,7 @@ public class PresupuestoDAO implements IPresupuestoDAO {
 				.append("select dpm                                         ")
 				.append(" from PresupuestoDetalleMes dpm,			        ")
 				.append("	   UsuarioPorCentroCosto ucc             	    ")
-				.append(" where p.id = dpm.presupuesto.id                   ")
-				.append("   and dpm.presupuesto.id = :idPresupuesto         ")
+				.append(" where dpm.presupuesto.id = :idPresupuesto         ")
 				.append("	and dpm.centroCosto.id = ucc.centroCosto.id     ")
 				.append("	and dpm.estado = 'APROBADO'      				")
 				.append("	and ucc.usuarioAprobadorInicial.id = :idUsuario ");

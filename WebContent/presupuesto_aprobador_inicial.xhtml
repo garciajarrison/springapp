@@ -522,13 +522,13 @@
                                 <p:column headerText="Acciones" exportable="false">
                                     <p:splitButton value="Accion" icon="fa fa-edit">
 								        <p:menuitem value="Aprobar" 
-								        			rendered="#{presupuestoDetalleCampania.estado eq 'PENDIENTE' or presupuestoDetalleCampania.estado eq 'RECHAZADO'}"
+								        			rendered="#{presupuestoDetalleCampania.estado eq 'ENVIADO'}"
 								        			actionListener="#{preAprIniBB.setSelectedPresupuestoDetalleCampania(presupuestoDetalleCampania)}" 
 								        			update=":#{p:component('dlgAprobarCamp')}" oncomplete="PF('dlgAprobarCamp').show();"
 								        			icon="ui-icon-send" >
 								        </p:menuitem>
 								        <p:menuitem value="Rechazar" 
-								        			rendered="#{presupuestoDetalleCampania.estado eq 'PENDIENTE' or presupuestoDetalleCampania.estado eq 'RECHAZADO'}"
+								        			rendered="#{presupuestoDetalleCampania.estado eq 'ENVIADO'}"
 								        			actionListener="#{preAprIniBB.setSelectedPresupuestoDetalleCampania(presupuestoDetalleCampania)}" 
 								        			update=":#{p:component('dlgRechazarCamp')}" oncomplete="PF('dlgRechazarCamp').show();"
 								        			icon="ui-icon-send" >
