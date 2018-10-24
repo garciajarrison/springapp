@@ -57,4 +57,13 @@ public interface IPresupuestoService {
 	
 	List<Presupuesto> getPresupuestosAprobadorFinal(Usuario usuario);
 	
+
+	List<PresupuestoDetalleCampania> getPresupuestoDetallesCampaniaAprobadorInicial(int idPresupuesto, Usuario usuario);
+
+	List<PresupuestoDetalleMes> getPresupuestoDetallesMesAprobadorInicial(int idPresupuesto, Usuario usuario);
+
+	List<PresupuestoDetalleCampania> getPresupuestoDetallesCampaniaAprobadorFinal(int idPresupuesto, Usuario usuario);
+
+	List<PresupuestoDetalleMes> getPresupuestoDetallesMesAprobadorFinal(int ididPresupuesto, Usuario usuario);
+	
 }

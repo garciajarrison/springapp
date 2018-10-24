@@ -131,5 +131,21 @@ public class PresupuestoService implements IPresupuestoService {
 		return getEntityDAO().getPresupuestosAprobadorFinal(usuario);
 	}
 	
+	public List<PresupuestoDetalleCampania> getPresupuestoDetallesCampaniaAprobadorInicial(int idPresupuesto, Usuario usuario){
+		return getEntityDAO().getPresupuestoDetallesCampaniaAprobadorInicial(idPresupuesto, usuario);
+	}
+
+	public List<PresupuestoDetalleMes> getPresupuestoDetallesMesAprobadorInicial(int idPresupuesto, Usuario usuario){
+		return getEntityDAO().getPresupuestoDetallesMesAprobadorInicial(idPresupuesto, usuario);
+	}
+
+	public List<PresupuestoDetalleCampania> getPresupuestoDetallesCampaniaAprobadorFinal(int idPresupuesto, Usuario usuario){
+		return getEntityDAO().getPresupuestoDetallesCampaniaAprobadorFinal(idPresupuesto, usuario);
+	}
+
+	public List<PresupuestoDetalleMes> getPresupuestoDetallesMesAprobadorFinal(int idPresupuesto, Usuario usuario){
+		return getEntityDAO().getPresupuestoDetallesMesAprobadorFinal(idPresupuesto, usuario);
+	}
+	
 
 }

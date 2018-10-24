@@ -189,7 +189,7 @@ public class PresupuestoDAO implements IPresupuestoDAO {
 				.append("			   		UsuarioPorCentroCosto ucc             	   ")
 				.append("			   where p.id = dpc.presupuesto.id                 ")
 				.append("			  and dpc.centroCosto.id = ucc.centroCosto.id      ")
-				.append("			  and dpc.estado = 'ENVIADO'      				   ")
+				.append("			  and dpc.estado = 'APROBADO'      				   ")
 				.append("			  and ucc.usuarioAprobadorFinal.id = :idUsuario)   ")
 				.append("	 or                                                        ")
 				.append("	   p.id in (select dpm.presupuesto.id                      ")
@@ -197,10 +197,81 @@ public class PresupuestoDAO implements IPresupuestoDAO {
 				.append("			   		UsuarioPorCentroCosto ucc             	   ")
 				.append("			   where p.id = dpm.presupuesto.id                 ")
 				.append("			  and dpm.centroCosto.id = ucc.centroCosto.id      ")
-				.append("			  and dpm.estado = 'ENVIADO'      				   ")
+				.append("			  and dpm.estado = 'APROBADO'      				   ")
 				.append("			  and ucc.usuarioAprobadorFinal.id = :idUsuario))  ");
 		
 		return (List<Presupuesto>) session.createQuery(query.toString())
+				.setParameter("idUsuario", usuario.getId()).list();
+	}
+
+	public List<PresupuestoDetalleCampania> getPresupuestoDetallesCampaniaAprobadorInicial(int idPresupuesto, Usuario usuario) {
+		
+		Session session = getSessionFactory().getCurrentSession();
+		StringBuilder query = new StringBuilder()
+				.append("select dpc                                         ")
+				.append(" from PresupuestoDetalleCampania dpc,			    ")
+				.append("	   UsuarioPorCentroCosto ucc             	    ")
+				.append(" where p.id = dpc.presupuesto.id                   ")
+				.append("   and dpc.presupuesto.id = :idPresupuesto         ")
+				.append("	and dpc.centroCosto.id = ucc.centroCosto.id     ")
+				.append("	and dpc.estado = 'ENVIADO'      				")
+				.append("	and ucc.usuarioAprobadorInicial.id = :idUsuario ");
+		
+		return (List<PresupuestoDetalleCampania>) session.createQuery(query.toString())
+				.setParameter("idPresupuesto", idPresupuesto)
+				.setParameter("idUsuario", usuario.getId()).list();
+	}
+
+	public List<PresupuestoDetalleMes> getPresupuestoDetallesMesAprobadorInicial(int idPresupuesto, Usuario usuario) {
+		
+		Session session = getSessionFactory().getCurrentSession();
+		StringBuilder query = new StringBuilder()
+				.append("select dpm                                         ")
+				.append(" from PresupuestoDetalleMes dpm,			        ")
+				.append("	   UsuarioPorCentroCosto ucc             	    ")
+				.append(" where p.id = dpm.presupuesto.id                   ")
+				.append("   and dpm.presupuesto.id = :idPresupuesto         ")
+				.append("	and dpm.centroCosto.id = ucc.centroCosto.id     ")
+				.append("	and dpm.estado = 'ENVIADO'      				")
+				.append("	and ucc.usuarioAprobadorInicial.id = :idUsuario ");
+		
+		return (List<PresupuestoDetalleMes>) session.createQuery(query.toString())
+				.setParameter("idPresupuesto", idPresupuesto)
+				.setParameter("idUsuario", usuario.getId()).list();
+	}
+
+	public List<PresupuestoDetalleCampania> getPresupuestoDetallesCampaniaAprobadorFinal(int idPresupuesto, Usuario usuario) {
+		
+		Session session = getSessionFactory().getCurrentSession();
+		StringBuilder query = new StringBuilder()
+				.append("select dpc                                         ")
+				.append(" from PresupuestoDetalleCampania dpc,			    ")
+				.append("	   UsuarioPorCentroCosto ucc             	    ")
+				.append(" where p.id = dpc.presupuesto.id                   ")
+				.append("   and dpc.presupuesto.id = :idPresupuesto         ")
+				.append("	and dpc.centroCosto.id = ucc.centroCosto.id     ")
+				.append("	and dpc.estado = 'APROBADO'      				")
+				.append("	and ucc.usuarioAprobadorInicial.id = :idUsuario ");
+		
+		return (List<PresupuestoDetalleCampania>) session.createQuery(query.toString())
+				.setParameter("idPresupuesto", idPresupuesto)
+				.setParameter("idUsuario", usuario.getId()).list();
+	}
+
+	public List<PresupuestoDetalleMes> getPresupuestoDetallesMesAprobadorFinal(int idPresupuesto, Usuario usuario) {
+		Session session = getSessionFactory().getCurrentSession();
+		StringBuilder query = new StringBuilder()
+				.append("select dpm                                         ")
+				.append(" from PresupuestoDetalleMes dpm,			        ")
+				.append("	   UsuarioPorCentroCosto ucc             	    ")
+				.append(" where p.id = dpm.presupuesto.id                   ")
+				.append("   and dpm.presupuesto.id = :idPresupuesto         ")
+				.append("	and dpm.centroCosto.id = ucc.centroCosto.id     ")
+				.append("	and dpm.estado = 'APROBADO'      				")
+				.append("	and ucc.usuarioAprobadorInicial.id = :idUsuario ");
+		
+		return (List<PresupuestoDetalleMes>) session.createQuery(query.toString())
+				.setParameter("idPresupuesto", idPresupuesto)
 				.setParameter("idUsuario", usuario.getId()).list();
 	}
 

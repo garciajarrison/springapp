@@ -186,6 +186,8 @@ public class PresupuestoAprobadorFinalBB extends SpringBeanAutowiringSupport imp
 	public void setDetalle(Presupuesto detalle) {
 		this.detalle = detalle;
 		if(detalle != null) {
+			detalle.setDetalleCampania(this.getPresupuestoService().getPresupuestoDetallesCampaniaAprobadorFinal(detalle.getId(), usuario));
+			detalle.setDetalleMes(this.getPresupuestoService().getPresupuestoDetallesMesAprobadorFinal(detalle.getId(), usuario));
 			mostrarDetalle = true;
 		}
 	}
