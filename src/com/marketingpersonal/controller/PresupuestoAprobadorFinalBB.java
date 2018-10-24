@@ -44,7 +44,6 @@ public class PresupuestoAprobadorFinalBB extends SpringBeanAutowiringSupport imp
 	private IParametroService parametroService;
 	
 	private Util util;
-	private Presupuesto presupuesto;
 	private Presupuesto detalle;
 	private Presupuesto selectedPresupuesto;
 	private PresupuestoDetalleMes presupuestoDetalleMes;
@@ -55,8 +54,6 @@ public class PresupuestoAprobadorFinalBB extends SpringBeanAutowiringSupport imp
 	private ListasGenericas listasGenericas;
 	private Usuario usuario;
 	private Observacion observacion;
-	private List<Cuenta> listaCuentas;
-	private List<CentroCosto> listaCentroCostos;
 	private boolean mostrarDetalle;
 	private int camapanaMaxima;
 	private Double totalMes = 0d;
@@ -101,8 +98,8 @@ public class PresupuestoAprobadorFinalBB extends SpringBeanAutowiringSupport imp
 			
 			//Envio de correo
 			EnviarCorreo enviarCorreo = new EnviarCorreo();
-			enviarCorreo.enviaCorreoResponsable(presupuesto, 
-					presupuesto.getUsuario(), 
+			enviarCorreo.enviaCorreoResponsable(detalle, 
+					detalle.getUsuario(), 
 					EnumEstadosPresupuesto.FINALIZADO);
 			
 			observacion = new Observacion();
@@ -138,8 +135,8 @@ public class PresupuestoAprobadorFinalBB extends SpringBeanAutowiringSupport imp
 			
 			//Envio de correo
 			EnviarCorreo enviarCorreo = new EnviarCorreo();
-			enviarCorreo.enviaCorreoResponsable(presupuesto, 
-					presupuesto.getUsuario(), 
+			enviarCorreo.enviaCorreoResponsable(detalle, 
+					detalle.getUsuario(), 
 					EnumEstadosPresupuesto.RECHAZADO);
 			
 			observacion = new Observacion();
@@ -180,14 +177,6 @@ public class PresupuestoAprobadorFinalBB extends SpringBeanAutowiringSupport imp
 
 	public void setUtil(Util util) {
 		this.util = util;
-	}
-
-	public Presupuesto getPresupuesto() {
-		return presupuesto;
-	}
-
-	public void setPresupuesto(Presupuesto presupuesto) {
-		this.presupuesto = presupuesto;
 	}
 
 	public Presupuesto getDetalle() {
@@ -263,22 +252,6 @@ public class PresupuestoAprobadorFinalBB extends SpringBeanAutowiringSupport imp
 
 	public void setUsuario(Usuario usuario) {
 		this.usuario = usuario;
-	}
-
-	public List<Cuenta> getListaCuentas() {
-		return listaCuentas;
-	}
-
-	public void setListaCuentas(List<Cuenta> listaCuentas) {
-		this.listaCuentas = listaCuentas;
-	}
-
-	public List<CentroCosto> getListaCentroCostos() {
-		return listaCentroCostos;
-	}
-
-	public void setListaCentroCostos(List<CentroCosto> listaCentroCostos) {
-		this.listaCentroCostos = listaCentroCostos;
 	}
 
 	public boolean isMostrarDetalle() {

@@ -16,8 +16,6 @@ import com.marketingpersonal.common.EnumSessionAttributes;
 import com.marketingpersonal.common.EnviarCorreo;
 import com.marketingpersonal.common.ListasGenericas;
 import com.marketingpersonal.common.Util;
-import com.marketingpersonal.model.entity.CentroCosto;
-import com.marketingpersonal.model.entity.Cuenta;
 import com.marketingpersonal.model.entity.Observacion;
 import com.marketingpersonal.model.entity.Presupuesto;
 import com.marketingpersonal.model.entity.PresupuestoDetalleCampania;
@@ -25,7 +23,6 @@ import com.marketingpersonal.model.entity.PresupuestoDetalleMes;
 import com.marketingpersonal.model.entity.Usuario;
 import com.marketingpersonal.service.ICalculadoraService;
 import com.marketingpersonal.service.ICentroCostoService;
-import com.marketingpersonal.service.ICuentaService;
 import com.marketingpersonal.service.IParametroService;
 import com.marketingpersonal.service.IPresupuestoService;
 
@@ -45,7 +42,6 @@ public class PresupuestoAprobadorInicialBB extends SpringBeanAutowiringSupport i
 	private IParametroService parametroService;
 	
 	private Util util;
-	private Presupuesto presupuesto;
 	private Presupuesto detalle;
 	private Presupuesto selectedPresupuesto;
 	private PresupuestoDetalleMes presupuestoDetalleMes;
@@ -56,8 +52,6 @@ public class PresupuestoAprobadorInicialBB extends SpringBeanAutowiringSupport i
 	private ListasGenericas listasGenericas;
 	private Usuario usuario;
 	private Observacion observacion;
-	private List<Cuenta> listaCuentas;
-	private List<CentroCosto> listaCentroCostos;
 	private boolean mostrarDetalle;
 	private int camapanaMaxima;
 	private Double totalMes = 0d;
@@ -105,8 +99,8 @@ public class PresupuestoAprobadorInicialBB extends SpringBeanAutowiringSupport i
 			
 			//Envio de correo
 			EnviarCorreo enviarCorreo = new EnviarCorreo();
-			enviarCorreo.enviaCorreoAprobadorFinal(presupuesto, 
-					presupuesto.getUsuario(), 
+			enviarCorreo.enviaCorreoAprobadorFinal(detalle, 
+					detalle.getUsuario(), 
 					this.getCentroCostoService().getUsuarioAprobadorFinal(centroCosto), 
 					EnumEstadosPresupuesto.APROBADO);
 			
@@ -143,8 +137,8 @@ public class PresupuestoAprobadorInicialBB extends SpringBeanAutowiringSupport i
 			
 			//Envio de correo
 			EnviarCorreo enviarCorreo = new EnviarCorreo();
-			enviarCorreo.enviaCorreoResponsable(presupuesto, 
-					presupuesto.getUsuario(), 
+			enviarCorreo.enviaCorreoResponsable(detalle, 
+					detalle.getUsuario(), 
 					EnumEstadosPresupuesto.RECHAZADO);
 			
 			observacion = new Observacion();
@@ -185,14 +179,6 @@ public class PresupuestoAprobadorInicialBB extends SpringBeanAutowiringSupport i
 
 	public void setUtil(Util util) {
 		this.util = util;
-	}
-
-	public Presupuesto getPresupuesto() {
-		return presupuesto;
-	}
-
-	public void setPresupuesto(Presupuesto presupuesto) {
-		this.presupuesto = presupuesto;
 	}
 
 	public Presupuesto getDetalle() {
@@ -268,22 +254,6 @@ public class PresupuestoAprobadorInicialBB extends SpringBeanAutowiringSupport i
 
 	public void setUsuario(Usuario usuario) {
 		this.usuario = usuario;
-	}
-
-	public List<Cuenta> getListaCuentas() {
-		return listaCuentas;
-	}
-
-	public void setListaCuentas(List<Cuenta> listaCuentas) {
-		this.listaCuentas = listaCuentas;
-	}
-
-	public List<CentroCosto> getListaCentroCostos() {
-		return listaCentroCostos;
-	}
-
-	public void setListaCentroCostos(List<CentroCosto> listaCentroCostos) {
-		this.listaCentroCostos = listaCentroCostos;
 	}
 
 	public boolean isMostrarDetalle() {
