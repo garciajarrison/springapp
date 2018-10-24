@@ -70,7 +70,7 @@ public class CuentaDAO implements ICuentaDAO {
 	public List<Cuenta> getCuentasPorUsuario(int idUsuario) {
 		
 		StringBuilder sql = new StringBuilder()
-				.append("select c from CentroCostoPorCuenta as cc, ")
+				.append("select distinct c from CentroCostoPorCuenta as cc, ")
 				.append(" Cuenta as c, UsuarioPorCentroCosto as ucc ")
 				.append(" where cc.cuenta.id = c.id ")
 				.append(" and cc.centroCosto.id = ucc.centroCosto.id ")
