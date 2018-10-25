@@ -399,8 +399,8 @@ public class PresupuestoBB extends SpringBeanAutowiringSupport implements Serial
 			
 			//Envio de correo
 			EnviarCorreo enviarCorreo = new EnviarCorreo();
-			enviarCorreo.enviaCorreoAprobadorInicial(presupuesto, 
-					presupuesto.getUsuario(), 
+			enviarCorreo.enviaCorreoAprobadorInicial(detalle, 
+					detalle.getUsuario(), 
 					this.getCentroCostoService().getUsuarioAprobadorInicial(centroCosto), 
 					EnumEstadosPresupuesto.ENVIADO);
 			
