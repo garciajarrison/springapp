@@ -19,7 +19,7 @@ import javax.persistence.Transient;
 import com.marketingpersonal.common.EnumEstadosPresupuesto;
 
 @Entity
-@Table(name = "presupuesto", schema = "presupuestoMD")
+@Table(name = "presupuesto", schema = "presupuestomd")
 public class Presupuesto implements java.io.Serializable {
 
 	private static final long serialVersionUID = 1L;

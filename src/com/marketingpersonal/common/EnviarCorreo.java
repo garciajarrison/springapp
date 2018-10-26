@@ -16,6 +16,9 @@ import java.util.Properties;
 public class EnviarCorreo {
 	private String mailServer = "smtp.office365.com";
 	private String from = "presupuesto@marketingpersonal.com";
+	private String password = "Marketing2018";
+	private String username = "presupuesto@marketingpersonal.com";
+    
 	
 	public void enviaCorreoResponsable(Presupuesto presupuesto, Usuario aprobadorInicialFinal, EnumEstadosPresupuesto estado) {
 		try {
@@ -292,20 +295,22 @@ public class EnviarCorreo {
 
 			html = leerArchivoLocal(this.getClass(), "htmlAprobadorFinal.txt");
 
-			
 
 			messageBody = html;
 
 			// Setup mail server
 			Properties props = System.getProperties();
-			props.put("mail.smtp.host", mailServer);
 			props.put("mail.smtp.auth",true);
-			props.put("mail.smtp.starttls.enable",true);
+		      props.put("mail.smtp.starttls.enable",true);
+		      props.put("mail.smtp.host", mailServer);
+		      props.put("mail.smtp.port", "587");
+		      props.put("mail.transport.protocol", "smtp");
+		      props.put("mail.smtp.connectiontimeout", "20000");
+		      props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
 
-			SimpleMailAuthenticator authenticator = new SimpleMailAuthenticator("presupuesto@marketingpersonal.com", "Marketing2018");
-					      
-			// Get a mail session
-			Session session = Session.getDefaultInstance(props, null);
+			// Get the Session object.
+		      SimpleMailAuthenticator authenticator = new SimpleMailAuthenticator(username, password);
+		      Session session = Session.getInstance(props, authenticator);
 
 			// Define a new mail message
 			Message message = new MimeMessage(session);
@@ -357,14 +362,14 @@ public class EnviarCorreo {
 		a.sendEmail();		
 	}
 	
-	  public static boolean sendEmail() {
+	 public static boolean sendEmail() {
 	      String to = "camel8160@gmail.com";
 
 	      // Sender's email ID needs to be mentioned
 	      String from = "presupuesto@marketingpersonal.com";
 	      final String username = "presupuesto@marketingpersonal.com";
 	      final String password = "Marketing2018";
-
+	      
 	      // Assuming you are sending email through relay.jangosmtp.net
 	      String host = "smtp.office365.com";
 
@@ -410,7 +415,5 @@ public class EnviarCorreo {
 	      }
 	    return true;
 	   }
-	
-	
 
 }

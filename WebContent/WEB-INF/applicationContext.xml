@@ -26,7 +26,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springf
 	<bean id="dataSource"
 		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property name="driverClassName" value="com.microsoft.sqlserver.jdbc.SQLServerDriver" />
-		<property name="url" value="jdbc:sqlserver://192.168.10.14;databaseName=COMTIC-PRESUPUESTO;instanceName=SQLEXPRESS;" />
+		<property name="url" value="jdbc:sqlserver://192.168.10.14;databaseName=presupuestomd;" />
 		<property name="username" value="comtic" />
 		<property name="password" value="P3rs0n4l-MP/c0mt1c" />
 	</bean>
