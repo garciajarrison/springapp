@@ -25,10 +25,12 @@ xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springf
 	<!-- declare datasource -->
 	<bean id="dataSource"
 		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-		<property name="driverClassName" value="com.microsoft.sqlserver.jdbc.SQLServerDriver" />
-		<property name="url" value="jdbc:sqlserver://192.168.10.14;databaseName=COMTIC-PRESUPUESTO;instanceName=SQLEXPRESS;" />
-		<property name="username" value="comtic" />
-		<property name="password" value="P3rs0n4l-MP/c0mt1c" />
+		<property name="driverClassName" value="org.postgresql.Driver" />
+		<property name="url" value="jdbc:postgresql://localhost:5432/presupuestomd" />
+		<property name="username" value="postgres" />
+		<property name="password" value="12345678" />
+	
+	
 	</bean>
 
 	<!--Hibernate session factory configuration -->
@@ -37,7 +39,8 @@ xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springf
 		<property name="dataSource" ref="dataSource" />
 		<property name="hibernateProperties">
 			<props>
-				<prop key="hibernate.dialect">org.hibernate.dialect.SQLServerDialect</prop>
+				<prop key="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</prop>
+				
 				<prop key="hibernate.show_sql">true</prop>
 				<prop key="hibernate.connection.pool_size">10</prop>
 				<prop key="show_sql">true</prop>

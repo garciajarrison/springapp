@@ -73,7 +73,7 @@ public class PresupuestoBB extends SpringBeanAutowiringSupport implements Serial
 		presupuestoDetalleMes = new PresupuestoDetalleMes();
 		presupuestoDetalleCampania = new PresupuestoDetalleCampania();
 		selectedPresupuesto = new Presupuesto();
-		listaPresupuestos = getPresupuestoService().getPresupuestos();
+		
 		listasGenericas = ListasGenericas.getInstance();
 		usuario = (Usuario) Util.getInstance().getSessionAttribute(EnumSessionAttributes.USUARIO);
 		anioGeneral = Integer.valueOf(parametroService.getParametroByCodigo("ANIO_CALCULADORA").getValor());
@@ -81,6 +81,20 @@ public class PresupuestoBB extends SpringBeanAutowiringSupport implements Serial
 		mostrarDetalle = false;
 		camapanaMaxima = getCalculadoraService().getCampanaMaxima(anioGeneral);
 		observacion = new Observacion();
+		cargarListaPresupuesto();
+	}
+	
+	private void cargarListaPresupuesto() {
+		try {
+			if("Administrador".equals(usuario.getRol())) {
+				listaPresupuestos = getPresupuestoService().getPresupuestos();
+			}else {
+				listaPresupuestos = getPresupuestoService().getPresupuestos(usuario.getId());
+			}
+		
+		}catch(Exception e) {
+			e.printStackTrace();
+		}	
 	}
 	
 	public void totalizarMes() {
@@ -170,7 +184,7 @@ public class PresupuestoBB extends SpringBeanAutowiringSupport implements Serial
 				presupuesto.setAnio(anioGeneral);
 				presupuesto.setUsuario(usuario);
 				getPresupuestoService().addPresupuesto(presupuesto);
-				listaPresupuestos = getPresupuestoService().getPresupuestos();
+				cargarListaPresupuesto();
 				presupuesto = new Presupuesto();
 				util.mostrarMensaje("Registro agregado con éxito."); 
 			}
@@ -259,7 +273,7 @@ public class PresupuestoBB extends SpringBeanAutowiringSupport implements Serial
 		try {
 			if(validar(selectedPresupuesto)) {
 				getPresupuestoService().updatePresupuesto(selectedPresupuesto);
-				listaPresupuestos = getPresupuestoService().getPresupuestos();
+				cargarListaPresupuesto();
 				selectedPresupuesto = new Presupuesto();
 				util.mostrarMensaje("Registro actualizado con éxito.");
 			}
@@ -299,7 +313,7 @@ public class PresupuestoBB extends SpringBeanAutowiringSupport implements Serial
 	public void deletePresupuesto() {
 		try {
 			getPresupuestoService().deletePresupuesto(selectedPresupuesto);
-			listaPresupuestos = getPresupuestoService().getPresupuestos();
+			cargarListaPresupuesto();
 			util.mostrarMensaje("Registro eliminado con éxito.");  
 			
 		} catch (DataAccessException e) {
@@ -311,7 +325,7 @@ public class PresupuestoBB extends SpringBeanAutowiringSupport implements Serial
 	public void deletePresupuestoMes() {
 		try {
 			getPresupuestoService().deletePresupuestoDetalleMes(selectedPresupuestoDetalleMes);
-			listaPresupuestos = getPresupuestoService().getPresupuestos();
+			cargarListaPresupuesto();
 			detalle = this.getPresupuestoService().getPresupuestoById(detalle.getId());
 			util.mostrarMensaje("Registro eliminado con éxito.");  
 			
@@ -324,7 +338,7 @@ public class PresupuestoBB extends SpringBeanAutowiringSupport implements Serial
 	public void deletePresupuestoCamp() {
 		try {
 			getPresupuestoService().deletePresupuestoDetalleCampania(selectedPresupuestoDetalleCampania);
-			listaPresupuestos = getPresupuestoService().getPresupuestos();
+			cargarListaPresupuesto();
 			detalle = this.getPresupuestoService().getPresupuestoById(detalle.getId());
 			util.mostrarMensaje("Registro eliminado con éxito.");  
 			

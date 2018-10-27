@@ -19,7 +19,7 @@ import javax.persistence.Transient;
 import com.marketingpersonal.common.EnumEstadosPresupuesto;
 
 @Entity
-@Table(name = "presupuesto", schema = "presupuestoMD")
+@Table(name = "presupuesto", schema = "presupuestomd")
 public class Presupuesto implements java.io.Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -49,7 +49,7 @@ public class Presupuesto implements java.io.Serializable {
 	
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "id_usuario", nullable = false)
-	private Usuario usuario = new Usuario();;
+	private Usuario usuario = new Usuario();
 	
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "presupuesto")
 	private List<PresupuestoDetalleMes> detalleMes = new ArrayList<>();

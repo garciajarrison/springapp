@@ -30,6 +30,13 @@ public class PresupuestoDAO implements IPresupuestoDAO {
 		Session session = getSessionFactory().getCurrentSession();
 		session.save(entity);
 	}
+	
+	public List<Presupuesto> getPresupuestos(int idUsuario) {
+		Session session = getSessionFactory().getCurrentSession();
+		return (List<Presupuesto>) session
+				.createQuery("from Presupuesto where usuario.id = :idUsuario").setParameter("idUsuario", idUsuario)
+				.list();
+	}
 
 	public void deletePresupuesto(Presupuesto entity) {
 		Session session = getSessionFactory().getCurrentSession();
@@ -90,7 +97,7 @@ public class PresupuestoDAO implements IPresupuestoDAO {
 
 	public void actualizarEstadoPresupuestoDetalleMes(PresupuestoDetalleMes entity) {
 		Session session = getSessionFactory().getCurrentSession();
-		session.createSQLQuery("update presupuestoMD.detalle_presupuesto_mes set estado = :estado where id = :id")
+		session.createSQLQuery("update presupuestomd.detalle_presupuesto_mes set estado = :estado where id = :id")
 			.setParameter("estado", entity.getEstado())
 			.setParameter("id", entity.getId())
 			.executeUpdate();
@@ -129,7 +136,7 @@ public class PresupuestoDAO implements IPresupuestoDAO {
 
 	public void actualizarEstadoPresupuestoDetalleCampania(PresupuestoDetalleCampania entity) {
 		Session session = getSessionFactory().getCurrentSession();
-		session.createSQLQuery("update presupuestoMD.detalle_presupuesto_campania set estado = :estado where id = :id")
+		session.createSQLQuery("update presupuestomd.detalle_presupuesto_campania set estado = :estado where id = :id")
 			.setParameter("estado", entity.getEstado())
 			.setParameter("id", entity.getId())
 			.executeUpdate();
@@ -164,16 +171,24 @@ public class PresupuestoDAO implements IPresupuestoDAO {
 				.append("			   		UsuarioPorCentroCosto ucc             	   ")
 				.append("			   where p.id = dpc.presupuesto.id                 ")
 				.append("			  and dpc.centroCosto.id = ucc.centroCosto.id      ")
-				.append("			  and dpc.estado = 'ENVIADO'      				   ")
-				.append("			  and ucc.usuarioAprobadorInicial.id = :idUsuario) ")
-				.append("	 or                                                        ")
+				.append("			  and dpc.estado = 'ENVIADO'      				   ");
+		if(!"Administrador".equals(usuario.getRol())) {
+			query.append("			  and ucc.usuarioAprobadorInicial.id = :idUsuario ");
+		}
+		
+		query.append(" )	 or                                                        ")
 				.append("	   p.id in (select dpm.presupuesto.id                      ")
 				.append("			   from PresupuestoDetalleMes dpm,     			   ")
 				.append("			   		UsuarioPorCentroCosto ucc             	   ")
 				.append("			   where p.id = dpm.presupuesto.id                 ")
 				.append("			  and dpm.centroCosto.id = ucc.centroCosto.id      ")
-				.append("			  and dpm.estado = 'ENVIADO'      				   ")
-				.append("			  and ucc.usuarioAprobadorInicial.id = :idUsuario))");
+				.append("			  and dpm.estado = 'ENVIADO'      				   ");
+		
+		if(!"Administrador".equals(usuario.getRol())) {
+			query.append("			  and ucc.usuarioAprobadorInicial.id = :idUsuario");
+		}
+				
+		query.append(" ))");
 		
 		return (List<Presupuesto>) session.createQuery(query.toString())
 				.setParameter("idUsuario", usuario.getId()).list();
@@ -189,16 +204,25 @@ public class PresupuestoDAO implements IPresupuestoDAO {
 				.append("			   		UsuarioPorCentroCosto ucc             	   ")
 				.append("			   where p.id = dpc.presupuesto.id                 ")
 				.append("			  and dpc.centroCosto.id = ucc.centroCosto.id      ")
-				.append("			  and dpc.estado = 'APROBADO'      				   ")
-				.append("			  and ucc.usuarioAprobadorFinal.id = :idUsuario)   ")
-				.append("	 or                                                        ")
+				.append("			  and dpc.estado = 'APROBADO'      				   ");
+		
+		if(!"Administrador".equals(usuario.getRol())) {
+			query.append("			  and ucc.usuarioAprobadorFinal.id = :idUsuario   ");
+		}
+				
+		query.append(" )	 or                                                        ")
 				.append("	   p.id in (select dpm.presupuesto.id                      ")
 				.append("			   from PresupuestoDetalleMes dpm,     			   ")
 				.append("			   		UsuarioPorCentroCosto ucc             	   ")
 				.append("			   where p.id = dpm.presupuesto.id                 ")
 				.append("			  and dpm.centroCosto.id = ucc.centroCosto.id      ")
-				.append("			  and dpm.estado = 'APROBADO'      				   ")
-				.append("			  and ucc.usuarioAprobadorFinal.id = :idUsuario))  ");
+				.append("			  and dpm.estado = 'APROBADO'      				   ");
+				
+		if(!"Administrador".equals(usuario.getRol())) {
+			query.append("			  and ucc.usuarioAprobadorFinal.id = :idUsuario  ");
+		}
+				
+		query.append("	))  ");
 		
 		return (List<Presupuesto>) session.createQuery(query.toString())
 				.setParameter("idUsuario", usuario.getId()).list();

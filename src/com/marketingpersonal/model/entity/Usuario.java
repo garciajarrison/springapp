@@ -9,7 +9,7 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 @Entity
-@Table(name = "usuario", schema = "presupuestoMD")
+@Table(name = "usuario", schema = "presupuestomd")
 public class Usuario implements java.io.Serializable {
 
 	private static final long serialVersionUID = 1L;
