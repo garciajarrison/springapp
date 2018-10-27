@@ -43,13 +43,14 @@ public class ReporteBB extends SpringBeanAutowiringSupport implements Serializab
 	private Util util;
 	private List<SelectItem> listaAnios;
 	private ListasGenericas listasGenericas;
+	private List<Presupuesto> listaPresupuestos;
+	private List<Calculadora> listaCalculadoras;
+	private List<Calculadora[]> listaCalculadoraCM;
+	private List<Calculadora[]> listaCalculadoraMC;
 	private String tipo;
 	private Integer anioConsulta;
 	private int camapanaMaxima;
 	private Usuario usuario;
-	private List<Calculadora> listaCalculadoras;
-	private List<Calculadora[]> listaCalculadoraCM;
-	private List<Calculadora[]> listaCalculadoraMC;
 	
 	private Presupuesto presupuesto;
 	private Presupuesto detalle;
@@ -58,7 +59,7 @@ public class ReporteBB extends SpringBeanAutowiringSupport implements Serializab
 	private PresupuestoDetalleMes selectedPresupuestoDetalleMes;
 	private PresupuestoDetalleCampania presupuestoDetalleCampania;
 	private PresupuestoDetalleCampania selectedPresupuestoDetalleCampania;
-	private List<Presupuesto> listaPresupuestos;
+	
 	
 	
 	private Observacion observacion;
@@ -93,6 +94,7 @@ public class ReporteBB extends SpringBeanAutowiringSupport implements Serializab
 		try {
 			cargarListaCalculadora();
 			camapanaMaxima = getCalculadoraService().getCampanaMaxima(anioConsulta);
+			listaPresupuestos = getPresupuestoService().getPresupuestosPorAnio(anioConsulta);
 			
 		}catch(Exception e) {
 			e.printStackTrace();
@@ -155,7 +157,21 @@ public class ReporteBB extends SpringBeanAutowiringSupport implements Serializab
 	
 	public void cargarReporte() {
 		try {
-			
+			if("Mensual".equals(tipo)) {
+				
+			}else {
+				//Recorremos los presupuestos del año
+				for(Presupuesto ppto : listaPresupuestos) {
+					
+					
+					
+					
+					
+				}
+				
+				
+				
+			}
 			
 			
 		}catch(Exception e) {

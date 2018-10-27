@@ -31,10 +31,17 @@ public class PresupuestoDAO implements IPresupuestoDAO {
 		session.save(entity);
 	}
 	
-	public List<Presupuesto> getPresupuestos(int idUsuario) {
+	public List<Presupuesto> getPresupuestosPorUsuario(int idUsuario) {
 		Session session = getSessionFactory().getCurrentSession();
 		return (List<Presupuesto>) session
 				.createQuery("from Presupuesto where usuario.id = :idUsuario").setParameter("idUsuario", idUsuario)
+				.list();
+	}
+	
+	public List<Presupuesto> getPresupuestosPorAnio(Integer anioConsulta) {
+		Session session = getSessionFactory().getCurrentSession();
+		return (List<Presupuesto>) session
+				.createQuery("from Presupuesto where anio = :anioConsulta").setParameter("anioConsulta", anioConsulta)
 				.list();
 	}
 

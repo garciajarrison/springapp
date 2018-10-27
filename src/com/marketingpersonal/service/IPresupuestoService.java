@@ -66,6 +66,8 @@ public interface IPresupuestoService {
 
 	List<PresupuestoDetalleMes> getPresupuestoDetallesMesAprobadorFinal(int ididPresupuesto, Usuario usuario);
 
-	List<Presupuesto> getPresupuestos(int idUsuario);
+	List<Presupuesto> getPresupuestosPorUsuario(int idUsuario);
+
+	List<Presupuesto> getPresupuestosPorAnio(Integer anioConsulta);
 	
 }

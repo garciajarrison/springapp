@@ -111,7 +111,7 @@ public class PresupuestoBB extends SpringBeanAutowiringSupport implements Serial
 			if("Administrador".equals(usuario.getRol())) {
 				listaPresupuestos = getPresupuestoService().getPresupuestos();
 			}else {
-				listaPresupuestos = getPresupuestoService().getPresupuestos(usuario.getId());
+				listaPresupuestos = getPresupuestoService().getPresupuestosPorUsuario(usuario.getId());
 			}
 		
 		}catch(Exception e) {
