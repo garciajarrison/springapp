@@ -29,7 +29,7 @@
 		</p>
 		<br>
 		<p style="font-family:Tahoma; color: rgba(0,0,0,.4);  margin: 10px 0; font-weight: 100;  font-size: 12px">
-			Ha sido c un nuevo presupuesto con los siguientes datos para su verificación:
+			Ha sido creado un nuevo presupuesto con los siguientes datos para su verificación:
 		</p>
 		<br>
 				

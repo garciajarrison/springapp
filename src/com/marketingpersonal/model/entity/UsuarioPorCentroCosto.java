@@ -11,7 +11,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "usuario_x_centrocosto", schema = "presupuestoMD")
+@Table(name = "usuario_x_centrocosto", schema = "presupuestomd")
 public class UsuarioPorCentroCosto implements java.io.Serializable {
 
 	private static final long serialVersionUID = 1L;

@@ -12,7 +12,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
-@Table(name = "home", schema = "presupuestoMD")
+@Table(name = "home", schema = "presupuestomd")
 public class Home implements java.io.Serializable {
 
 	private static final long serialVersionUID = 1L;

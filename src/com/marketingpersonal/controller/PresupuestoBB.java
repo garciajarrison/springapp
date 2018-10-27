@@ -1,13 +1,25 @@
 package com.marketingpersonal.controller;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 
+import org.apache.commons.lang3.text.WordUtils;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.primefaces.event.FileUploadEvent;
+import org.primefaces.model.DefaultStreamedContent;
+import org.primefaces.model.StreamedContent;
+import org.primefaces.model.UploadedFile;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
@@ -19,11 +31,15 @@ import com.marketingpersonal.common.ListasGenericas;
 import com.marketingpersonal.common.Util;
 import com.marketingpersonal.model.entity.CentroCosto;
 import com.marketingpersonal.model.entity.Cuenta;
+import com.marketingpersonal.model.entity.Direccion;
+import com.marketingpersonal.model.entity.Gerencia;
+import com.marketingpersonal.model.entity.Jefatura;
 import com.marketingpersonal.model.entity.Observacion;
 import com.marketingpersonal.model.entity.Presupuesto;
 import com.marketingpersonal.model.entity.PresupuestoDetalleCampania;
 import com.marketingpersonal.model.entity.PresupuestoDetalleMes;
 import com.marketingpersonal.model.entity.Usuario;
+import com.marketingpersonal.model.entity.Validacion;
 import com.marketingpersonal.service.ICalculadoraService;
 import com.marketingpersonal.service.ICentroCostoService;
 import com.marketingpersonal.service.ICuentaService;
@@ -66,6 +82,12 @@ public class PresupuestoBB extends SpringBeanAutowiringSupport implements Serial
 	private Double totalMes = 0d;
 	private Double totalCamp = 0d;
 	private Integer anioGeneral;
+	
+	//Carga Archivo Plano Nomina
+	private UploadedFile file;
+	private StreamedContent fileDescargar;
+	private Validacion validacion;
+	private List<Validacion> listaValidacion;
 	
 	public PresupuestoBB() {
 		util = Util.getInstance();
@@ -606,4 +628,219 @@ public class PresupuestoBB extends SpringBeanAutowiringSupport implements Serial
 	public void setParametroService(IParametroService parametroService) {
 		this.parametroService = parametroService;
 	}
+	
+	//Carga Archivo Plano Nomina
+	/*public void uploadPlanoNomina(FileUploadEvent event) {
+
+		try {
+			InputStream input = (InputStream) event.getFile().getInputstream();
+			XSSFWorkbook workbook = new XSSFWorkbook(input);
+
+			XSSFSheet sheet = workbook.getSheetAt(0);
+
+			if (validarArchivoPlano(workbook)) {
+				insertarPlanoPresupuestoNomina(sheet);
+
+				FacesMessage msg = new FacesMessage("Carga Archivo Plano de Nómina",
+						event.getFile().getFileName() + " fue cargado correctamente");
+				FacesContext.getCurrentInstance().addMessage(null, msg);
+			}
+
+			workbook.close();
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public StreamedContent getFileDescargar() {
+		InputStream stream = FacesContext.getCurrentInstance().getExternalContext()
+				.getResourceAsStream("/resources/files/Archivo Plano Presupuesto Nómina.xlsx");
+		fileDescargar = new DefaultStreamedContent(stream,
+				"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+				"Archivo Plano Centros de Costo.xlsx");
+		return fileDescargar;
+	}
+
+	private boolean validarArchivoPlano(XSSFWorkbook workbook) {
+		boolean permiteGuardar = true;
+
+		XSSFSheet sheet = workbook.getSheetAt(0);
+
+		listaValidacion = new ArrayList<>();
+
+		if (workbook.getNumberOfSheets() > 1) {
+			validacion = new Validacion();
+			validacion.setMensaje("El archivo de excel a cargar solo puede tener 1 hoja con los datos");
+			validacion.setFila("--");
+			validacion.setColumna("--");
+			listaValidacion.add(validacion);
+		}
+
+		if (sheet.getPhysicalNumberOfRows() <= 1) {
+			validacion = new Validacion();
+			validacion.setMensaje("El archivo no contiene registros con datos");
+			validacion.setFila("--");
+			validacion.setColumna("--");
+			listaValidacion.add(validacion);
+		}
+
+		if (!(sheet.getRow(0).getCell(0)).toString().trim().equals("Centro de Costo")) {
+			validacion = new Validacion();
+			validacion.setMensaje("El encabezado de la primer columna debe ser Centro de Costo");
+			validacion.setFila("1");
+			validacion.setColumna("A");
+			listaValidacion.add(validacion);
+		}
+
+		if (!(sheet.getRow(0).getCell(1)).toString().trim().equals("Gerencia")) {
+			validacion = new Validacion();
+			validacion.setMensaje("El encabezado de la segunda columna debe ser Gerencia");
+			validacion.setFila("1");
+			validacion.setColumna("B");
+			listaValidacion.add(validacion);
+		}
+
+		if (!(sheet.getRow(0).getCell(2).toString()).trim().equals("Direccion")) {
+			validacion = new Validacion();
+			validacion.setMensaje("El encabezado de la tercer columna debe ser Direccion");
+			validacion.setFila("1");
+			validacion.setColumna("C");
+			listaValidacion.add(validacion);
+		}
+
+		if (!(sheet.getRow(0).getCell(3).toString()).trim().equals("Jefatura")) {
+			validacion = new Validacion();
+			validacion.setMensaje("El encabezado de la cuarta columna debe ser Jefatura");
+			validacion.setFila("1");
+			validacion.setColumna("D");
+			listaValidacion.add(validacion);
+		}
+
+		// Validar que no existe un registro de centro de costo duplicado
+		Row row;
+
+		int idGerencia;
+		int idDireccion;
+		int idJefatura;
+
+		for (CentroCosto ceco : listaCentroCostos) {
+			for (int fila = 1; fila < sheet.getPhysicalNumberOfRows(); fila++) {
+				row = sheet.getRow(fila);
+
+				// Obtenemos los ids de Gerencia, Direccion y Jefatura a partir de los nombres
+				// ingresados en el archivo plano
+				// ya que el usuario no conoce los codigos
+				idGerencia = getIdGerenciaByNombre(row.getCell(1) + "".trim());
+				idDireccion = getIdDireccionByNombre(row.getCell(2) + "".trim());
+				idJefatura = getIdJefaturaByNombre(row.getCell(3) + "".trim());
+
+				if ((ceco.getCentroCosto().equals(row.getCell(0) + "".trim())) && (ceco.getGerencia().getId() == idGerencia)
+						&& (ceco.getDireccion().getId() == idDireccion) && (ceco.getJefatura().getId() == idJefatura)) {
+					validacion = new Validacion();
+					validacion.setMensaje("Ya existe un Centro de Costo creado con lo datos ingresados");
+					validacion.setFila((fila+1)+"");
+					validacion.setColumna("--");
+					listaValidacion.add(validacion);
+				}
+			}
+		}
+		
+		//Validar que no ingresen en el archivo plano una Gerencia, Direccion o Jefatura que no exista 
+		for (int fila = 1; fila < sheet.getPhysicalNumberOfRows(); fila++) {
+			row = sheet.getRow(fila);
+
+			// Obtenemos los ids de Gerencia, Direccion y Jefatura a partir de los nombres
+			// ingresados en el archivo plano
+			// ya que el usuario no conoce los codigos
+			idGerencia = getIdGerenciaByNombre(row.getCell(1) + "".trim());
+			idDireccion = getIdDireccionByNombre(row.getCell(2) + "".trim());
+			idJefatura = getIdJefaturaByNombre(row.getCell(3) + "".trim());
+
+			if (idGerencia==0) {
+				validacion = new Validacion();
+				validacion.setMensaje("La gerencia: "+row.getCell(1) + ""+" no existe en el maestro de Gerencias");
+				validacion.setFila((fila+1)+"");
+				validacion.setColumna("B");
+				listaValidacion.add(validacion);
+			}
+			
+			if (idDireccion==0) {
+				validacion = new Validacion();
+				validacion.setMensaje("La dirección: "+row.getCell(2) + ""+" no existe en el maestro de Direcciones");
+				validacion.setFila((fila+1)+"");
+				validacion.setColumna("C");
+				listaValidacion.add(validacion);
+			}
+			
+			if (idJefatura==0) {
+				validacion = new Validacion();
+				validacion.setMensaje("La jefatura: "+row.getCell(3) + ""+" no existe en el maestro de Jefaturas");
+				validacion.setFila((fila+1)+"");
+				validacion.setColumna("D");
+				listaValidacion.add(validacion);
+			}
+		}
+
+		if (listaValidacion.size() >= 1) {
+			permiteGuardar = false;
+		}
+
+		return permiteGuardar;
+	}
+
+	public void insertarPlanoPresupuestoNomina(XSSFSheet sheet) {
+		Row row;
+		int numFilas = sheet.getPhysicalNumberOfRows();
+		for (int fila = 1; fila < numFilas; fila++) {
+			row = sheet.getRow(fila);
+
+			centroCosto = new CentroCosto();
+
+			gerencia = new Gerencia();
+			gerencia.setId(getIdGerenciaByNombre(row.getCell(1) + ""));
+
+			direccion = new Direccion();
+			direccion.setId(getIdDireccionByNombre(row.getCell(2) + ""));
+
+			jefatura = new Jefatura();
+			jefatura.setId(getIdJefaturaByNombre(row.getCell(3) + ""));
+
+			centroCosto.setCentroCosto(row.getCell(0) + "");
+			centroCosto.setGerencia(gerencia);
+			centroCosto.setDireccion(direccion);
+			centroCosto.setJefatura(jefatura);
+
+			getCentroCostoService().addCentroCosto(centroCosto);
+		}
+		
+		listaCentroCostos = getCentroCostoService().getCentroCostos(false);
+	}
+
+	public int getIdGerenciaByNombre(String nombreGerencia) {
+		for (Gerencia ger : lstGerencias) {
+			if (ger.getNombre().equals(WordUtils.capitalizeFully(nombreGerencia).trim())) {
+				return ger.getId();
+			}
+		}
+		return 0;
+	}
+
+	public int getIdDireccionByNombre(String nombreDireccion) {
+		for (Direccion dir : lstDireccions) {
+			if (dir.getNombre().equals(WordUtils.capitalizeFully(nombreDireccion))) {
+				return dir.getId();
+			}
+		}
+		return 0;
+	}
+
+	public int getIdJefaturaByNombre(String nombreJefatura) {
+		for (Jefatura jef : lstJefaturas) {
+			if (jef.getNombre().equals(WordUtils.capitalizeFully(nombreJefatura))) {
+				return jef.getId();
+			}
+		}
+		return 0;
+	}*/
  }

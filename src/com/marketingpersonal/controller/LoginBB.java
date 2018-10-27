@@ -10,9 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
 import com.marketingpersonal.common.EnumSessionAttributes;
+import com.marketingpersonal.common.LoginLDAP;
 import com.marketingpersonal.common.Util;
 import com.marketingpersonal.model.entity.Usuario;
-import com.marketingpersonal.service.IParametroService;
 import com.marketingpersonal.service.IUsuarioService;
 
 @ManagedBean(name = "loginBB")
@@ -22,8 +22,9 @@ public class LoginBB extends SpringBeanAutowiringSupport implements Serializable
 	private static final long serialVersionUID = 1L;
 	@Autowired
 	private IUsuarioService usuarioService;
-	private String clave;
 	private Util util;
+	
+	private LoginLDAP ldap ; 
 	
 	private Usuario usuario = new Usuario();
 	
@@ -40,7 +41,7 @@ public class LoginBB extends SpringBeanAutowiringSupport implements Serializable
 	private boolean validar() {
 		boolean retorno = true;
 		
-		if(util.validaNuloVacio(usuario.getCorreo())) {
+		if(util.validaNuloVacio(usuario.getUsuario())) {
 			retorno = false;
 			util.mostrarError("El campo Usuario es requerido.");
 		}
@@ -55,10 +56,12 @@ public class LoginBB extends SpringBeanAutowiringSupport implements Serializable
 
 	public void login() {
 		
-		try {
-			if(validar()) {
-				usuario = this.getUsuarioService().login(usuario);
+		ldap = new LoginLDAP();
 
+		try {
+			if(validar() && ldap.login(usuario.getUsuario(), usuario.getContrasena())) {	
+				
+				usuario = this.getUsuarioService().login(usuario);
 				if(usuario != null) {
 					util.setSessionAttribute(EnumSessionAttributes.USUARIO, usuario);
 					util.mostrarMensajeRedirect("Bienvenido: " + usuario.getNombre(), true);
@@ -67,6 +70,8 @@ public class LoginBB extends SpringBeanAutowiringSupport implements Serializable
 					usuario = new Usuario();
 					util.mostrarError("Datos de ingreso incorrectos.");
 				}
+			}else {
+				util.mostrarError("Datos de ingreso incorrectos.");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -86,14 +91,6 @@ public class LoginBB extends SpringBeanAutowiringSupport implements Serializable
 
 	public void setUsuarioService(IUsuarioService usuarioService) {
 		this.usuarioService = usuarioService;
-	}
-
-	public String getClave() {
-		return clave;
-	}
-
-	public void setClave(String clave) {
-		this.clave = clave;
 	}
 
 	public Util getUtil() {

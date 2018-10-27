@@ -8,21 +8,52 @@
     <ui:define name="title">Cargar Archivo Plano Nómina</ui:define>
 
     <ui:define name="content">
+    <h:form>
         <div class="container">
             <div class="ui-g">
                 <div class="ui-g-12">
                     <div class="card">
-                        <h1>Cargar Archivo Plano Nómina</h1>
-                        <h:form>
-                            <p:fileUpload fileUploadListener="#{fileUploadView.handleFileUpload}" mode="advanced" dragDropSupport="false"
-                                          multiple="true" update="messages" sizeLimit="100000" fileLimit="3" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" style="width:100%" />
-        
-                            <p:growl id="messages" showDetail="true" />
-                        </h:form>
-                    </div>
+		                	<h1>Carga Archivo Plano de Presupuesto Nomina</h1>
+		                    
+		                    <p:commandButton value="Descargar Archivo de Ejemplo" ajax="false"	onclick="PrimeFaces.monitorDownload(start, stop);"	icon="ui-icon-arrowthick-1-s" style="max-width:250px;">
+								<p:fileDownload value="#{presupuestoBB.fileDescargar}" />
+							</p:commandButton>
+							
+							<br />
+							<br />	
+							
+		                    <p:fileUpload fileUploadListener="#{presupuestoBB.uploadPlanoNomina}" update=":#{p:component('tblValidacionPlanoNomina')} mode="advanced" dragDropSupport="false" multiple="true" sizeLimit="100000" fileLimit="3" allowTypes="/(\.|\/)(xlsx)$/" style="width:100%" />
+		                 
+		                 	<p:dataTable id="tblValidacionPlanoNomina" var="validacion" value="#{presupuestoBB.listaValidacion}" 
+                            		reflow="true" emptyMessage="No se encontraron registros."
+									scrollable="false" paginatorPosition="bottom"
+									rows="10" rowsPerPageTemplate="5,10,20,50"
+									currentPageReportTemplate="Páginas {totalPages} - Registros {totalRecords}"
+									paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown} {Exporters}" 
+									paginator="true">
+									
+                                <f:facet name="header">
+                                    Validaciones Archivo Plano
+                                </f:facet>
+                                
+                                <p:column headerText="Mensaje">
+                                    <h:outputText value="#{validacion.mensaje}" />
+                                </p:column>
+
+                                <p:column headerText="Fila">
+                                    <h:outputText value="#{validacion.fila}" />
+                                </p:column>
+                                
+                                <p:column headerText="Columna">
+                                    <h:outputText value="#{validacion.columna}" />
+                                </p:column>
+                               
+                            </p:dataTable>
+		                 </div>  
                 </div>
             </div>
         </div>
+    </h:form>
     </ui:define>
 
 </ui:composition>

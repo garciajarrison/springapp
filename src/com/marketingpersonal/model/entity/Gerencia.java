@@ -13,7 +13,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "gerencia", schema = "presupuestoMD")
+@Table(name = "gerencia", schema = "presupuestomd")
 public class Gerencia implements java.io.Serializable {
 
 	private static final long serialVersionUID = 1L;
