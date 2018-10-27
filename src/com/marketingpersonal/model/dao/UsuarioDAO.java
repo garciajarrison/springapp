@@ -29,8 +29,8 @@ public class UsuarioDAO implements IUsuarioDAO {
 
 	public Usuario login(Usuario users) {
 		Session session = getSessionFactory().getCurrentSession();
-		Usuario usuarioTmp = (Usuario)session.createQuery("from Usuario where correo=:correo")
-				.setParameter("correo", users.getCorreo())
+		Usuario usuarioTmp = (Usuario)session.createQuery("from Usuario where usuario=:usuario")
+				.setParameter("usuario", users.getUsuario())
 				.uniqueResult();
 		
 		return usuarioTmp;
