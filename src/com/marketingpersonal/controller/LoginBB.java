@@ -60,8 +60,8 @@ public class LoginBB extends SpringBeanAutowiringSupport implements Serializable
 
 		try {
 			if(validar() && ldap.login(usuario.getUsuario(), usuario.getContrasena())) {	
-				util.redirect("inicio.xhtml");
-				/*usuario = this.getUsuarioService().login(usuario);
+				
+				usuario = this.getUsuarioService().login(usuario);
 				if(usuario != null) {
 					util.setSessionAttribute(EnumSessionAttributes.USUARIO, usuario);
 					util.mostrarMensajeRedirect("Bienvenido: " + usuario.getNombre(), true);
@@ -69,7 +69,7 @@ public class LoginBB extends SpringBeanAutowiringSupport implements Serializable
 				} else{
 					usuario = new Usuario();
 					util.mostrarError("Datos de ingreso incorrectos.");
-				}*/
+				}
 			}else {
 				util.mostrarError("Datos de ingreso incorrectos.");
 			}
