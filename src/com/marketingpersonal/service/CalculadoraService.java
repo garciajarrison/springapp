@@ -55,7 +55,7 @@ public class CalculadoraService implements ICalculadoraService {
 			retorno = new ArrayList<>();
 			for(int c = 1; c <= 18; c++) {
 				for(int m = 1; m <=12; m++) {
-					this.addCalculadora(new Calculadora(0,c, m, anio, tipo, 0d));
+					this.addCalculadora(new Calculadora(0,c, m, anio, tipo, 0f));
 				}
 			}
 			retorno = getEntityDAO().getCalculadoras(tipo, anio);
@@ -67,8 +67,8 @@ public class CalculadoraService implements ICalculadoraService {
 	@Transactional(readOnly = false)
 	public void addCampaniaCalculadora(int campania, Integer anio) {
 		for(int m = 1; m <=12; m++) {
-			this.addCalculadora(new Calculadora(0,campania, m, anio, "CM", 0d));
-			this.addCalculadora(new Calculadora(0,campania, m, anio, "MC", 0d));
+			this.addCalculadora(new Calculadora(0,campania, m, anio, "CM", 0f));
+			this.addCalculadora(new Calculadora(0,campania, m, anio, "MC", 0f));
 		}
 	}
 

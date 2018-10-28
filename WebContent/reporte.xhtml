@@ -1,0 +1,433 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+    <ui:define name="title">Reporte</ui:define>
+
+    <ui:define name="content">
+	<h:form id="FormulId">
+			<p:growl id="growl" sticky="true" autoUpdate="true" />
+            <div class="ui-fluid">
+                <div class="ui-g">
+                    <div class="ui-g-12">
+                        <div class="card">
+                            <h1>Reporte de presupuesto anual</h1>
+                            <p:panelGrid id="pgPresupuesto" columns="2" columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4" layout="grid" 
+                            		styleClass="ui-panelgrid-blank" style="border:0px none; background-color:transparent;">
+                                
+                                <p:outputLabel value="Año"/>
+                                <p:selectOneMenu value="#{reporteBB.anioConsulta}">
+	                            	<f:selectItems value="#{reporteBB.listaAnios}"/>
+	                            	 <p:ajax event="change" update="@form" listener="#{reporteBB.cargarListasPorAnio}" />
+	                            </p:selectOneMenu>
+                                
+                                <p:outputLabel value="Tipo"/>
+                                <p:selectOneMenu value="#{reporteBB.tipo}">
+	                            	<f:selectItems value="#{reporteBB.listasGenericas.lstTipoPresupuesto}"/>
+	                            </p:selectOneMenu>
+                                
+                                <p:commandButton id="btnConsultar" value="Consultar" 
+                                		actionListener="#{reporteBB.cargarReporte}" 
+                                		update="@form"
+                                		icon="ui-icon-check fa fa-check Fs14 White" style="max-width:150px;"/>
+                            </p:panelGrid>
+                            
+                        </div>   
+                        
+                        <div class="card" style="display:#{reporteBB.mes ? 'block;' : 'none;'}">
+                            <h1>Reporte de presupuestos Mensual</h1>
+                            <p:dataTable id="tblPresupuestosM" var="presupuesto" 
+                            		value="#{reporteBB.listaReporteMeses}" 
+                            		reflow="true" emptyMessage="No se encontraron registros."
+									scrollable="false" paginatorPosition="bottom"
+									rows="10" rowsPerPageTemplate="5,10,20,50"
+									rendered="#{reporteBB.mes}"
+									currentPageReportTemplate="Páginas {totalPages} - Registros {totalRecords}"
+									paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}  {Exporters}" 
+									paginator="true">
+									
+								<f:facet name="{Exporters}">
+						            <h:commandLink>
+						                <p:graphicImage name="images/excel.png" library="omega-layout"  width="24"/>
+						                <p:dataExporter type="xls" target="tblPresupuestosM" fileName="Presupuestos" />
+						            </h:commandLink>
+						 
+						            <h:commandLink>
+						                <p:graphicImage name="images/pdf.png" library="omega-layout"  width="24"/>
+						                <p:dataExporter type="pdf" target="tblPresupuestosM" fileName="Presupuestos"/>
+						            </h:commandLink>
+						 
+						            <h:commandLink>
+						                <p:graphicImage name="images/csv.png" library="omega-layout" width="24"/>
+						                <p:dataExporter type="csv" target="tblPresupuestosM" fileName="Presupuestos" />
+						            </h:commandLink>
+						 
+						            <h:commandLink>
+						                <p:graphicImage name="images/xml.png" library="omega-layout"  width="24"/>
+						                <p:dataExporter type="xml" target="tblPresupuestosM" fileName="Presupuestos" />
+						            </h:commandLink>
+						        </f:facet>
+									
+                                <f:facet name="header">
+                                    Detalle
+                                </f:facet>
+
+								<p:column headerText="Nombre" sortBy="#{presupuesto.presupuesto.nombre}" 
+                                		 filterMatchMode="contains" filterBy="#{presupuesto.presupuesto.nombre}">
+                                    <h:outputText value="#{presupuesto.presupuesto.nombre}" />
+                                </p:column>
+                                
+                                <p:column headerText="Descripción" sortBy="#{presupuesto.presupuesto.descripcion}" 
+                                		 filterMatchMode="contains" filterBy="#{presupuesto.presupuesto.descripcion}">
+                                    <h:outputText value="#{presupuesto.presupuesto.descripcion}" />
+                                </p:column>
+                                
+                                <p:column headerText="Creado por" sortBy="#{presupuesto.presupuesto.usuario.usuario}" 
+                                		 filterMatchMode="contains" filterBy="#{presupuesto.presupuesto.usuario.usuario}">
+                                    <h:outputText value="#{presupuesto.presupuesto.usuario.usuario}" />
+                                </p:column>
+                                
+                                <p:column headerText="Centro de Costo" sortBy="#{presupuesto.centroCosto.centroCosto}" 
+										 filterMatchMode="contains" filterBy="#{presupuesto.centroCosto.centroCosto}">
+									<h:outputText value="#{presupuesto.centroCosto.centroCosto}" />
+								</p:column>
+                                
+                                <p:column headerText="Cuenta" sortBy="#{presupuesto.cuenta.nombre}" 
+										 filterMatchMode="contains" filterBy="#{presupuesto.cuenta.nombre}">
+									<h:outputText value="#{presupuesto.cuenta.nombre}" />
+								</p:column>
+								
+								<p:column headerText="Gerencia" sortBy="#{presupuesto.centroCosto.gerencia.nombre}" 
+										 filterMatchMode="contains" filterBy="#{presupuesto.centroCosto.gerencia.nombre}">
+									<h:outputText value="#{presupuesto.centroCosto.gerencia.nombre}" />
+								</p:column>
+								
+								<p:column headerText="Dirección" sortBy="#{presupuesto.centroCosto.direccion.nombre}" 
+										 filterMatchMode="contains" filterBy="#{presupuesto.centroCosto.direccion.nombre}">
+									<h:outputText value="#{presupuesto.centroCosto.direccion.nombre}" />
+								</p:column>
+								
+								<p:column headerText="Jefatura" sortBy="#{presupuesto.centroCosto.jefatura.nombre}" 
+										 filterMatchMode="contains" filterBy="#{presupuesto.centroCosto.jefatura.nombre}">
+									<h:outputText value="#{presupuesto.centroCosto.jefatura.nombre}" />
+								</p:column>
+								
+								<p:column headerText="Tipo" sortBy="#{presupuesto.presupuesto.tipo}">
+                                     <h:outputText value="#{presupuesto.presupuesto.tipo}" />
+                                </p:column>
+								
+                                <p:column headerText="Año" sortBy="#{presupuesto.presupuesto.anio}"
+                                		 filterMatchMode="contains" filterBy="#{presupuesto.presupuesto.anio}">
+                                    <h:outputText value="#{presupuesto.presupuesto.anio}" />
+                                </p:column>
+                                
+                                <p:column headerText="Clasificación" sortBy="#{presupuesto.presupuesto.clasificacion}" 
+                                		 filterMatchMode="contains" filterBy="#{presupuesto.presupuesto.clasificacion}">
+                                    <h:outputText value="#{presupuesto.presupuesto.clasificacion}" />
+                                </p:column>
+                                
+                                <p:column headerText="Estado" sortBy="#{presupuesto.estado}" >
+									<h:outputText value="#{presupuestoBB.listasGenericas.getNombreEstado(presupuesto.estado)}" />
+								</p:column>
+	
+								<p:column headerText="Observación" sortBy="#{presupuesto.observacion}"
+										 filterMatchMode="contains" filterBy="#{presupuesto.observacion}">
+									<h:outputText value="#{presupuesto.observacion}" />
+								</p:column>
+								
+								<p:column headerText="Mes 1" sortBy="#{presupuesto.valorM1}" >
+                                    <h:outputText value="#{presupuesto.valorM1}" />
+                                </p:column>
+                                
+                                <p:column headerText="Mes 2" sortBy="#{presupuesto.valorM2}">
+                                    <h:outputText value="#{presupuesto.valorM2}" />
+                                </p:column>
+                                
+                                <p:column headerText="Mes 3" sortBy="#{presupuesto.valorM3}" >
+                                    <h:outputText value="#{presupuesto.valorM3}" />
+                                </p:column>
+                                
+                                <p:column headerText="Mes 4" sortBy="#{presupuesto.valorM4}">
+                                    <h:outputText value="#{presupuesto.valorM4}" />
+                                </p:column>
+                                
+                                <p:column headerText="Mes 5" sortBy="#{presupuesto.valorM5}">
+                                    <h:outputText value="#{presupuesto.valorM5}" />
+                                </p:column>
+                                
+                                <p:column headerText="Mes 6" sortBy="#{presupuesto.valorM6}">
+                                    <h:outputText value="#{presupuesto.valorM6}" />
+                                </p:column>
+                                
+                                <p:column headerText="Mes 7" sortBy="#{presupuesto.valorM7}" >
+                                    <h:outputText value="#{presupuesto.valorM7}" />
+                                </p:column>
+                                
+                                <p:column headerText="Mes 8" sortBy="#{presupuesto.valorM8}" >
+                                    <h:outputText value="#{presupuesto.valorM8}" />
+                                </p:column>
+                                
+                                <p:column headerText="Mes 9" sortBy="#{presupuesto.valorM9}" >
+                                    <h:outputText value="#{presupuesto.valorM9}" />
+                                </p:column>
+                                
+                                <p:column headerText="Mes 10" sortBy="#{presupuesto.valorM10}">
+                                    <h:outputText value="#{presupuesto.valorM10}" />
+                                </p:column>
+                                
+                                <p:column headerText="Mes 11" sortBy="#{presupuesto.valorM11}" >
+                                    <h:outputText value="#{presupuesto.valorM11}" />
+                                </p:column>
+                                
+                                <p:column headerText="Mes 12" sortBy="#{presupuesto.valorM12}" >
+                                    <h:outputText value="#{presupuesto.valorM12}" />
+                                </p:column>
+								
+								<p:column headerText="Total" sortBy="#{presupuesto.total}" >
+									<h:outputText value="#{presupuesto.total}" />
+								</p:column>
+								
+                            </p:dataTable>      
+                        </div>
+                        
+                        <div class="card" style="display:#{reporteBB.campania ? 'block;' : 'none;'}">
+                            <h1>Reporte de presupuestos Campañal</h1>
+                            <p:dataTable id="tblPresupuestosC" var="presupuesto" 
+                            		value="#{reporteBB.listaReporteCampanas}" 
+                            		reflow="true" emptyMessage="No se encontraron registros."
+									scrollable="false" paginatorPosition="bottom"
+									rows="10" rowsPerPageTemplate="5,10,20,50"
+									rendered="#{reporteBB.campania}"
+									currentPageReportTemplate="Páginas {totalPages} - Registros {totalRecords}"
+									paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}  {Exporters}" 
+									paginator="true">
+									
+								<f:facet name="{Exporters}">
+						            <h:commandLink>
+						                <p:graphicImage name="images/excel.png" library="omega-layout"  width="24"/>
+						                <p:dataExporter type="xls" target="tblPresupuestosC" fileName="Presupuestos" />
+						            </h:commandLink>
+						 
+						            <h:commandLink>
+						                <p:graphicImage name="images/pdf.png" library="omega-layout"  width="24"/>
+						                <p:dataExporter type="pdf" target="tblPresupuestosC" fileName="Presupuestos"/>
+						            </h:commandLink>
+						 
+						            <h:commandLink>
+						                <p:graphicImage name="images/csv.png" library="omega-layout" width="24"/>
+						                <p:dataExporter type="csv" target="tblPresupuestosC" fileName="Presupuestos" />
+						            </h:commandLink>
+						 
+						            <h:commandLink>
+						                <p:graphicImage name="images/xml.png" library="omega-layout"  width="24"/>
+						                <p:dataExporter type="xml" target="tblPresupuestosC" fileName="Presupuestos" />
+						            </h:commandLink>
+						        </f:facet>
+									
+                                <f:facet name="header">
+                                    Detalle
+                                </f:facet>
+
+								<p:column headerText="Nombre" sortBy="#{presupuesto.presupuesto.nombre}" 
+                                		 filterMatchMode="contains" filterBy="#{presupuesto.presupuesto.nombre}">
+                                    <h:outputText value="#{presupuesto.presupuesto.nombre}" />
+                                </p:column>
+                                
+                                <p:column headerText="Descripción" sortBy="#{presupuesto.presupuesto.descripcion}" 
+                                		 filterMatchMode="contains" filterBy="#{presupuesto.presupuesto.descripcion}">
+                                    <h:outputText value="#{presupuesto.presupuesto.descripcion}" />
+                                </p:column>
+                                
+                                <p:column headerText="Creado por" sortBy="#{presupuesto.presupuesto.usuario.usuario}" 
+                                		 filterMatchMode="contains" filterBy="#{presupuesto.presupuesto.usuario.usuario}">
+                                    <h:outputText value="#{presupuesto.presupuesto.usuario.usuario}" />
+                                </p:column>
+                                
+                                <p:column headerText="Centro de Costo" sortBy="#{presupuesto.centroCosto.centroCosto}" 
+										 filterMatchMode="contains" filterBy="#{presupuesto.centroCosto.centroCosto}">
+									<h:outputText value="#{presupuesto.centroCosto.centroCosto}" />
+								</p:column>
+                                
+                                <p:column headerText="Cuenta" sortBy="#{presupuesto.cuenta.nombre}" 
+										 filterMatchMode="contains" filterBy="#{presupuesto.cuenta.nombre}">
+									<h:outputText value="#{presupuesto.cuenta.nombre}" />
+								</p:column>
+								
+								<p:column headerText="Gerencia" sortBy="#{presupuesto.centroCosto.gerencia.nombre}" 
+										 filterMatchMode="contains" filterBy="#{presupuesto.centroCosto.gerencia.nombre}">
+									<h:outputText value="#{presupuesto.centroCosto.gerencia.nombre}" />
+								</p:column>
+								
+								<p:column headerText="Dirección" sortBy="#{presupuesto.centroCosto.direccion.nombre}" 
+										 filterMatchMode="contains" filterBy="#{presupuesto.centroCosto.direccion.nombre}">
+									<h:outputText value="#{presupuesto.centroCosto.direccion.nombre}" />
+								</p:column>
+								
+								<p:column headerText="Jefatura" sortBy="#{presupuesto.centroCosto.jefatura.nombre}" 
+										 filterMatchMode="contains" filterBy="#{presupuesto.centroCosto.jefatura.nombre}">
+									<h:outputText value="#{presupuesto.centroCosto.jefatura.nombre}" />
+								</p:column>
+								
+								<p:column headerText="Tipo" sortBy="#{presupuesto.presupuesto.tipo}">
+                                     <h:outputText value="#{presupuesto.presupuesto.tipo}" />
+                                </p:column>
+								
+                                <p:column headerText="Año" sortBy="#{presupuesto.presupuesto.anio}"
+                                		 filterMatchMode="contains" filterBy="#{presupuesto.presupuesto.anio}">
+                                    <h:outputText value="#{presupuesto.presupuesto.anio}" />
+                                </p:column>
+                                
+                                <p:column headerText="Clasificación" sortBy="#{presupuesto.presupuesto.clasificacion}" 
+                                		 filterMatchMode="contains" filterBy="#{presupuesto.presupuesto.clasificacion}">
+                                    <h:outputText value="#{presupuesto.presupuesto.clasificacion}" />
+                                </p:column>
+                                
+                                <p:column headerText="Estado" sortBy="#{presupuesto.estado}" >
+									<h:outputText value="#{presupuestoBB.listasGenericas.getNombreEstado(presupuesto.estado)}" />
+								</p:column>
+	
+								<p:column headerText="Observación" sortBy="#{presupuesto.observacion}"
+										 filterMatchMode="contains" filterBy="#{presupuesto.observacion}">
+									<h:outputText value="#{presupuesto.observacion}" />
+								</p:column>
+								
+								<p:column headerText="Campaña 1" sortBy="#{presupuesto.valorC1}">
+									<h:outputText value="#{presupuesto.valorC1}" />
+								</p:column>
+								
+								<p:column headerText="Campaña 2" sortBy="#{presupuesto.valorC2}"
+										rendered="#{presupuestoBB.camapanaMaxima > 1}" exportable="#{presupuestoBB.camapanaMaxima > 1}">
+									<h:outputText value="#{presupuesto.valorC2}" />
+								</p:column>
+								
+								<p:column headerText="Campaña 3" sortBy="#{presupuesto.valorC3}" 
+										rendered="#{presupuestoBB.camapanaMaxima > 2}" exportable="#{presupuestoBB.camapanaMaxima > 2}">
+									<h:outputText value="#{presupuesto.valorC3}" />
+								</p:column>
+								
+								<p:column headerText="Campaña 4" sortBy="#{presupuesto.valorC4}"
+										rendered="#{presupuestoBB.camapanaMaxima > 3}" exportable="#{presupuestoBB.camapanaMaxima > 3}">
+									<h:outputText value="#{presupuesto.valorC4}" />
+								</p:column>
+								
+								<p:column headerText="Campaña 5" sortBy="#{presupuesto.valorC5}" 
+										rendered="#{presupuestoBB.camapanaMaxima > 4}" exportable="#{presupuestoBB.camapanaMaxima > 4}">
+									<h:outputText value="#{presupuesto.valorC5}" />
+								</p:column>
+								
+								<p:column headerText="Campaña 6" sortBy="#{presupuesto.valorC6}" 
+										rendered="#{presupuestoBB.camapanaMaxima > 5}" exportable="#{presupuestoBB.camapanaMaxima > 5}">
+									<h:outputText value="#{presupuesto.valorC6}" />
+								</p:column>
+								
+								<p:column headerText="Campaña 7" sortBy="#{presupuesto.valorC7}" 
+										rendered="#{presupuestoBB.camapanaMaxima > 6}" exportable="#{presupuestoBB.camapanaMaxima > 6}">
+									<h:outputText value="#{presupuesto.valorC7}" />
+								</p:column>
+								
+								<p:column headerText="Campaña 8" sortBy="#{presupuesto.valorC8}" 
+										rendered="#{presupuestoBB.camapanaMaxima > 7}" exportable="#{presupuestoBB.camapanaMaxima > 7}">
+									<h:outputText value="#{presupuesto.valorC8}" />
+								</p:column>
+								
+								<p:column headerText="Campaña 9" sortBy="#{presupuesto.valorC9}" 
+										rendered="#{presupuestoBB.camapanaMaxima > 8}" exportable="#{presupuestoBB.camapanaMaxima > 8}">
+									<h:outputText value="#{presupuesto.valorC9}" />
+								</p:column>
+								
+								<p:column headerText="Campaña 10" sortBy="#{presupuesto.valorC10}"
+										rendered="#{presupuestoBB.camapanaMaxima > 9}" exportable="#{presupuestoBB.camapanaMaxima > 9}">
+									<h:outputText value="#{presupuesto.valorC10}" />
+								</p:column>
+								
+								<p:column headerText="Campaña 11" sortBy="#{presupuesto.valorC11}"
+										rendered="#{presupuestoBB.camapanaMaxima > 10}" exportable="#{presupuestoBB.camapanaMaxima > 10}">
+									<h:outputText value="#{presupuesto.valorC11}" />
+								</p:column>
+								
+								<p:column headerText="Campaña 12" sortBy="#{presupuesto.valorC12}" 
+										rendered="#{presupuestoBB.camapanaMaxima > 11}" exportable="#{presupuestoBB.camapanaMaxima > 11}">
+									<h:outputText value="#{presupuesto.valorC12}" />
+								</p:column>
+								
+								<p:column headerText="Campaña 13" sortBy="#{presupuesto.valorC13}" 
+										rendered="#{presupuestoBB.camapanaMaxima > 12}" exportable="#{presupuestoBB.camapanaMaxima > 12}">
+									<h:outputText value="#{presupuesto.valorC13}" />
+								</p:column>
+								
+								<p:column headerText="Campaña 14" sortBy="#{presupuesto.valorC14}" 
+										rendered="#{presupuestoBB.camapanaMaxima > 13}" exportable="#{presupuestoBB.camapanaMaxima > 13}">
+									<h:outputText value="#{presupuesto.valorC14}" />
+								</p:column>
+								
+								<p:column headerText="Campaña 15" sortBy="#{presupuesto.valorC15}" 
+										rendered="#{presupuestoBB.camapanaMaxima > 14}" exportable="#{presupuestoBB.camapanaMaxima > 14}">
+									<h:outputText value="#{presupuesto.valorC15}" />
+								</p:column>
+								
+								<p:column headerText="Campaña 16" sortBy="#{presupuesto.valorC16}" 
+										rendered="#{presupuestoBB.camapanaMaxima > 15}" exportable="#{presupuestoBB.camapanaMaxima > 15}">
+									<h:outputText value="#{presupuesto.valorC16}" />
+								</p:column>
+								
+								<p:column headerText="Campaña 17" sortBy="#{presupuesto.valorC17}" 
+										rendered="#{presupuestoBB.camapanaMaxima > 16}" exportable="#{presupuestoBB.camapanaMaxima > 16}">
+									<h:outputText value="#{presupuesto.valorC17}" />
+								</p:column>
+								
+								<p:column headerText="Campaña 18" sortBy="#{presupuesto.valorC18}" 
+										rendered="#{presupuestoBB.camapanaMaxima > 17}" exportable="#{presupuestoBB.camapanaMaxima > 17}">
+									<h:outputText value="#{presupuesto.valorC18}" />
+								</p:column>
+								
+								<p:column headerText="Campaña 19" sortBy="#{presupuesto.valorC19}" 
+										rendered="#{presupuestoBB.camapanaMaxima > 18}" exportable="#{presupuestoBB.camapanaMaxima > 18}">
+									<h:outputText value="#{presupuesto.valorC19}" />
+								</p:column>
+								
+								<p:column headerText="Campaña 20" sortBy="#{presupuesto.valorC20}" 
+										rendered="#{presupuestoBB.camapanaMaxima > 19}" exportable="#{presupuestoBB.camapanaMaxima > 19}">
+									<h:outputText value="#{presupuesto.valorC20}" />
+								</p:column>
+								
+								<p:column headerText="Campaña 21" sortBy="#{presupuesto.valorC21}"
+										rendered="#{presupuestoBB.camapanaMaxima > 20}" exportable="#{presupuestoBB.camapanaMaxima > 20}">
+									<h:outputText value="#{presupuesto.valorC21}" />
+								</p:column>
+								
+								<p:column headerText="Campaña 22" sortBy="#{presupuesto.valorC22}" 
+										rendered="#{presupuestoBB.camapanaMaxima > 21}" exportable="#{presupuestoBB.camapanaMaxima > 21}">
+									<h:outputText value="#{presupuesto.valorC22}" />
+								</p:column>
+								
+								<p:column headerText="Campaña 23" sortBy="#{presupuesto.valorC23}"
+										rendered="#{presupuestoBB.camapanaMaxima > 22}" exportable="#{presupuestoBB.camapanaMaxima > 22}">
+									<h:outputText value="#{presupuesto.valorC23}" />
+								</p:column>
+								
+								<p:column headerText="Campaña 24" sortBy="#{presupuesto.valorC24}"
+										rendered="#{presupuestoBB.camapanaMaxima > 23}" exportable="#{presupuestoBB.camapanaMaxima > 23}">
+									<h:outputText value="#{presupuesto.valorC24}" />
+								</p:column>
+								
+								<p:column headerText="Campaña 25" sortBy="#{presupuesto.valorC25}"
+										rendered="#{presupuestoBB.camapanaMaxima > 24}" exportable="#{presupuestoBB.camapanaMaxima > 24}">
+									<h:outputText value="#{presupuesto.valorC25}" />
+								</p:column>
+								
+								<p:column headerText="Total" sortBy="#{presupuesto.total}" >
+									<h:outputText value="#{presupuesto.total}" />
+								</p:column>
+								
+                            </p:dataTable>      
+                          </div>      
+                    </div>                    
+                </div>
+            </div>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

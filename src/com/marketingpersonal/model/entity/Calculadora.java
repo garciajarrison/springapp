@@ -25,12 +25,12 @@ public class Calculadora implements java.io.Serializable {
 	@Column(name = "tipo")
 	private String tipo;
 	@Column(name = "porcentaje")
-	private double porcentaje;
+	private float porcentaje;
 	
 	public Calculadora() {
 	}
 	
-	public Calculadora(int id, int campana, int mes, int anio, String tipo, double porcentaje) {
+	public Calculadora(int id, int campana, int mes, int anio, String tipo, float porcentaje) {
 		this.id = id;
 		this.campana = campana;
 		this.mes = mes;
@@ -69,10 +69,10 @@ public class Calculadora implements java.io.Serializable {
 	public void setTipo(String tipo) {
 		this.tipo = tipo;
 	}
-	public double getPorcentaje() {
+	public float getPorcentaje() {
 		return porcentaje;
 	}
-	public void setPorcentaje(double porcentaje) {
+	public void setPorcentaje(float porcentaje) {
 		this.porcentaje = porcentaje;
 	}
 	

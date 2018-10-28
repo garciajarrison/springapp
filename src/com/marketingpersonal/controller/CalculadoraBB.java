@@ -104,7 +104,7 @@ public class CalculadoraBB extends SpringBeanAutowiringSupport implements Serial
 			//La ultima fila es para totalizar
 			objTmp = new Calculadora[12];
 			for(int m = 1; m <= 12; m++) {
-				objTmp[m-1] = new Calculadora(0,(camapanaMaxima+1),m,0,"MC",0d);
+				objTmp[m-1] = new Calculadora(0,(camapanaMaxima+1),m,0,"MC",0f);
 			}
 			listaCalculadoraMC.add(objTmp);
 		}catch(Exception e) {
@@ -165,8 +165,8 @@ public class CalculadoraBB extends SpringBeanAutowiringSupport implements Serial
 			}
 			
 			//Validamos los totales MC
-			List<Double> totales = totalizar("MC");
-			for(Double dl : totales) {
+			List<Float> totales = totalizar("MC");
+			for(Float dl : totales) {
 				if(dl > 100) {
 					util.mostrarError("Hay porcentajes mayores al 100% en la calculadora Mes / Campaña.");
 					continuar = false;
@@ -192,11 +192,11 @@ public class CalculadoraBB extends SpringBeanAutowiringSupport implements Serial
 		}
 	}
 	
-	public List<Double> totalizar(String tipo) {
+	public List<Float> totalizar(String tipo) {
 		
-		 List<Double> totales = new ArrayList<Double>();
+		 List<Float> totales = new ArrayList<>();
 		if("CM".equals(tipo)) {
-			double total = 0;
+			float total = 0;
 			for(Calculadora[] objSuma : listaCalculadoraCM) {
 				total = 0;
 				for(int m = 0; m <= 11; m++) {
@@ -206,18 +206,18 @@ public class CalculadoraBB extends SpringBeanAutowiringSupport implements Serial
 			}
 		}else {
 			
-			double total1 = 0;
-			double total2 = 0;
-			double total3 = 0;
-			double total4 = 0;
-			double total5 = 0;
-			double total6 = 0;
-			double total7 = 0;
-			double total8 = 0;
-			double total9 = 0;
-			double total10 = 0;
-			double total11 = 0;
-			double total12 = 0;
+			float total1 = 0;
+			float total2 = 0;
+			float total3 = 0;
+			float total4 = 0;
+			float total5 = 0;
+			float total6 = 0;
+			float total7 = 0;
+			float total8 = 0;
+			float total9 = 0;
+			float total10 = 0;
+			float total11 = 0;
+			float total12 = 0;
 			
 			int i = 1;
 			for(Calculadora[] objSuma : listaCalculadoraMC) {
