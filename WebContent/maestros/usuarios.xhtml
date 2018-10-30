@@ -187,7 +187,7 @@
 							<br />
 							<br />	
 							
-		                    <p:fileUpload fileUploadListener="#{usuarioBB.uploadPlanoUsuarios}" update=":#{p:component('tblValidacionPlanoUsuarios')} :#{p:component('tblUsuarios')}" mode="advanced" dragDropSupport="false" multiple="true" sizeLimit="100000" fileLimit="3" allowTypes="/(\.|\/)(xlsx)$/" style="width:100%" />
+		                    <p:fileUpload fileUploadListener="#{usuarioBB.uploadPlanoUsuarios}" update=":#{p:component('tblValidacionPlanoUsuarios')} :#{p:component('tblUsuarios')}" mode="advanced" dragDropSupport="false" multiple="false" sizeLimit="100000" fileLimit="3" allowTypes="/(\.|\/)(xlsx)$/" style="width:100%" />
 		                    
 		                    <p:dataTable id="tblValidacionPlanoUsuarios" var="validacion" value="#{usuarioBB.listaValidacion}" 
                             		reflow="true" emptyMessage="No se encontraron registros."
