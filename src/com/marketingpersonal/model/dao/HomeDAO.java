@@ -48,7 +48,7 @@ public class HomeDAO implements IHomeDAO {
 	public List<Home> getHomes(boolean activo) {
 		Session session = getSessionFactory().getCurrentSession();
 		if(activo) {
-			return (List<Home>) session.createQuery("from Home where estado = true and current_date between fechaInicio and fechaFin").list();
+			return (List<Home>) session.createQuery("from Home where estado = true and CURRENT_TIMESTAMP between fechaInicio and fechaFin").list();
 		}else {
 			return (List<Home>) session.createQuery("from Home").list();
 		}

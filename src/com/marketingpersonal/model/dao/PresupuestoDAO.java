@@ -104,7 +104,7 @@ public class PresupuestoDAO implements IPresupuestoDAO {
 
 	public void actualizarEstadoPresupuestoDetalleMes(PresupuestoDetalleMes entity) {
 		Session session = getSessionFactory().getCurrentSession();
-		session.createSQLQuery("update presupuestomd.detalle_presupuesto_mes set estado = :estado where id = :id")
+		session.createSQLQuery("update presupuestomd.dbo.detalle_presupuesto_mes set estado = :estado where id = :id")
 			.setParameter("estado", entity.getEstado())
 			.setParameter("id", entity.getId())
 			.executeUpdate();
@@ -143,7 +143,7 @@ public class PresupuestoDAO implements IPresupuestoDAO {
 
 	public void actualizarEstadoPresupuestoDetalleCampania(PresupuestoDetalleCampania entity) {
 		Session session = getSessionFactory().getCurrentSession();
-		session.createSQLQuery("update presupuestomd.detalle_presupuesto_campania set estado = :estado where id = :id")
+		session.createSQLQuery("update presupuestomd.dbo.detalle_presupuesto_campania set estado = :estado where id = :id")
 			.setParameter("estado", entity.getEstado())
 			.setParameter("id", entity.getId())
 			.executeUpdate();

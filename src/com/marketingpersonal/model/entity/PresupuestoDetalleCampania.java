@@ -17,7 +17,7 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 @Entity
-@Table(name = "detalle_presupuesto_campania", schema = "presupuestomd")
+@Table(name = "detalle_presupuesto_campania", schema = "presupuestomd.dbo")
 public class PresupuestoDetalleCampania implements java.io.Serializable {
 
 	private static final long serialVersionUID = 1L;

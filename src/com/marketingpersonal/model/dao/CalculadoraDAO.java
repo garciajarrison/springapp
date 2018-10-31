@@ -59,7 +59,7 @@ public class CalculadoraDAO implements ICalculadoraDAO {
 
 	public void eliminarCampaniaCalculadora(int camapanaMaxima) {
 		Session session = getSessionFactory().getCurrentSession();
-		session.createSQLQuery("delete from presupuestomd.calculadora where campana = :campana")
+		session.createSQLQuery("delete from presupuestomd.dbo.calculadora where campana = :campana")
 				.setParameter("campana", camapanaMaxima).executeUpdate();
 		
 		session.flush();
@@ -88,14 +88,14 @@ public class CalculadoraDAO implements ICalculadoraDAO {
 
 	public int getCampanaMaxima(Integer anioGeneral) {
 		Session session = getSessionFactory().getCurrentSession();
-		return (Integer)session.createSQLQuery("select max(campana) from presupuestomd.calculadora where anio = '" + anioGeneral + "'")
+		return (Integer)session.createSQLQuery("select max(campana) from presupuestomd.dbo.calculadora where anio = '" + anioGeneral + "'")
 				.uniqueResult();
 	}
 
 	public List<SelectItem> getListaAnios() {
 		List<SelectItem> retorno = new ArrayList<>();
 		Session session = getSessionFactory().getCurrentSession();
-		List<Integer> listado = (List<Integer>)session.createSQLQuery("select distinct anio from presupuestomd.calculadora").list();
+		List<Integer> listado = (List<Integer>)session.createSQLQuery("select distinct anio from presupuestomd.dbo.calculadora").list();
 		if(listado != null && !listado.isEmpty()) {
 			for(Integer tmp: listado) {
 				retorno.add(new SelectItem(String.valueOf(tmp), String.valueOf(tmp)));

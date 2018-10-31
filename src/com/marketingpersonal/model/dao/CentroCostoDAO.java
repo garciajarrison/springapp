@@ -33,7 +33,7 @@ public class CentroCostoDAO implements ICentroCostoDAO {
 
 	public void deleteCentroCosto(CentroCosto entity) {
 		Session session = getSessionFactory().getCurrentSession();
-		session.createSQLQuery("delete from presupuestomd.centrocosto where id = :id")
+		session.createSQLQuery("delete from presupuestomd.dbo.centrocosto where id = :id")
 			.setParameter("id", entity.getId()).executeUpdate();
 		session.flush();
 	}
@@ -69,7 +69,7 @@ public class CentroCostoDAO implements ICentroCostoDAO {
 
 	public void deleteCentroCostoPorCuenta(CentroCostoPorCuenta entity) {
 		Session session = getSessionFactory().getCurrentSession();
-		session.createSQLQuery("delete from presupuestomd.cuenta_x_centrocosto where id = :id")
+		session.createSQLQuery("delete from presupuestomd.dbo.cuenta_x_centrocosto where id = :id")
 			.setParameter("id", entity.getId()).executeUpdate();
 		session.flush();
 	}

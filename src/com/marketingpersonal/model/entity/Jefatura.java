@@ -8,7 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "jefatura", schema = "presupuestomd")
+@Table(name = "jefatura", schema = "presupuestomd.dbo")
 public class Jefatura implements java.io.Serializable {
 
 	private static final long serialVersionUID = 1L;

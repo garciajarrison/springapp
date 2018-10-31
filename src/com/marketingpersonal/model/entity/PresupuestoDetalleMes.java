@@ -15,7 +15,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "detalle_presupuesto_mes", schema = "presupuestomd")
+@Table(name = "detalle_presupuesto_mes", schema = "presupuestomd.dbo")
 public class PresupuestoDetalleMes implements java.io.Serializable {
 
 	private static final long serialVersionUID = 1L;
