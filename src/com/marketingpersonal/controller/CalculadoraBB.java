@@ -151,7 +151,7 @@ public class CalculadoraBB extends SpringBeanAutowiringSupport implements Serial
 		boolean continuar = true;
 		try {
 			//Validamos los totales CM
-			double total = 0;
+			float total = 0;
 			for(Calculadora[] objSuma : listaCalculadoraCM) {
 				total = 0;
 				for(int m = 0; m <= 11; m++) {
@@ -194,7 +194,7 @@ public class CalculadoraBB extends SpringBeanAutowiringSupport implements Serial
 	
 	public List<Float> totalizar(String tipo) {
 		
-		 List<Float> totales = new ArrayList<>();
+		List<Float> totales = new ArrayList<>();
 		if("CM".equals(tipo)) {
 			float total = 0;
 			for(Calculadora[] objSuma : listaCalculadoraCM) {

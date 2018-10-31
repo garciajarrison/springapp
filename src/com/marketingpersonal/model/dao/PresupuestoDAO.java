@@ -2,6 +2,7 @@ package com.marketingpersonal.model.dao;
 
 import java.util.List;
 
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -197,8 +198,12 @@ public class PresupuestoDAO implements IPresupuestoDAO {
 				
 		query.append(" ))");
 		
-		return (List<Presupuesto>) session.createQuery(query.toString())
-				.setParameter("idUsuario", usuario.getId()).list();
+		Query q = session.createQuery(query.toString());
+		if(!"Administrador".equals(usuario.getRol())) {
+			q.setParameter("idUsuario", usuario.getId());
+		}
+		
+		return (List<Presupuesto>) q.list();
 	}
 
 	public List<Presupuesto> getPresupuestosAprobadorFinal(Usuario usuario) {
@@ -231,8 +236,12 @@ public class PresupuestoDAO implements IPresupuestoDAO {
 				
 		query.append("	))  ");
 		
-		return (List<Presupuesto>) session.createQuery(query.toString())
-				.setParameter("idUsuario", usuario.getId()).list();
+		Query q = session.createQuery(query.toString());
+		if(!"Administrador".equals(usuario.getRol())) {
+			q.setParameter("idUsuario", usuario.getId());
+		}
+		
+		return (List<Presupuesto>) q.list();
 	}
 
 	public List<PresupuestoDetalleCampania> getPresupuestoDetallesCampaniaAprobadorInicial(int idPresupuesto, Usuario usuario) {

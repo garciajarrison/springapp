@@ -58,8 +58,8 @@ public class LoginBB extends SpringBeanAutowiringSupport implements Serializable
 		
 		ldap = new LoginLDAP();
 
-		try {//TODO: descomentar LDAP para produccion
-			if(validar() /*&& ldap.login(usuario.getUsuario(), usuario.getContrasena())*/) {	
+		try {
+			if(validar() && ldap.login(usuario.getUsuario(), usuario.getContrasena())) {	
 				
 				usuario = this.getUsuarioService().login(usuario);
 				if(usuario != null) {

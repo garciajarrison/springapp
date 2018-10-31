@@ -22,7 +22,10 @@
 							<br />
 							<br />	
 							
-		                    <p:fileUpload fileUploadListener="#{presupuestoBB.uploadPlanoNomina}" update=":#{p:component('tblValidacionPlanoNomina')}" mode="advanced" dragDropSupport="false" multiple="false" sizeLimit="100000" fileLimit="3" allowTypes="/(\.|\/)(xlsx)$/" style="width:100%" />
+		                    <p:fileUpload fileUploadListener="#{presupuestoBB.uploadPlanoNomina}" 
+		                    			update=":#{p:component('tblValidacionPlanoNomina')}" mode="advanced" dragDropSupport="false" 
+		                    			multiple="false" sizeLimit="100000" fileLimit="3" allowTypes="/(\.|\/)(xlsx)$/" style="width:100%"
+		                    			cancelLabel="Cancelar" uploadLabel="Guardar" label="Seleccionar"   />
 		                 
 		                 	<p:dataTable id="tblValidacionPlanoNomina" var="validacion" value="#{presupuestoBB.listaValidacion}" 
                             		reflow="true" emptyMessage="No se encontraron registros."

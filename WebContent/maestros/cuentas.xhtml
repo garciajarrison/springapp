@@ -135,7 +135,11 @@
 							<br />
 							<br />	
 							
-		                    <p:fileUpload fileUploadListener="#{cuentaBB.uploadPlanoCuentas}" update=":#{p:component('tblValidacionPlanoCuentas')} :#{p:component('tblCuentas')}" mode="advanced" dragDropSupport="false" multiple="false" sizeLimit="100000" fileLimit="3" allowTypes="/(\.|\/)(xlsx)$/" style="width:100%" />
+		                    <p:fileUpload fileUploadListener="#{cuentaBB.uploadPlanoCuentas}" 
+		                    		update=":#{p:component('tblValidacionPlanoCuentas')} :#{p:component('tblCuentas')}" mode="advanced" 
+		                    		dragDropSupport="false" multiple="false" sizeLimit="100000" fileLimit="3" 
+		                    		allowTypes="/(\.|\/)(xlsx)$/" style="width:100%"
+		                    		cancelLabel="Cancelar" uploadLabel="Guardar" label="Seleccionar"  />
 		                 
 		                 	<p:dataTable id="tblValidacionPlanoCuentas" var="validacion" value="#{cuentaBB.listaValidacion}" 
                             		reflow="true" emptyMessage="No se encontraron registros."

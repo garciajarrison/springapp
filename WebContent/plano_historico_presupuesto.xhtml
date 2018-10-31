@@ -15,7 +15,9 @@
                         <h1>Cargar Archivo Plano Histórico de Presupuesto</h1>
                         <h:form>
                             <p:fileUpload fileUploadListener="#{fileUploadView.handleFileUpload}" mode="advanced" dragDropSupport="false"
-                                          multiple="true" update="messages" sizeLimit="100000" fileLimit="3" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" style="width:100%" />
+                                          multiple="true" update="messages" sizeLimit="100000" fileLimit="3" 
+                                          allowTypes="/(\.|\/)(gif|jpe?g|png)$/" style="width:100%"
+                                          cancelLabel="Cancelar" uploadLabel="Guardar" label="Seleccionar"   />
         
                             <p:growl id="messages" showDetail="true" />
                         </h:form>

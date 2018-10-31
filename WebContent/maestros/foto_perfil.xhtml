@@ -27,14 +27,14 @@
 	          				</div>
 	          				<div class="ui-g-6" align="center">
 	          					<p:fileUpload value="#{globalBB.foto}" mode="advanced" skinSimple="true"
-	          							cancelLabel="Cancelar" label="Foto de perfil" 
+	          							label="Foto de perfil" 
 	          							update=":#{p:component('growl')} :#{p:component('idFotoPerfil')} :#{p:component('formFotom')}" 
 	          							sizeLimit="1000000" fileLimit="1" allowTypes="/(\.|\/)(jpe?g|png)$/"
 	          							fileUploadListener="#{globalBB.upload}"
 	          							invalidFileMessage="El archivo no es valido"  
 	          							invalidSizeMessage="El archivo pesa mucho" 
 	          							fileLimitMessage="Supero el limite de archivos" 
-	          							uploadLabel="Guardar" dragDropSupport="false"
+	          							dragDropSupport="false"
 	          							requiredMessage="El campo foto de perfil es requerido" required="true"/>
 	          				</div>
 	          			
