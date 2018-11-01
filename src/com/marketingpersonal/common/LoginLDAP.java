@@ -16,7 +16,7 @@ public class LoginLDAP {
 	        env.put(Context.INITIAL_CONTEXT_FACTORY, "com.sun.jndi.ldap.LdapCtxFactory");
 	        env.put(Context.PROVIDER_URL, LDAP_URL);
 	        env.put(Context.SECURITY_AUTHENTICATION, "simple");
-	        env.put(Context.SECURITY_PRINCIPAL, "comtic@marketing.local");
+	        env.put(Context.SECURITY_PRINCIPAL, usuario+"@marketing.local");
 	        env.put(Context.SECURITY_CREDENTIALS, contrasenia);
 
 	        try {
