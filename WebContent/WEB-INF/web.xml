@@ -99,4 +99,13 @@
         <extension>svg#fontawesomeregular</extension>
         <mime-type>image/svg+xml</mime-type>
     </mime-mapping>
+    <error-page>
+	    <exception-type>javax.faces.application.ViewExpiredException</exception-type>
+	    <location>/login.xhtml?SesionExpirada</location>
+	</error-page>
+	<error-page>
+	    <error-code>500</error-code>
+	    <location>/login.xhtml?SesionExpirada</location>
+	</error-page>
+    
 </web-app>

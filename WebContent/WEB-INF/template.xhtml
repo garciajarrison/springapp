@@ -50,13 +50,13 @@
         </p:ajaxStatus>
         
         <p:ajaxStatus onstart="PF('statusDialog').show();" onsuccess="PF('statusDialog').hide();" />
-		<p:dialog modal="true" widgetVar="statusDialog" header="#{msg['procesando']}"  
+		<p:dialog modal="true" widgetVar="statusDialog" header="Procesando"  
 		    resizable="false" draggable="false" closable="false" width="20%">    
 		    <div align="center">
 		        <p:graphicImage name="images/loading.gif" library="omega-layout" width="100%"
 		        		alt="Cargando..." title="Cargando..."/>
 		        <br /><br />
-		       <strong>#{msg['cargando']}</strong> 
+		       <strong>Cargando...</strong> 
 		    </div>
 		</p:dialog> 
         

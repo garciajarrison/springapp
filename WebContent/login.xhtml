@@ -74,6 +74,27 @@
             <div class="login-footer">Marketing Personal</div>
         </div>
         
+        <p:ajaxStatus style="width:32px;height:32px;position:fixed;right:7px;bottom:7px">
+            <f:facet name="start">
+                <p:graphicImage name="images/preloader.gif" library="omega-layout" style="width: 32px;"/>
+            </f:facet>
+
+            <f:facet name="complete">
+                <h:outputText value="" />
+            </f:facet>
+        </p:ajaxStatus>
+        
+        <p:ajaxStatus onstart="PF('statusDialog').show();" onsuccess="PF('statusDialog').hide();" />
+		<p:dialog modal="true" widgetVar="statusDialog" header="Procesando"  
+		    resizable="false" draggable="false" closable="false" width="20%">    
+		    <div align="center">
+		        <p:graphicImage name="images/loading.gif" library="omega-layout" width="100%"
+		        		alt="Cargando..." title="Cargando..."/>
+		        <br /><br />
+		       <strong>Cargando...</strong> 
+		    </div>
+		</p:dialog> 
+        
         <h:outputStylesheet name="css/layout.css" library="omega-layout" />
     </h:body>
 
