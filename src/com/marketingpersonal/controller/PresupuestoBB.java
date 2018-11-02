@@ -310,7 +310,7 @@ public class PresupuestoBB extends SpringBeanAutowiringSupport implements Serial
 	public void actualizarMes(PresupuestoDetalleMes detPpto) {
 		try {
 			this.presupuestoDetalleMes = detPpto;    
-			this.cargarListaCentroCostosPresupuestoMes("NO");
+			this.cargarListaCuentasPresupuestoMes("NO");
 			totalizarMes();
 		} catch (DataAccessException e) {
 			e.printStackTrace();
@@ -321,7 +321,7 @@ public class PresupuestoBB extends SpringBeanAutowiringSupport implements Serial
 	public void actualizarCamp(PresupuestoDetalleCampania detPpto) {
 		try {
 			this.presupuestoDetalleCampania = detPpto;
-			this.cargarListaCentroCostosPresupuestoCampania("NO");
+			this.cargarListaCuentasPresupuestoCampania("NO");
 			totalizarCamp();
 		} catch (DataAccessException e) {
 			e.printStackTrace();
@@ -371,7 +371,7 @@ public class PresupuestoBB extends SpringBeanAutowiringSupport implements Serial
 		}
 	}
 	
-	public void cargarListaCentroCostosPresupuestoMes(String actualiza) {
+	public void cargarListaCuentasPresupuestoMes(String actualiza) {
 		try {
 			PresupuestoDetalleMes prepDetMesTmp = null;
 			if("SI".equals(actualiza)) {
@@ -380,18 +380,18 @@ public class PresupuestoBB extends SpringBeanAutowiringSupport implements Serial
 				prepDetMesTmp = presupuestoDetalleMes;
 			}
 			
-			listaCentroCostos = new ArrayList<>();
+			listaCuentas = new ArrayList<>();
 			
-			if(prepDetMesTmp.getCuenta() != null &&
-					prepDetMesTmp.getCuenta().getId() > 0) {
-				listaCentroCostos = this.getCentroCostoService().getCentroCostosPorCuenta(prepDetMesTmp.getCuenta().getId(), usuario.getId());
+			if(prepDetMesTmp.getCentroCosto() != null &&
+					prepDetMesTmp.getCentroCosto().getId() > 0) {
+				listaCuentas = this.getCuentaService().getCuentaPorCentroCosto(prepDetMesTmp.getCentroCosto().getId());
 			}
 		} catch (DataAccessException e) {
 			e.printStackTrace();
 		} 
 	}
 	
-	public void cargarListaCentroCostosPresupuestoCampania(String actualiza) {
+	public void cargarListaCuentasPresupuestoCampania(String actualiza) {
 		try {
 			PresupuestoDetalleCampania prepDetCampaniaTmp = null;
 			if("SI".equals(actualiza)) {
@@ -400,11 +400,11 @@ public class PresupuestoBB extends SpringBeanAutowiringSupport implements Serial
 				prepDetCampaniaTmp = presupuestoDetalleCampania;
 			}
 			
-			listaCentroCostos = new ArrayList<>();
+			listaCuentas = new ArrayList<>();
 			
-			if(prepDetCampaniaTmp.getCuenta() != null &&
-					prepDetCampaniaTmp.getCuenta().getId() > 0) {
-				listaCentroCostos = this.getCentroCostoService().getCentroCostosPorCuenta(prepDetCampaniaTmp.getCuenta().getId(), usuario.getId());
+			if(prepDetCampaniaTmp.getCentroCosto() != null &&
+					prepDetCampaniaTmp.getCentroCosto().getId() > 0) {
+				listaCuentas = this.getCuentaService().getCuentaPorCentroCosto(prepDetCampaniaTmp.getCentroCosto().getId());
 			}
 		} catch (DataAccessException e) {
 			e.printStackTrace();
