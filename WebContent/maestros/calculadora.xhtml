@@ -9,8 +9,6 @@
 
     <ui:define name="content">
     
-    <h:outputScript name="js/calculadora.js" library="omega-layout" />
-    
 	<h:form id="formID">
 			<p:growl id="growl" sticky="true" autoUpdate="true" />
             <div class="ui-fluid">
@@ -45,9 +43,16 @@
 	                               	actionListener="#{calculadoraBB.guardarCampana}" 
 	                               	update="@form" icon="ui-icon-check fa fa-check Fs14 White" 
 	                               	style="max-width:150px;"/>
-                            
+	                               	
                               <p:tabView id="TabViewCal">
         						<p:tab title="Calculadora Campaña / Mes">
+        						
+        						<p:commandButton id="btnTotalizar" value="Totalizar" 
+	                        		rendered="#{calculadoraBB.anioGeneral eq calculadoraBB.anioConsulta}"
+	                               	update="@form" process="@form" actionListener="#{calculadoraBB.totalizar('CM')}"
+	                               	icon="ui-icon-check fa fa-check Fs14 White" 
+	                               	style="max-width:150px;"/>   
+	                               	<br/>
         						
 		                            <p:dataTable id="tblCalculadoraCM" var="cal" value="#{calculadoraBB.listaCalculadoraCM}" reflow="true" 
 		                            		emptyMessage="No se encontraron registros."
@@ -88,8 +93,8 @@
 		                                    <p:inputNumber id="Enero" value="#{cal[0].porcentaje}" symbol="%" 
 		                                			symbolPosition="s" required="true" emptyValue="empty"
 		                                			maxValue="100" minValue="0" decimalPlaces="1" 
+		                                			onkeyup="pegadoEspecialCalculadora(this, '#{p:component('btnTotalizar')}');"
 		                                			readonly="#{calculadoraBB.anioGeneral ne calculadoraBB.anioConsulta}">
-		                                		<p:ajax update="@form" process="@form" listener="#{calculadoraBB.totalizar('CM')}"/>
 		                                	</p:inputNumber>
 		                                </p:column>
 		                                <p:column headerText="Febrero">
@@ -97,7 +102,6 @@
 			                                		symbolPosition="s" required="true" emptyValue="empty"
 			                                		maxValue="100" minValue="0" decimalPlaces="1" 
 			                                		readonly="#{calculadoraBB.anioGeneral ne calculadoraBB.anioConsulta}">
-		                                		<p:ajax update="@form" process="@form" listener="#{calculadoraBB.totalizar('CM')}"/>
 		                                	</p:inputNumber>
 		                                </p:column>
 		                                <p:column headerText="Marzo">
@@ -105,7 +109,6 @@
 		                                		symbolPosition="s" required="true" emptyValue="empty"
 		                                		maxValue="100" minValue="0" decimalPlaces="1" 
 		                                		readonly="#{calculadoraBB.anioGeneral ne calculadoraBB.anioConsulta}">
-		                                		<p:ajax update="@form" process="@form" listener="#{calculadoraBB.totalizar('CM')}"/>
 		                                	</p:inputNumber>
 		                                </p:column>
 		                                <p:column headerText="Abril">
@@ -113,7 +116,6 @@
 		                                		symbolPosition="s" required="true" emptyValue="empty"
 		                                		maxValue="100" minValue="0" decimalPlaces="1" 
 		                                		readonly="#{calculadoraBB.anioGeneral ne calculadoraBB.anioConsulta}">
-		                                		<p:ajax update="@form" process="@form" listener="#{calculadoraBB.totalizar('CM')}"/>
 		                                	</p:inputNumber>
 		                                </p:column>
 		                                <p:column headerText="Mayo">
@@ -121,7 +123,6 @@
 		                                		symbolPosition="s" required="true" emptyValue="empty"
 		                                		maxValue="100" minValue="0" decimalPlaces="1" 
 		                                		readonly="#{calculadoraBB.anioGeneral ne calculadoraBB.anioConsulta}">
-		                                		<p:ajax update="@form" process="@form" listener="#{calculadoraBB.totalizar('CM')}"/>
 		                                	</p:inputNumber>
 		                                </p:column>
 		                                <p:column headerText="Junio">
@@ -129,7 +130,6 @@
 		                                		symbolPosition="s" required="true" emptyValue="empty"
 		                                		maxValue="100" minValue="0" decimalPlaces="1" 
 		                                		readonly="#{calculadoraBB.anioGeneral ne calculadoraBB.anioConsulta}">
-		                                		<p:ajax update="@form" process="@form" listener="#{calculadoraBB.totalizar('CM')}"/>
 		                                	</p:inputNumber>
 		                                </p:column>
 		                                <p:column headerText="Julio">
@@ -137,7 +137,6 @@
 		                                		symbolPosition="s" required="true" emptyValue="empty"
 		                                		maxValue="100" minValue="0" decimalPlaces="1" 
 		                                		readonly="#{calculadoraBB.anioGeneral ne calculadoraBB.anioConsulta}">
-		                                		<p:ajax update="@form" process="@form" listener="#{calculadoraBB.totalizar('CM')}"/>
 		                                	</p:inputNumber>
 		                                </p:column>
 		                                <p:column headerText="Agosto">
@@ -145,7 +144,6 @@
 		                                		symbolPosition="s" required="true" emptyValue="empty"
 		                                		maxValue="100" minValue="0" decimalPlaces="1" 
 		                                		readonly="#{calculadoraBB.anioGeneral ne calculadoraBB.anioConsulta}">
-		                                		<p:ajax update="@form" process="@form" listener="#{calculadoraBB.totalizar('CM')}"/>
 		                                	</p:inputNumber>
 		                                </p:column>
 		                                <p:column headerText="Septiembre">
@@ -153,7 +151,6 @@
 		                                		symbolPosition="s" required="true" emptyValue="empty"
 		                                		maxValue="100" minValue="0" decimalPlaces="1" 
 		                                		readonly="#{calculadoraBB.anioGeneral ne calculadoraBB.anioConsulta}">
-		                                		<p:ajax update="@form" process="@form" listener="#{calculadoraBB.totalizar('CM')}"/>
 		                                	</p:inputNumber>
 		                                </p:column>
 		                                <p:column headerText="Octubre">
@@ -161,7 +158,6 @@
 		                                		symbolPosition="s" required="true" emptyValue="empty"
 		                                		maxValue="100" minValue="0" decimalPlaces="1" 
 		                                		readonly="#{calculadoraBB.anioGeneral ne calculadoraBB.anioConsulta}">
-		                                		<p:ajax update="@form" process="@form" listener="#{calculadoraBB.totalizar('CM')}"/>
 		                                	</p:inputNumber>
 		                                </p:column>
 		                                <p:column headerText="Noviembre">
@@ -169,7 +165,6 @@
 		                                		symbolPosition="s" required="true" emptyValue="empty"
 		                                		maxValue="100" minValue="0" decimalPlaces="1" 
 		                                		readonly="#{calculadoraBB.anioGeneral ne calculadoraBB.anioConsulta}">
-		                                		<p:ajax update="@form" process="@form" listener="#{calculadoraBB.totalizar('CM')}"/>
 		                                	</p:inputNumber>
 		                                </p:column>
 		                                <p:column headerText="Diciembre">
@@ -177,7 +172,6 @@
 		                                		symbolPosition="s" required="true" emptyValue="empty"
 		                                		maxValue="100" minValue="0" decimalPlaces="1" 
 		                                		readonly="#{calculadoraBB.anioGeneral ne calculadoraBB.anioConsulta}">
-		                                		<p:ajax update="@form" process="@form" listener="#{calculadoraBB.totalizar('CM')}"/>
 		                                	</p:inputNumber>
 		                                </p:column>
 		                                
@@ -191,6 +185,12 @@
 		                            <br/><br/><br/>
 		                    </p:tab>
                             <p:tab title="Calculadora Mes / Campaña">
+                            <p:commandButton id="btnTotalizar2" value="Totalizar" 
+	                        		rendered="#{calculadoraBB.anioGeneral eq calculadoraBB.anioConsulta}"
+	                               	update="@form" process="@form" actionListener="#{calculadoraBB.totalizar('MC')}"
+	                               	icon="ui-icon-check fa fa-check Fs14 White" 
+	                               	style="max-width:150px;"/>   
+	                               	<br/>
 	                            <p:dataTable id="tblCalculadoraMC" var="cal" value="#{calculadoraBB.listaCalculadoraMC}" reflow="true" 
 	                            		emptyMessage="No se encontraron registros."
 										paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown} {Exporters}" 
@@ -231,8 +231,8 @@
 		                                    <p:inputNumber id="Enero" value="#{cal[0].porcentaje}" symbol="%" 
 		                                		symbolPosition="s" required="true" emptyValue="empty"
 		                                		maxValue="100" minValue="0" decimalPlaces="1" 
+		                                		onkeyup="pegadoEspecialCalculadora(this, '#{p:component('btnTotalizar2')}');"
 		                                		readonly="#{cal[0].campana gt calculadoraBB.camapanaMaxima or calculadoraBB.anioGeneral ne calculadoraBB.anioConsulta}">
-		                                		<p:ajax update="@form" process="@form" listener="#{calculadoraBB.totalizar('MC')}"/>
 		                                	</p:inputNumber>
 		                                </p:column>
 		                                <p:column headerText="Febrero">
@@ -240,7 +240,6 @@
 		                                		symbolPosition="s" required="true" emptyValue="empty"
 		                                		maxValue="100" minValue="0" decimalPlaces="1" 
 		                                		readonly="#{cal[0].campana gt calculadoraBB.camapanaMaxima or calculadoraBB.anioGeneral ne calculadoraBB.anioConsulta}">
-		                                		<p:ajax update="@form" process="@form" listener="#{calculadoraBB.totalizar('MC')}"/>
 		                                	</p:inputNumber>
 		                                </p:column>
 		                                <p:column headerText="Marzo">
@@ -248,7 +247,6 @@
 		                                		symbolPosition="s" required="true" emptyValue="empty"
 		                                		maxValue="100" minValue="0" decimalPlaces="1" 
 		                                		readonly="#{cal[0].campana gt calculadoraBB.camapanaMaxima or calculadoraBB.anioGeneral ne calculadoraBB.anioConsulta}">
-		                                		<p:ajax update="@form" process="@form" listener="#{calculadoraBB.totalizar('MC')}"/>
 		                                	</p:inputNumber>
 		                                </p:column>
 		                                <p:column headerText="Abril">
@@ -256,7 +254,6 @@
 		                                		symbolPosition="s" required="true" emptyValue="empty"
 		                                		maxValue="100" minValue="0" decimalPlaces="1" 
 		                                		readonly="#{cal[0].campana gt calculadoraBB.camapanaMaxima or calculadoraBB.anioGeneral ne calculadoraBB.anioConsulta}">
-		                                		<p:ajax update="@form" process="@form" listener="#{calculadoraBB.totalizar('MC')}"/>
 		                                	</p:inputNumber>
 		                                </p:column>
 		                                <p:column headerText="Mayo">
@@ -264,7 +261,6 @@
 		                                		symbolPosition="s" required="true" emptyValue="empty"
 		                                		maxValue="100" minValue="0" decimalPlaces="1" 
 		                                		readonly="#{cal[0].campana gt calculadoraBB.camapanaMaxima or calculadoraBB.anioGeneral ne calculadoraBB.anioConsulta}">
-		                                		<p:ajax update="@form" process="@form" listener="#{calculadoraBB.totalizar('MC')}"/>
 		                                	</p:inputNumber>
 		                                </p:column>
 		                                <p:column headerText="Junio">
@@ -272,7 +268,6 @@
 		                                		symbolPosition="s" required="true" emptyValue="empty"
 		                                		maxValue="100" minValue="0" decimalPlaces="1" 
 		                                		readonly="#{cal[0].campana gt calculadoraBB.camapanaMaxima or calculadoraBB.anioGeneral ne calculadoraBB.anioConsulta}">
-		                                		<p:ajax update="@form" process="@form" listener="#{calculadoraBB.totalizar('MC')}"/>
 		                                	</p:inputNumber>
 		                                </p:column>
 		                                <p:column headerText="Julio">
@@ -280,7 +275,6 @@
 		                                		symbolPosition="s" required="true" emptyValue="empty"
 		                                		maxValue="100" minValue="0" decimalPlaces="1" 
 		                                		readonly="#{cal[0].campana gt calculadoraBB.camapanaMaxima or calculadoraBB.anioGeneral ne calculadoraBB.anioConsulta}">
-		                                		<p:ajax update="@form" process="@form" listener="#{calculadoraBB.totalizar('MC')}"/>
 		                                	</p:inputNumber>
 		                                </p:column>
 		                                <p:column headerText="Agosto">
@@ -288,7 +282,6 @@
 		                                		symbolPosition="s" required="true" emptyValue="empty"
 		                                		maxValue="100" minValue="0" decimalPlaces="1" 
 		                                		readonly="#{cal[0].campana gt calculadoraBB.camapanaMaxima or calculadoraBB.anioGeneral ne calculadoraBB.anioConsulta}">
-		                                		<p:ajax update="@form" process="@form" listener="#{calculadoraBB.totalizar('MC')}"/>
 		                                	</p:inputNumber>
 		                                </p:column>
 		                                <p:column headerText="Septiembre">
@@ -296,7 +289,6 @@
 		                                		symbolPosition="s" required="true" emptyValue="empty"
 		                                		maxValue="100" minValue="0" decimalPlaces="1" 
 		                                		readonly="#{cal[0].campana gt calculadoraBB.camapanaMaxima or calculadoraBB.anioGeneral ne calculadoraBB.anioConsulta}">
-		                                		<p:ajax update="@form" process="@form" listener="#{calculadoraBB.totalizar('MC')}"/>
 		                                	</p:inputNumber>
 		                                </p:column>
 		                                <p:column headerText="Octubre">
@@ -304,7 +296,6 @@
 		                                		symbolPosition="s" required="true" emptyValue="empty"
 		                                		maxValue="100" minValue="0" decimalPlaces="1" 
 		                                		readonly="#{cal[0].campana gt calculadoraBB.camapanaMaxima or calculadoraBB.anioGeneral ne calculadoraBB.anioConsulta}">
-		                                		<p:ajax update="@form" process="@form" listener="#{calculadoraBB.totalizar('MC')}"/>
 		                                	</p:inputNumber>
 		                                </p:column>
 		                                <p:column headerText="Noviembre">
@@ -312,7 +303,6 @@
 		                                		symbolPosition="s" required="true" emptyValue="empty"
 		                                		maxValue="100" minValue="0" decimalPlaces="1" 
 		                                		readonly="#{cal[0].campana gt calculadoraBB.camapanaMaxima or calculadoraBB.anioGeneral ne calculadoraBB.anioConsulta}">
-		                                		<p:ajax update="@form" process="@form" listener="#{calculadoraBB.totalizar('MC')}"/>
 		                                	</p:inputNumber>
 		                                </p:column>
 		                                <p:column headerText="Diciembre">
@@ -320,7 +310,6 @@
 		                                		symbolPosition="s" required="true" emptyValue="empty"
 		                                		maxValue="100" minValue="0" decimalPlaces="1" 
 		                                		readonly="#{cal[0].campana gt calculadoraBB.camapanaMaxima or calculadoraBB.anioGeneral ne calculadoraBB.anioConsulta}">
-		                                		<p:ajax update="@form" process="@form" listener="#{calculadoraBB.totalizar('MC')}"/>
 		                                	</p:inputNumber>
 		                                </p:column>
 	                                

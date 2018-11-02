@@ -10,6 +10,7 @@
     <ui:define name="content">
 	<h:form id="FormulId">
 			<p:growl id="growl" sticky="true" autoUpdate="true" />
+
             <div class="ui-fluid">
                 <div class="ui-g">
                     <div class="ui-g-12">
@@ -42,7 +43,9 @@
                                 </p:selectOneMenu>
                                 
                                 
-                                <p:commandButton id="btnGuardar" value="Guardar" actionListener="#{presupuestoBB.addPresupuesto}" update=":#{p:component('pgPresupuesto')} :#{p:component('tblPresupuestos')}" icon="ui-icon-check fa fa-check Fs14 White" style="max-width:150px;"/>
+                                <p:commandButton id="btnGuardar" value="Guardar" actionListener="#{presupuestoBB.addPresupuesto}" 
+                                			update=":#{p:component('pgPresupuesto')} :#{p:component('tblPresupuestos')}" 
+                                			icon="ui-icon-check fa fa-check Fs14 White" style="max-width:150px;"/>
                             </p:panelGrid>
                             
                         </div>   
@@ -178,6 +181,12 @@
 						<div class="card" style="display:#{presupuestoBB.detalle.tipo eq 'Mensual' ? 'block;' : 'none;'}">
                             <h1>Detalle de Presupuesto Mensual Seleccionado</h1>
                             
+                            <p:commandButton id="btnTotalizar" value="Totalizar" 
+	                               	update="@form" process="@form" actionListener="#{presupuestoBB.totalizarMes}"
+	                               	icon="ui-icon-check fa fa-check Fs14 White" 
+	                               	style="max-width:150px;"/>   
+	                               	<br/>
+                            
                             <p:panelGrid id="pgPresupuestoDetalleMes2" columns="6" rendered="#{presupuestoBB.detalle.tipo eq 'Mensual'}"
                             		columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4" layout="grid" 
                             		styleClass="ui-panelgrid-blank" style="border:0px none; background-color:transparent;">
@@ -204,28 +213,25 @@
                                 		maxlength="200"/>
                                 
                                 <p:outputLabel for="inMes1" value="Mes 1"/>
-                                <p:inputNumber id="inMes1" value="#{presupuestoBB.presupuestoDetalleMes.valorM1}" minValue="0" emptyValue="zero">
-                                	<p:ajax update=":#{p:component('inTotal')}" listener="#{presupuestoBB.totalizarMes}"/>
+                                <p:inputNumber id="inMes1" value="#{presupuestoBB.presupuestoDetalleMes.valorM1}" 
+                                			onkeyup="pegadoEspecial(this, '#{p:component('btnTotalizar')}');"
+                                			minValue="0" emptyValue="zero">
                                 </p:inputNumber>
                                 
                                 <p:outputLabel for="inMes2" value="Mes 2"/>
                                 <p:inputNumber id="inMes2" value="#{presupuestoBB.presupuestoDetalleMes.valorM2}" minValue="0" emptyValue="zero">
-                                	<p:ajax update=":#{p:component('inTotal')}" listener="#{presupuestoBB.totalizarMes}"/>
                                 </p:inputNumber>
                                 
                                 <p:outputLabel for="inMes3" value="Mes 3"/>
                                 <p:inputNumber id="inMes3" value="#{presupuestoBB.presupuestoDetalleMes.valorM3}" minValue="0" emptyValue="zero">
-                                	<p:ajax update=":#{p:component('inTotal')}" listener="#{presupuestoBB.totalizarMes}"/>
                                 </p:inputNumber>
                                 
                                 <p:outputLabel for="inMes4" value="Mes 4"/>
                                 <p:inputNumber id="inMes4" value="#{presupuestoBB.presupuestoDetalleMes.valorM4}" minValue="0" emptyValue="zero">
-                                	<p:ajax update=":#{p:component('inTotal')}" listener="#{presupuestoBB.totalizarMes}"/>
                                 </p:inputNumber>
                                                                 
                                 <p:outputLabel for="inMes5" value="Mes 5"/>
                                 <p:inputNumber id="inMes5" value="#{presupuestoBB.presupuestoDetalleMes.valorM5}" minValue="0" emptyValue="zero">
-                                	<p:ajax update=":#{p:component('inTotal')}" listener="#{presupuestoBB.totalizarMes}"/>
                                 </p:inputNumber>
                                 
                                 <p:outputLabel for="inMes6" value="Mes 6"/>
@@ -235,17 +241,14 @@
                                 
                                 <p:outputLabel for="inMes7" value="Mes 7"/>
                                 <p:inputNumber id="inMes7" value="#{presupuestoBB.presupuestoDetalleMes.valorM7}" minValue="0" emptyValue="zero">
-                                	<p:ajax update=":#{p:component('inTotal')}" listener="#{presupuestoBB.totalizarMes}"/>
                                 </p:inputNumber>
                                 
                                 <p:outputLabel for="inMes8" value="Mes 8"/>
                                 <p:inputNumber id="inMes8" value="#{presupuestoBB.presupuestoDetalleMes.valorM8}" minValue="0" emptyValue="zero">
-                                	<p:ajax update=":#{p:component('inTotal')}" listener="#{presupuestoBB.totalizarMes}"/>
                                 </p:inputNumber>
                                 
                                 <p:outputLabel for="inMes9" value="Mes 9"/>
                                 <p:inputNumber id="inMes9" value="#{presupuestoBB.presupuestoDetalleMes.valorM9}" minValue="0" emptyValue="zero">
-                                	<p:ajax update=":#{p:component('inTotal')}" listener="#{presupuestoBB.totalizarMes}"/>
                                 </p:inputNumber>
                                 
                                 <p:outputLabel for="inMes10" value="Mes 10"/>
@@ -255,12 +258,10 @@
                                 
                                 <p:outputLabel for="inMes11" value="Mes 11"/>
                                 <p:inputNumber id="inMes11" value="#{presupuestoBB.presupuestoDetalleMes.valorM11}" minValue="0" emptyValue="zero">
-                                	<p:ajax update=":#{p:component('inTotal')}" listener="#{presupuestoBB.totalizarMes}"/>
                                 </p:inputNumber>
                                 
                                 <p:outputLabel for="inMes12" value="Mes 12"/>
                                 <p:inputNumber id="inMes12" value="#{presupuestoBB.presupuestoDetalleMes.valorM12}" minValue="0" emptyValue="zero">
-                                	<p:ajax update=":#{p:component('inTotal')}" listener="#{presupuestoBB.totalizarMes}"/>
                                 </p:inputNumber>
                                                                 
                             </p:panelGrid>
