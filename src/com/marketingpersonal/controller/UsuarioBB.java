@@ -28,12 +28,18 @@ import com.marketingpersonal.model.entity.Usuario;
 import com.marketingpersonal.model.entity.Validacion;
 import com.marketingpersonal.service.IUsuarioService;
 
+/**
+ * Clase para manejo de usuarios Admin
+ * @author Jarrison Garcia, Juan Camilo Monsalve 
+ * @date 30/10/2018
+ */
 @ManagedBean(name = "usuarioBB")
 @ViewScoped
 public class UsuarioBB extends SpringBeanAutowiringSupport implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 
+	//Campos de la clase
 	@Autowired
 	private IUsuarioService usuarioService;
 	private Util util;
@@ -42,12 +48,13 @@ public class UsuarioBB extends SpringBeanAutowiringSupport implements Serializab
 	private List<Usuario> listaUsuarios;
 	private ListasGenericas listasGenericas;
 	private UploadedFile file;
-	private StreamedContent fileDescargar;
-	
+	private StreamedContent fileDescargar;	
 	private Validacion validacion;
-	private List<Validacion> listaValidacion;
+	private List<Validacion> listaValidacion;	
 	
-	
+	/**
+     * Constructor para controlador de Usuarios
+     */
 	public UsuarioBB() {
 		util = Util.getInstance();
 		usuario = new Usuario();
@@ -56,6 +63,10 @@ public class UsuarioBB extends SpringBeanAutowiringSupport implements Serializab
 		listasGenericas = ListasGenericas.getInstance();
 	}
 	
+	/**
+     * Método que valida la obligatoriedad de los campos
+     * @return variable booleana que indica si es posible guardar o no el nuevo usuario
+     */
 	private boolean validar(Usuario usu) {
 		boolean permiteGuardar = true;
 		
@@ -92,6 +103,9 @@ public class UsuarioBB extends SpringBeanAutowiringSupport implements Serializab
 		return permiteGuardar;
 	}
 	
+	/**
+     *Metodo para crear un nuevo usuario
+     */
 	public void addUsuario() {
 		try {
 			boolean guardar = true;
@@ -124,9 +138,14 @@ public class UsuarioBB extends SpringBeanAutowiringSupport implements Serializab
 		} 	
 	}
 	
+	/**
+     *Metodo para modificar un usuario
+     */
 	public void updateUsuario() {
 		try {
 			boolean actualizar = true;
+			
+			//Validar obligatoriedad
 			if(validar(selectedUsuario)) { 
 				
 				//Validar que no exista un registro duplicado
@@ -155,6 +174,9 @@ public class UsuarioBB extends SpringBeanAutowiringSupport implements Serializab
 		} 	
 	}
 	
+	/**
+     *Metodo para eliminar un usuario
+     */
 	public void deleteUsuario() {
 		try {
 			getUsuarioService().deleteUsuario(selectedUsuario);
@@ -171,17 +193,17 @@ public class UsuarioBB extends SpringBeanAutowiringSupport implements Serializab
 		} 	
 	}
 
-	public void uploadPlanoUsuarios(FileUploadEvent event) {
-		
+	/**
+     *Metodo para validar y cargar un archivo plano de usuarios
+     */
+	public void uploadPlanoUsuarios(FileUploadEvent event) {		
 		try {
 			InputStream input = (InputStream) event.getFile().getInputstream();
 			XSSFWorkbook workbook = new XSSFWorkbook(input);
 			
 			XSSFSheet sheet = workbook.getSheetAt(0);
 						
-			if(validarArchivoPlano(workbook)) {
-				//getUsuarioService().addUsuariosArchivoPlano(sheet);
-				
+			if(validarArchivoPlano(workbook)) {				
 				insertarUsuarios(sheet);
 				
 				FacesMessage msg = new FacesMessage("Carga Archivo Plano de Usuarios", event.getFile().getFileName() + " fue cargado correctamente");
@@ -196,6 +218,9 @@ public class UsuarioBB extends SpringBeanAutowiringSupport implements Serializab
 		
 	}
 	
+	/**
+     *Metodo para insertar usuarios desde archivo plano
+     */
 	 public void insertarUsuarios(XSSFSheet sheet) {
 			Row row;
 			int numFilas = sheet.getPhysicalNumberOfRows();	
@@ -216,12 +241,18 @@ public class UsuarioBB extends SpringBeanAutowiringSupport implements Serializab
 			listaUsuarios = getUsuarioService().getUsuarios();
 		}
 	
+	 /**
+	 *Metodo para descarga de archivo plano de usuarios de ejemplo
+	 */
 	public StreamedContent getFileDescargar() {
     	InputStream stream = FacesContext.getCurrentInstance().getExternalContext().getResourceAsStream("/resources/files/Archivo Plano Usuarios.xlsx");
         fileDescargar = new DefaultStreamedContent(stream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Archivo Plano Usuarios.xlsx");
         return fileDescargar;
     }
 	
+	/**
+     *Metodo para validar usuarios desde archivo plano
+     */
 	private boolean validarArchivoPlano(XSSFWorkbook workbook) {
 		boolean permiteGuardar = true;
 		
@@ -245,7 +276,7 @@ public class UsuarioBB extends SpringBeanAutowiringSupport implements Serializab
 			listaValidacion.add(validacion);
 		}
 		
-		if (!(sheet.getRow(0).getCell(0)).toString().trim().equals("Numero Documento")) {
+		if (!(sheet.getRow(0).getCell(0)+"").trim().equals("Numero Documento")) {
 			validacion = new Validacion();
 			validacion.setMensaje("El encabezado de la primer columna debe ser Numero Documento");
 			validacion.setFila("1");
@@ -253,7 +284,7 @@ public class UsuarioBB extends SpringBeanAutowiringSupport implements Serializab
 			listaValidacion.add(validacion);
 		}
 
-		if (!(sheet.getRow(0).getCell(1)).toString().trim().equals("Nombre")) {
+		if (!(sheet.getRow(0).getCell(1)+"").trim().equals("Nombre")) {
 			validacion = new Validacion();
 			validacion.setMensaje("El encabezado de la segunda columna debe ser Nombre");
 			validacion.setFila("1");
@@ -261,7 +292,7 @@ public class UsuarioBB extends SpringBeanAutowiringSupport implements Serializab
 			listaValidacion.add(validacion);
 		}
 
-		if (!(sheet.getRow(0).getCell(2).toString()).trim().equals("Usuario")) {
+		if (!(sheet.getRow(0).getCell(2)+"").trim().equals("Usuario")) {
 			validacion = new Validacion();
 			validacion.setMensaje("El encabezado de la tercer columna debe ser Usuario");
 			validacion.setFila("1");
@@ -269,7 +300,7 @@ public class UsuarioBB extends SpringBeanAutowiringSupport implements Serializab
 			listaValidacion.add(validacion);
 		}
 
-		if (!(sheet.getRow(0).getCell(3).toString()).trim().equals("Correo")) {
+		if (!(sheet.getRow(0).getCell(3)+"").trim().equals("Correo")) {
 			validacion = new Validacion();
 			validacion.setMensaje("El encabezado de la cuarta columna debe ser Correo");
 			validacion.setFila("1");
@@ -277,7 +308,7 @@ public class UsuarioBB extends SpringBeanAutowiringSupport implements Serializab
 			listaValidacion.add(validacion);
 		}
 
-		if (!(sheet.getRow(0).getCell(4).toString()).trim().equals("Cargo")) {
+		if (!(sheet.getRow(0).getCell(4)+"").trim().equals("Cargo")) {
 			validacion = new Validacion();
 			validacion.setMensaje("El encabezado de la quinta columna debe ser Cargo");
 			validacion.setFila("1");
@@ -285,7 +316,7 @@ public class UsuarioBB extends SpringBeanAutowiringSupport implements Serializab
 			listaValidacion.add(validacion);
 		}
 
-		if (!(sheet.getRow(0).getCell(5).toString()).trim().equals("Rol")) {
+		if (!(sheet.getRow(0).getCell(5)+"").trim().equals("Rol")) {
 			validacion = new Validacion();
 			validacion.setMensaje("El encabezado de la sexta columna debe ser Rol");
 			validacion.setFila("1");
@@ -298,7 +329,7 @@ public class UsuarioBB extends SpringBeanAutowiringSupport implements Serializab
 		for(Usuario usr : listaUsuarios) {
 			for (int fila = 1; fila < sheet.getPhysicalNumberOfRows(); fila++) {
 				row = sheet.getRow(fila);				
-				if(usr.getNumeroDocumento().equals(row.getCell(0)+"".trim())) {
+				if(usr.getNumeroDocumento().equals((row.getCell(0)+"").trim())) {
 					validacion = new Validacion();
 					validacion.setMensaje("Ya existe un usuario con el número de documento: "+row.getCell(0));
 					validacion.setFila((fila+1)+"");
@@ -306,7 +337,7 @@ public class UsuarioBB extends SpringBeanAutowiringSupport implements Serializab
 					listaValidacion.add(validacion);
 				}	
 				
-				if(usr.getUsuario().equals(row.getCell(2)+"".toLowerCase().trim())) {
+				if(usr.getUsuario().equals((row.getCell(2)+"").toLowerCase().trim())) {
 					validacion = new Validacion();
 					validacion.setMensaje("Ya existe un usuario con el usuario: "+row.getCell(2));
 					validacion.setFila((fila+1)+"");
@@ -316,23 +347,57 @@ public class UsuarioBB extends SpringBeanAutowiringSupport implements Serializab
 			}
 		}	
 		
+		//Validar que no deje campos vacios
+		for (int fila = 1; fila < sheet.getPhysicalNumberOfRows(); fila++) {
+			row = sheet.getRow(fila);				
+			if("".equals((row.getCell(0)+"").trim())||"null".equals((row.getCell(0)+"").toLowerCase().trim())) {
+				validacion = new Validacion();
+				validacion.setMensaje("Debe ingresar un Numero de Documento");
+				validacion.setFila((fila+1)+"");
+				validacion.setColumna("A");
+				listaValidacion.add(validacion);
+			}	
+			
+			if("".equals((row.getCell(1)+"").trim())||"null".equals((row.getCell(1)+"").toLowerCase().trim())) {
+				validacion = new Validacion();
+				validacion.setMensaje("Debe ingresar un Nombre");
+				validacion.setFila((fila+1)+"");
+				validacion.setColumna("B");
+				listaValidacion.add(validacion);
+			}	
+			
+			if("".equals((row.getCell(2)+"").trim())||"null".equals((row.getCell(2)+"").toLowerCase().trim())) {
+				validacion = new Validacion();
+				validacion.setMensaje("Debe ingresar un Usuario");
+				validacion.setFila((fila+1)+"");
+				validacion.setColumna("C");
+				listaValidacion.add(validacion);
+			}
+			
+			if("".equals((row.getCell(3)+"").trim())||"null".equals((row.getCell(3)+"").toLowerCase().trim())) {
+				validacion = new Validacion();
+				validacion.setMensaje("Debe ingresar un Correo");
+				validacion.setFila((fila+1)+"");
+				validacion.setColumna("D");
+				listaValidacion.add(validacion);
+			}	
+		}
+		
 		String rol="";
 		for (int fila = 1; fila < sheet.getPhysicalNumberOfRows(); fila++) {
 			row = sheet.getRow(fila);	
 			
-			rol = row.getCell(5)+"".trim();
+			rol = (row.getCell(5)+"").trim();
 			
-			if(!rol.equals("Administrador")) {
-				if(!rol.equals("Usuario")) {
+			if(!rol.equals("Administrador") && !rol.equals("Usuario")) {
 					validacion = new Validacion();
 					validacion.setMensaje("El rol: "+ row.getCell(5)+ " ingresado no es valido");
 					validacion.setFila((fila+1)+"");
 					validacion.setColumna("F");
 					listaValidacion.add(validacion);
-				}
-				
 			}	
 		}
+		
 		if(listaValidacion.size()>=1) {
 			permiteGuardar = false;
 		}

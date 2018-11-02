@@ -197,7 +197,7 @@ public class CuentaBB extends SpringBeanAutowiringSupport implements Serializabl
 			listaValidacion.add(validacion);
 		}
 		
-		if (!(sheet.getRow(0).getCell(0)).toString().trim().equals("Cuenta")) {
+		if (!(sheet.getRow(0).getCell(0)+"").trim().equals("Cuenta")) {
 			validacion = new Validacion();
 			validacion.setMensaje("El encabezado de la primer columna debe ser Cuenta");
 			validacion.setFila("1");
@@ -205,7 +205,7 @@ public class CuentaBB extends SpringBeanAutowiringSupport implements Serializabl
 			listaValidacion.add(validacion);
 		}
 
-		if (!(sheet.getRow(0).getCell(1)).toString().trim().equals("Nombre")) {
+		if (!(sheet.getRow(0).getCell(1)+"").trim().equals("Nombre")) {
 			validacion = new Validacion();
 			validacion.setMensaje("El encabezado de la segunda columna debe ser Nombre");
 			validacion.setFila("1");
@@ -218,7 +218,7 @@ public class CuentaBB extends SpringBeanAutowiringSupport implements Serializabl
 		for(Cuenta cue : listaCuentas) {
 			for (int fila = 1; fila < sheet.getPhysicalNumberOfRows(); fila++) {
 				row = sheet.getRow(fila);				
-				if(cue.getCuenta().equals(row.getCell(0)+"".trim())) {
+				if(cue.getCuenta().equals((row.getCell(0)+"").trim())) {
 					validacion = new Validacion();
 					validacion.setMensaje("Ya existe una Cuenta con el código ingresado: "+row.getCell(0));
 					validacion.setFila((fila+1)+"");
@@ -226,7 +226,27 @@ public class CuentaBB extends SpringBeanAutowiringSupport implements Serializabl
 					listaValidacion.add(validacion);
 				}
 			}
-		}	
+		}
+		
+		//Validar que no existan campos vacios
+		for (int fila = 1; fila < sheet.getPhysicalNumberOfRows(); fila++) {
+			row = sheet.getRow(fila);				
+			if("".equals((row.getCell(0)+"").trim()) || "null".equals((row.getCell(0)+"").toLowerCase().trim())) {
+				validacion = new Validacion();
+				validacion.setMensaje("Debe ingresar un numero de cuenta: "+row.getCell(0));
+				validacion.setFila((fila+1)+"");
+				validacion.setColumna("A");
+				listaValidacion.add(validacion);
+			}
+			
+			if("".equals((row.getCell(1)+"").trim()) || "null".equals((row.getCell(1)+"").toLowerCase().trim())) {
+				validacion = new Validacion();
+				validacion.setMensaje("Debe ingresar una descripcion para la cuenta: "+row.getCell(0));
+				validacion.setFila((fila+1)+"");
+				validacion.setColumna("B");
+				listaValidacion.add(validacion);
+			}
+		}
 		
 		if(listaValidacion.size()>=1) {
 			permiteGuardar = false;

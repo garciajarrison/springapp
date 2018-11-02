@@ -66,10 +66,17 @@ public class EnviarCorreo {
 
 			// Setup mail server
 			Properties props = System.getProperties();
-			props.put("mail.smtp.host", mailServer);
+			 props.put("mail.smtp.auth",true);
+		      props.put("mail.smtp.starttls.enable",true);
+		      props.put("mail.smtp.host", mailServer);
+		      props.put("mail.smtp.port", "587");
+		      props.put("mail.transport.protocol", "smtp");
+		      props.put("mail.smtp.connectiontimeout", "20000");
+		      props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
 
-			// Get a mail session
-			Session session = Session.getDefaultInstance(props, null);
+		      // Get the Session object.
+		      SimpleMailAuthenticator authenticator = new SimpleMailAuthenticator(username, password);
+		      Session session = Session.getInstance(props, authenticator);
 
 			// Define a new mail message
 			Message message = new MimeMessage(session);
@@ -148,10 +155,17 @@ public class EnviarCorreo {
 
 			// Setup mail server
 			Properties props = System.getProperties();
-			props.put("mail.smtp.host", mailServer);
+			props.put("mail.smtp.auth",true);
+		      props.put("mail.smtp.starttls.enable",true);
+		      props.put("mail.smtp.host", mailServer);
+		      props.put("mail.smtp.port", "587");
+		      props.put("mail.transport.protocol", "smtp");
+		      props.put("mail.smtp.connectiontimeout", "20000");
+		      props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
 
-			// Get a mail session
-			Session session = Session.getDefaultInstance(props, null);
+		      // Get the Session object.
+		      SimpleMailAuthenticator authenticator = new SimpleMailAuthenticator(username, password);
+		      Session session = Session.getInstance(props, authenticator);
 
 			// Define a new mail message
 			Message message = new MimeMessage(session);
@@ -234,10 +248,17 @@ public class EnviarCorreo {
 
 			// Setup mail server
 			Properties props = System.getProperties();
-			props.put("mail.smtp.host", mailServer);
+			props.put("mail.smtp.auth",true);
+		      props.put("mail.smtp.starttls.enable",true);
+		      props.put("mail.smtp.host", mailServer);
+		      props.put("mail.smtp.port", "587");
+		      props.put("mail.transport.protocol", "smtp");
+		      props.put("mail.smtp.connectiontimeout", "20000");
+		      props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
 
-			// Get a mail session
-			Session session = Session.getDefaultInstance(props, null);
+		      // Get the Session object.
+		      SimpleMailAuthenticator authenticator = new SimpleMailAuthenticator(username, password);
+		      Session session = Session.getInstance(props, authenticator);
 
 			// Define a new mail message
 			Message message = new MimeMessage(session);
