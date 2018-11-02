@@ -221,7 +221,7 @@ public class UsuarioPorCentroCostoBB extends SpringBeanAutowiringSupport impleme
 			listaValidacion.add(validacion);
 		}
 
-		if (!(sheet.getRow(0).getCell(0)).toString().trim().equals("Centro Costo")) {
+		if (!(sheet.getRow(0).getCell(0)+"").trim().equals("Centro Costo")) {
 			validacion = new Validacion();
 			validacion.setMensaje("El encabezado de la primer columna debe ser Centro Costo");
 			validacion.setFila("1");
@@ -229,7 +229,7 @@ public class UsuarioPorCentroCostoBB extends SpringBeanAutowiringSupport impleme
 			listaValidacion.add(validacion);
 		}
 
-		if (!(sheet.getRow(0).getCell(1)).toString().trim().equals("Responsable")) {
+		if (!(sheet.getRow(0).getCell(1)+"").trim().equals("Responsable")) {
 			validacion = new Validacion();
 			validacion.setMensaje("El encabezado de la segunda columna debe ser Responsable");
 			validacion.setFila("1");
@@ -237,7 +237,7 @@ public class UsuarioPorCentroCostoBB extends SpringBeanAutowiringSupport impleme
 			listaValidacion.add(validacion);
 		}
 		
-		if (!(sheet.getRow(0).getCell(2)).toString().trim().equals("Aprobador Inicial")) {
+		if (!(sheet.getRow(0).getCell(2)+"").trim().equals("Aprobador Inicial")) {
 			validacion = new Validacion();
 			validacion.setMensaje("El encabezado de la tercera columna debe ser Aprobador Inicial");
 			validacion.setFila("1");
@@ -245,7 +245,7 @@ public class UsuarioPorCentroCostoBB extends SpringBeanAutowiringSupport impleme
 			listaValidacion.add(validacion);
 		}
 		
-		if (!(sheet.getRow(0).getCell(3)).toString().trim().equals("Aprobador Final")) {
+		if (!(sheet.getRow(0).getCell(3)+"").trim().equals("Aprobador Final")) {
 			validacion = new Validacion();
 			validacion.setMensaje("El encabezado de la cuarta columna debe ser Aprobador Final");
 			validacion.setFila("1");

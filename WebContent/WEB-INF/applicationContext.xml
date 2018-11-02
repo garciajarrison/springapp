@@ -31,7 +31,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springf
 		<property name="password" value="12345678" />
 		<!--  Sql server >
 		<property name="driverClassName" value="com.microsoft.sqlserver.jdbc.SQLServerDriver" />
-		<property name="url" value="jdbc:sqlserver://192.168.10.14;databaseName=COMTIC_PRESUPUESTO;" />
+		<property name="url" value="jdbc:sqlserver://192.168.10.14;databaseName=presupuestomd;" />
 		<property name="username" value="comtic" />
 		<property name="password" value="P3rs0n4l-MP/comt1c" /  -->
 	</bean>

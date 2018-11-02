@@ -239,7 +239,7 @@ public class CentroCostoBB extends SpringBeanAutowiringSupport implements Serial
 			listaValidacion.add(validacion);
 		}
 
-		if (!(sheet.getRow(0).getCell(0)).toString().trim().equals("Centro de Costo")) {
+		if (!(sheet.getRow(0).getCell(0)+"").trim().equals("Centro de Costo")) {
 			validacion = new Validacion();
 			validacion.setMensaje("El encabezado de la primer columna debe ser Centro de Costo");
 			validacion.setFila("1");
@@ -247,7 +247,7 @@ public class CentroCostoBB extends SpringBeanAutowiringSupport implements Serial
 			listaValidacion.add(validacion);
 		}
 
-		if (!(sheet.getRow(0).getCell(1)).toString().trim().equals("Gerencia")) {
+		if (!(sheet.getRow(0).getCell(1)+"").trim().equals("Gerencia")) {
 			validacion = new Validacion();
 			validacion.setMensaje("El encabezado de la segunda columna debe ser Gerencia");
 			validacion.setFila("1");
@@ -255,7 +255,7 @@ public class CentroCostoBB extends SpringBeanAutowiringSupport implements Serial
 			listaValidacion.add(validacion);
 		}
 
-		if (!(sheet.getRow(0).getCell(2).toString()).trim().equals("Direccion")) {
+		if (!(sheet.getRow(0).getCell(2)+"").trim().equals("Direccion")) {
 			validacion = new Validacion();
 			validacion.setMensaje("El encabezado de la tercer columna debe ser Direccion");
 			validacion.setFila("1");
@@ -263,7 +263,7 @@ public class CentroCostoBB extends SpringBeanAutowiringSupport implements Serial
 			listaValidacion.add(validacion);
 		}
 
-		if (!(sheet.getRow(0).getCell(3).toString()).trim().equals("Jefatura")) {
+		if (!(sheet.getRow(0).getCell(3)+"").trim().equals("Jefatura")) {
 			validacion = new Validacion();
 			validacion.setMensaje("El encabezado de la cuarta columna debe ser Jefatura");
 			validacion.setFila("1");
@@ -285,11 +285,11 @@ public class CentroCostoBB extends SpringBeanAutowiringSupport implements Serial
 				// Obtenemos los ids de Gerencia, Direccion y Jefatura a partir de los nombres
 				// ingresados en el archivo plano
 				// ya que el usuario no conoce los codigos
-				idGerencia = getIdGerenciaByNombre(row.getCell(1) + "".trim());
-				idDireccion = getIdDireccionByNombre(row.getCell(2) + "".trim());
-				idJefatura = getIdJefaturaByNombre(row.getCell(3) + "".trim());
+				idGerencia = getIdGerenciaByNombre((row.getCell(1) + "").trim());
+				idDireccion = getIdDireccionByNombre((row.getCell(2) + "").trim());
+				idJefatura = getIdJefaturaByNombre((row.getCell(3) + "").trim());
 
-				if ((ceco.getCentroCosto().equals(row.getCell(0) + "".trim())) && (ceco.getGerencia().getId() == idGerencia)
+				if ((ceco.getCentroCosto().equals((row.getCell(0) + "").trim())) && (ceco.getGerencia().getId() == idGerencia)
 						&& (ceco.getDireccion().getId() == idDireccion) && (ceco.getJefatura().getId() == idJefatura)) {
 					validacion = new Validacion();
 					validacion.setMensaje("Ya existe un Centro de Costo creado con lo datos ingresados");
@@ -300,6 +300,19 @@ public class CentroCostoBB extends SpringBeanAutowiringSupport implements Serial
 			}
 		}
 		
+		//Validar que no existan campos vacios
+		for (int fila = 1; fila < sheet.getPhysicalNumberOfRows(); fila++) {
+			row = sheet.getRow(fila);
+
+			if("".equals((row.getCell(0)+"").trim()) || "null".equals((row.getCell(0)+"").toLowerCase().trim())) {
+				validacion = new Validacion();
+				validacion.setMensaje("Debe ingresar un Centro de Costos");
+				validacion.setFila((fila+1)+"");
+				validacion.setColumna("A");
+				listaValidacion.add(validacion);
+			}			
+		}
+		
 		//Validar que no ingresen en el archivo plano una Gerencia, Direccion o Jefatura que no exista 
 		for (int fila = 1; fila < sheet.getPhysicalNumberOfRows(); fila++) {
 			row = sheet.getRow(fila);
@@ -307,9 +320,9 @@ public class CentroCostoBB extends SpringBeanAutowiringSupport implements Serial
 			// Obtenemos los ids de Gerencia, Direccion y Jefatura a partir de los nombres
 			// ingresados en el archivo plano
 			// ya que el usuario no conoce los codigos
-			idGerencia = getIdGerenciaByNombre(row.getCell(1) + "".trim());
-			idDireccion = getIdDireccionByNombre(row.getCell(2) + "".trim());
-			idJefatura = getIdJefaturaByNombre(row.getCell(3) + "".trim());
+			idGerencia = getIdGerenciaByNombre((row.getCell(1) + "").trim());
+			idDireccion = getIdDireccionByNombre((row.getCell(2) + "").trim());
+			idJefatura = getIdJefaturaByNombre((row.getCell(3) + "").trim());
 
 			if (idGerencia==0) {
 				validacion = new Validacion();

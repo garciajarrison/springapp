@@ -209,7 +209,7 @@ public class CentroCostoPorCuentaBB extends SpringBeanAutowiringSupport implemen
 			listaValidacion.add(validacion);
 		}
 
-		if (!(sheet.getRow(0).getCell(0)).toString().trim().equals("Cuenta")) {
+		if (!(sheet.getRow(0).getCell(0)+"").trim().equals("Cuenta")) {
 			validacion = new Validacion();
 			validacion.setMensaje("El encabezado de la primer columna debe ser Cuenta");
 			validacion.setFila("1");
@@ -217,7 +217,7 @@ public class CentroCostoPorCuentaBB extends SpringBeanAutowiringSupport implemen
 			listaValidacion.add(validacion);
 		}
 
-		if (!(sheet.getRow(0).getCell(1)).toString().trim().equals("Centro de Costo")) {
+		if (!(sheet.getRow(0).getCell(1)+"").trim().equals("Centro de Costo")) {
 			validacion = new Validacion();
 			validacion.setMensaje("El encabezado de la segunda columna debe ser Centro de Costo");
 			validacion.setFila("1");
@@ -235,8 +235,8 @@ public class CentroCostoPorCuentaBB extends SpringBeanAutowiringSupport implemen
 			for (int fila = 1; fila < sheet.getPhysicalNumberOfRows(); fila++) {
 				row = sheet.getRow(fila);
 
-				idCuenta = getIdCuentaByCuenta(row.getCell(0) + "".trim());
-				idCentroCosto = getIdCentroCostoByCentroCosto(row.getCell(1) + "".trim());
+				idCuenta = getIdCuentaByCuenta((row.getCell(0) + "").trim());
+				idCentroCosto = getIdCentroCostoByCentroCosto((row.getCell(1) + "").trim());
 
 				if ((ceco.getCuenta().getId() == idCuenta) && (ceco.getCentroCosto().getId() == idCentroCosto)) {
 					validacion = new Validacion();
@@ -247,17 +247,17 @@ public class CentroCostoPorCuentaBB extends SpringBeanAutowiringSupport implemen
 				}
 			}
 		}
-
-		// Validar que no ingresen en el archivo plano una Gerencia, Direccion o
-		// Jefatura que no exista
+		
+		// Validar que no ingresen en el archivo plano una Cuenta o
+		// Centro de Costo que no exista
 		for (int fila = 1; fila < sheet.getPhysicalNumberOfRows(); fila++) {
 			row = sheet.getRow(fila);
 
 			// Obtenemos los ids de Cuenta y Centro de Costo a partir de los nombres
 			// ingresados en el archivo plano
 			// ya que el usuario no conoce los codigos
-			idCuenta = getIdCuentaByCuenta(row.getCell(0) + "".trim());
-			idCentroCosto = getIdCentroCostoByCentroCosto(row.getCell(1) + "".trim());
+			idCuenta = getIdCuentaByCuenta((row.getCell(0) + "").trim());
+			idCentroCosto = getIdCentroCostoByCentroCosto((row.getCell(1) + "").trim());
 
 			if (idCuenta == 0) {
 				validacion = new Validacion();

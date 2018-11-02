@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
@@ -663,8 +664,8 @@ public class PresupuestoBB extends SpringBeanAutowiringSupport implements Serial
 			if (validarArchivoPlano(workbook)) {
 				insertarPlanoPresupuestoNomina(sheet);
 
-				//FacesMessage msg = new FacesMessage("Carga Archivo Plano de Nómina", event.getFile().getFileName() + " fue cargado correctamente");
-				//FacesContext.getCurrentInstance().addMessage(null, msg);
+				FacesMessage msg = new FacesMessage("Carga Archivo Plano de Nómina", event.getFile().getFileName() + " fue cargado correctamente");
+				FacesContext.getCurrentInstance().addMessage(null, msg);
 			}
 
 			workbook.close();
@@ -697,7 +698,7 @@ public class PresupuestoBB extends SpringBeanAutowiringSupport implements Serial
 			listaValidacion.add(validacion);
 		}
 
-		if (!(sheet.getRow(0).getCell(0)).toString().trim().equals("Nombre")) {
+		if (!(sheet.getRow(0).getCell(0)+"").trim().equals("Nombre")) {
 			validacion = new Validacion();
 			validacion.setMensaje("El titulo de la fila 1, columna A debe ser Nombre");
 			validacion.setFila("1");
@@ -705,7 +706,7 @@ public class PresupuestoBB extends SpringBeanAutowiringSupport implements Serial
 			listaValidacion.add(validacion);
 		}
 
-		if (!(sheet.getRow(1).getCell(0)).toString().trim().equals("Descripción")) {
+		if (!(sheet.getRow(1).getCell(0)+"").trim().equals("Descripción")) {
 			validacion = new Validacion();
 			validacion.setMensaje("El titulo de la fila 2, columna A debe ser Descripción");
 			validacion.setFila("2");
@@ -721,8 +722,7 @@ public class PresupuestoBB extends SpringBeanAutowiringSupport implements Serial
 			listaValidacion.add(validacion);
 		}
 		
-		/*
-		if(sheet.getRow(0).getCell(1).getStringCellValue().equals("")){
+		if((sheet.getRow(0).getCell(1)+"").trim().equals("") || (sheet.getRow(0).getCell(1)+"").toLowerCase().trim().equals("null")){
 			validacion = new Validacion();
 			validacion.setMensaje("Debe ingresar un nombre para el presupuesto");
 			validacion.setFila("1");
@@ -730,15 +730,15 @@ public class PresupuestoBB extends SpringBeanAutowiringSupport implements Serial
 			listaValidacion.add(validacion);
 		}
 			
-		if (!(sheet.getRow(3).getCell(1)).toString().trim().equals("Gasto")|| !(sheet.getRow(3).getCell(1)).toString().trim().equals("Inversión")) {
+		if (!((sheet.getRow(3)).getCell(1)+"").trim().equals("Gasto")|| !((sheet.getRow(3)).getCell(1)+"").trim().equals("Inversión")) {
 			validacion = new Validacion();
 			validacion.setMensaje("Debe ingresar una clasificación válida(Gasto ó Inversion) para el presupuesto");
 			validacion.setFila("3");
 			validacion.setColumna("B");
 			listaValidacion.add(validacion);
-		}*/
+		}
 				
-		if (!(sheet.getRow(4).getCell(0)).toString().trim().equals("Cuenta")) {
+		if (!(sheet.getRow(4).getCell(0)+"").trim().equals("Cuenta")) {
 			validacion = new Validacion();
 			validacion.setMensaje("El titulo de la fila 5, columna A debe ser Cuenta");
 			validacion.setFila("5");
@@ -746,7 +746,7 @@ public class PresupuestoBB extends SpringBeanAutowiringSupport implements Serial
 			listaValidacion.add(validacion);
 		}
 		
-		if (!(sheet.getRow(4).getCell(1)).toString().trim().equals("Centro de Costo")) {
+		if (!(sheet.getRow(4).getCell(1)+"").trim().equals("Centro de Costo")) {
 			validacion = new Validacion();
 			validacion.setMensaje("El titulo de la fila 5, columna B debe ser Centro de Costo");
 			validacion.setFila("5");
@@ -754,7 +754,7 @@ public class PresupuestoBB extends SpringBeanAutowiringSupport implements Serial
 			listaValidacion.add(validacion);
 		}
 		
-		if (!(sheet.getRow(4).getCell(2)).toString().trim().equals("Mes 1")) {
+		if (!(sheet.getRow(4).getCell(2)+"").trim().equals("Mes 1")) {
 			validacion = new Validacion();
 			validacion.setMensaje("El titulo de la fila 5, columna C debe ser Mes 1");
 			validacion.setFila("5");
@@ -762,7 +762,7 @@ public class PresupuestoBB extends SpringBeanAutowiringSupport implements Serial
 			listaValidacion.add(validacion);
 		}
 		
-		if (!(sheet.getRow(4).getCell(3)).toString().trim().equals("Mes 2")) {
+		if (!(sheet.getRow(4).getCell(3)+"").trim().equals("Mes 2")) {
 			validacion = new Validacion();
 			validacion.setMensaje("El titulo de la fila 5, columna D debe ser Mes 2");
 			validacion.setFila("5");
@@ -770,7 +770,7 @@ public class PresupuestoBB extends SpringBeanAutowiringSupport implements Serial
 			listaValidacion.add(validacion);
 		}
 		
-		if (!(sheet.getRow(4).getCell(4)).toString().trim().equals("Mes 3")) {
+		if (!(sheet.getRow(4).getCell(4)+"").trim().equals("Mes 3")) {
 			validacion = new Validacion();
 			validacion.setMensaje("El titulo de la fila 5, columna E debe ser Mes 3");
 			validacion.setFila("5");
@@ -778,7 +778,7 @@ public class PresupuestoBB extends SpringBeanAutowiringSupport implements Serial
 			listaValidacion.add(validacion);
 		}
 		
-		if (!(sheet.getRow(4).getCell(5)).toString().trim().equals("Mes 4")) {
+		if (!(sheet.getRow(4).getCell(5)+"").trim().equals("Mes 4")) {
 			validacion = new Validacion();
 			validacion.setMensaje("El titulo de la fila 5, columna F debe ser Mes 4");
 			validacion.setFila("5");
@@ -786,7 +786,7 @@ public class PresupuestoBB extends SpringBeanAutowiringSupport implements Serial
 			listaValidacion.add(validacion);
 		}	
 		
-		if (!(sheet.getRow(4).getCell(6)).toString().trim().equals("Mes 5")) {
+		if (!(sheet.getRow(4).getCell(6)+"").trim().equals("Mes 5")) {
 			validacion = new Validacion();
 			validacion.setMensaje("El titulo de la fila 5, columna G debe ser Mes 5");
 			validacion.setFila("5");
@@ -794,7 +794,7 @@ public class PresupuestoBB extends SpringBeanAutowiringSupport implements Serial
 			listaValidacion.add(validacion);
 		}			
 		
-		if (!(sheet.getRow(4).getCell(7)).toString().trim().equals("Mes 6")) {
+		if (!(sheet.getRow(4).getCell(7)+"").trim().equals("Mes 6")) {
 			validacion = new Validacion();
 			validacion.setMensaje("El titulo de la fila 5, columna H debe ser Mes 6");
 			validacion.setFila("5");
@@ -802,7 +802,7 @@ public class PresupuestoBB extends SpringBeanAutowiringSupport implements Serial
 			listaValidacion.add(validacion);
 		}
 		
-		if (!(sheet.getRow(4).getCell(8)).toString().trim().equals("Mes 7")) {
+		if (!(sheet.getRow(4).getCell(8)+"").trim().equals("Mes 7")) {
 			validacion = new Validacion();
 			validacion.setMensaje("El titulo de la fila 5, columna I debe ser Mes 7");
 			validacion.setFila("5");
@@ -810,7 +810,7 @@ public class PresupuestoBB extends SpringBeanAutowiringSupport implements Serial
 			listaValidacion.add(validacion);
 		}
 		
-		if (!(sheet.getRow(4).getCell(9)).toString().trim().equals("Mes 8")) {
+		if (!(sheet.getRow(4).getCell(9)+"").trim().equals("Mes 8")) {
 			validacion = new Validacion();
 			validacion.setMensaje("El titulo de la fila 5, columna J debe ser Mes 8");
 			validacion.setFila("5");
@@ -818,7 +818,7 @@ public class PresupuestoBB extends SpringBeanAutowiringSupport implements Serial
 			listaValidacion.add(validacion);
 		}
 		
-		if (!(sheet.getRow(4).getCell(10)).toString().trim().equals("Mes 9")) {
+		if (!(sheet.getRow(4).getCell(10)+"").trim().equals("Mes 9")) {
 			validacion = new Validacion();
 			validacion.setMensaje("El titulo de la fila 5, columna K debe ser Mes 9");
 			validacion.setFila("5");
@@ -826,7 +826,7 @@ public class PresupuestoBB extends SpringBeanAutowiringSupport implements Serial
 			listaValidacion.add(validacion);
 		}
 		
-		if (!(sheet.getRow(4).getCell(11)).toString().trim().equals("Mes 10")) {
+		if (!(sheet.getRow(4).getCell(11)+"").trim().equals("Mes 10")) {
 			validacion = new Validacion();
 			validacion.setMensaje("El titulo de la fila 5, columna L debe ser Mes 10");
 			validacion.setFila("5");
@@ -834,7 +834,7 @@ public class PresupuestoBB extends SpringBeanAutowiringSupport implements Serial
 			listaValidacion.add(validacion);
 		}
 		
-		if (!(sheet.getRow(4).getCell(12)).toString().trim().equals("Mes 11")) {
+		if (!(sheet.getRow(4).getCell(12)+"").trim().equals("Mes 11")) {
 			validacion = new Validacion();
 			validacion.setMensaje("El titulo de la fila 5, columna M debe ser Mes 11");
 			validacion.setFila("5");
@@ -842,7 +842,7 @@ public class PresupuestoBB extends SpringBeanAutowiringSupport implements Serial
 			listaValidacion.add(validacion);
 		}
 		
-		if (!(sheet.getRow(4).getCell(13)).toString().trim().equals("Mes 12")) {
+		if (!(sheet.getRow(4).getCell(13)+"").trim().equals("Mes 12")) {
 			validacion = new Validacion();
 			validacion.setMensaje("El titulo de la fila 5, columna N debe ser Mes 12");
 			validacion.setFila("5");
@@ -857,8 +857,8 @@ public class PresupuestoBB extends SpringBeanAutowiringSupport implements Serial
 		for (int fila = 5; fila <= sheet.getPhysicalNumberOfRows(); fila++) {
 			row = sheet.getRow(fila);
 			
-			idCuenta = getIdCuentaByCuenta(row.getCell(0) + "".trim());
-			idCentroCosto = getIdCentroCostoByCentroCosto(row.getCell(1) + "".trim());
+			idCuenta = getIdCuentaByCuenta(row.getCell(0) + "");
+			idCentroCosto = getIdCentroCostoByCentroCosto(row.getCell(1) + "");
 
 			if (idCuenta == 0) {
 				validacion = new Validacion();
@@ -901,18 +901,6 @@ public class PresupuestoBB extends SpringBeanAutowiringSupport implements Serial
 		return 0;
 	}
 	
-	/*public static boolean isCellEmpty(final XSSFCell cell) {
-	    if (cell == null || cell.getCellType() == CEL..CELL_TYPE_BLANK) {
-	        return true;
-	    }
-
-	    if (cell.getCellType() == Cell.CELL_TYPE_STRING && cell.getStringCellValue().isEmpty()) {
-	        return true;
-	    }
-
-	    return false;
-	}*/
-
 	public UploadedFile getFile() {
 		return file;
 	}
