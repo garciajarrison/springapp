@@ -21,19 +21,19 @@ public class UsuarioPorCentroCosto implements java.io.Serializable {
 	@Column(columnDefinition = "serial", name = "id", unique = true, nullable = false)
 	private int id;
 	
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_centrocosto", nullable = false)
 	private CentroCosto centroCosto = new CentroCosto();
 	
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_usuario_resp", nullable = false)
 	private Usuario usuarioResponsable = new Usuario();
 	
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_usuario_aprini", nullable = false)
 	private Usuario usuarioAprobadorInicial = new Usuario();
 	
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_usuario_aprfin", nullable = false)
 	private Usuario usuarioAprobadorFinal = new Usuario();
 

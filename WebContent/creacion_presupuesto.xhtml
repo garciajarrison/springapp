@@ -114,6 +114,10 @@
                                 		 filterMatchMode="contains" filterBy="#{presupuesto.usuario.usuario}">
                                     <h:outputText value="#{presupuesto.usuario.usuario}" />
                                 </p:column>
+                                
+                                 <p:column headerText="Estado" sortBy="#{presupuesto.estadoDetalle}" >
+                                    <h:outputText value="#{presupuestoBB.listasGenericas.getNombreEstado(presupuesto.estadoDetalle)}" />
+                                </p:column>
                                                                 
                                 <p:column headerText="Acciones" exportable="false" >
                                 
@@ -134,10 +138,34 @@
 								        <p:menuitem value="Detalle" actionListener="#{presupuestoBB.setDetalle(presupuesto)}" 
 								        			update="@form" icon="ui-icon-refresh" >
 								        </p:menuitem>
+								        <p:menuitem value="Enviar" 
+								        			rendered="#{presupuesto.estadoDetalle eq 'PENDIENTE' or presupuesto.estadoDetalle eq 'RECHAZADO'}"
+								        			actionListener="#{presupuestoBB.setDetalle(presupuesto)}" 
+								        			update=":#{p:component('dlgEvniar')}" oncomplete="PF('dlgEvniar').show();"
+								        			icon="ui-icon-send" >
+								        </p:menuitem>
 								    </p:splitButton>
                                 </p:column>
                             </p:dataTable>      
                           </div> 
+                          
+                          <p:dialog header="Enviar aprobador inicial" id="dlgEvniar"
+	                            		widgetVar="dlgEvniar" minHeight="40">
+								<div align="center">
+									<strong>¿Está seguro de enviar el presupuesto al aprobador inicial?</strong>
+									<br/>
+									Tenga en cuenta que después de esto no podrá realizar operaciones sobre este registro.
+									<br /><br/>
+									<p:outputLabel value="Observación"/>
+									<p:inputTextarea value="#{presupuestoBB.observacion.observacion}" 
+										maxlength="200" cols="20"/>
+									<br />
+									<br />
+									<p:commandButton id="btnEnviarCamp" process="@form"
+											actionListener="#{presupuestoBB.enviarPresupuestoAprobadorInicial()}" 
+											update="@form" title="Enviar" value="Enviar" />			
+								</div>
+							</p:dialog>	
                           
                         <p:dialog header="Actualizar" id="dlgActualizar" widgetVar="dlgActualizar" minHeight="40">
 							<div align="center">
@@ -398,12 +426,6 @@
 								        			update=":#{p:component('dlgEliminarMes')}" oncomplete="PF('dlgEliminarMes').show();"
 								        			icon="ui-icon-close" >
 								        </p:menuitem>
-								        <p:menuitem value="Enviar" 
-								        			rendered="#{presupuestoDetalleMes.estado eq 'PENDIENTE' or presupuestoDetalleMes.estado eq 'RECHAZADO'}"
-								        			actionListener="#{presupuestoBB.setSelectedPresupuestoDetalleMes(presupuestoDetalleMes)}" 
-								        			update=":#{p:component('dlgEvniarMes')}" oncomplete="PF('dlgEvniarMes').show();"
-								        			icon="ui-icon-send" >
-								        </p:menuitem>
 								        <p:menuitem value="Observaciones" actionListener="#{presupuestoBB.setSelectedPresupuestoDetalleMes(presupuestoDetalleMes)}" 
 								        			update=":#{p:component('dlgObservacionesMes')}" oncomplete="PF('dlgObservacionesMes').show();"
 								        			icon="ui-icon-close" >
@@ -411,24 +433,6 @@
 								    </p:splitButton>
                                 </p:column>
                             </p:dataTable>  
-                            
-                            <p:dialog header="Enviar aprobador inicial" id="dlgEvniarMes"
-                            		widgetVar="dlgEvniarMes" minHeight="40">
-								<div align="center">
-									<strong>¿Está seguro de enviar el detalle al aprobador inicial?</strong>
-									<br/>
-									Tenga en cuenta que después de esto no podrá realizar operaciones sobre este registro.
-									<br /><br/>
-									<p:outputLabel value="Observación"/>
-									<p:inputTextarea value="#{presupuestoBB.observacion.observacion}" 
-										maxlength="200" cols="20"/>
-									<br />
-									<br />
-									<p:commandButton id="btnEnviarMes" 
-											actionListener="#{presupuestoBB.enviarPresupuestoAprobadorInicial('MES')}" 
-											update="@form" title="Enviar" value="Enviar" />			
-								</div>
-							</p:dialog>
                             
                             <p:dialog header="Observaciones" id="dlgObservacionesMes" width="80%"
                             		widgetVar="dlgObservacionesMes" minHeight="40" modal="true">
@@ -514,13 +518,17 @@
 					   		</div>
 						</p:dialog>
                             
-                            
-                                
                           </div>  
                           
                           <div class="card" style="display:#{presupuestoBB.detalle.tipo eq 'Campañal' ? 'block;' : 'none;'}">
                             <h1>Detalle de Presupuesto Campañal Seleccionado</h1>
                             
+                             <p:commandButton id="btnTotalizar2" value="Totalizar" 
+	                               	update="@form" process="@form" actionListener="#{presupuestoBB.totalizarCamp}"
+	                               	icon="ui-icon-check fa fa-check Fs14 White" 
+	                               	style="max-width:150px;"/>   
+	                               	<br/>
+									
                             <p:panelGrid id="pgPresupuestoDetalleCampania" columns="6" 
                             		rendered="#{presupuestoBB.detalle.tipo eq 'Campañal'}"
                             		columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4" layout="grid" 
@@ -549,152 +557,128 @@
                                 
                                 <p:outputLabel for="inCampania1" value="Campaña 1"/>
                                 <p:inputNumber id="inCampania1" minValue="0"
+                                		onkeyup="pegadoEspecialCamp(this, '#{p:component('btnTotalizar2')}');"
                                 		value="#{presupuestoBB.presupuestoDetalleCampania.valorC1}">
-                                	<p:ajax update=":#{p:component('inTotalCamp')}" listener="#{presupuestoBB.totalizarCamp}"/>
                                 </p:inputNumber>
                                 
                                 <p:outputLabel for="inCampania2" value="Campaña 2" rendered="#{presupuestoBB.camapanaMaxima > 1}"/>
                                 <p:inputNumber id="inCampania2" rendered="#{presupuestoBB.camapanaMaxima > 1}"
                                 		value="#{presupuestoBB.presupuestoDetalleCampania.valorC2}" minValue="0" emptyValue="zero">
-                                	<p:ajax update=":#{p:component('inTotalCamp')}" listener="#{presupuestoBB.totalizarCamp}"/>
                                 </p:inputNumber>
                                 
                                 <p:outputLabel for="inCampania3" value="Campaña 3" rendered="#{presupuestoBB.camapanaMaxima > 2}"/>
                                 <p:inputNumber id="inCampania3" rendered="#{presupuestoBB.camapanaMaxima > 2}"
                                 		value="#{presupuestoBB.presupuestoDetalleCampania.valorC3}" minValue="0" emptyValue="zero">
-                                	<p:ajax update=":#{p:component('inTotalCamp')}" listener="#{presupuestoBB.totalizarCamp}"/>
                                 </p:inputNumber>
                                 
                                 <p:outputLabel for="inCampania4" value="Campaña 4" rendered="#{presupuestoBB.camapanaMaxima > 3}"/>
                                 <p:inputNumber id="inCampania4" rendered="#{presupuestoBB.camapanaMaxima > 3}"
                                 		value="#{presupuestoBB.presupuestoDetalleCampania.valorC4}" minValue="0" emptyValue="zero">
-                                	<p:ajax update=":#{p:component('inTotalCamp')}" listener="#{presupuestoBB.totalizarCamp}"/>
                                 </p:inputNumber>
                                                                 
                                 <p:outputLabel for="inCampania5" value="Campaña 5" rendered="#{presupuestoBB.camapanaMaxima > 4}"/>
                                 <p:inputNumber id="inCampania5" rendered="#{presupuestoBB.camapanaMaxima > 4}"
                                 		value="#{presupuestoBB.presupuestoDetalleCampania.valorC5}" minValue="0" emptyValue="zero">
-                                	<p:ajax update=":#{p:component('inTotalCamp')}" listener="#{presupuestoBB.totalizarCamp}"/>
                                 </p:inputNumber>
                                 
                                 <p:outputLabel for="inCampania6" value="Campaña 6" rendered="#{presupuestoBB.camapanaMaxima > 5}"/>
                                 <p:inputNumber id="inCampania6" rendered="#{presupuestoBB.camapanaMaxima > 5}"
                                 		value="#{presupuestoBB.presupuestoDetalleCampania.valorC6}" minValue="0" emptyValue="zero">
-                                	<p:ajax update=":#{p:component('inTotalCamp')}" listener="#{presupuestoBB.totalizarCamp}"/>
                                 </p:inputNumber>
                                 
                                 <p:outputLabel for="inCampania7" value="Campaña 7" rendered="#{presupuestoBB.camapanaMaxima > 6}"/>
                                 <p:inputNumber id="inCampania7" rendered="#{presupuestoBB.camapanaMaxima > 6}"
                                 		value="#{presupuestoBB.presupuestoDetalleCampania.valorC7}" minValue="0" emptyValue="zero">
-                                	<p:ajax update=":#{p:component('inTotalCamp')}" listener="#{presupuestoBB.totalizarCamp}"/>
                                 </p:inputNumber>
                                 
                                 <p:outputLabel for="inCampania8" value="Campaña 8" rendered="#{presupuestoBB.camapanaMaxima > 7}"/>
                                 <p:inputNumber id="inCampania8" rendered="#{presupuestoBB.camapanaMaxima > 7}"
                                 		value="#{presupuestoBB.presupuestoDetalleCampania.valorC8}" minValue="0" emptyValue="zero">
-                                	<p:ajax update=":#{p:component('inTotalCamp')}" listener="#{presupuestoBB.totalizarCamp}"/>
                                 </p:inputNumber>
                                 
                                 <p:outputLabel for="inCampania9" value="Campaña 9" rendered="#{presupuestoBB.camapanaMaxima > 8}"/>
                                 <p:inputNumber id="inCampania9" rendered="#{presupuestoBB.camapanaMaxima > 8}"
                                 		value="#{presupuestoBB.presupuestoDetalleCampania.valorC9}" minValue="0" emptyValue="zero">
-                                	<p:ajax update=":#{p:component('inTotalCamp')}" listener="#{presupuestoBB.totalizarCamp}"/>
                                 </p:inputNumber>
                                 
                                 <p:outputLabel for="inCampania10" value="Campaña 10" rendered="#{presupuestoBB.camapanaMaxima > 9}"/>
                                 <p:inputNumber id="inCampania10" rendered="#{presupuestoBB.camapanaMaxima > 9}"
                                 		value="#{presupuestoBB.presupuestoDetalleCampania.valorC10}" minValue="0" emptyValue="zero">
-                                	<p:ajax update=":#{p:component('inTotalCamp')}" listener="#{presupuestoBB.totalizarCamp}"/>
                                 </p:inputNumber>
                                 
                                 <p:outputLabel for="inCampania11" value="Campaña 11" rendered="#{presupuestoBB.camapanaMaxima > 10}"/>
                                 <p:inputNumber id="inCampania11" rendered="#{presupuestoBB.camapanaMaxima > 10}"
                                 		value="#{presupuestoBB.presupuestoDetalleCampania.valorC11}" minValue="0" emptyValue="zero">
-                                	<p:ajax update=":#{p:component('inTotalCamp')}" listener="#{presupuestoBB.totalizarCamp}"/>
                                 </p:inputNumber>
                                 
                                 <p:outputLabel for="inCampania12" value="Campaña 12" rendered="#{presupuestoBB.camapanaMaxima > 11}"/>
                                 <p:inputNumber id="inCampania12" rendered="#{presupuestoBB.camapanaMaxima > 11}"
                                 		value="#{presupuestoBB.presupuestoDetalleCampania.valorC12}" minValue="0" emptyValue="zero">
-                                	<p:ajax update=":#{p:component('inTotalCamp')}" listener="#{presupuestoBB.totalizarCamp}"/>
                                 </p:inputNumber>
                                 
                                 <p:outputLabel for="inCampania13" value="Campaña 13" rendered="#{presupuestoBB.camapanaMaxima > 12}"/>
                                 <p:inputNumber id="inCampania13" rendered="#{presupuestoBB.camapanaMaxima > 12}"
                                 		value="#{presupuestoBB.presupuestoDetalleCampania.valorC13}" minValue="0" emptyValue="zero">
-                                	<p:ajax update=":#{p:component('inTotalCamp')}" listener="#{presupuestoBB.totalizarCamp}"/>
                                 </p:inputNumber>
                                 
                                 <p:outputLabel for="inCampania14" value="Campaña 14" rendered="#{presupuestoBB.camapanaMaxima > 13}"/>
                                 <p:inputNumber id="inCampania14" rendered="#{presupuestoBB.camapanaMaxima > 13}"
                                 		value="#{presupuestoBB.presupuestoDetalleCampania.valorC14}" minValue="0" emptyValue="zero">
-                                	<p:ajax update=":#{p:component('inTotalCamp')}" listener="#{presupuestoBB.totalizarCamp}"/>
                                 </p:inputNumber>
                                 
                                 <p:outputLabel for="inCampania15" value="Campaña 15" rendered="#{presupuestoBB.camapanaMaxima > 14}"/>
                                 <p:inputNumber id="inCampania15" rendered="#{presupuestoBB.camapanaMaxima > 14}"
                                 		value="#{presupuestoBB.presupuestoDetalleCampania.valorC15}" minValue="0" emptyValue="zero">
-                                	<p:ajax update=":#{p:component('inTotalCamp')}" listener="#{presupuestoBB.totalizarCamp}"/>
                                 </p:inputNumber>
                                 
                                 <p:outputLabel for="inCampania16" value="Campaña 16" rendered="#{presupuestoBB.camapanaMaxima > 15}"/>
                                 <p:inputNumber id="inCampania16" rendered="#{presupuestoBB.camapanaMaxima > 15}"
                                 		value="#{presupuestoBB.presupuestoDetalleCampania.valorC16}" minValue="0" emptyValue="zero">
-                                	<p:ajax update=":#{p:component('inTotalCamp')}" listener="#{presupuestoBB.totalizarCamp}"/>
                                 </p:inputNumber>
                                 
                                 <p:outputLabel for="inCampania17" value="Campaña 17" rendered="#{presupuestoBB.camapanaMaxima > 16}"/>
                                 <p:inputNumber id="inCampania17" rendered="#{presupuestoBB.camapanaMaxima > 16}"
                                 		value="#{presupuestoBB.presupuestoDetalleCampania.valorC17}" minValue="0" emptyValue="zero">
-                                	<p:ajax update=":#{p:component('inTotalCamp')}" listener="#{presupuestoBB.totalizarCamp}"/>
                                 </p:inputNumber>
                                 
                                 <p:outputLabel for="inCampania18" value="Campaña 18" rendered="#{presupuestoBB.camapanaMaxima > 17}"/>
                                 <p:inputNumber id="inCampania18" rendered="#{presupuestoBB.camapanaMaxima > 17}"
                                 		value="#{presupuestoBB.presupuestoDetalleCampania.valorC18}" minValue="0" emptyValue="zero">
-                                	<p:ajax update=":#{p:component('inTotalCamp')}" listener="#{presupuestoBB.totalizarCamp}"/>
                                 </p:inputNumber>
                                 
                                 <p:outputLabel for="inCampania19" value="Campaña 19" rendered="#{presupuestoBB.camapanaMaxima > 18}"/>
                                 <p:inputNumber id="inCampania19" rendered="#{presupuestoBB.camapanaMaxima > 18}"
                                 		value="#{presupuestoBB.presupuestoDetalleCampania.valorC19}" minValue="0" emptyValue="zero">
-                                	<p:ajax update=":#{p:component('inTotalCamp')}" listener="#{presupuestoBB.totalizarCamp}"/>
                                 </p:inputNumber>
                                 
                                 <p:outputLabel for="inCampania20" value="Campaña 20" rendered="#{presupuestoBB.camapanaMaxima > 19}"/>
                                 <p:inputNumber id="inCampania20" rendered="#{presupuestoBB.camapanaMaxima > 19}"
                                 		value="#{presupuestoBB.presupuestoDetalleCampania.valorC20}" minValue="0" emptyValue="zero">
-                                	<p:ajax update=":#{p:component('inTotalCamp')}" listener="#{presupuestoBB.totalizarCamp}"/>
                                 </p:inputNumber>
                                 
                                 <p:outputLabel for="inCampania21" value="Campaña 21" rendered="#{presupuestoBB.camapanaMaxima > 20}"/>
                                 <p:inputNumber id="inCampania21" rendered="#{presupuestoBB.camapanaMaxima > 20}"
                                 		value="#{presupuestoBB.presupuestoDetalleCampania.valorC21}" minValue="0" emptyValue="zero">
-                                	<p:ajax update=":#{p:component('inTotalCamp')}" listener="#{presupuestoBB.totalizarCamp}"/>
                                 </p:inputNumber>
                                 
                                 <p:outputLabel for="inCampania22" value="Campaña 22" rendered="#{presupuestoBB.camapanaMaxima > 21}"/>
                                 <p:inputNumber id="inCampania22" rendered="#{presupuestoBB.camapanaMaxima > 21}"
                                 		value="#{presupuestoBB.presupuestoDetalleCampania.valorC22}" minValue="0" emptyValue="zero">
-                                	<p:ajax update=":#{p:component('inTotalCamp')}" listener="#{presupuestoBB.totalizarCamp}"/>
                                 </p:inputNumber>
                                 
                                 <p:outputLabel for="inCampania23" value="Campaña 23" rendered="#{presupuestoBB.camapanaMaxima > 22}"/>
                                 <p:inputNumber id="inCampania23" rendered="#{presupuestoBB.camapanaMaxima > 22}"
                                 		value="#{presupuestoBB.presupuestoDetalleCampania.valorC23}" minValue="0" emptyValue="zero">
-                                	<p:ajax update=":#{p:component('inTotalCamp')}" listener="#{presupuestoBB.totalizarCamp}"/>
                                 </p:inputNumber>
                                 
                                 <p:outputLabel for="inCampania24" value="Campaña 24" rendered="#{presupuestoBB.camapanaMaxima > 23}"/>
                                 <p:inputNumber id="inCampania24" rendered="#{presupuestoBB.camapanaMaxima > 23}"
                                 		value="#{presupuestoBB.presupuestoDetalleCampania.valorC24}" minValue="0" emptyValue="zero">
-                                	<p:ajax update=":#{p:component('inTotalCamp')}" listener="#{presupuestoBB.totalizarCamp}"/>
                                 </p:inputNumber>
                                 
                                 <p:outputLabel for="inCampania25" value="Campaña 25" rendered="#{presupuestoBB.camapanaMaxima > 24}"/>
                                 <p:inputNumber id="inCampania25" rendered="#{presupuestoBB.camapanaMaxima > 24}"
                                 		value="#{presupuestoBB.presupuestoDetalleCampania.valorC25}" minValue="0" emptyValue="zero">
-                                	<p:ajax update=":#{p:component('inTotalCamp')}" listener="#{presupuestoBB.totalizarCamp}"/>
                                 </p:inputNumber>
                                                                 
                             </p:panelGrid>
@@ -909,12 +893,6 @@
 								        			update=":#{p:component('dlgEliminarCamp')}" oncomplete="PF('dlgEliminarCamp').show();"
 								        			icon="ui-icon-close" >
 								        </p:menuitem>
-								        <p:menuitem value="Enviar" 
-								        			rendered="#{presupuestoDetalleCampania.estado eq 'PENDIENTE' or presupuestoDetalleCampania.estado eq 'RECHAZADO'}"
-								        			actionListener="#{presupuestoBB.setSelectedPresupuestoDetalleCampania(presupuestoDetalleCampania)}" 
-								        			update=":#{p:component('dlgEvniarCamp')}" oncomplete="PF('dlgEvniarCamp').show();"
-								        			icon="ui-icon-send" >
-								        </p:menuitem>
 								        <p:menuitem value="Observaciones" 
 								        			actionListener="#{presupuestoBB.setSelectedPresupuestoDetalleCampania(presupuestoDetalleCampania)}" 
 								        			update=":#{p:component('dlgObservacionesCamp')}" oncomplete="PF('dlgObservacionesCamp').show();"
@@ -924,24 +902,6 @@
 								    </p:splitButton>
                                 </p:column>
                             </p:dataTable> 
-                            
-                        <p:dialog header="Enviar aprobador inicial" id="dlgEvniarCamp"
-                            		widgetVar="dlgEvniarCamp" minHeight="40">
-							<div align="center">
-								<strong>¿Está seguro de enviar el detalle al aprobador inicial?</strong>
-								<br/>
-								Tenga en cuenta que después de esto no podrá realizar operaciones sobre este registro.
-								<br /><br/>
-								<p:outputLabel value="Observación"/>
-								<p:inputTextarea value="#{presupuestoBB.observacion.observacion}" 
-									maxlength="200" cols="20"/>
-								<br />
-								<br />
-								<p:commandButton id="btnEnviarCamp" process="@form"
-										actionListener="#{presupuestoBB.enviarPresupuestoAprobadorInicial('CAMPANIA')}" 
-										update="@form" title="Enviar" value="Enviar" />			
-							</div>
-						</p:dialog>
                             
                         <p:dialog header="Observaciones" id="dlgObservacionesCamp" width="80%"
                             		widgetVar="dlgObservacionesCamp" minHeight="40" modal="true">

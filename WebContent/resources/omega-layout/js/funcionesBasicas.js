@@ -21,6 +21,29 @@ function pegadoEspecial(campo, idBoton){
 	}catch(err){}
 }
 
+function pegadoEspecialCamp(campo, idBoton){
+	try{
+		var tituloId = campo.id;
+		var tituloAux;
+		fields = campo.value.split("\t", -1); 
+		if(fields.length > 1){
+			for (i = 0; i < fields.length; ++i) {
+				if(i == 0){
+					document.getElementById(tituloId).value = fields[i];
+					document.getElementById(tituloId).click();
+					document.getElementById(tituloId).focus();
+				}else{
+					tituloAux = (tituloId.replace('inCampania1', ('inCampania' + (i+1))));
+					document.getElementById(tituloAux).value = fields[i];
+					document.getElementById(tituloAux).focus();
+				}
+			}
+			document.getElementById(idBoton).focus();
+			document.getElementById(idBoton).click();
+		}
+	}catch(err){}
+}
+
 function pegadoEspecialCalculadora(campo, idBoton){
 	var tituloId = campo.id;
 	var tituloAux;

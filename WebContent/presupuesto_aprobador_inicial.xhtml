@@ -77,13 +77,69 @@
                                 		 filterMatchMode="contains" filterBy="#{presupuesto.usuario.usuario}">
                                     <h:outputText value="#{presupuesto.usuario.usuario}" />
                                 </p:column>
+                                
+                                <p:column headerText="Estado" sortBy="#{presupuesto.estadoDetalle}" >
+                                    <h:outputText value="#{preAprIniBB.listasGenericas.getNombreEstado(presupuesto.estadoDetalle)}" />
+                                </p:column>
                                                                 
                                 <p:column headerText="Acciones" width="15%" exportable="false" >
-                                
-                                    <p:commandButton value="Detalle" actionListener="#{preAprIniBB.setDetalle(presupuesto)}" 
-								        			update="@form" icon="ui-icon-refresh" />
+                                	<p:splitButton value="Acción" icon="fa fa-edit">
+	                                	<p:menuitem value="Aprobar" 
+													rendered="#{presupuesto.estadoDetalle eq 'ENVIADO'}"
+													actionListener="#{preAprIniBB.setDetalle(presupuesto)}" 
+													update=":#{p:component('dlgAprobar')}" oncomplete="PF('dlgAprobar').show();"
+													icon="ui-icon-send" >
+										</p:menuitem>
+										<p:menuitem value="Rechazar" 
+													rendered="#{presupuesto.estadoDetalle eq 'ENVIADO'}"				
+													actionListener="#{preAprIniBB.setDetalle(presupuesto)}" 
+													update=":#{p:component('dlgRechazar')}" oncomplete="PF('dlgRechazar').show();"
+													icon="ui-icon-send" >
+										</p:menuitem>
+										<p:menuitem value="Detalle" update="@form" 	
+													actionListener="#{preAprIniBB.setDetalle(presupuesto)}" 
+													icon="ui-icon-send" >
+										</p:menuitem>
+									</p:splitButton>
                                 </p:column>
-                            </p:dataTable>      
+                            </p:dataTable>    
+                            
+                            <p:dialog header="Aprobar" id="dlgAprobar"
+                            		widgetVar="dlgAprobar" minHeight="40">
+								<div align="center">
+									<strong>¿Está seguro de aprobar el presupuesto?</strong>
+									<br/>
+									Tenga en cuenta que después de esto no podrá realizar operaciones sobre este registro.
+									<br /><br/>
+									<p:outputLabel value="Observación"/>
+									<p:inputTextarea id="observaApr" value="#{preAprIniBB.observacionApr.observacion}" 
+										maxlength="200" cols="20"/>
+									<br />
+									<br />
+									<p:commandButton id="btnAprobarMes" process="@form"
+											actionListener="#{preAprIniBB.aprobarPresupuesto()}" 
+											update="@form" title="Aprobar" value="Aprobar" />			
+								</div>
+							</p:dialog>
+							
+							<p:dialog header="Rechazar" id="dlgRechazar"
+                            		widgetVar="dlgRechazar" minHeight="40">
+								<div align="center">
+									<strong>¿Está seguro de rechazar el presupuesto?</strong>
+									<br/>
+									Tenga en cuenta que después de esto no podrá realizar operaciones sobre este registro.
+									<br /><br/>
+									<p:outputLabel value="Observación"/>
+									<p:inputTextarea value="#{preAprIniBB.observacion.observacion}" 
+										maxlength="200" cols="20"/>
+									<br />
+									<br />
+									<p:commandButton id="btnRechazarMes"  process="@form"
+											actionListener="#{preAprIniBB.rechazarPresupuesto()}" 
+											update="@form" title="Rechazar" value="Rechazar" />			
+								</div>
+							</p:dialog>
+                              
                           </div> 
                           
 						<!-- DETALLE DE PRESUPUESTO MES SELECCIONADO -->
@@ -200,62 +256,11 @@
                                 </p:column>
                                                                 
                                 <p:column headerText="Acciones" exportable="false">
-                                    <p:splitButton value="Accion" icon="fa fa-edit">
-								        <p:menuitem value="Aprobar" 
-								        			rendered="#{presupuestoDetalleMes.estado eq 'ENVIADO'}"
-								        			actionListener="#{preAprIniBB.setSelectedPresupuestoDetalleMes(presupuestoDetalleMes)}" 
-								        			update=":#{p:component('dlgAprobarMes')}" oncomplete="PF('dlgAprobarMes').show();"
-								        			icon="ui-icon-send" >
-								        </p:menuitem>
-								        <p:menuitem value="Rechazar" 
-													rendered="#{presupuestoDetalleMes.estado eq 'ENVIADO'}"				
-													actionListener="#{preAprIniBB.setSelectedPresupuestoDetalleMes(presupuestoDetalleMes)}" 
-								        			update=":#{p:component('dlgRechazarMes')}" oncomplete="PF('dlgRechazarMes').show();"
-								        			icon="ui-icon-send" >
-								        </p:menuitem>
-								        <p:menuitem value="Observaciones" actionListener="#{preAprIniBB.setSelectedPresupuestoDetalleMes(presupuestoDetalleMes)}" 
-								        			update=":#{p:component('dlgObservacionesMes')}" oncomplete="PF('dlgObservacionesMes').show();"
-								        			icon="ui-icon-close" >
-								        </p:menuitem>
-								    </p:splitButton>
+                                	<p:commandButton value="Observaciones" actionListener="#{preAprIniBB.setSelectedPresupuestoDetalleMes(presupuestoDetalleMes)}"
+                                					update=":#{p:component('dlgObservacionesMes')}" oncomplete="PF('dlgObservacionesMes').show();" 
+								        			icon="ui-icon-close" />
                                 </p:column>
                             </p:dataTable>  
-                            
-                            <p:dialog header="Aprobar" id="dlgAprobarMes"
-                            		widgetVar="dlgAprobarMes" minHeight="40">
-								<div align="center">
-									<strong>¿Está seguro de aprobar el detalle de presupuesto?</strong>
-									<br/>
-									Tenga en cuenta que después de esto no podrá realizar operaciones sobre este registro.
-									<br /><br/>
-									<p:outputLabel value="Observación"/>
-									<p:inputTextarea value="#{preAprIniBB.observacion.observacion}" 
-										maxlength="200" cols="20"/>
-									<br />
-									<br />
-									<p:commandButton id="btnAprobarMes" 
-											actionListener="#{preAprIniBB.aprobarPresupuesto('MES')}" 
-											update="@form" title="Aprobar" value="Aprobar" />			
-								</div>
-							</p:dialog>
-							
-							<p:dialog header="Rechazar" id="dlgRechazarMes"
-                            		widgetVar="dlgRechazarMes" minHeight="40">
-								<div align="center">
-									<strong>¿Está seguro de rechazar el detalle de presupuesto?</strong>
-									<br/>
-									Tenga en cuenta que después de esto no podrá realizar operaciones sobre este registro.
-									<br /><br/>
-									<p:outputLabel value="Observación"/>
-									<p:inputTextarea value="#{preAprIniBB.observacion.observacion}" 
-										maxlength="200" cols="20"/>
-									<br />
-									<br />
-									<p:commandButton id="btnRechazarMes" 
-											actionListener="#{preAprIniBB.rechazarPresupuesto('MES')}" 
-											update="@form" title="Rechazar" value="Rechazar" />			
-								</div>
-							</p:dialog>
                             
                             <p:dialog header="Observaciones" id="dlgObservacionesMes" width="80%"
                             		widgetVar="dlgObservacionesMes" minHeight="40" modal="true">
@@ -520,66 +525,12 @@
                                 </p:column>
                                                                 
                                 <p:column headerText="Acciones" exportable="false">
-                                    <p:splitButton value="Accion" icon="fa fa-edit">
-								        <p:menuitem value="Aprobar" 
-								        			rendered="#{presupuestoDetalleCampania.estado eq 'ENVIADO'}"
-								        			actionListener="#{preAprIniBB.setSelectedPresupuestoDetalleCampania(presupuestoDetalleCampania)}" 
-								        			update=":#{p:component('dlgAprobarCamp')}" oncomplete="PF('dlgAprobarCamp').show();"
-								        			icon="ui-icon-send" >
-								        </p:menuitem>
-								        <p:menuitem value="Rechazar" 
-								        			rendered="#{presupuestoDetalleCampania.estado eq 'ENVIADO'}"
-								        			actionListener="#{preAprIniBB.setSelectedPresupuestoDetalleCampania(presupuestoDetalleCampania)}" 
-								        			update=":#{p:component('dlgRechazarCamp')}" oncomplete="PF('dlgRechazarCamp').show();"
-								        			icon="ui-icon-send" >
-								        </p:menuitem>
-								        <p:menuitem value="Observaciones" 
-								        			actionListener="#{preAprIniBB.setSelectedPresupuestoDetalleCampania(presupuestoDetalleCampania)}" 
-								        			update=":#{p:component('dlgObservacionesCamp')}" oncomplete="PF('dlgObservacionesCamp').show();"
-								        			icon="ui-icon-close" >
-								        </p:menuitem>
-								        
-								    </p:splitButton>
+                                	<p:commandButton value="Observaciones" actionListener="#{preAprIniBB.setSelectedPresupuestoDetalleCampania(presupuestoDetalleCampania)}"
+                                					update=":#{p:component('dlgObservacionesCamp')}" oncomplete="PF('dlgObservacionesCamp').show();" 
+								        			icon="ui-icon-close" />
                                 </p:column>
                             </p:dataTable> 
 						
-						<p:dialog header="Aprobar" id="dlgAprobarCamp"
-                            		widgetVar="dlgAprobarCamp" minHeight="40">
-								<div align="center">
-									<strong>¿Está seguro de aprobar el detalle de presupuesto?</strong>
-									<br/>
-									Tenga en cuenta que después de esto no podrá realizar operaciones sobre este registro.
-									<br /><br/>
-									<p:outputLabel value="Observación"/>
-									<p:inputTextarea value="#{preAprIniBB.observacion.observacion}" 
-										maxlength="200" cols="20"/>
-									<br />
-									<br />
-									<p:commandButton id="btnAprobarCamp" 
-											actionListener="#{preAprIniBB.aprobarPresupuesto('CAMPANIA')}" 
-											update="@form" title="Aprobar" value="Aprobar" />			
-								</div>
-							</p:dialog>
-							
-							<p:dialog header="Rechazar" id="dlgRechazarCamp"
-                            		widgetVar="dlgRechazarCamp" minHeight="40">
-								<div align="center">
-									<strong>¿Está seguro de rechazar el detalle de presupuesto?</strong>
-									<br/>
-									Tenga en cuenta que después de esto no podrá realizar operaciones sobre este registro.
-									<br /><br/>
-									<p:outputLabel value="Observación"/>
-									<p:inputTextarea value="#{preAprIniBB.observacion.observacion}" 
-										maxlength="200" cols="20"/>
-									<br />
-									<br />
-									<p:commandButton id="btnRechazarCamp" 
-											actionListener="#{preAprIniBB.rechazarPresupuesto('CAMPANIA')}" 
-											update="@form" title="Rechazar" value="Rechazar" />			
-								</div>
-							</p:dialog>
-						
-                            
                         <p:dialog header="Observaciones" id="dlgObservacionesCamp" width="80%"
                             		widgetVar="dlgObservacionesCamp" minHeight="40" modal="true">
 							<div align="center">
@@ -651,7 +602,7 @@
 					   		</div>
 						</p:dialog>	
                             
-                          </div>          
+                       </div>          
                        
                     </div>                    
                 </div>

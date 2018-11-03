@@ -21,11 +21,11 @@ public class CentroCostoPorCuenta implements java.io.Serializable {
 	@Column(columnDefinition = "serial", name = "id", unique = true, nullable = false)
 	private int id;
 	
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_cuenta", nullable = false)
 	private Cuenta cuenta = new Cuenta();
 	
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_centrocosto", nullable = false)
 	private CentroCosto centroCosto = new CentroCosto();
 

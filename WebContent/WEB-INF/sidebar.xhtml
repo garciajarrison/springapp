@@ -61,6 +61,8 @@
                         <p:menuitem id="menuitem_aprobacion_final_presupuesto" value="Aprobación Final de Presupuesto" icon="fa fa-circle" outcome="/presupuesto_aprobador_final" rendered="#{globalBB.aprobadorFinal or globalBB.usuario.rol eq 'Administrador'}"/>
                         
                          <p:menuitem id="menuitem_reporte" value="Reporte" icon="fa fa-circle" outcome="/reporte"/>
+                         
+                         <p:menuitem id="menuitem_salir" value="Cerrar sesión" icon="fa fa-circle" onclick="PF('cerrarSesion').show()"/>
                     </po:menu>
                 </div>
             </div>

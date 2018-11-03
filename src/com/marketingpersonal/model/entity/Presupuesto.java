@@ -16,6 +16,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import org.hibernate.annotations.Formula;
+
 import com.marketingpersonal.common.EnumEstadosPresupuesto;
 
 @Entity
@@ -56,6 +58,14 @@ public class Presupuesto implements java.io.Serializable {
 	
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "presupuesto")
 	private List<PresupuestoDetalleCampania> detalleCampania = new ArrayList<>();
+	
+	@Formula(value="(isnull((SELECT TOP (1) p.estado " + 
+			"		 FROM presupuestomd.dbo.detalle_presupuesto_mes p " + 
+			"				where p.id_presupuesto = id), " + 
+			"		isnull((SELECT TOP (1) e.estado " + 
+			"		 FROM presupuestomd.dbo.detalle_presupuesto_campania e " + 
+			"				where e.id_presupuesto = id),'PENDIENTE'))) ")
+	private String estadoDetalle;
 
 	public int getId() {
 		return id;
@@ -167,6 +177,14 @@ public class Presupuesto implements java.io.Serializable {
 			e.printStackTrace();
 		}
 		return retorno;
+	}
+
+	public String getEstadoDetalle() {
+		return estadoDetalle;
+	}
+
+	public void setEstadoDetalle(String estadoDetalle) {
+		this.estadoDetalle = estadoDetalle;
 	}
 	
 }

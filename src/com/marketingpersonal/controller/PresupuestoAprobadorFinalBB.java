@@ -16,8 +16,6 @@ import com.marketingpersonal.common.EnumSessionAttributes;
 import com.marketingpersonal.common.EnviarCorreo;
 import com.marketingpersonal.common.ListasGenericas;
 import com.marketingpersonal.common.Util;
-import com.marketingpersonal.model.entity.CentroCosto;
-import com.marketingpersonal.model.entity.Cuenta;
 import com.marketingpersonal.model.entity.Observacion;
 import com.marketingpersonal.model.entity.Presupuesto;
 import com.marketingpersonal.model.entity.PresupuestoDetalleCampania;
@@ -54,6 +52,7 @@ public class PresupuestoAprobadorFinalBB extends SpringBeanAutowiringSupport imp
 	private ListasGenericas listasGenericas;
 	private Usuario usuario;
 	private Observacion observacion;
+	private Observacion observacionApr;
 	private boolean mostrarDetalle;
 	private int camapanaMaxima;
 	private Double totalMes = 0d;
@@ -73,74 +72,140 @@ public class PresupuestoAprobadorFinalBB extends SpringBeanAutowiringSupport imp
 		anioGeneral = Integer.valueOf(parametroService.getParametroByCodigo("ANIO_CALCULADORA").getValor());
 		camapanaMaxima = getCalculadoraService().getCampanaMaxima(anioGeneral);
 		observacion = new Observacion();
+		observacionApr = new Observacion();
 		mostrarDetalle = false;
 	}
 	
-	public void aprobarPresupuesto(String tipo){
+	public void aprobarPresupuesto(){
 		try {
-			if("MES".equals(tipo)) {
-				selectedPresupuestoDetalleMes.setEstado(EnumEstadosPresupuesto.FINALIZADO.getCodigo());
-				getPresupuestoService().actualizarEstadoPresupuestoDetalleMes(selectedPresupuestoDetalleMes);
-				observacion.setPresupuestoDetalleMes(selectedPresupuestoDetalleMes);
-				observacion.setUsuarioRecibe(this.getCentroCostoService().getUsuarioAprobadorFinal(selectedPresupuestoDetalleMes.getCentroCosto().getId()).get(0));
+			String tipo = this.detalle.getTipo();
+			Integer centroCosto = 0;
+			Observacion observacionTmp = new Observacion();
+			if("Mensual".equals(tipo)) {
+				
+				if(detalle.getDetalleMes() != null && !detalle.getDetalleMes().isEmpty()) {
+					for(PresupuestoDetalleMes det : detalle.getDetalleMes()) {
+						
+						observacionTmp = new Observacion();
+						observacionTmp.setObservacion(observacionApr.getObservacion());
+						det.setEstado(EnumEstadosPresupuesto.FINALIZADO.getCodigo());
+						getPresupuestoService().actualizarEstadoPresupuestoDetalleMes(det);
+						observacionTmp.setPresupuestoDetalleMes(det);
+						observacionTmp.setUsuarioRecibe(detalle.getUsuario());
+						centroCosto = det.getCentroCosto().getId();
+						observacionTmp.setFecha(new Date());
+						observacionTmp.setEstado(EnumEstadosPresupuesto.FINALIZADO.getCodigo());
+						observacionTmp.setUsuarioEnvia(usuario);
+						
+						getPresupuestoService().addObservacion(observacionTmp);
+						selectedPresupuestoDetalleMes = det;
+					}
+				}
+				
 			}else {
-				selectedPresupuestoDetalleCampania.setEstado(EnumEstadosPresupuesto.FINALIZADO.getCodigo());
-				getPresupuestoService().actualizarEstadoPresupuestoDetalleCampania(selectedPresupuestoDetalleCampania);
-				observacion.setPresupuestoDetalleCampania(selectedPresupuestoDetalleCampania);
-				observacion.setUsuarioRecibe(this.getCentroCostoService().getUsuarioAprobadorFinal(selectedPresupuestoDetalleCampania.getCentroCosto().getId()).get(0));
+				
+				if(detalle.getDetalleCampania() != null && !detalle.getDetalleCampania().isEmpty()) {
+					for(PresupuestoDetalleCampania det : detalle.getDetalleCampania()) {
+						
+						observacionTmp = new Observacion();
+						observacionTmp.setObservacion(observacionApr.getObservacion());
+						det.setEstado(EnumEstadosPresupuesto.FINALIZADO.getCodigo());
+						getPresupuestoService().actualizarEstadoPresupuestoDetalleCampania(det);
+						observacionTmp.setPresupuestoDetalleCampania(det);
+						observacionTmp.setUsuarioRecibe(detalle.getUsuario());
+						centroCosto = det.getCentroCosto().getId();
+						observacionTmp.setFecha(new Date());
+						observacionTmp.setEstado(EnumEstadosPresupuesto.FINALIZADO.getCodigo());
+						observacionTmp.setUsuarioEnvia(usuario);
+						
+						getPresupuestoService().addObservacion(observacionTmp);
+						selectedPresupuestoDetalleCampania = det;
+					}
+				}
 			}
-
-			//Guardamos la observacion
-			observacion.setFecha(new Date());
-			observacion.setEstado(EnumEstadosPresupuesto.FINALIZADO.getCodigo());
-			observacion.setUsuarioEnvia(usuario);
-			getPresupuestoService().addObservacion(observacion);
 			
-			//Envio de correo
-			EnviarCorreo enviarCorreo = new EnviarCorreo();
-			enviarCorreo.enviaCorreoResponsable(detalle, 
-					detalle.getUsuario(), 
-					EnumEstadosPresupuesto.FINALIZADO);
-			
-			observacion = new Observacion();
-			util.mostrarMensaje("El presupuesto aprobado con éxito.");
+			if(centroCosto > 0) {
+				//Envio de correo
+				EnviarCorreo enviarCorreo = new EnviarCorreo();
+				enviarCorreo.enviaCorreoResponsable(detalle, 
+						detalle.getUsuario(), 
+						EnumEstadosPresupuesto.FINALIZADO);
+				
+				observacion = new Observacion();
+				observacionApr = new Observacion();
+				detalle = null;
+				listaPresupuestos = getPresupuestoService().getPresupuestosAprobadorFinal(usuario);
+				util.mostrarMensaje("El presupuesto aprobado con éxito.");
+			}else {
+				util.mostrarError("El presupuesto no tiene detalle para aprobar.");
+			}
 		} catch (DataAccessException e) {
 			e.printStackTrace();
 			util.mostrarError("Error enviando el registro.");
 		} 	
 	}
 	
-	public void rechazarPresupuesto(String tipo){
+	public void rechazarPresupuesto(){
 		try {
-			Integer centroCosto = null;
-			if("MES".equals(tipo)) {
-				selectedPresupuestoDetalleMes.setEstado(EnumEstadosPresupuesto.RECHAZADO.getCodigo());
-				getPresupuestoService().actualizarEstadoPresupuestoDetalleMes(selectedPresupuestoDetalleMes);
-				observacion.setPresupuestoDetalleMes(selectedPresupuestoDetalleMes);
-				observacion.setUsuarioRecibe(detalle.getUsuario());
-				centroCosto = selectedPresupuestoDetalleMes.getCentroCosto().getId();
+			String tipo = this.detalle.getTipo();
+			Integer centroCosto = 0;
+			Observacion observacionTmp = new Observacion();
+			if("Mensual".equals(tipo)) {
+				
+				if(detalle.getDetalleMes() != null && !detalle.getDetalleMes().isEmpty()) {
+					for(PresupuestoDetalleMes det : detalle.getDetalleMes()) {
+						
+						observacionTmp = new Observacion();
+						observacionTmp.setObservacion(observacion.getObservacion());
+						det.setEstado(EnumEstadosPresupuesto.RECHAZADO.getCodigo());
+						getPresupuestoService().actualizarEstadoPresupuestoDetalleMes(det);
+						observacionTmp.setPresupuestoDetalleMes(det);
+						observacionTmp.setUsuarioRecibe(detalle.getUsuario());
+						centroCosto = det.getCentroCosto().getId();
+						observacionTmp.setFecha(new Date());
+						observacionTmp.setEstado(EnumEstadosPresupuesto.RECHAZADO.getCodigo());
+						observacionTmp.setUsuarioEnvia(usuario);
+						
+						getPresupuestoService().addObservacion(observacionTmp);
+						selectedPresupuestoDetalleMes = det;
+					}
+				}
 			}else {
-				selectedPresupuestoDetalleCampania.setEstado(EnumEstadosPresupuesto.RECHAZADO.getCodigo());
-				getPresupuestoService().actualizarEstadoPresupuestoDetalleCampania(selectedPresupuestoDetalleCampania);
-				observacion.setPresupuestoDetalleCampania(selectedPresupuestoDetalleCampania);
-				observacion.setUsuarioRecibe(detalle.getUsuario());
-				centroCosto = selectedPresupuestoDetalleCampania.getCentroCosto().getId();
+				
+				if(detalle.getDetalleCampania() != null && !detalle.getDetalleCampania().isEmpty()) {
+					for(PresupuestoDetalleCampania det : detalle.getDetalleCampania()) {
+						
+						observacionTmp = new Observacion();
+						observacionTmp.setObservacion(observacion.getObservacion());
+						det.setEstado(EnumEstadosPresupuesto.RECHAZADO.getCodigo());
+						getPresupuestoService().actualizarEstadoPresupuestoDetalleCampania(det);
+						observacionTmp.setPresupuestoDetalleCampania(det);
+						observacionTmp.setUsuarioRecibe(detalle.getUsuario());
+						centroCosto = det.getCentroCosto().getId();
+						observacionTmp.setFecha(new Date());
+						observacionTmp.setEstado(EnumEstadosPresupuesto.RECHAZADO.getCodigo());
+						observacionTmp.setUsuarioEnvia(usuario);
+						
+						getPresupuestoService().addObservacion(observacionTmp);
+						selectedPresupuestoDetalleCampania = det;
+					}
+				}
 			}
 
-			//Guardamos la observacion
-			observacion.setFecha(new Date());
-			observacion.setEstado(EnumEstadosPresupuesto.RECHAZADO.getCodigo());
-			observacion.setUsuarioEnvia(usuario);
-			getPresupuestoService().addObservacion(observacion);
-			
-			//Envio de correo
-			EnviarCorreo enviarCorreo = new EnviarCorreo();
-			enviarCorreo.enviaCorreoResponsable(detalle, 
-					detalle.getUsuario(), 
-					EnumEstadosPresupuesto.RECHAZADO);
-			
-			observacion = new Observacion();
-			util.mostrarMensaje("El presupuesto fue rechazado con éxito.");
+			if(centroCosto > 0) {
+				//Envio de correo
+				EnviarCorreo enviarCorreo = new EnviarCorreo();
+				enviarCorreo.enviaCorreoResponsable(detalle, 
+						detalle.getUsuario(), 
+						EnumEstadosPresupuesto.RECHAZADO);
+				
+				observacion = new Observacion();
+				detalle = null;
+				listaPresupuestos = getPresupuestoService().getPresupuestosAprobadorFinal(usuario);
+				util.mostrarMensaje("El presupuesto rechazado con éxito.");
+			}else {
+				util.mostrarError("El presupuesto no tiene detalle para rechazar.");
+			}
 		} catch (DataAccessException e) {
 			e.printStackTrace();
 			util.mostrarError("Error enviando el registro.");
@@ -308,6 +373,14 @@ public class PresupuestoAprobadorFinalBB extends SpringBeanAutowiringSupport imp
 
 	public void setParametroService(IParametroService parametroService) {
 		this.parametroService = parametroService;
+	}
+
+	public Observacion getObservacionApr() {
+		return observacionApr;
+	}
+
+	public void setObservacionApr(Observacion observacionApr) {
+		this.observacionApr = observacionApr;
 	}
 	
  }

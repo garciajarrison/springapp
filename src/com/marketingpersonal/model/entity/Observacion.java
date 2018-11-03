@@ -28,19 +28,19 @@ public class Observacion implements java.io.Serializable {
 	@Column(name = "observacion")
 	private String observacion;
 	
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "usuario_envia", nullable = false)
 	private Usuario usuarioEnvia;
 	
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "usuario_recibe", nullable = false)
 	private Usuario usuarioRecibe;
 	
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_detalle_presupuesto_mes")
 	private PresupuestoDetalleMes presupuestoDetalleMes;
 	
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_detalle_presupuesto_campania")
 	private PresupuestoDetalleCampania presupuestoDetalleCampania;
 	
