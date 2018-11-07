@@ -746,7 +746,7 @@ public class PresupuestoBB extends SpringBeanAutowiringSupport implements Serial
 
 		if (!(sheet.getRow(2).getCell(0).toString()).trim().equals("Clasificación")) {
 			validacion = new Validacion();
-			validacion.setMensaje("El titulo de la fila 2, columna A debe ser Descripción");
+			validacion.setMensaje("El titulo de la fila 3, columna A debe ser Clasificación");
 			validacion.setFila("3");
 			validacion.setColumna("A");
 			listaValidacion.add(validacion);
@@ -760,9 +760,10 @@ public class PresupuestoBB extends SpringBeanAutowiringSupport implements Serial
 			listaValidacion.add(validacion);
 		}
 			
-		if (!((sheet.getRow(3)).getCell(1)+"").trim().equals("Gasto")|| !((sheet.getRow(3)).getCell(1)+"").trim().equals("Inversión")) {
+		if (!((sheet.getRow(2)).getCell(1)+"").trim().equals("Gasto") && !((sheet.getRow(2)).getCell(1)+"").trim().equals("Inversión")
+				&& !((sheet.getRow(2)).getCell(1)+"").trim().equals("Órdenes") && (sheet.getRow(2).getCell(1)+"").toLowerCase().trim().equals("null")) {
 			validacion = new Validacion();
-			validacion.setMensaje("Debe ingresar una clasificación válida(Gasto ó Inversion) para el presupuesto");
+			validacion.setMensaje("Debe ingresar una clasificación válida(Gasto, Inversion, Órdenes) para el presupuesto");
 			validacion.setFila("3");
 			validacion.setColumna("B");
 			listaValidacion.add(validacion);
@@ -880,6 +881,14 @@ public class PresupuestoBB extends SpringBeanAutowiringSupport implements Serial
 			listaValidacion.add(validacion);
 		}
 		
+		if(sheet.getPhysicalNumberOfRows() == 4){
+			validacion = new Validacion();
+			validacion.setMensaje("Debe ingresar al menos un registro al detalle del presupuesto");
+			validacion.setFila("6");
+			validacion.setColumna("--");
+			listaValidacion.add(validacion);
+		}
+		
 		Row row;
 		int idCuenta;
 		int idCentroCosto;
@@ -892,7 +901,7 @@ public class PresupuestoBB extends SpringBeanAutowiringSupport implements Serial
 
 			if (idCuenta == 0) {
 				validacion = new Validacion();
-				validacion.setMensaje("La cuenta: " + row.getCell(0) + "" + " no existe en el maestro de Cuentas");
+				validacion.setMensaje("La cuenta: " + (row.getCell(0) + "") + " no existe en el maestro de Cuentas");
 				validacion.setFila((fila + 1) + "");
 				validacion.setColumna("A");
 				listaValidacion.add(validacion);
@@ -900,7 +909,7 @@ public class PresupuestoBB extends SpringBeanAutowiringSupport implements Serial
 
 			if (idCentroCosto == 0) {
 				validacion = new Validacion();
-				validacion.setMensaje("El centro de costo: " + row.getCell(1) + "" + " no existe en el maestro de Centros de Costo");
+				validacion.setMensaje("El centro de costo: " + (row.getCell(1) + "") + " no existe en el maestro de Centros de Costo");
 				validacion.setFila((fila + 1) + "");
 				validacion.setColumna("B");
 				listaValidacion.add(validacion);
@@ -991,18 +1000,18 @@ public class PresupuestoBB extends SpringBeanAutowiringSupport implements Serial
 			presupuestoDetalleMes.setPresupuesto(presupuesto);
 			presupuestoDetalleMes.getCuenta().setId(idCuenta);
 			presupuestoDetalleMes.getCentroCosto().setId(idCentroCosto);
-			presupuestoDetalleMes.setValorM1(Double.parseDouble(row.getCell(2).toString()));
-			presupuestoDetalleMes.setValorM2(Double.parseDouble(row.getCell(3).toString()));
-			presupuestoDetalleMes.setValorM3(Double.parseDouble(row.getCell(4).toString()));
-			presupuestoDetalleMes.setValorM4(Double.parseDouble(row.getCell(5).toString()));
-			presupuestoDetalleMes.setValorM5(Double.parseDouble(row.getCell(6).toString()));
-			presupuestoDetalleMes.setValorM6(Double.parseDouble(row.getCell(7).toString()));
-			presupuestoDetalleMes.setValorM7(Double.parseDouble(row.getCell(8).toString()));
-			presupuestoDetalleMes.setValorM8(Double.parseDouble(row.getCell(9).toString()));
-			presupuestoDetalleMes.setValorM9(Double.parseDouble(row.getCell(10).toString()));
-			presupuestoDetalleMes.setValorM10(Double.parseDouble(row.getCell(11).toString()));
-			presupuestoDetalleMes.setValorM11(Double.parseDouble(row.getCell(12).toString()));
-			presupuestoDetalleMes.setValorM12(Double.parseDouble(row.getCell(13).toString()));	
+			presupuestoDetalleMes.setValorM1(Double.parseDouble(validarValor(row.getCell(2)+"")));
+			presupuestoDetalleMes.setValorM2(Double.parseDouble(validarValor(row.getCell(3)+"")));
+			presupuestoDetalleMes.setValorM3(Double.parseDouble(validarValor(row.getCell(4)+"")));
+			presupuestoDetalleMes.setValorM4(Double.parseDouble(validarValor(row.getCell(5)+"")));
+			presupuestoDetalleMes.setValorM5(Double.parseDouble(validarValor(row.getCell(6)+"")));
+			presupuestoDetalleMes.setValorM6(Double.parseDouble(validarValor(row.getCell(7)+"")));
+			presupuestoDetalleMes.setValorM7(Double.parseDouble(validarValor(row.getCell(8)+"")));
+			presupuestoDetalleMes.setValorM8(Double.parseDouble(validarValor(row.getCell(9)+"")));
+			presupuestoDetalleMes.setValorM9(Double.parseDouble(validarValor(row.getCell(10)+"")));
+			presupuestoDetalleMes.setValorM10(Double.parseDouble(validarValor(row.getCell(11)+"")));
+			presupuestoDetalleMes.setValorM11(Double.parseDouble(validarValor(row.getCell(12)+"")));
+			presupuestoDetalleMes.setValorM12(Double.parseDouble(validarValor(row.getCell(13)+"")));
 			
 			totalizarMes();
 			
@@ -1015,5 +1024,12 @@ public class PresupuestoBB extends SpringBeanAutowiringSupport implements Serial
 		presupuesto = new Presupuesto();
 		presupuestoDetalleMes = new PresupuestoDetalleMes();
 		totalMes = 0d;
+	}
+	
+	public String validarValor(String valor) {
+		if(valor.equals("null")) {
+			return "0";
+		}
+		return valor;
 	}
  }
