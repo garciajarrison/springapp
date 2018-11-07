@@ -76,6 +76,83 @@ public class PresupuestoAprobadorFinalBB extends SpringBeanAutowiringSupport imp
 		mostrarDetalle = false;
 	}
 	
+	public void actualizarMes(PresupuestoDetalleMes detPpto) {
+		try {
+			this.presupuestoDetalleMes = detPpto;    
+			totalizarMes();
+		} catch (DataAccessException e) {
+			e.printStackTrace();
+			util.mostrarError("Error actualizando el registro.");
+		} 	
+	}
+	
+	public void actualizarCamp(PresupuestoDetalleCampania detPpto) {
+		try {
+			this.presupuestoDetalleCampania = detPpto;
+			totalizarCamp();
+		} catch (DataAccessException e) {
+			e.printStackTrace();
+			util.mostrarError("Error actualizando el registro.");
+		} 	
+	}
+	
+	public void totalizarMes() {
+		try {
+			totalMes = 0d;
+			totalMes += presupuestoDetalleMes.getValorM1();
+			totalMes += presupuestoDetalleMes.getValorM2();
+			totalMes += presupuestoDetalleMes.getValorM3();
+			totalMes += presupuestoDetalleMes.getValorM4();
+			totalMes += presupuestoDetalleMes.getValorM5();
+			totalMes += presupuestoDetalleMes.getValorM6();
+			totalMes += presupuestoDetalleMes.getValorM7();
+			totalMes += presupuestoDetalleMes.getValorM8();
+			totalMes += presupuestoDetalleMes.getValorM9();
+			totalMes += presupuestoDetalleMes.getValorM10();
+			totalMes += presupuestoDetalleMes.getValorM11();
+			totalMes += presupuestoDetalleMes.getValorM12();
+			presupuestoDetalleMes.setTotal(totalMes);
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void totalizarCamp() {
+		try {
+			totalCamp = 0d;
+			totalCamp += presupuestoDetalleCampania.getValorC1();
+			totalCamp += presupuestoDetalleCampania.getValorC2();
+			totalCamp += presupuestoDetalleCampania.getValorC3();
+			totalCamp += presupuestoDetalleCampania.getValorC4();
+			totalCamp += presupuestoDetalleCampania.getValorC5();
+			totalCamp += presupuestoDetalleCampania.getValorC6();
+			totalCamp += presupuestoDetalleCampania.getValorC7();
+			totalCamp += presupuestoDetalleCampania.getValorC8();
+			totalCamp += presupuestoDetalleCampania.getValorC9();
+			totalCamp += presupuestoDetalleCampania.getValorC10();
+			totalCamp += presupuestoDetalleCampania.getValorC11();
+			totalCamp += presupuestoDetalleCampania.getValorC12();
+			totalCamp += presupuestoDetalleCampania.getValorC13();
+			totalCamp += presupuestoDetalleCampania.getValorC14();
+			totalCamp += presupuestoDetalleCampania.getValorC15();
+			totalCamp += presupuestoDetalleCampania.getValorC16();
+			totalCamp += presupuestoDetalleCampania.getValorC17();
+			totalCamp += presupuestoDetalleCampania.getValorC18();
+			totalCamp += presupuestoDetalleCampania.getValorC19();
+			totalCamp += presupuestoDetalleCampania.getValorC20();
+			totalCamp += presupuestoDetalleCampania.getValorC21();
+			totalCamp += presupuestoDetalleCampania.getValorC22();
+			totalCamp += presupuestoDetalleCampania.getValorC23();
+			totalCamp += presupuestoDetalleCampania.getValorC24();
+			totalCamp += presupuestoDetalleCampania.getValorC25();
+			presupuestoDetalleCampania.setTotal(totalCamp);
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
 	public void aprobarPresupuesto(){
 		try {
 			String tipo = this.detalle.getTipo();

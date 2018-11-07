@@ -66,6 +66,20 @@ public class Presupuesto implements java.io.Serializable {
 			"		 FROM presupuestomd.dbo.detalle_presupuesto_campania e " + 
 			"				where e.id_presupuesto = id),'PENDIENTE'))) ")
 	private String estadoDetalle;
+	
+	@Formula(value="(isnull((select sum(d1.valor_m1) + sum(d1.valor_m2) + sum(d1.valor_m3) + sum(d1.valor_m4) + sum(d1.valor_m5) " + 
+			"  + sum(d1.valor_m6) + sum(d1.valor_m7) + sum(d1.valor_m8) + sum(d1.valor_m9) + sum(d1.valor_m10) " + 
+			"   + sum(d1.valor_m11) + sum(d1.valor_m12) " + 
+			" from dbo.detalle_presupuesto_mes d1 " + 
+			" where d1.id_presupuesto = id),0) +  " + 
+			" isnull((select sum(d2.valor_c1) + sum(d2.valor_c2) + sum(d2.valor_c3) + sum(d2.valor_c4) + sum(d2.valor_c5)  " + 
+			" + sum(d2.valor_c6) + sum(d2.valor_c7) + sum(d2.valor_c8) + sum(d2.valor_c9) + sum(d2.valor_c10)  " + 
+			" + sum(d2.valor_c11) + sum(d2.valor_c12) + sum(d2.valor_c13) + sum(d2.valor_c14) + sum(d2.valor_c15)  " + 
+			" + sum(d2.valor_c16) + sum(d2.valor_c17) + sum(d2.valor_c18) + sum(d2.valor_c19) + sum(d2.valor_c20)  " + 
+			" + sum(d2.valor_c21) + sum(d2.valor_c22) + sum(d2.valor_c23) + sum(d2.valor_c24)  + sum(d2.valor_c25) " + 
+			" from dbo.detalle_presupuesto_campania d2 " + 
+			" where d2.id_presupuesto = id),0))")
+	private Double total;
 
 	public int getId() {
 		return id;
@@ -185,6 +199,14 @@ public class Presupuesto implements java.io.Serializable {
 
 	public void setEstadoDetalle(String estadoDetalle) {
 		this.estadoDetalle = estadoDetalle;
+	}
+
+	public Double getTotal() {
+		return total;
+	}
+
+	public void setTotal(Double total) {
+		this.total = total;
 	}
 	
 }
