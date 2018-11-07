@@ -75,6 +75,7 @@ public class ListasGenericas {
 		lstClasificacionPpto = new ArrayList<>();
 		lstClasificacionPpto.add(new SelectItem("Gasto", "Gasto"));
 		lstClasificacionPpto.add(new SelectItem("Inversión", "Inversión"));
+		lstClasificacionPpto.add(new SelectItem("Órdenes", "Órdenes"));
 	}
 
 	public List<SelectItem> getLstCargos() {
