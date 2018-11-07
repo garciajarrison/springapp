@@ -30,14 +30,14 @@
                                 
                                 <p:outputLabel for="selClasificacion" value="Clasificación"/>
                                 <p:selectOneMenu id="selClasificacion" value="#{presupuestoBB.presupuesto.clasificacion}"
-                                		 filter="true">
+                                		 filter="true" filterMatchMode="contains">
                                     <f:selectItem itemLabel="Seleccione" itemValue="" />
                                     <f:selectItems value="#{presupuestoBB.listasGenericas.lstClasificacionPpto}" />
                                 </p:selectOneMenu>
                                 		 
                                 <p:outputLabel for="txtTipo" value="Tipo"/>
                                 <p:selectOneMenu id="txtTipo" value="#{presupuestoBB.presupuesto.tipo}"
-                                		 filter="true">
+                                		 filter="true" filterMatchMode="contains">
                                     <f:selectItem itemLabel="Seleccione" itemValue="" />
                                     <f:selectItems value="#{presupuestoBB.listasGenericas.lstTipoPresupuesto}" />
                                 </p:selectOneMenu>
@@ -179,7 +179,7 @@
 	                                
 	                                <p:outputLabel for="selClasificacionU" value="Clasificación"/>
 	                                <p:selectOneMenu id="selClasificacionU" value="#{presupuestoBB.selectedPresupuesto.clasificacion}"
-	                                		 filter="true">
+	                                		 filter="true" filterMatchMode="contains">
 	                                    <f:selectItem itemLabel="Seleccione" itemValue="" />
 	                                    <f:selectItems value="#{presupuestoBB.listasGenericas.lstClasificacionPpto}" />
 	                                </p:selectOneMenu>	                                
@@ -221,7 +221,7 @@
                             	
                                 <p:outputLabel for="selCentroCostoMes" value="Centro costo"/>
                                 <p:selectOneMenu id="selCentroCostoMes" value="#{presupuestoBB.presupuestoDetalleMes.centroCosto.id}"
-                                		 filter="true">
+                                		 filter="true" filterMatchMode="contains">
                                     <f:selectItem itemLabel="Seleccione" itemValue="" />
                                     <f:selectItems value="#{presupuestoBB.listaCentroCostos}" var="cc" 
                                     		itemValue="#{cc.id}" itemLabel="#{cc.centroCosto}"/>
@@ -230,7 +230,7 @@
                                 
                                 <p:outputLabel for="selCuentaMes" value="Cuenta"/>
                                 <p:selectOneMenu id="selCuentaMes" value="#{presupuestoBB.presupuestoDetalleMes.cuenta.id}"
-                                		 filter="true">
+                                		 filter="true" filterMatchMode="contains">
                                     <f:selectItem itemLabel="Seleccione" itemValue="" />
                                     <f:selectItems value="#{presupuestoBB.listaCuentas}" var="c" 
                                     		itemValue="#{c.id}" itemLabel="#{c.cuenta} - #{c.nombre}"/>
@@ -358,55 +358,81 @@
                                 </p:column>
 
 								<p:column headerText="Mes 1" sortBy="#{presupuestoDetalleMes.valorM1}" >
-                                    <p:inputNumber minValue="0" emptyValue="zero" readonly="true" value="#{presupuestoDetalleMes.valorM1}" />
+									<h:outputText value="#{presupuestoDetalleMes.valorM1}">
+									    <f:convertNumber maxFractionDigits="2" maxIntegerDigits="12"/>
+									</h:outputText>
                                 </p:column>
                                 
                                 <p:column headerText="Mes 2" sortBy="#{presupuestoDetalleMes.valorM2}">
-                                    <p:inputNumber minValue="0" emptyValue="zero" readonly="true" value="#{presupuestoDetalleMes.valorM2}" />
+                                    <h:outputText value="#{presupuestoDetalleMes.valorM2}">
+									    <f:convertNumber maxFractionDigits="2" maxIntegerDigits="12"/>
+									</h:outputText>
                                 </p:column>
                                 
                                 <p:column headerText="Mes 3" sortBy="#{presupuestoDetalleMes.valorM3}" >
-                                    <p:inputNumber minValue="0" emptyValue="zero" readonly="true" value="#{presupuestoDetalleMes.valorM3}" />
+                                    <h:outputText value="#{presupuestoDetalleMes.valorM3}">
+									    <f:convertNumber maxFractionDigits="2" maxIntegerDigits="12"/>
+									</h:outputText>
                                 </p:column>
                                 
                                 <p:column headerText="Mes 4" sortBy="#{presupuestoDetalleMes.valorM4}">
-                                    <p:inputNumber minValue="0" emptyValue="zero" readonly="true" value="#{presupuestoDetalleMes.valorM4}" />
+                                    <h:outputText value="#{presupuestoDetalleMes.valorM4}">
+									    <f:convertNumber maxFractionDigits="2" maxIntegerDigits="12"/>
+									</h:outputText>
                                 </p:column>
                                 
                                 <p:column headerText="Mes 5" sortBy="#{presupuestoDetalleMes.valorM5}">
-                                    <p:inputNumber minValue="0" emptyValue="zero" readonly="true" value="#{presupuestoDetalleMes.valorM5}" />
+                                    <h:outputText value="#{presupuestoDetalleMes.valorM5}">
+									    <f:convertNumber maxFractionDigits="2" maxIntegerDigits="12"/>
+									</h:outputText>
                                 </p:column>
                                 
                                 <p:column headerText="Mes 6" sortBy="#{presupuestoDetalleMes.valorM6}">
-                                    <p:inputNumber minValue="0" emptyValue="zero" readonly="true" value="#{presupuestoDetalleMes.valorM6}" />
+                                    <h:outputText value="#{presupuestoDetalleMes.valorM6}">
+									    <f:convertNumber maxFractionDigits="2" maxIntegerDigits="12"/>
+									</h:outputText>
                                 </p:column>
                                 
                                 <p:column headerText="Mes 7" sortBy="#{presupuestoDetalleMes.valorM7}" >
-                                    <p:inputNumber minValue="0" emptyValue="zero" readonly="true" value="#{presupuestoDetalleMes.valorM7}" />
+                                    <h:outputText value="#{presupuestoDetalleMes.valorM7}">
+									    <f:convertNumber maxFractionDigits="2" maxIntegerDigits="12"/>
+									</h:outputText>
                                 </p:column>
                                 
                                 <p:column headerText="Mes 8" sortBy="#{presupuestoDetalleMes.valorM8}" >
-                                    <p:inputNumber minValue="0" emptyValue="zero" readonly="true" value="#{presupuestoDetalleMes.valorM8}" />
+                                    <h:outputText value="#{presupuestoDetalleMes.valorM8}">
+									    <f:convertNumber maxFractionDigits="2" maxIntegerDigits="12"/>
+									</h:outputText>
                                 </p:column>
                                 
                                 <p:column headerText="Mes 9" sortBy="#{presupuestoDetalleMes.valorM9}" >
-                                    <p:inputNumber minValue="0" emptyValue="zero" readonly="true" value="#{presupuestoDetalleMes.valorM9}" />
+                                    <h:outputText value="#{presupuestoDetalleMes.valorM9}">
+									    <f:convertNumber maxFractionDigits="2" maxIntegerDigits="12"/>
+									</h:outputText>
                                 </p:column>
                                 
                                 <p:column headerText="Mes 10" sortBy="#{presupuestoDetalleMes.valorM10}">
-                                    <p:inputNumber minValue="0" emptyValue="zero" readonly="true" value="#{presupuestoDetalleMes.valorM10}" />
+                                    <h:outputText value="#{presupuestoDetalleMes.valorM10}">
+									    <f:convertNumber maxFractionDigits="2" maxIntegerDigits="12"/>
+									</h:outputText>
                                 </p:column>
                                 
                                 <p:column headerText="Mes 11" sortBy="#{presupuestoDetalleMes.valorM11}" >
-                                    <p:inputNumber minValue="0" emptyValue="zero" readonly="true" value="#{presupuestoDetalleMes.valorM11}" />
+                                   <h:outputText value="#{presupuestoDetalleMes.valorM11}">
+									    <f:convertNumber maxFractionDigits="2" maxIntegerDigits="12"/>
+									</h:outputText>
                                 </p:column>
                                 
                                 <p:column headerText="Mes 12" sortBy="#{presupuestoDetalleMes.valorM12}" >
-                                    <p:inputNumber minValue="0" emptyValue="zero" readonly="true" value="#{presupuestoDetalleMes.valorM12}" />
+                                    <h:outputText value="#{presupuestoDetalleMes.valorM12}">
+									    <f:convertNumber maxFractionDigits="2" maxIntegerDigits="12"/>
+									</h:outputText>
                                 </p:column>
                                 
                                 <p:column headerText="Total" sortBy="#{presupuestoDetalleMes.total}" >
-                                    <p:inputNumber minValue="0" emptyValue="zero" readonly="true" value="#{presupuestoDetalleMes.total}" />
+                                    <h:outputText value="#{presupuestoDetalleMes.total}">
+									    <f:convertNumber maxFractionDigits="2" maxIntegerDigits="12"/>
+									</h:outputText>
                                 </p:column>
                                 
                                 <p:column headerText="Estado" sortBy="#{presupuestoDetalleMes.estado}" >
@@ -536,7 +562,7 @@
                                 
                                 <p:outputLabel for="selCentroCostoCampania" value="Centro costo"/>
                                 <p:selectOneMenu id="selCentroCostoCampania" value="#{presupuestoBB.presupuestoDetalleCampania.centroCosto.id}"
-                                		 filter="true">
+                                		 filter="true" filterMatchMode="contains">
                                     <f:selectItem itemLabel="Seleccione" itemValue="" />
                                     <f:selectItems value="#{presupuestoBB.listaCentroCostos}" var="cc" 
                                     		itemValue="#{cc.id}" itemLabel="#{cc.centroCosto}"/>
@@ -545,7 +571,7 @@
                                 
                                 <p:outputLabel for="selCuentaCampania" value="Cuenta"/>
                                 <p:selectOneMenu id="selCuentaCampania" value="#{presupuestoBB.presupuestoDetalleCampania.cuenta.id}"
-                                		 filter="true">
+                                		 filter="true" filterMatchMode="contains">
                                     <f:selectItem itemLabel="Seleccione" itemValue="" />
                                     <f:selectItems value="#{presupuestoBB.listaCuentas}" var="c" 
                                     		itemValue="#{c.id}" itemLabel="#{c.cuenta} - #{c.nombre}"/>
@@ -749,131 +775,183 @@
                                 </p:column>
 
 								<p:column headerText="Campaña 1" sortBy="#{presupuestoDetalleCampania.valorC1}">
-                                    <p:inputNumber minValue="0" emptyValue="zero" readonly="true" value="#{presupuestoDetalleCampania.valorC1}" />
+                                    <h:outputText value="#{presupuestoDetalleCampania.valorC1}">
+									    <f:convertNumber maxFractionDigits="2" maxIntegerDigits="12"/>
+									</h:outputText>
                                 </p:column>
                                 
                                 <p:column headerText="Campaña 2" sortBy="#{presupuestoDetalleCampania.valorC2}"
                                 		rendered="#{presupuestoBB.camapanaMaxima > 1}" exportable="#{presupuestoBB.camapanaMaxima > 1}">
-                                    <p:inputNumber minValue="0" emptyValue="zero" readonly="true" value="#{presupuestoDetalleCampania.valorC2}" />
+                                    <h:outputText value="#{presupuestoDetalleCampania.valorC2}">
+									    <f:convertNumber maxFractionDigits="2" maxIntegerDigits="12"/>
+									</h:outputText>
                                 </p:column>
                                 
                                 <p:column headerText="Campaña 3" sortBy="#{presupuestoDetalleCampania.valorC3}" 
                                 		rendered="#{presupuestoBB.camapanaMaxima > 2}" exportable="#{presupuestoBB.camapanaMaxima > 2}">
-                                    <p:inputNumber minValue="0" emptyValue="zero" readonly="true" value="#{presupuestoDetalleCampania.valorC3}" />
+                                    <h:outputText value="#{presupuestoDetalleCampania.valorC3}">
+									    <f:convertNumber maxFractionDigits="2" maxIntegerDigits="12"/>
+									</h:outputText>
                                 </p:column>
                                 
                                 <p:column headerText="Campaña 4" sortBy="#{presupuestoDetalleCampania.valorC4}"
                                 		rendered="#{presupuestoBB.camapanaMaxima > 3}" exportable="#{presupuestoBB.camapanaMaxima > 3}">
-                                    <p:inputNumber minValue="0" emptyValue="zero" readonly="true" value="#{presupuestoDetalleCampania.valorC4}" />
+                                    <h:outputText value="#{presupuestoDetalleCampania.valorC4}">
+									    <f:convertNumber maxFractionDigits="2" maxIntegerDigits="12"/>
+									</h:outputText>
                                 </p:column>
                                 
                                 <p:column headerText="Campaña 5" sortBy="#{presupuestoDetalleCampania.valorC5}" 
                                 		rendered="#{presupuestoBB.camapanaMaxima > 4}" exportable="#{presupuestoBB.camapanaMaxima > 4}">
-                                    <p:inputNumber minValue="0" emptyValue="zero" readonly="true" value="#{presupuestoDetalleCampania.valorC5}" />
+                                    <h:outputText value="#{presupuestoDetalleCampania.valorC5}">
+									    <f:convertNumber maxFractionDigits="2" maxIntegerDigits="12"/>
+									</h:outputText>
                                 </p:column>
                                 
                                 <p:column headerText="Campaña 6" sortBy="#{presupuestoDetalleCampania.valorC6}" 
                                 		rendered="#{presupuestoBB.camapanaMaxima > 5}" exportable="#{presupuestoBB.camapanaMaxima > 5}">
-                                    <p:inputNumber minValue="0" emptyValue="zero" readonly="true" value="#{presupuestoDetalleCampania.valorC6}" />
+                                   <h:outputText value="#{presupuestoDetalleCampania.valorC6}">
+									    <f:convertNumber maxFractionDigits="2" maxIntegerDigits="12"/>
+									</h:outputText>
                                 </p:column>
                                 
                                 <p:column headerText="Campaña 7" sortBy="#{presupuestoDetalleCampania.valorC7}" 
                                 		rendered="#{presupuestoBB.camapanaMaxima > 6}" exportable="#{presupuestoBB.camapanaMaxima > 6}">
-                                    <p:inputNumber minValue="0" emptyValue="zero" readonly="true" value="#{presupuestoDetalleCampania.valorC7}" />
+                                    <h:outputText value="#{presupuestoDetalleCampania.valorC7}">
+									    <f:convertNumber maxFractionDigits="2" maxIntegerDigits="12"/>
+									</h:outputText>
                                 </p:column>
                                 
                                 <p:column headerText="Campaña 8" sortBy="#{presupuestoDetalleCampania.valorC8}" 
                                 		rendered="#{presupuestoBB.camapanaMaxima > 7}" exportable="#{presupuestoBB.camapanaMaxima > 7}">
-                                    <p:inputNumber minValue="0" emptyValue="zero" readonly="true" value="#{presupuestoDetalleCampania.valorC8}" />
+                                    <h:outputText value="#{presupuestoDetalleCampania.valorC8}">
+									    <f:convertNumber maxFractionDigits="2" maxIntegerDigits="12"/>
+									</h:outputText>
                                 </p:column>
                                 
                                 <p:column headerText="Campaña 9" sortBy="#{presupuestoDetalleCampania.valorC9}" 
                                 		rendered="#{presupuestoBB.camapanaMaxima > 8}" exportable="#{presupuestoBB.camapanaMaxima > 8}">
-                                    <p:inputNumber minValue="0" emptyValue="zero" readonly="true" value="#{presupuestoDetalleCampania.valorC9}" />
+                                    <h:outputText value="#{presupuestoDetalleCampania.valorC9}">
+									    <f:convertNumber maxFractionDigits="2" maxIntegerDigits="12"/>
+									</h:outputText>
                                 </p:column>
                                 
                                 <p:column headerText="Campaña 10" sortBy="#{presupuestoDetalleCampania.valorC10}"
                                 		rendered="#{presupuestoBB.camapanaMaxima > 9}" exportable="#{presupuestoBB.camapanaMaxima > 9}">
-                                    <p:inputNumber minValue="0" emptyValue="zero" readonly="true" value="#{presupuestoDetalleCampania.valorC10}" />
+                                    <h:outputText value="#{presupuestoDetalleCampania.valorC10}">
+									    <f:convertNumber maxFractionDigits="2" maxIntegerDigits="12"/>
+									</h:outputText>
                                 </p:column>
                                 
                                 <p:column headerText="Campaña 11" sortBy="#{presupuestoDetalleCampania.valorC11}"
                                 		rendered="#{presupuestoBB.camapanaMaxima > 10}" exportable="#{presupuestoBB.camapanaMaxima > 10}">
-                                   <p:inputNumber minValue="0" emptyValue="zero" readonly="true" value="#{presupuestoDetalleCampania.valorC11}" />
+                                   <h:outputText value="#{presupuestoDetalleCampania.valorC11}">
+									    <f:convertNumber maxFractionDigits="2" maxIntegerDigits="12"/>
+									</h:outputText>
                                 </p:column>
                                 
                                 <p:column headerText="Campaña 12" sortBy="#{presupuestoDetalleCampania.valorC12}" 
                                 		rendered="#{presupuestoBB.camapanaMaxima > 11}" exportable="#{presupuestoBB.camapanaMaxima > 11}">
-                                    <p:inputNumber minValue="0" emptyValue="zero" readonly="true" value="#{presupuestoDetalleCampania.valorC12}" />
+                                    <h:outputText value="#{presupuestoDetalleCampania.valorC12}">
+									    <f:convertNumber maxFractionDigits="2" maxIntegerDigits="12"/>
+									</h:outputText>
                                 </p:column>
                                 
                                 <p:column headerText="Campaña 13" sortBy="#{presupuestoDetalleCampania.valorC13}" 
                                 		rendered="#{presupuestoBB.camapanaMaxima > 12}" exportable="#{presupuestoBB.camapanaMaxima > 12}">
-                                    <p:inputNumber minValue="0" emptyValue="zero" readonly="true" value="#{presupuestoDetalleCampania.valorC13}" />
+                                    <h:outputText value="#{presupuestoDetalleCampania.valorC13}">
+									    <f:convertNumber maxFractionDigits="2" maxIntegerDigits="12"/>
+									</h:outputText>
                                 </p:column>
                                 
                                 <p:column headerText="Campaña 14" sortBy="#{presupuestoDetalleCampania.valorC14}" 
                                 		rendered="#{presupuestoBB.camapanaMaxima > 13}" exportable="#{presupuestoBB.camapanaMaxima > 13}">
-                                    <p:inputNumber minValue="0" emptyValue="zero" readonly="true" value="#{presupuestoDetalleCampania.valorC14}" />
+                                    <h:outputText value="#{presupuestoDetalleCampania.valorC14}">
+									    <f:convertNumber maxFractionDigits="2" maxIntegerDigits="12"/>
+									</h:outputText>
                                 </p:column>
                                 
                                 <p:column headerText="Campaña 15" sortBy="#{presupuestoDetalleCampania.valorC15}" 
                                 		rendered="#{presupuestoBB.camapanaMaxima > 14}" exportable="#{presupuestoBB.camapanaMaxima > 14}">
-                                    <p:inputNumber minValue="0" emptyValue="zero" readonly="true" value="#{presupuestoDetalleCampania.valorC15}" />
+                                    <h:outputText value="#{presupuestoDetalleCampania.valorC15}">
+									    <f:convertNumber maxFractionDigits="2" maxIntegerDigits="12"/>
+									</h:outputText>
                                 </p:column>
                                 
                                 <p:column headerText="Campaña 16" sortBy="#{presupuestoDetalleCampania.valorC16}" 
                                 		rendered="#{presupuestoBB.camapanaMaxima > 15}" exportable="#{presupuestoBB.camapanaMaxima > 15}">
-                                    <p:inputNumber minValue="0" emptyValue="zero" readonly="true" value="#{presupuestoDetalleCampania.valorC16}" />
+                                    <h:outputText value="#{presupuestoDetalleCampania.valorC16}">
+									    <f:convertNumber maxFractionDigits="2" maxIntegerDigits="12"/>
+									</h:outputText>
                                 </p:column>
                                 
                                 <p:column headerText="Campaña 17" sortBy="#{presupuestoDetalleCampania.valorC17}" 
                                 		rendered="#{presupuestoBB.camapanaMaxima > 16}" exportable="#{presupuestoBB.camapanaMaxima > 16}">
-                                   <p:inputNumber minValue="0" emptyValue="zero" readonly="true" value="#{presupuestoDetalleCampania.valorC17}" />
+                                   <h:outputText value="#{presupuestoDetalleCampania.valorC17}">
+									    <f:convertNumber maxFractionDigits="2" maxIntegerDigits="12"/>
+									</h:outputText>
                                 </p:column>
                                 
                                 <p:column headerText="Campaña 18" sortBy="#{presupuestoDetalleCampania.valorC18}" 
                                 		rendered="#{presupuestoBB.camapanaMaxima > 17}" exportable="#{presupuestoBB.camapanaMaxima > 17}">
-                                    <p:inputNumber minValue="0" emptyValue="zero" readonly="true" value="#{presupuestoDetalleCampania.valorC18}" />
+                                    <h:outputText value="#{presupuestoDetalleCampania.valorC18}">
+									    <f:convertNumber maxFractionDigits="2" maxIntegerDigits="12"/>
+									</h:outputText>
                                 </p:column>
                                 
                                 <p:column headerText="Campaña 19" sortBy="#{presupuestoDetalleCampania.valorC19}" 
                                 		rendered="#{presupuestoBB.camapanaMaxima > 18}" exportable="#{presupuestoBB.camapanaMaxima > 18}">
-                                    <p:inputNumber minValue="0" emptyValue="zero" readonly="true" value="#{presupuestoDetalleCampania.valorC19}" />
+                                    <h:outputText value="#{presupuestoDetalleCampania.valorC19}">
+									    <f:convertNumber maxFractionDigits="2" maxIntegerDigits="12"/>
+									</h:outputText>
                                 </p:column>
                                 
                                 <p:column headerText="Campaña 20" sortBy="#{presupuestoDetalleCampania.valorC20}" 
                                 		rendered="#{presupuestoBB.camapanaMaxima > 19}" exportable="#{presupuestoBB.camapanaMaxima > 19}">
-                                    <p:inputNumber minValue="0" emptyValue="zero" readonly="true" value="#{presupuestoDetalleCampania.valorC20}" />
+                                    <h:outputText value="#{presupuestoDetalleCampania.valorC20}">
+									    <f:convertNumber maxFractionDigits="2" maxIntegerDigits="12"/>
+									</h:outputText>
                                 </p:column>
                                 
                                 <p:column headerText="Campaña 21" sortBy="#{presupuestoDetalleCampania.valorC21}"
                                 		rendered="#{presupuestoBB.camapanaMaxima > 20}" exportable="#{presupuestoBB.camapanaMaxima > 20}">
-                                    <p:inputNumber minValue="0" emptyValue="zero" readonly="true" value="#{presupuestoDetalleCampania.valorC21}" />
+                                    <h:outputText value="#{presupuestoDetalleCampania.valorC21}">
+									    <f:convertNumber maxFractionDigits="2" maxIntegerDigits="12"/>
+									</h:outputText>
                                 </p:column>
                                 
                                 <p:column headerText="Campaña 22" sortBy="#{presupuestoDetalleCampania.valorC22}" 
                                 		rendered="#{presupuestoBB.camapanaMaxima > 21}" exportable="#{presupuestoBB.camapanaMaxima > 21}">
-                                    <p:inputNumber minValue="0" emptyValue="zero" readonly="true" value="#{presupuestoDetalleCampania.valorC22}" />
+                                    <h:outputText value="#{presupuestoDetalleCampania.valorC22}">
+									    <f:convertNumber maxFractionDigits="2" maxIntegerDigits="12"/>
+									</h:outputText>
                                 </p:column>
                                 
                                 <p:column headerText="Campaña 23" sortBy="#{presupuestoDetalleCampania.valorC23}"
                                 		rendered="#{presupuestoBB.camapanaMaxima > 22}" exportable="#{presupuestoBB.camapanaMaxima > 22}">
-                                    <p:inputNumber minValue="0" emptyValue="zero" readonly="true" value="#{presupuestoDetalleCampania.valorC23}" />
+                                    <h:outputText value="#{presupuestoDetalleCampania.valorC23}">
+									    <f:convertNumber maxFractionDigits="2" maxIntegerDigits="12"/>
+									</h:outputText>
                                 </p:column>
                                 
                                 <p:column headerText="Campaña 24" sortBy="#{presupuestoDetalleCampania.valorC24}"
                                 		rendered="#{presupuestoBB.camapanaMaxima > 23}" exportable="#{presupuestoBB.camapanaMaxima > 23}">
-                                    <p:inputNumber minValue="0" emptyValue="zero" readonly="true" value="#{presupuestoDetalleCampania.valorC24}" />
+                                    <h:outputText value="#{presupuestoDetalleCampania.valorC24}">
+									    <f:convertNumber maxFractionDigits="2" maxIntegerDigits="12"/>
+									</h:outputText>
                                 </p:column>
                                 
                                 <p:column headerText="Campaña 25" sortBy="#{presupuestoDetalleCampania.valorC25}"
                                 		rendered="#{presupuestoBB.camapanaMaxima > 24}" exportable="#{presupuestoBB.camapanaMaxima > 24}">
-                                    <p:inputNumber minValue="0" emptyValue="zero" readonly="true" value="#{presupuestoDetalleCampania.valorC25}" />
+                                    <h:outputText value="#{presupuestoDetalleCampania.valorC25}">
+									    <f:convertNumber maxFractionDigits="2" maxIntegerDigits="12"/>
+									</h:outputText>
                                 </p:column>
                                 
                                 <p:column headerText="Total" sortBy="#{presupuestoDetalleCampania.total}" >
-                                    <p:inputNumber minValue="0" emptyValue="zero" readonly="true" value="#{presupuestoDetalleCampania.total}" />
+                                    <h:outputText value="#{presupuestoDetalleCampania.total}">
+									    <f:convertNumber maxFractionDigits="2" maxIntegerDigits="12"/>
+									</h:outputText>
                                 </p:column>
                                 
                                 <p:column headerText="Estado" sortBy="#{presupuestoDetalleCampania.estado}" >

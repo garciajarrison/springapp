@@ -95,7 +95,7 @@ public class CentroCostoDAO implements ICentroCostoDAO {
 	public List<CentroCosto> getCentroCostoPorUsuario(int idUsuario) {
 		Session session = getSessionFactory().getCurrentSession();
 		return (List<CentroCosto>) session.createQuery("select c from UsuarioPorCentroCosto as u, "
-					+ "CentroCosto as c where u.centroCosto.id = c.id and u.usuarioResponsable.id = :id")
+					+ "CentroCosto as c where u.centroCosto.id = c.id and u.usuarioResponsable.id = :id and c.estado = true")
 					.setParameter("id", idUsuario).list();
 	}
 	
