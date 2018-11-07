@@ -31,13 +31,13 @@
 								</p:inputText>
 								
 								<p:outputLabel for="somCargo" value="Cargo" />
-								<p:selectOneMenu id="somCargo" value="#{usuarioBB.usuario.cargo}" filter="true">
+								<p:selectOneMenu id="somCargo" value="#{usuarioBB.usuario.cargo}" filter="true" filterMatchMode="contains">
 									<f:selectItem itemLabel="Seleccione" itemValue="" />
 									<f:selectItems value="#{usuarioBB.listasGenericas.lstCargos}" />
 								</p:selectOneMenu>
 								
 								<p:outputLabel for="somRol" value="Rol" />
-								<p:selectOneMenu id="somRol" value="#{usuarioBB.usuario.rol}" filter="true">
+								<p:selectOneMenu id="somRol" value="#{usuarioBB.usuario.rol}" filter="true" filterMatchMode="contains">
 									<f:selectItem itemLabel="Seleccione" itemValue="" />
 									<f:selectItems value="#{usuarioBB.listasGenericas.lstRoles}" />
 								</p:selectOneMenu>
@@ -144,13 +144,13 @@
 									<p:inputText id="txtCorreoU" value="#{usuarioBB.selectedUsuario.correo}" maxlength="80"/>
 	
 									<p:outputLabel for="somCargoU" value="Cargo" />
-									<p:selectOneMenu id="somCargoU" value="#{usuarioBB.selectedUsuario.cargo}" filter="true">
+									<p:selectOneMenu id="somCargoU" value="#{usuarioBB.selectedUsuario.cargo}" filter="true" filterMatchMode="contains">
 										<f:selectItem itemLabel="Seleccione" itemValue="" />
 										<f:selectItems value="#{usuarioBB.listasGenericas.lstCargos}" />
 									</p:selectOneMenu>
 									
 									<p:outputLabel for="somRolU" value="Rol" />
-									<p:selectOneMenu id="somRolU" value="#{usuarioBB.selectedUsuario.rol}" filter="true">
+									<p:selectOneMenu id="somRolU" value="#{usuarioBB.selectedUsuario.rol}" filter="true" filterMatchMode="contains">
 										<f:selectItem itemLabel="Seleccione" itemValue="" />
 										<f:selectItems value="#{usuarioBB.listasGenericas.lstRoles}" />
 									</p:selectOneMenu>

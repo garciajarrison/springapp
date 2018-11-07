@@ -19,7 +19,7 @@
                             <p:panelGrid id="pgCuentasPorCentrosCosto" columns="2" columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4" layout="grid" styleClass="ui-panelgrid-blank" style="border:0px none; background-color:transparent;">
                                 
                                 <p:outputLabel for="somCuenta" value="Cuenta"/>
-                                <p:selectOneMenu id="somCuenta" filter="true"
+                                <p:selectOneMenu id="somCuenta" filter="true" filterMatchMode="contains"
                                 		value="#{centroCostoPorCuentaBB.centroCostoPorCuenta.cuenta.id}">
                                     <f:selectItem itemLabel="Seleccione" itemValue="" />
                                     <f:selectItems value="#{centroCostoPorCuentaBB.lstCuenta}" var="cl"
@@ -27,7 +27,7 @@
                                 </p:selectOneMenu>
                                 
                                 <p:outputLabel for="somCentroCosto" value="Centro de Costo"/>
-                                <p:selectOneMenu id="somCentroCosto" filter="true"
+                                <p:selectOneMenu id="somCentroCosto" filter="true" filterMatchMode="contains"
                                 		value="#{centroCostoPorCuentaBB.centroCostoPorCuenta.centroCosto.id}">
                                     <f:selectItem itemLabel="Seleccione" itemValue="" />
                                     <f:selectItems value="#{centroCostoPorCuentaBB.lstCentroCosto}" var="cl"
@@ -109,7 +109,7 @@
 								<h:panelGrid columns="2" cellspacing="2" cellpadding="2">
 									
 							   		<p:outputLabel for="somCuentaU" value="Cuenta"/>
-	                                <p:selectOneMenu id="somCuentaU" filter="true"
+	                                <p:selectOneMenu id="somCuentaU" filter="true" filterMatchMode="contains"
 	                                		value="#{centroCostoPorCuentaBB.selectedCentroCostoPorCuenta.cuenta.id}">
 	                                    <f:selectItem itemLabel="Seleccione" itemValue="" />
 	                                    <f:selectItems value="#{centroCostoPorCuentaBB.lstCuenta}" var="cl"
@@ -117,7 +117,7 @@
 	                                </p:selectOneMenu>
 	                                
 	                                <p:outputLabel for="somCentroCostoU" value="Centro de Costo"/>
-	                                <p:selectOneMenu id="somCentroCostoU" filter="true"
+	                                <p:selectOneMenu id="somCentroCostoU" filter="true" filterMatchMode="contains"
 	                                		value="#{centroCostoPorCuentaBB.selectedCentroCostoPorCuenta.centroCosto.id}">
 	                                    <f:selectItem itemLabel="Seleccione" itemValue="" />
 	                                    <f:selectItems value="#{centroCostoPorCuentaBB.lstCentroCosto}" var="cl"

@@ -9,6 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name = "usuario_x_centrocosto", schema = "presupuestomd.dbo")
@@ -21,21 +22,33 @@ public class UsuarioPorCentroCosto implements java.io.Serializable {
 	@Column(columnDefinition = "serial", name = "id", unique = true, nullable = false)
 	private int id;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "id_centrocosto", nullable = false)
 	private CentroCosto centroCosto = new CentroCosto();
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "id_usuario_resp", nullable = false)
 	private Usuario usuarioResponsable = new Usuario();
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "id_usuario_aprini", nullable = false)
 	private Usuario usuarioAprobadorInicial = new Usuario();
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "id_usuario_aprfin", nullable = false)
 	private Usuario usuarioAprobadorFinal = new Usuario();
+	
+	@Transient
+	private int idr;
+	
+	@Transient
+	private int idi;
+	
+	@Transient
+	private int idf;
+	
+	@Transient
+	private int idcc;
 
 	public int getId() {
 		return id;
@@ -75,6 +88,38 @@ public class UsuarioPorCentroCosto implements java.io.Serializable {
 
 	public void setUsuarioAprobadorFinal(Usuario usuarioAprobadorFinal) {
 		this.usuarioAprobadorFinal = usuarioAprobadorFinal;
+	}
+
+	public int getIdr() {
+		return idr;
+	}
+
+	public void setIdr(int idr) {
+		this.idr = idr;
+	}
+
+	public int getIdi() {
+		return idi;
+	}
+
+	public void setIdi(int idi) {
+		this.idi = idi;
+	}
+
+	public int getIdf() {
+		return idf;
+	}
+
+	public void setIdf(int idf) {
+		this.idf = idf;
+	}
+
+	public int getIdcc() {
+		return idcc;
+	}
+
+	public void setIdcc(int idcc) {
+		this.idcc = idcc;
 	}
 	
 }

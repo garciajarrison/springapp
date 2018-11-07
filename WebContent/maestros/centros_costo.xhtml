@@ -22,7 +22,7 @@
                                 
                                 <p:outputLabel for="somGerencia" value="Gerencia"/>
                                 <p:selectOneMenu id="somGerencia" value="#{centroCostoBB.centroCosto.gerencia.id}"
-                                		 filter="true">
+                                		 filter="true" filterMatchMode="contains">
                                     <f:selectItem itemLabel="Seleccione" itemValue="" />
                                     <f:selectItems value="#{centroCostoBB.lstGerencias}" var="ger" 
                                     		itemLabel="#{ger.nombre}" itemValue="#{ger.id}" />
@@ -30,7 +30,7 @@
                                 
                                 <p:outputLabel for="somDireccion" value="Dirección"/>
                                 <p:selectOneMenu id="somDireccion" value="#{centroCostoBB.centroCosto.direccion.id}"
-                                		 filter="true">
+                                		 filter="true" filterMatchMode="contains">
                                     <f:selectItem itemLabel="Seleccione" itemValue="" />
                                     <f:selectItems value="#{centroCostoBB.lstDireccions}" var="dr" 
                                     		itemLabel="#{dr.nombre}" itemValue="#{dr.id}" />
@@ -38,7 +38,7 @@
                                 
                                 <p:outputLabel for="somJefatura" value="Jefatura"/>
                                 <p:selectOneMenu id="somJefatura" value="#{centroCostoBB.centroCosto.jefatura.id}"
-                                		 filter="true">
+                                		 filter="true" filterMatchMode="contains">
                                     <f:selectItem itemLabel="Seleccione" itemValue="" />
                                     <f:selectItems value="#{centroCostoBB.lstJefaturas}" var="jf" 
                                     		itemLabel="#{jf.nombre}" itemValue="#{jf.id}" />
@@ -131,7 +131,7 @@
 									
 									<p:outputLabel for="somGerenciaU" value="Gerencia"/>
 	                                <p:selectOneMenu id="somGerenciaU" value="#{centroCostoBB.selectedCentroCosto.gerencia.id}"
-	                                		 filter="true">
+	                                		 filter="true" filterMatchMode="contains">
 	                                    <f:selectItem itemLabel="Seleccione" itemValue="" />
 	                                    <f:selectItems value="#{centroCostoBB.lstGerencias}" var="ger" 
 	                                    		itemLabel="#{ger.nombre}" itemValue="#{ger.id}" />
@@ -139,7 +139,7 @@
 	                                
 	                                <p:outputLabel for="somDireccionU" value="Dirección"/>
 	                                <p:selectOneMenu id="somDireccionU" value="#{centroCostoBB.selectedCentroCosto.direccion.id}"
-	                                		 filter="true">
+	                                		 filter="true" filterMatchMode="contains">
 	                                    <f:selectItem itemLabel="Seleccione" itemValue="" />
 	                                    <f:selectItems value="#{centroCostoBB.lstDireccions}" var="dr" 
 	                                    		itemLabel="#{dr.nombre}" itemValue="#{dr.id}" />
@@ -147,7 +147,7 @@
 	                                
 	                                <p:outputLabel for="somJefaturaU" value="Jefatura"/>
 	                                <p:selectOneMenu id="somJefaturaU" value="#{centroCostoBB.selectedCentroCosto.jefatura.id}"
-	                                		 filter="true">
+	                                		 filter="true" filterMatchMode="contains">
 	                                    <f:selectItem itemLabel="Seleccione" itemValue="" />
 	                                    <f:selectItems value="#{centroCostoBB.lstJefaturas}" var="jf" 
 	                                    		itemLabel="#{jf.nombre}" itemValue="#{jf.id}" />

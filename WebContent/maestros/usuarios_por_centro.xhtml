@@ -19,7 +19,7 @@
                             <p:panelGrid id="pgUsuariosPorCentrosCosto" columns="2" columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4" layout="grid" styleClass="ui-panelgrid-blank" style="border:0px none; background-color:transparent;">
                                 
                                 <p:outputLabel for="somCentroCosto" value="Centro de Costo"/>
-                                <p:selectOneMenu id="somCentroCosto" filter="true"
+                                <p:selectOneMenu id="somCentroCosto" filter="true" filterMatchMode="contains"
                                 		value="#{usuarioPorCentroCostoBB.usuarioPorCentroCosto.centroCosto.id}">
                                     <f:selectItem itemLabel="Seleccione" itemValue="" />
                                     <f:selectItems value="#{usuarioPorCentroCostoBB.lstCentroCostos}" 
@@ -27,7 +27,7 @@
                                 </p:selectOneMenu>
                                 
                                 <p:outputLabel for="somUsuarioResponsable" value="Responsable"/>
-                                <p:selectOneMenu id="somUsuarioResponsable" filter="true"
+                                <p:selectOneMenu id="somUsuarioResponsable" filter="true" filterMatchMode="contains"
                                 		value="#{usuarioPorCentroCostoBB.usuarioPorCentroCosto.usuarioResponsable.id}">
                                     <f:selectItem itemLabel="Seleccione" itemValue="" />
                                     <f:selectItems value="#{usuarioPorCentroCostoBB.lstUsuarios}" 
@@ -35,7 +35,7 @@
                                 </p:selectOneMenu>
                                 
                                 <p:outputLabel for="somAprobadorInicial" value="Aprobador Inicial"/>
-                                <p:selectOneMenu id="somAprobadorInicial" filter="true"
+                                <p:selectOneMenu id="somAprobadorInicial" filter="true" filterMatchMode="contains"
                                 		value="#{usuarioPorCentroCostoBB.usuarioPorCentroCosto.usuarioAprobadorInicial.id}">
                                     <f:selectItem itemLabel="Seleccione" itemValue="" />
                                     <f:selectItems value="#{usuarioPorCentroCostoBB.lstUsuarios}" 
@@ -43,7 +43,7 @@
                                 </p:selectOneMenu>
                                 
                                 <p:outputLabel for="somAprobadorFinal" value="Aprobador Final"/>
-                                <p:selectOneMenu id="somAprobadorFinal" filter="true"
+                                <p:selectOneMenu id="somAprobadorFinal" filter="true" filterMatchMode="contains"
                                 		value="#{usuarioPorCentroCostoBB.usuarioPorCentroCosto.usuarioAprobadorFinal.id}">
                                     <f:selectItem itemLabel="Seleccione" itemValue="" />
                                     <f:selectItems value="#{usuarioPorCentroCostoBB.lstUsuarios}" 
@@ -135,42 +135,45 @@
 								<h:panelGrid columns="2" cellspacing="2" cellpadding="2">
 									
 							   		<p:outputLabel for="somCentroCostoU" value="Centro de Costo"/>
-	                                <p:selectOneMenu id="somCentroCostoU" filter="true"
+	                                <p:selectOneMenu id="somCentroCostoU" filter="true" filterMatchMode="contains"
 	                                		value="#{usuarioPorCentroCostoBB.selectedUsuarioPorCentroCosto.centroCosto.id}">
 	                                    <f:selectItem itemLabel="Seleccione" itemValue="" />
 	                                    <f:selectItems value="#{usuarioPorCentroCostoBB.lstCentroCostos}" 
-	                                    		var="cl" itemValue="#{cl.id}" itemLabel="#{cl.centroCosto}" />
+	                                    		var="clc" itemValue="#{clc.id}" itemLabel="#{clc.centroCosto}" />
 	                                </p:selectOneMenu>
 	                                
 	                                <p:outputLabel for="somUsuarioResponsableU" value="Responsable"/>
-	                                <p:selectOneMenu id="somUsuarioResponsableU" filter="true"
-	                                		value="#{usuarioPorCentroCostoBB.selectedUsuarioPorCentroCosto.usuarioResponsable.id}">
+	                                <p:selectOneMenu id="somUsuarioResponsableU" filter="true" filterMatchMode="contains" 
+	                                		value="#{usuarioPorCentroCostoBB.idr}">
 	                                    <f:selectItem itemLabel="Seleccione" itemValue="" />
 	                                    <f:selectItems value="#{usuarioPorCentroCostoBB.lstUsuarios}" 
-	                                    		var="cl" itemValue="#{cl.id}" itemLabel="#{cl.nombre}" />
+	                                    		var="clr" itemValue="#{clr.id}" itemLabel="#{clr.nombre}" />
 	                                </p:selectOneMenu>
 	                                
 	                                <p:outputLabel for="somAprobadorInicialU" value="Aprobador Inicial"/>
-	                                <p:selectOneMenu id="somAprobadorInicialU" filter="true"
-	                                		value="#{usuarioPorCentroCostoBB.selectedUsuarioPorCentroCosto.usuarioAprobadorInicial.id}">
+	                                <p:selectOneMenu id="somAprobadorInicialU" filter="true" filterMatchMode="contains"
+	                                		value="#{usuarioPorCentroCostoBB.idi}">
 	                                    <f:selectItem itemLabel="Seleccione" itemValue="" />
 	                                    <f:selectItems value="#{usuarioPorCentroCostoBB.lstUsuarios}" 
-	                                    		var="cl" itemValue="#{cl.id}" itemLabel="#{cl.nombre}" />
+	                                    		var="cli" itemValue="#{cli.id}" itemLabel="#{cli.nombre}" />
 	                                </p:selectOneMenu>
 	                                
 	                                <p:outputLabel for="somAprobadorFinalU" value="Aprobador Final"/>
-	                                <p:selectOneMenu id="somAprobadorFinalU" filter="true"
-	                                		value="#{usuarioPorCentroCostoBB.selectedUsuarioPorCentroCosto.usuarioAprobadorFinal.id}">
+	                                <p:selectOneMenu id="somAprobadorFinalU" filter="true" filterMatchMode="contains"
+	                                		value="#{usuarioPorCentroCostoBB.idf}">
 	                                    <f:selectItem itemLabel="Seleccione" itemValue="" />
 	                                    <f:selectItems value="#{usuarioPorCentroCostoBB.lstUsuarios}" 
-	                                    		var="cl" itemValue="#{cl.id}" itemLabel="#{cl.nombre}" />
+	                                    		var="clf" itemValue="#{clf.id}" itemLabel="#{clf.nombre}" />
 	                                </p:selectOneMenu>
 							   		
 							   	</h:panelGrid>
 							   	<br />
 						   	
-						   		<p:commandButton id="btnActualizarUsuarioPorCentroCosto" actionListener="#{usuarioPorCentroCostoBB.updateUsuarioPorCentroCosto}" update=":#{p:component('dlgActualizar')} :#{p:component('tblUsuarioPorCentroCostos')}" title="Actualizar" value="Actualizar" />
-								
+						   		<p:commandButton id="btnActualizarUsuarioPorCentroCosto" process="@form"
+						   				actionListener="#{usuarioPorCentroCostoBB.updateUsuarioPorCentroCosto()}"
+						   				update=":#{p:component('dlgActualizar')} :#{p:component('tblUsuarioPorCentroCostos')}" 
+						   				title="Actualizar" value="Actualizar" />
+						   		
 					   		</div>
 						</p:dialog>		
 		

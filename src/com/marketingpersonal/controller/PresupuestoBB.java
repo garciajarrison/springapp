@@ -97,7 +97,12 @@ public class PresupuestoBB extends SpringBeanAutowiringSupport implements Serial
 		listasGenericas = ListasGenericas.getInstance();
 		usuario = (Usuario) Util.getInstance().getSessionAttribute(EnumSessionAttributes.USUARIO);
 		anioGeneral = Integer.valueOf(parametroService.getParametroByCodigo("ANIO_CALCULADORA").getValor());
-		listaCentroCostos = this.getCentroCostoService().getCentroCostoPorUsuario(usuario.getId());
+		
+		if("Administrador".equals(usuario.getRol())) {
+			listaCentroCostos = this.getCentroCostoService().getCentroCostos(true);
+		}else {
+			listaCentroCostos = this.getCentroCostoService().getCentroCostoPorUsuario(usuario.getId());
+		}
 		mostrarDetalle = false;
 		camapanaMaxima = getCalculadoraService().getCampanaMaxima(anioGeneral);
 		observacion = new Observacion();

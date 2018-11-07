@@ -58,6 +58,11 @@ public class UsuarioPorCentroCostoBB extends SpringBeanAutowiringSupport impleme
 	private Validacion validacion;
 	private List<Validacion> listaValidacion;
 	
+	private int idr;
+	private int idi;
+	private int idf;
+	private int idcc;
+	
 	public UsuarioPorCentroCostoBB() {
 		util = Util.getInstance();
 		usuarioPorCentroCosto = new UsuarioPorCentroCosto();
@@ -128,22 +133,30 @@ public class UsuarioPorCentroCostoBB extends SpringBeanAutowiringSupport impleme
 		try {
 			boolean actualizar = true;
 			
+			selectedUsuarioPorCentroCosto.setIdcc(idcc);
+			selectedUsuarioPorCentroCosto.setIdr(idr);
+			selectedUsuarioPorCentroCosto.setIdi(idi);
+			selectedUsuarioPorCentroCosto.setIdf(idf);
+			
 			if(validar(selectedUsuarioPorCentroCosto)) {
 				for(UsuarioPorCentroCosto usceco : listaUsuarioPorCentroCostos) {	
 					if (usceco.getId() != selectedUsuarioPorCentroCosto.getId()) {
-						if((usceco.getCentroCosto().getId()==usuarioPorCentroCosto.getCentroCosto().getId()) 
-								&& (usceco.getUsuarioResponsable().getId()==usuarioPorCentroCosto.getUsuarioResponsable().getId())
-								&& (usceco.getUsuarioAprobadorInicial().getId()==usuarioPorCentroCosto.getUsuarioAprobadorInicial().getId())
-								&& (usceco.getUsuarioAprobadorFinal().getId()==usuarioPorCentroCosto.getUsuarioAprobadorFinal().getId())) {
+						if((usceco.getCentroCosto().getId()==usuarioPorCentroCosto.getIdcc()) 
+								&& (usceco.getUsuarioResponsable().getId()==usuarioPorCentroCosto.getIdr())
+								&& (usceco.getUsuarioAprobadorInicial().getId()==usuarioPorCentroCosto.getIdi())
+								&& (usceco.getUsuarioAprobadorFinal().getId()==usuarioPorCentroCosto.getIdf())) {
 							actualizar = false;			
 						}	
 					}
 				}
-				
 				if(actualizar) {
 					getUsuarioService().updateUsuarioPorCentroCosto(selectedUsuarioPorCentroCosto);
 					listaUsuarioPorCentroCostos = getUsuarioService().getUsuarioPorCentroCostos();
 					selectedUsuarioPorCentroCosto = new UsuarioPorCentroCosto();
+					idcc = 0;
+					idr = 0;
+					idi = 0;
+					idf = 0;
 					util.mostrarMensaje("Registro actualizado con éxito.");
 				}else {
 					util.mostrarError("Ya existe un registro creado con los datos ingresados");
@@ -422,6 +435,10 @@ public class UsuarioPorCentroCostoBB extends SpringBeanAutowiringSupport impleme
 
 	public void setSelectedUsuarioPorCentroCosto(UsuarioPorCentroCosto selectedUsuarioPorCentroCosto) {
 		this.selectedUsuarioPorCentroCosto = selectedUsuarioPorCentroCosto;
+		this.idr = selectedUsuarioPorCentroCosto.getUsuarioResponsable().getId();
+		this.idi = selectedUsuarioPorCentroCosto.getUsuarioAprobadorInicial().getId();
+		this.idf = selectedUsuarioPorCentroCosto.getUsuarioAprobadorFinal().getId();
+		this.idcc = selectedUsuarioPorCentroCosto.getCentroCosto().getId();
 	}
 
 	public List<UsuarioPorCentroCosto> getListaUsuarioPorCentroCostos() {
@@ -506,6 +523,38 @@ public class UsuarioPorCentroCostoBB extends SpringBeanAutowiringSupport impleme
 
 	public void setListaValidacion(List<Validacion> listaValidacion) {
 		this.listaValidacion = listaValidacion;
+	}
+
+	public int getIdr() {
+		return idr;
+	}
+
+	public void setIdr(int idr) {
+		this.idr = idr;
+	}
+
+	public int getIdi() {
+		return idi;
+	}
+
+	public void setIdi(int idi) {
+		this.idi = idi;
+	}
+
+	public int getIdf() {
+		return idf;
+	}
+
+	public void setIdf(int idf) {
+		this.idf = idf;
+	}
+
+	public int getIdcc() {
+		return idcc;
+	}
+
+	public void setIdcc(int idcc) {
+		this.idcc = idcc;
 	}
         
  }

@@ -24,15 +24,15 @@ public class CentroCosto implements java.io.Serializable {
 	@Column(name = "centrocosto")
 	private String centroCosto;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "id_gerencia", nullable = false)
 	private Gerencia gerencia = new Gerencia();
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "id_direccion", nullable = false)
 	private Direccion direccion = new Direccion();
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "id_jefatura", nullable = false)
 	private Jefatura jefatura = new Jefatura();
 	
