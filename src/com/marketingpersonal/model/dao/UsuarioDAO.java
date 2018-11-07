@@ -80,14 +80,28 @@ public class UsuarioDAO implements IUsuarioDAO {
 	public void deleteUsuarioPorCentroCosto(UsuarioPorCentroCosto entity) {
 		Session session = getSessionFactory().getCurrentSession();
 		//session.delete(entity);
-		session.createSQLQuery("delete from presupuestomd.usuario_x_centrocosto where id = :id")
+		session.createSQLQuery("delete from presupuestomd.dbo.usuario_x_centrocosto where id = :id")
 			.setParameter("id", entity.getId()).executeUpdate();
 		session.flush();
 	}
 
 	public void updateUsuarioPorCentroCosto(UsuarioPorCentroCosto entity) {
+		StringBuilder query = new StringBuilder("update presupuestomd.dbo.usuario_x_centrocosto set ")
+				.append(" id_centrocosto = :id_centrocosto, ")
+				.append(" id_usuario_resp = :id_usuario_resp, ")
+				.append(" id_usuario_aprini = :id_usuario_aprini, ")
+				.append(" id_usuario_aprfin = :id_usuario_aprfin ")
+				.append(" where id = :id ");
+		
 		Session session = getSessionFactory().getCurrentSession();
-		session.update(entity);
+		session.createSQLQuery(query.toString())
+			.setParameter("id_centrocosto", entity.getIdcc())
+			.setParameter("id_usuario_resp", entity.getIdr())
+			.setParameter("id_usuario_aprini", entity.getIdi())
+			.setParameter("id_usuario_aprfin", entity.getIdf())
+			.setParameter("id", entity.getId())
+			.executeUpdate();
+		session.flush();
 	}
 
 	public UsuarioPorCentroCosto getUsuarioPorCentroCostoById(int id) {

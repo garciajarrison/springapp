@@ -139,38 +139,41 @@
 	                                		value="#{usuarioPorCentroCostoBB.selectedUsuarioPorCentroCosto.centroCosto.id}">
 	                                    <f:selectItem itemLabel="Seleccione" itemValue="" />
 	                                    <f:selectItems value="#{usuarioPorCentroCostoBB.lstCentroCostos}" 
-	                                    		var="cl" itemValue="#{cl.id}" itemLabel="#{cl.centroCosto}" />
+	                                    		var="clc" itemValue="#{clc.id}" itemLabel="#{clc.centroCosto}" />
 	                                </p:selectOneMenu>
 	                                
 	                                <p:outputLabel for="somUsuarioResponsableU" value="Responsable"/>
-	                                <p:selectOneMenu id="somUsuarioResponsableU" filter="true"
-	                                		value="#{usuarioPorCentroCostoBB.selectedUsuarioPorCentroCosto.usuarioResponsable.id}">
+	                                <p:selectOneMenu id="somUsuarioResponsableU" filter="true" 
+	                                		value="#{usuarioPorCentroCostoBB.idr}">
 	                                    <f:selectItem itemLabel="Seleccione" itemValue="" />
 	                                    <f:selectItems value="#{usuarioPorCentroCostoBB.lstUsuarios}" 
-	                                    		var="cl" itemValue="#{cl.id}" itemLabel="#{cl.nombre}" />
+	                                    		var="clr" itemValue="#{clr.id}" itemLabel="#{clr.nombre}" />
 	                                </p:selectOneMenu>
 	                                
 	                                <p:outputLabel for="somAprobadorInicialU" value="Aprobador Inicial"/>
 	                                <p:selectOneMenu id="somAprobadorInicialU" filter="true"
-	                                		value="#{usuarioPorCentroCostoBB.selectedUsuarioPorCentroCosto.usuarioAprobadorInicial.id}">
+	                                		value="#{usuarioPorCentroCostoBB.idi}">
 	                                    <f:selectItem itemLabel="Seleccione" itemValue="" />
 	                                    <f:selectItems value="#{usuarioPorCentroCostoBB.lstUsuarios}" 
-	                                    		var="cl" itemValue="#{cl.id}" itemLabel="#{cl.nombre}" />
+	                                    		var="cli" itemValue="#{cli.id}" itemLabel="#{cli.nombre}" />
 	                                </p:selectOneMenu>
 	                                
 	                                <p:outputLabel for="somAprobadorFinalU" value="Aprobador Final"/>
 	                                <p:selectOneMenu id="somAprobadorFinalU" filter="true"
-	                                		value="#{usuarioPorCentroCostoBB.selectedUsuarioPorCentroCosto.usuarioAprobadorFinal.id}">
+	                                		value="#{usuarioPorCentroCostoBB.idf}">
 	                                    <f:selectItem itemLabel="Seleccione" itemValue="" />
 	                                    <f:selectItems value="#{usuarioPorCentroCostoBB.lstUsuarios}" 
-	                                    		var="cl" itemValue="#{cl.id}" itemLabel="#{cl.nombre}" />
+	                                    		var="clf" itemValue="#{clf.id}" itemLabel="#{clf.nombre}" />
 	                                </p:selectOneMenu>
 							   		
 							   	</h:panelGrid>
 							   	<br />
 						   	
-						   		<p:commandButton id="btnActualizarUsuarioPorCentroCosto" actionListener="#{usuarioPorCentroCostoBB.updateUsuarioPorCentroCosto}" update=":#{p:component('dlgActualizar')} :#{p:component('tblUsuarioPorCentroCostos')}" title="Actualizar" value="Actualizar" />
-								
+						   		<p:commandButton id="btnActualizarUsuarioPorCentroCosto" process="@form"
+						   				actionListener="#{usuarioPorCentroCostoBB.updateUsuarioPorCentroCosto()}"
+						   				update=":#{p:component('dlgActualizar')} :#{p:component('tblUsuarioPorCentroCostos')}" 
+						   				title="Actualizar" value="Actualizar" />
+						   		
 					   		</div>
 						</p:dialog>		
 		
