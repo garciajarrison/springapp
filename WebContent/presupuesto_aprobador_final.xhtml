@@ -152,10 +152,6 @@
                             		columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4" layout="grid" 
                             		styleClass="ui-panelgrid-blank" style="border:0px none; background-color:transparent;">
                             	
-                                <p:outputLabel for="inMesObservacion" value="Observación"/>
-                                <p:inputTextarea id="inMesObservacion" value="#{preAprFinBB.presupuestoDetalleMes.observacion}"
-                                		maxlength="200"/>
-                                
                                 <p:outputLabel for="inMes1" value="Mes 1"/>
                                 <p:inputNumber id="inMes1" value="#{preAprFinBB.presupuestoDetalleMes.valorM1}" 
                                 			minValue="0" emptyValue="zero" readonly="true">
@@ -440,10 +436,6 @@
                             		rendered="#{preAprFinBB.detalle.tipo eq 'Campañal'}"
                             		columnClasses="ui-grid-col-2,ui-grid-col-4,ui-grid-col-2,ui-grid-col-4" layout="grid" 
                             		styleClass="ui-panelgrid-blank" style="border:0px none; background-color:transparent;">
-                                
-                                <p:outputLabel for="inCampaniaObservacion" value="Observación"/>
-                                <p:inputTextarea id="inCampaniaObservacion" value="#{preAprFinBB.presupuestoDetalleCampania.observacion}"
-                                		maxlength="200"/>
                                 
                                 <p:outputLabel for="inCampania1" value="Campaña 1"/>
                                 <p:inputNumber id="inCampania1" minValue="0" readonly="true"
@@ -730,14 +722,14 @@
 									</h:outputText>
                                 </p:column>
                                 
-                                <p:column headerText="Campaña 15" sortBy="#{presupuestoDetalleCampania.valorC15}" 
+                                <p:column headerText="Campaña 15" sortBy="#{presupuestoDetalleCampania.valorC15}"  visible="false"
                                 		rendered="#{preAprIniBB.camapanaMaxima > 14}" exportable="#{preAprIniBB.camapanaMaxima > 14}">
                                     <h:outputText value="#{presupuestoDetalleCampania.valorC15}">
 									    <f:convertNumber maxFractionDigits="2" maxIntegerDigits="12"/>
 									</h:outputText>
                                 </p:column>
                                 
-                                <p:column headerText="Campaña 16" sortBy="#{presupuestoDetalleCampania.valorC16}" 
+                                <p:column headerText="Campaña 16" sortBy="#{presupuestoDetalleCampania.valorC16}"  visible="false"
                                 		rendered="#{preAprIniBB.camapanaMaxima > 15}" exportable="#{preAprIniBB.camapanaMaxima > 15}">
                                     <h:outputText value="#{presupuestoDetalleCampania.valorC16}">
 									    <f:convertNumber maxFractionDigits="2" maxIntegerDigits="12"/>

@@ -65,7 +65,7 @@ public class ReporteBB extends SpringBeanAutowiringSupport implements Serializab
 		cargarListasPorAnio(null);
 	}
 	
-	private void cargarListasPorAnio(final AjaxBehaviorEvent event) {
+	public void cargarListasPorAnio(final AjaxBehaviorEvent event) {
 		try {
 			cargarListaCalculadora();
 			camapanaMaxima = getCalculadoraService().getCampanaMaxima(anioConsulta);
@@ -227,8 +227,8 @@ public class ReporteBB extends SpringBeanAutowiringSupport implements Serializab
 							detalleTmp.setValorM10(total10);
 							detalleTmp.setValorM11(total11);
 							detalleTmp.setValorM12(total12);
+							listaReporteMeses.add(detalleTmp);
 						}
-						listaReporteMeses.add(detalleTmp);
 					}
 				}
 				
@@ -350,8 +350,8 @@ public class ReporteBB extends SpringBeanAutowiringSupport implements Serializab
 								
 								i++;
 							}
+							listaReporteCampanas.add(detalleTmp);
 						}
-						listaReporteCampanas.add(detalleTmp);
 					}
 				}
 			}
