@@ -69,7 +69,12 @@ public class ReporteBB extends SpringBeanAutowiringSupport implements Serializab
 		try {
 			cargarListaCalculadora();
 			camapanaMaxima = getCalculadoraService().getCampanaMaxima(anioConsulta);
-			listaPresupuestos = getPresupuestoService().getPresupuestosPorAnio(anioConsulta);
+			
+			if("Administrador".equals(usuario.getRol())) {
+				listaPresupuestos = getPresupuestoService().getPresupuestosPorAnio(anioConsulta);
+			}else {
+				listaPresupuestos = getPresupuestoService().getPresupuestosPorAnioPorUsuario(anioConsulta, usuario.getId());
+			}
 			
 			listaReporte = new ArrayList<Presupuesto>();
 			listaReporteMeses = new ArrayList<PresupuestoDetalleMes>();

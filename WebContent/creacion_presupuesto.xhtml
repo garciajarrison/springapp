@@ -301,7 +301,7 @@
                             <br/><br/>
                             <p:commandButton id="btnAgregarMes" value="Agregar" 
                             		actionListener="#{presupuestoBB.addPresupuestoMes}" 
-                            		rendered="#{presupuestoBB.presupuestoDetalleMes.estado eq 'PENDIENTE' or presupuestoBB.presupuestoDetalleMes.estado eq 'RECHAZADO'}"
+                            		rendered="#{presupuestoBB.presupuestoDetalleMes.estado eq 'PENDIENTE' or presupuestoBB.presupuestoDetalleMes.estado eq 'RECHAZADO' or empty presupuestoBB.presupuestoDetalleMes.estado}"
                                 	update="@form" icon="ui-icon-check fa fa-check Fs14 White" style="max-width:150px;"/>
                                 	
                             <br/><br/>     		
@@ -718,7 +718,7 @@
                             
                             <p:commandButton id="btnAgregarCampania" value="Agregar" 
                             		actionListener="#{presupuestoBB.addPresupuestoCampania}" 
-                            		rendered="#{presupuestoBB.presupuestoDetalleCampania.estado eq 'PENDIENTE' or presupuestoBB.presupuestoDetalleCampania.estado eq 'RECHAZADO'}"
+                            		rendered="#{presupuestoBB.presupuestoDetalleCampania.estado eq 'PENDIENTE' or presupuestoBB.presupuestoDetalleCampania.estado eq 'RECHAZADO' or empty presupuestoBB.presupuestoDetalleCampania.estado}"
                                 	update="@form" icon="ui-icon-check fa fa-check Fs14 White" style="max-width:150px;"/>
                             <br/><br/>
                             

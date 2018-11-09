@@ -154,6 +154,10 @@ public class PresupuestoService implements IPresupuestoService {
 	public List<Presupuesto> getPresupuestosPorAnio(Integer anioConsulta) {
 		return getEntityDAO().getPresupuestosPorAnio(anioConsulta);
 	}
+
+	public List<Presupuesto> getPresupuestosPorAnioPorUsuario(Integer anioConsulta, int idUsuario) {
+		return getEntityDAO().getPresupuestosPorAnioPorUsuario(anioConsulta, idUsuario);
+	}
 	
 
 }

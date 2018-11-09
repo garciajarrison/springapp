@@ -45,6 +45,15 @@ public class PresupuestoDAO implements IPresupuestoDAO {
 				.createQuery("from Presupuesto where anio = :anioConsulta").setParameter("anioConsulta", anioConsulta)
 				.list();
 	}
+	
+	public List<Presupuesto> getPresupuestosPorAnioPorUsuario(Integer anioConsulta, int idUsuario) {
+		Session session = getSessionFactory().getCurrentSession();
+		return (List<Presupuesto>) session
+				.createQuery("from Presupuesto where anio = :anioConsulta and usuario.id = :idUsuario")
+				.setParameter("anioConsulta", anioConsulta)
+				.setParameter("idUsuario", idUsuario)
+				.list();
+	}
 
 	public void deletePresupuesto(Presupuesto entity) {
 		Session session = getSessionFactory().getCurrentSession();

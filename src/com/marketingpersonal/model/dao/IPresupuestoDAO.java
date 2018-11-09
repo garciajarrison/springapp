@@ -68,5 +68,7 @@ public interface IPresupuestoDAO {
 	List<Presupuesto> getPresupuestosPorUsuario(int idUsuario);
 
 	List<Presupuesto> getPresupuestosPorAnio(Integer anioConsulta);
+
+	List<Presupuesto> getPresupuestosPorAnioPorUsuario(Integer anioConsulta, int idUsuario);
 	
 }
