@@ -210,8 +210,6 @@ public class UsuarioBB extends SpringBeanAutowiringSupport implements Serializab
 				FacesContext.getCurrentInstance().addMessage(null, msg);
 			}
 			
-			workbook.close();
-			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -276,9 +274,9 @@ public class UsuarioBB extends SpringBeanAutowiringSupport implements Serializab
 			listaValidacion.add(validacion);
 		}
 		
-		if (!(sheet.getRow(0).getCell(0)+"").trim().equals("Numero Documento")) {
+		if (!(sheet.getRow(0).getCell(0)+"").trim().equals("Número Documento")) {
 			validacion = new Validacion();
-			validacion.setMensaje("El encabezado de la primer columna debe ser Numero Documento");
+			validacion.setMensaje("El encabezado de la primer columna debe ser Número Documento");
 			validacion.setFila("1");
 			validacion.setColumna("A");
 			listaValidacion.add(validacion);
