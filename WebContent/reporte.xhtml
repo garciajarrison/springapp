@@ -94,6 +94,11 @@
 										 filterMatchMode="contains" filterBy="#{presupuesto.centroCosto.centroCosto}">
 									<h:outputText value="#{presupuesto.centroCosto.centroCosto}" />
 								</p:column>
+								
+								<p:column headerText="Código cuenta" sortBy="#{presupuesto.cuenta.cuenta}" 
+										 filterMatchMode="contains" filterBy="#{presupuesto.cuenta.cuenta}">
+									<h:outputText value="#{presupuesto.cuenta.cuenta}" />
+								</p:column>
                                 
                                 <p:column headerText="Cuenta" sortBy="#{presupuesto.cuenta.nombre}" 
 										 filterMatchMode="contains" filterBy="#{presupuesto.cuenta.nombre}">
@@ -145,7 +150,7 @@
                                 </p:column>
                                 
                                 <p:column headerText="Mes 2" sortBy="#{presupuesto.valorM2}">
-                                    <h:outputText value="#{presupuesto.valorM1}">
+                                    <h:outputText value="#{presupuesto.valorM2}">
 									    <f:convertNumber maxFractionDigits="2" maxIntegerDigits="12"/>
 									</h:outputText>
                                 </p:column>
@@ -275,6 +280,11 @@
                                 <p:column headerText="Centro de Costo" sortBy="#{presupuesto.centroCosto.centroCosto}" 
 										 filterMatchMode="contains" filterBy="#{presupuesto.centroCosto.centroCosto}">
 									<h:outputText value="#{presupuesto.centroCosto.centroCosto}" />
+								</p:column>
+								
+								<p:column headerText="Código cuenta" sortBy="#{presupuesto.cuenta.cuenta}" 
+										 filterMatchMode="contains" filterBy="#{presupuesto.cuenta.cuenta}">
+									<h:outputText value="#{presupuesto.cuenta.cuenta}" />
 								</p:column>
                                 
                                 <p:column headerText="Cuenta" sortBy="#{presupuesto.cuenta.nombre}" 

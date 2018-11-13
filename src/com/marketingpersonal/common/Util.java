@@ -32,6 +32,9 @@ public class Util {
     private Util(){}
 
 	public static Util getInstance() {
+		try {
+			java.util.Locale.setDefault(new java.util.Locale("es","ES"));
+		}catch(Exception e){}
 		if(instance == null)
 			instance = new Util();
 		return instance;

@@ -110,6 +110,7 @@ public class PresupuestoBB extends SpringBeanAutowiringSupport implements Serial
 		
 		listaCuentasPlanoNomina = this.getCuentaService().getCuentas(true);
 		listaCentroCostosPlanoNomina = this.getCentroCostoService().getCentroCostos(true);
+		
 	}
 	
 	private void cargarListaPresupuesto() {

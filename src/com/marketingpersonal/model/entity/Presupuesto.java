@@ -1,8 +1,10 @@
 package com.marketingpersonal.model.entity;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -208,5 +210,4 @@ public class Presupuesto implements java.io.Serializable {
 	public void setTotal(Double total) {
 		this.total = total;
 	}
-	
 }

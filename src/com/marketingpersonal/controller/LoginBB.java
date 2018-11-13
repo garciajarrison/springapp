@@ -29,6 +29,7 @@ public class LoginBB extends SpringBeanAutowiringSupport implements Serializable
 	private Usuario usuario = new Usuario();
 	
 	public LoginBB() {
+		java.util.Locale.setDefault(new java.util.Locale("es","ES"));
 		resetCampos();
 		cerrarSession();
 		util = Util.getInstance();
@@ -59,7 +60,7 @@ public class LoginBB extends SpringBeanAutowiringSupport implements Serializable
 		ldap = new LoginLDAP();
 
 		try {
-			if(validar()/* && ldap.login(usuario.getUsuario(), usuario.getContrasena())*/) {	
+			if(validar() && ldap.login(usuario.getUsuario(), usuario.getContrasena())) {	
 				
 				usuario = this.getUsuarioService().login(usuario);
 				if(usuario != null) {

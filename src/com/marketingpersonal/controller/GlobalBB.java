@@ -44,6 +44,7 @@ public class GlobalBB extends SpringBeanAutowiringSupport implements Serializabl
 		
 	
 	public GlobalBB() {
+		locale = new java.util.Locale("es","ES");
 		util = Util.getInstance();
 		usuario = (Usuario) Util.getInstance().getSessionAttribute(EnumSessionAttributes.USUARIO);
 		if(usuario != null) {
