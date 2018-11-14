@@ -56,7 +56,7 @@
 			
 			<p style="font-family:Tahoma; color: rgba(0,0,0,.4);  margin: 10px 0; font-weight: 100;  font-size: 12px">
 				Para obtener mas detalle ingrese al aplicativo haciendo clic en el siguiente enlace:
-				<a href="localhost:8080/presupuesto_marketing_personal">localhost:8080/presupuesto_marketing_personal</a>
+				<a href="http://presupuesto.marketingpersonal.com:60247/presupuestoMP">INGRESAR</a>
 			</p>
 			
 			<br>

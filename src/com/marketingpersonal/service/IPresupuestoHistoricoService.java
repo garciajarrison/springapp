@@ -2,7 +2,8 @@ package com.marketingpersonal.service;
 
 import java.util.List;
 
-import com.marketingpersonal.model.entity.Presupuesto;
+import javax.faces.model.SelectItem;
+
 import com.marketingpersonal.model.entity.PresupuestoHistorico;
 
 
@@ -22,4 +23,5 @@ public interface IPresupuestoHistoricoService {
 	
 	List<PresupuestoHistorico> getPresupuestosHistoricosPorUsuario(Integer idUsuario);
 	
+	List<SelectItem> getListaAnios();
 }

@@ -10,6 +10,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.model.SelectItem;
 
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
@@ -29,7 +30,6 @@ import com.marketingpersonal.common.EnumSessionAttributes;
 import com.marketingpersonal.common.Util;
 import com.marketingpersonal.model.entity.CentroCosto;
 import com.marketingpersonal.model.entity.Cuenta;
-import com.marketingpersonal.model.entity.Presupuesto;
 import com.marketingpersonal.model.entity.PresupuestoHistorico;
 import com.marketingpersonal.model.entity.Usuario;
 import com.marketingpersonal.model.entity.Validacion;
@@ -58,7 +58,9 @@ public class PresupuestoHistoricoBB extends SpringBeanAutowiringSupport implemen
 	private Usuario usuario;
 	private List<Cuenta> listaCuentas;
 	private List<CentroCosto> listaCentroCostos;
-	private Integer anioGeneral;
+	private Integer anioConsulta;
+	
+	private List<SelectItem> listaAnios;
 
 	// Carga Archivo Plano Historico
 	private UploadedFile file;
@@ -73,13 +75,18 @@ public class PresupuestoHistoricoBB extends SpringBeanAutowiringSupport implemen
 		usuario = (Usuario) Util.getInstance().getSessionAttribute(EnumSessionAttributes.USUARIO);
 		listaCuentas = this.getCuentaService().getCuentas(true);
 		listaCentroCostos = this.getCentroCostoService().getCentroCostos(true);
-		listaPresupuestoHistorico = getPresupuestoHistoricoService().getPresupuestosHistoricosPorUsuario(usuario.getId());
+		listaAnios = getPresupuestoHistoricoService().getListaAnios();
+		if("Administrador".equals(usuario.getRol())) {
+			listaPresupuestoHistorico = getPresupuestoHistoricoService().getPresupuestosHistoricos();
+		}else {
+			listaPresupuestoHistorico = getPresupuestoHistoricoService().getPresupuestosHistoricosPorUsuario(usuario.getId());
+		}
 	}
 
 	/***
 	 * Elimiaciones de presupuesto y detalle
 	 */
-
+	
 	public void deletePresupuesto() {
 		try {
 			getPresupuestoHistoricoService().deletePresupuestoHistorico(selectedPresupuestoHistorico);
@@ -156,14 +163,6 @@ public class PresupuestoHistoricoBB extends SpringBeanAutowiringSupport implemen
 		this.listaCentroCostos = listaCentroCostos;
 	}
 
-	public Integer getAnioGeneral() {
-		return anioGeneral;
-	}
-
-	public void setAnioGeneral(Integer anioGeneral) {
-		this.anioGeneral = anioGeneral;
-	}
-
 	public PresupuestoHistorico getSelectedPresupuestoHistorico() {
 		return selectedPresupuestoHistorico;
 	}
@@ -174,10 +173,10 @@ public class PresupuestoHistoricoBB extends SpringBeanAutowiringSupport implemen
 
 	public StreamedContent getFileDescargar() {
 		InputStream stream = FacesContext.getCurrentInstance().getExternalContext()
-				.getResourceAsStream("/resources/files/Archivo Plano Presupuesto Histórico.xlsx");
+				.getResourceAsStream("/resources/files/Archivo Plano Histórico Gastos.xlsx");
 		fileDescargar = new DefaultStreamedContent(stream,
 				"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-				"Archivo Plano Presupuesto Histórico.xlsx");
+				"Archivo Plano Histórico Gastos.xlsx");
 		return fileDescargar;
 	}
 
@@ -192,11 +191,11 @@ public class PresupuestoHistoricoBB extends SpringBeanAutowiringSupport implemen
 			if (validarArchivoPlano(workbook)) {
 				insertarPlanoPresupuestoHistorico(sheet);
 
-				FacesMessage msg = new FacesMessage("Carga Archivo Plano Presupuesto Histórico",
+				FacesMessage msg = new FacesMessage("Carga Archivo Plano Histórico de Gastos",
 						event.getFile().getFileName() + " fue cargado correctamente");
 				FacesContext.getCurrentInstance().addMessage(null, msg);
 				
-				util.mostrarMensaje("Carga Archivo Plano Presupuesto Histórico " + 
+				util.mostrarMensaje("Carga Archivo Plano Histórico de Gastos" + 
 						event.getFile().getFileName() + " fue cargado correctamente");
 			}
 
@@ -508,6 +507,32 @@ public class PresupuestoHistoricoBB extends SpringBeanAutowiringSupport implemen
 		this.listaPresupuestoHistorico = listaPresupuestoHistorico;
 	}
 	
+	public void eliminar () {
+		
+	}
 	
+	public Integer getAnioConsulta() {
+		return anioConsulta;
+	}
+
+	public void setAnioConsulta(Integer anioConsulta) {
+		this.anioConsulta = anioConsulta;
+	}
+
+	public List<SelectItem> getListaAnios() {
+		return listaAnios;
+	}
+
+	public void setListaAnios(List<SelectItem> listaAnios) {
+		this.listaAnios = listaAnios;
+	}
 	
+	public void consultarPresupuestoPorAnio() {
+		listaPresupuestoHistorico = this.getPresupuestoHistoricoService().getPresupuestosHistoricosPorAnio(anioConsulta);
+	}
+	
+	public void eliminarPresupuestoPorAnio() {
+		this.getPresupuestoHistoricoService().deletePresupuestoHistoricoPorAnio(anioConsulta);
+		listaPresupuestoHistorico = getPresupuestoHistoricoService().getPresupuestosHistoricos();
+	}
 }

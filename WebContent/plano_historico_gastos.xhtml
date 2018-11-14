@@ -1,20 +1,80 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
-                xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:p="http://primefaces.org/ui"
                 template="/WEB-INF/template.xhtml">
 
-    <ui:define name="title">Histórico de Presupuestos</ui:define>
+    <ui:define name="title">Cargar Archivo Plano Histórico de Gastos</ui:define>
 
     <ui:define name="content">
-	<h:form>
-			<p:growl id="growl" sticky="true" autoUpdate="true" />
-            <div class="ui-fluid">
-                <div class="ui-g">
-                    <div class="ui-g-12">
-                        <div class="card">
-                            <h1>Histórico de Presupuestos</h1>
+    <h:form>
+        <div class="container">
+            <div class="ui-g">
+                <div class="ui-g-12">
+                    <div class="card">
+		                	<h1>Carga Archivo Plano Histórico de Gastos</h1>
+		                    
+		                    <p:commandButton value="Descargar Archivo de Ejemplo" ajax="false"	onclick="PrimeFaces.monitorDownload(start, stop);"	icon="ui-icon-arrowthick-1-s" style="max-width:250px;">
+								<p:fileDownload value="#{presupuestoHistoricoBB.fileDescargar}" />
+							</p:commandButton>
+							
+							<br />
+							<br />	
+							
+		                    <p:fileUpload fileUploadListener="#{presupuestoHistoricoBB.uploadPlanoHistorico}" 
+		                    			update=":#{p:component('tblValidacionPlanoHistorico')}" mode="advanced" dragDropSupport="false" 
+		                    			multiple="false" sizeLimit="100000" allowTypes="/(\.|\/)(xlsx)$/" style="width:100%"
+		                    			cancelLabel="Cancelar" uploadLabel="Guardar" label="Seleccionar"   />
+		                 
+		                 	<p:dataTable id="tblValidacionPlanoHistorico" var="validacion" value="#{presupuestoHistoricoBB.listaValidacion}" 
+                            		reflow="true" emptyMessage="No se encontraron registros."
+									scrollable="false" paginatorPosition="bottom"
+									rows="10" rowsPerPageTemplate="5,10,20,50"
+									currentPageReportTemplate="Páginas {totalPages} - Registros {totalRecords}"
+									paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown} {Exporters}" 
+									paginator="true">
+									
+                                <f:facet name="header">
+                                    Validaciones Archivo Plano
+                                </f:facet>
+                                
+                                <p:column headerText="Mensaje">
+                                    <h:outputText value="#{validacion.mensaje}" />
+                                </p:column>
+
+                                <p:column headerText="Fila">
+                                    <h:outputText value="#{validacion.fila}" />
+                                </p:column>
+                                
+                                <p:column headerText="Columna">
+                                    <h:outputText value="#{validacion.columna}" />
+                                </p:column>
+                               
+                            </p:dataTable>
+		                 	
+		                 </div>  
+		                
+		                 <div class="card">
+                            <h1>Listado Histórico de Gastos</h1>
+                            
+                             Año:
+                            <p:selectOneMenu value="#{presupuestoHistoricoBB.anioConsulta}">
+                            	<f:selectItems value="#{presupuestoHistoricoBB.listaAnios}"/>
+                            </p:selectOneMenu>
+                            
+                            <br/><br/>
+                            <p:commandButton id="btnConsultar" value="Consultar" 
+	                               	actionListener="#{presupuestoHistoricoBB.consultarPresupuestoPorAnio}" 
+	                               	update="@form" icon="ui-icon-check fa fa-check Fs14 White" 
+	                               	style="max-width:150px;"/>
+                               	
+                            <p:commandButton value="Eliminar"
+								      update=":#{p:component('dlgEliminar')}" 
+								      oncomplete="PF('dlgEliminar').show();"
+								      icon="ui-icon-close" style="max-width:150px;" />  
+							
+							<br/><br/>
                             <p:dataTable id="tblPresupuestoHistorico" var="presupuestoHistorico" value="#{presupuestoHistoricoBB.listaPresupuestoHistorico}" 
                             		reflow="true" emptyMessage="No se encontraron registros."
 									scrollable="false" paginatorPosition="bottom"
@@ -46,7 +106,7 @@
 						        </f:facet>
 									
                                 <f:facet name="header">
-                                    Presupuestos
+                                    Histórico de Gastos
                                 </f:facet>
 
 								<p:column headerText="Año" sortBy="#{presupuestoHistorico.anio}" 
@@ -54,14 +114,19 @@
                                     <h:outputText value="#{presupuestoHistorico.anio}" />
                                 </p:column>
                                 
-                                <p:column headerText="Centro de Costo" sortBy="#{presupuestoHistorico.centroCosto.centroCosto}" 
-										 filterMatchMode="contains" filterBy="#{presupuestoHistorico.centroCosto.centroCosto}">
-									<h:outputText value="#{presupuestoHistorico.centroCosto.centroCosto}" />
+                                <p:column headerText="Código Cuenta" sortBy="#{presupuestoHistorico.cuenta.cuenta}" 
+										 filterMatchMode="contains" filterBy="#{presupuestoHistorico.cuenta.cuenta}">
+									<h:outputText value="#{presupuestoHistorico.cuenta.cuenta}" />
 								</p:column>
                                 
                                 <p:column headerText="Cuenta" sortBy="#{presupuestoHistorico.cuenta.nombre}" 
 										 filterMatchMode="contains" filterBy="#{presupuestoHistorico.cuenta.nombre}">
 									<h:outputText value="#{presupuestoHistorico.cuenta.nombre}" />
+								</p:column>
+								
+								<p:column headerText="Centro de Costo" sortBy="#{presupuestoHistorico.centroCosto.centroCosto}" 
+										 filterMatchMode="contains" filterBy="#{presupuestoHistorico.centroCosto.centroCosto}">
+									<h:outputText value="#{presupuestoHistorico.centroCosto.centroCosto}" />
 								</p:column>
 								
 								<p:column headerText="Gerencia" sortBy="#{presupuestoHistorico.centroCosto.gerencia.nombre}" 
@@ -152,13 +217,22 @@
                                 </p:column>
                                     
                             </p:dataTable> 
-                                                             
-                          </div>                                   
-                       
-                    </div>                    
+                        </div>
+                        
+                        <p:dialog header="Eliminar" id="dlgEliminar" widgetVar="dlgEliminar" minHeight="40">
+							<div align="center">								
+								<strong>¿Está seguro de borrar el registro?</strong>
+								
+								<br />
+								<br />
+								
+								<p:commandButton id="btnEliminarHistorico" actionListener="#{presupuestoHistoricoBB.eliminarPresupuestoPorAnio}" update="@form"  title="Eliminar" value="Eliminar" />						   		
+					   		</div>
+						</p:dialog> 
                 </div>
             </div>
-        </h:form>
+        </div>
+    </h:form>
     </ui:define>
 
 </ui:composition>

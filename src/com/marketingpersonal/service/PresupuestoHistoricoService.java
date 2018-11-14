@@ -2,6 +2,8 @@ package com.marketingpersonal.service;
 
 import java.util.List;
 
+import javax.faces.model.SelectItem;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -54,5 +56,9 @@ public class PresupuestoHistoricoService implements IPresupuestoHistoricoService
 	public List<PresupuestoHistorico> getPresupuestosHistoricosPorUsuario(Integer idUsuario) {
 		return getEntityDAO().getPresupuestoHistoricoPorUsuario(idUsuario);
 	}	
+	
+	public List<SelectItem> getListaAnios() {
+		return getEntityDAO().getListaAnios();
+	}
 
 }

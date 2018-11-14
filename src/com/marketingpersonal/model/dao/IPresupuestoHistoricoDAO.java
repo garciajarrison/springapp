@@ -2,6 +2,8 @@ package com.marketingpersonal.model.dao;
 
 import java.util.List;
 
+import javax.faces.model.SelectItem;
+
 import com.marketingpersonal.model.entity.PresupuestoHistorico;
 
 
@@ -20,5 +22,7 @@ public interface IPresupuestoHistoricoDAO {
 	List<PresupuestoHistorico> getPresupuestoHistoricoPorUsuario(Integer idUsuario);
 
 	void deletePresupuestoHistoricoPorAnio(int anio);
+	
+	List<SelectItem> getListaAnios();
 	
 }

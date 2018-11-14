@@ -1,6 +1,9 @@
 package com.marketingpersonal.model.dao;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import javax.faces.model.SelectItem;
 
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -8,6 +11,7 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.marketingpersonal.model.entity.Cuenta;
 import com.marketingpersonal.model.entity.Observacion;
 import com.marketingpersonal.model.entity.Presupuesto;
 import com.marketingpersonal.model.entity.PresupuestoDetalleCampania;
@@ -62,7 +66,8 @@ public class PresupuestoHistoricoDAO implements IPresupuestoHistoricoDAO {
 	public List<PresupuestoHistorico> getPresupuestoHistoricoPorUsuario(Integer idUsuario) {
 		Session session = getSessionFactory().getCurrentSession();
 		return (List<PresupuestoHistorico>) session
-				.createQuery("from PresupuestoHistorico")
+				.createQuery("from PresupuestoHistorico usuario.id = :idUsuario")
+				.setParameter("idUsuario", idUsuario)
 				.list();
 	}
 
@@ -74,8 +79,17 @@ public class PresupuestoHistoricoDAO implements IPresupuestoHistoricoDAO {
 		session.flush();
 	}
 	
-	
-
-
+	public List<SelectItem> getListaAnios() {
+		List<SelectItem> retorno = new ArrayList<>();
+		Session session = getSessionFactory().getCurrentSession();
+		List<Integer> listado = (List<Integer>)session.createSQLQuery("select distinct anio from presupuestomd.dbo.presupuesto_historico").list();
+		if(listado != null && !listado.isEmpty()) {
+			for(Integer tmp: listado) {
+				retorno.add(new SelectItem(String.valueOf(tmp), String.valueOf(tmp)));
+			}
+		}
+		
+		return retorno;
+	}
 
 }
