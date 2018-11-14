@@ -63,12 +63,19 @@ public class PresupuestoHistoricoDAO implements IPresupuestoHistoricoDAO {
 				.list();
 	}
 	
+	
 	public List<PresupuestoHistorico> getPresupuestoHistoricoPorUsuario(Integer idUsuario) {
+		
 		Session session = getSessionFactory().getCurrentSession();
-		return (List<PresupuestoHistorico>) session
-				.createQuery("from PresupuestoHistorico usuario.id = :idUsuario")
-				.setParameter("idUsuario", idUsuario)
-				.list();
+		StringBuilder query = new StringBuilder()
+				.append("select ph                                         ")
+				.append(" from PresupuestoHistorico ph,			    ")
+				.append("	   UsuarioPorCentroCosto ucc             	    ")
+				.append(" where ph.centroCosto.id = ucc.centroCosto.id     ")
+				.append("	and ucc.usuarioResponsable.id = :idUsuario ");
+		
+		return (List<PresupuestoHistorico>) session.createQuery(query.toString())
+				.setParameter("idUsuario", idUsuario).list();
 	}
 
 	public void deletePresupuestoHistoricoPorAnio(int anio) {
