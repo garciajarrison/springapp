@@ -12,7 +12,10 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Row.MissingCellPolicy;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.primefaces.event.FileUploadEvent;
@@ -887,6 +890,14 @@ public class PresupuestoBB extends SpringBeanAutowiringSupport implements Serial
 			listaValidacion.add(validacion);
 		}
 		
+		if (!(sheet.getRow(4).getCell(14)+"").trim().equals("Observación")) {
+			validacion = new Validacion();
+			validacion.setMensaje("El titulo de la fila 5, columna O debe ser Observación");
+			validacion.setFila("5");
+			validacion.setColumna("N");
+			listaValidacion.add(validacion);
+		}
+		
 		if(sheet.getPhysicalNumberOfRows() == 4){
 			validacion = new Validacion();
 			validacion.setMensaje("Debe ingresar al menos un registro al detalle del presupuesto");
@@ -899,15 +910,15 @@ public class PresupuestoBB extends SpringBeanAutowiringSupport implements Serial
 		int idCuenta;
 		int idCentroCosto;
 		
-		for (int fila = 5; fila <= sheet.getPhysicalNumberOfRows(); fila++) {
+		for (int fila = 5; fila < sheet.getPhysicalNumberOfRows(); fila++) {
 			row = sheet.getRow(fila);
 			
-			idCuenta = getIdCuentaByCuenta(row.getCell(0) + "");
-			idCentroCosto = getIdCentroCostoByCentroCosto(row.getCell(1) + "");
+			idCuenta = getIdCuentaByCuenta(getValorCelda(row, 0));
+			idCentroCosto = getIdCentroCostoByCentroCosto(getValorCelda(row, 1));
 
 			if (idCuenta == 0) {
 				validacion = new Validacion();
-				validacion.setMensaje("La cuenta: " + (row.getCell(0) + "") + " no existe en el maestro de Cuentas");
+				validacion.setMensaje("La cuenta: " + (getValorCelda(row, 0)) + " no existe en el maestro de Cuentas");
 				validacion.setFila((fila + 1) + "");
 				validacion.setColumna("A");
 				listaValidacion.add(validacion);
@@ -915,7 +926,7 @@ public class PresupuestoBB extends SpringBeanAutowiringSupport implements Serial
 
 			if (idCentroCosto == 0) {
 				validacion = new Validacion();
-				validacion.setMensaje("El centro de costo: " + (row.getCell(1) + "") + " no existe en el maestro de Centros de Costo");
+				validacion.setMensaje("El centro de costo: " + (getValorCelda(row, 1)) + " no existe en el maestro de Centros de Costo");
 				validacion.setFila((fila + 1) + "");
 				validacion.setColumna("B");
 				listaValidacion.add(validacion);
@@ -998,9 +1009,10 @@ public class PresupuestoBB extends SpringBeanAutowiringSupport implements Serial
 		for (int fila = 5; fila <= numFilas; fila++) {
 			row = sheet.getRow(fila);
 
-			idCuenta = getIdCuentaByCuenta(row.getCell(0) + "".trim());
+			idCuenta = getIdCuentaByCuenta(getValorCelda(row, 0));
 			idCentroCosto = getIdCentroCostoByCentroCosto(row.getCell(1) + "".trim());
 			
+			if(idCuenta > 0 && idCentroCosto > 0) {
 			presupuestoDetalleMes = new PresupuestoDetalleMes();
 
 			presupuestoDetalleMes.setPresupuesto(presupuesto);
@@ -1018,6 +1030,7 @@ public class PresupuestoBB extends SpringBeanAutowiringSupport implements Serial
 			presupuestoDetalleMes.setValorM10(Double.parseDouble(validarValor(row.getCell(11)+"")));
 			presupuestoDetalleMes.setValorM11(Double.parseDouble(validarValor(row.getCell(12)+"")));
 			presupuestoDetalleMes.setValorM12(Double.parseDouble(validarValor(row.getCell(13)+"")));
+			presupuestoDetalleMes.setObservacion(row.getCell(14)+"");
 			
 			totalizarMes();
 			
@@ -1026,6 +1039,7 @@ public class PresupuestoBB extends SpringBeanAutowiringSupport implements Serial
 			presupuestoDetalleMes.setUsuarioAprobadorFinal(usuario);
 
 			this.getPresupuestoService().addPresupuestoDetalleMes(presupuestoDetalleMes);
+			}
 		}
 		presupuesto = new Presupuesto();
 		presupuestoDetalleMes = new PresupuestoDetalleMes();
@@ -1037,5 +1051,16 @@ public class PresupuestoBB extends SpringBeanAutowiringSupport implements Serial
 			return "0";
 		}
 		return valor;
+	}
+	
+	public String getValorCelda(Row row, int col) {
+		try {	
+			Cell cell = row.getCell(col, MissingCellPolicy.RETURN_NULL_AND_BLANK);
+			cell.setCellType(CellType.STRING);
+			
+			return cell.getStringCellValue();
+		} catch (NullPointerException e) {
+			return "";
+		}
 	}
  }

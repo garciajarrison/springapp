@@ -390,7 +390,7 @@ public class EnviarCorreo {
 	      String from = "presupuesto@marketingpersonal.com";
 	      final String username = "presupuesto@marketingpersonal.com";
 	      final String password = "Marketing2018";
-	      
+	      	      
 	      // Assuming you are sending email through relay.jangosmtp.net
 	      String host = "smtp.office365.com";
 

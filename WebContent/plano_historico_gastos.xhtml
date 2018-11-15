@@ -1,0 +1,238 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+    <ui:define name="title">Cargar Archivo Plano Histórico de Gastos</ui:define>
+
+    <ui:define name="content">
+    <h:form>
+        <div class="container">
+            <div class="ui-g">
+                <div class="ui-g-12">
+                    <div class="card">
+		                	<h1>Carga Archivo Plano Histórico de Gastos</h1>
+		                    
+		                    <p:commandButton value="Descargar Archivo de Ejemplo" ajax="false"	onclick="PrimeFaces.monitorDownload(start, stop);"	icon="ui-icon-arrowthick-1-s" style="max-width:250px;">
+								<p:fileDownload value="#{presupuestoHistoricoBB.fileDescargar}" />
+							</p:commandButton>
+							
+							<br />
+							<br />	
+							
+		                    <p:fileUpload fileUploadListener="#{presupuestoHistoricoBB.uploadPlanoHistorico}" 
+		                    			update=":#{p:component('tblValidacionPlanoHistorico')}" mode="advanced" dragDropSupport="false" 
+		                    			multiple="false" sizeLimit="100000" allowTypes="/(\.|\/)(xlsx)$/" style="width:100%"
+		                    			cancelLabel="Cancelar" uploadLabel="Guardar" label="Seleccionar"   />
+		                 
+		                 	<p:dataTable id="tblValidacionPlanoHistorico" var="validacion" value="#{presupuestoHistoricoBB.listaValidacion}" 
+                            		reflow="true" emptyMessage="No se encontraron registros."
+									scrollable="false" paginatorPosition="bottom"
+									rows="10" rowsPerPageTemplate="5,10,20,50"
+									currentPageReportTemplate="Páginas {totalPages} - Registros {totalRecords}"
+									paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown} {Exporters}" 
+									paginator="true">
+									
+                                <f:facet name="header">
+                                    Validaciones Archivo Plano
+                                </f:facet>
+                                
+                                <p:column headerText="Mensaje">
+                                    <h:outputText value="#{validacion.mensaje}" />
+                                </p:column>
+
+                                <p:column headerText="Fila">
+                                    <h:outputText value="#{validacion.fila}" />
+                                </p:column>
+                                
+                                <p:column headerText="Columna">
+                                    <h:outputText value="#{validacion.columna}" />
+                                </p:column>
+                               
+                            </p:dataTable>
+		                 	
+		                 </div>  
+		                
+		                 <div class="card">
+                            <h1>Listado Histórico de Gastos</h1>
+                            
+                             Año:
+                            <p:selectOneMenu value="#{presupuestoHistoricoBB.anioConsulta}">
+                            	<f:selectItems value="#{presupuestoHistoricoBB.listaAnios}"/>
+                            </p:selectOneMenu>
+                            
+                            <br/><br/>
+                            <p:commandButton id="btnConsultar" value="Consultar" 
+	                               	actionListener="#{presupuestoHistoricoBB.consultarPresupuestoPorAnio}" 
+	                               	update="@form" icon="ui-icon-check fa fa-check Fs14 White" 
+	                               	style="max-width:150px;"/>
+                               	
+                            <p:commandButton value="Eliminar"
+								      update=":#{p:component('dlgEliminar')}" 
+								      oncomplete="PF('dlgEliminar').show();"
+								      icon="ui-icon-close" style="max-width:150px;" />  
+							
+							<br/><br/>
+                            <p:dataTable id="tblPresupuestoHistorico" var="presupuestoHistorico" value="#{presupuestoHistoricoBB.listaPresupuestoHistorico}" 
+                            		reflow="true" emptyMessage="No se encontraron registros."
+									scrollable="false" paginatorPosition="bottom"
+									rows="10" rowsPerPageTemplate="5,10,20,50"
+									currentPageReportTemplate="Páginas {totalPages} - Registros {totalRecords}"
+									paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}  {Exporters}" 
+									paginator="true">
+									
+								<f:facet name="{Exporters}">
+						            <h:commandLink>
+						                <p:graphicImage name="images/excel.png" library="omega-layout"  width="24"/>
+						                <p:dataExporter type="xls" target="tblPresupuestoHistorico" fileName="Presupuesto Historico" />
+						            </h:commandLink>
+						 
+						            <h:commandLink>
+						                <p:graphicImage name="images/pdf.png" library="omega-layout"  width="24"/>
+						                <p:dataExporter type="pdf" target="tblPresupuestoHistorico" fileName="Presupuesto Historico"/>
+						            </h:commandLink>
+						 
+						            <h:commandLink>
+						                <p:graphicImage name="images/csv.png" library="omega-layout" width="24"/>
+						                <p:dataExporter type="csv" target="tblPresupuestoHistorico" fileName="Presupuesto Historico" />
+						            </h:commandLink>
+						 
+						            <h:commandLink>
+						                <p:graphicImage name="images/xml.png" library="omega-layout"  width="24"/>
+						                <p:dataExporter type="xml" target="tblPresupuestoHistorico" fileName="Presupuesto Historico" />
+						            </h:commandLink>
+						        </f:facet>
+									
+                                <f:facet name="header">
+                                    Histórico de Gastos
+                                </f:facet>
+
+								<p:column headerText="Año" sortBy="#{presupuestoHistorico.anio}" 
+                                		 filterMatchMode="contains" filterBy="#{presupuestoHistorico.anio}">
+                                    <h:outputText value="#{presupuestoHistorico.anio}" />
+                                </p:column>
+                                
+                                <p:column headerText="Código Cuenta" sortBy="#{presupuestoHistorico.cuenta.cuenta}" 
+										 filterMatchMode="contains" filterBy="#{presupuestoHistorico.cuenta.cuenta}">
+									<h:outputText value="#{presupuestoHistorico.cuenta.cuenta}" />
+								</p:column>
+                                
+                                <p:column headerText="Cuenta" sortBy="#{presupuestoHistorico.cuenta.nombre}" 
+										 filterMatchMode="contains" filterBy="#{presupuestoHistorico.cuenta.nombre}">
+									<h:outputText value="#{presupuestoHistorico.cuenta.nombre}" />
+								</p:column>
+								
+								<p:column headerText="Centro de Costo" sortBy="#{presupuestoHistorico.centroCosto.centroCosto}" 
+										 filterMatchMode="contains" filterBy="#{presupuestoHistorico.centroCosto.centroCosto}">
+									<h:outputText value="#{presupuestoHistorico.centroCosto.centroCosto}" />
+								</p:column>
+								
+								<p:column headerText="Gerencia" sortBy="#{presupuestoHistorico.centroCosto.gerencia.nombre}" 
+										 filterMatchMode="contains" filterBy="#{presupuestoHistorico.centroCosto.gerencia.nombre}">
+									<h:outputText value="#{presupuestoHistorico.centroCosto.gerencia.nombre}" />
+								</p:column>
+								
+								<p:column headerText="Dirección" sortBy="#{presupuestoHistorico.centroCosto.direccion.nombre}" 
+										 filterMatchMode="contains" filterBy="#{presupuestoHistorico.centroCosto.direccion.nombre}">
+									<h:outputText value="#{presupuestoHistorico.centroCosto.direccion.nombre}" />
+								</p:column>
+								
+								<p:column headerText="Jefatura" sortBy="#{presupuestoHistorico.centroCosto.jefatura.nombre}" 
+										 filterMatchMode="contains" filterBy="#{presupuestoHistorico.centroCosto.jefatura.nombre}">
+									<h:outputText value="#{presupuestoHistorico.centroCosto.jefatura.nombre}" />
+								</p:column>
+                                
+                                <p:column headerText="Mes 1" sortBy="#{presupuestoHistorico.valorM1}" >
+									<h:outputText value="#{presupuestoHistorico.valorM1}">
+									    <f:convertNumber maxFractionDigits="2" maxIntegerDigits="12"/>
+									</h:outputText>
+                                </p:column>
+                                
+                                <p:column headerText="Mes 2" sortBy="#{presupuestoHistorico.valorM2}">
+                                    <h:outputText value="#{presupuestoHistorico.valorM1}">
+									    <f:convertNumber maxFractionDigits="2" maxIntegerDigits="12"/>
+									</h:outputText>
+                                </p:column>
+                                
+                                <p:column headerText="Mes 3" sortBy="#{presupuestoHistorico.valorM3}" >
+                                    <h:outputText value="#{presupuestoHistorico.valorM3}">
+									    <f:convertNumber maxFractionDigits="2" maxIntegerDigits="12"/>
+									</h:outputText>
+                                </p:column>
+                                
+                                <p:column headerText="Mes 4" sortBy="#{presupuestoHistorico.valorM4}">
+                                    <h:outputText value="#{presupuestoHistorico.valorM4}">
+									    <f:convertNumber maxFractionDigits="2" maxIntegerDigits="12"/>
+									</h:outputText>
+                                </p:column>
+                                
+                                <p:column headerText="Mes 5" sortBy="#{presupuestoHistorico.valorM5}">
+                                    <h:outputText value="#{presupuestoHistorico.valorM5}">
+									    <f:convertNumber maxFractionDigits="2" maxIntegerDigits="12"/>
+									</h:outputText>
+                                </p:column>
+                                
+                                <p:column headerText="Mes 6" sortBy="#{presupuestoHistorico.valorM6}">
+                                    <h:outputText value="#{presupuestoHistorico.valorM6}">
+									    <f:convertNumber maxFractionDigits="2" maxIntegerDigits="12"/>
+									</h:outputText>
+                                </p:column>
+                                
+                                <p:column headerText="Mes 7" sortBy="#{presupuestoHistorico.valorM7}" >
+                                    <h:outputText value="#{presupuestoHistorico.valorM7}">
+									    <f:convertNumber maxFractionDigits="2" maxIntegerDigits="12"/>
+									</h:outputText>
+                                </p:column>
+                                
+                                <p:column headerText="Mes 8" sortBy="#{presupuestoHistorico.valorM8}" >
+                                    <h:outputText value="#{presupuestoHistorico.valorM8}">
+									    <f:convertNumber maxFractionDigits="2" maxIntegerDigits="12"/>
+									</h:outputText>
+                                </p:column>
+                                
+                                <p:column headerText="Mes 9" sortBy="#{presupuestoHistorico.valorM9}" >
+                                    <h:outputText value="#{presupuestoHistorico.valorM9}">
+									    <f:convertNumber maxFractionDigits="2" maxIntegerDigits="12"/>
+									</h:outputText>
+                                </p:column>
+                                
+                                <p:column headerText="Mes 10" sortBy="#{presupuestoHistorico.valorM10}">
+                                    <h:outputText value="#{presupuestoHistorico.valorM10}">
+									    <f:convertNumber maxFractionDigits="2" maxIntegerDigits="12"/>
+									</h:outputText>
+                                </p:column>
+                                
+                                <p:column headerText="Mes 11" sortBy="#{presupuestoHistorico.valorM11}" >
+                                    <h:outputText value="#{presupuestoHistorico.valorM11}">
+									    <f:convertNumber maxFractionDigits="2" maxIntegerDigits="12"/>
+									</h:outputText>
+                                </p:column>
+                                
+                                <p:column headerText="Mes 12" sortBy="#{presupuestoHistorico.valorM12}" >
+                                    <h:outputText value="#{presupuestoHistorico.valorM12}">
+									    <f:convertNumber maxFractionDigits="2" maxIntegerDigits="12"/>
+									</h:outputText>
+                                </p:column>
+                                    
+                            </p:dataTable> 
+                        </div>
+                        
+                        <p:dialog header="Eliminar" id="dlgEliminar" widgetVar="dlgEliminar" minHeight="40">
+							<div align="center">								
+								<strong>¿Está seguro de borrar el registro?</strong>
+								
+								<br />
+								<br />
+								
+								<p:commandButton id="btnEliminarHistorico" actionListener="#{presupuestoHistoricoBB.eliminarPresupuestoPorAnio}" update="@form"  title="Eliminar" value="Eliminar" />						   		
+					   		</div>
+						</p:dialog> 
+                </div>
+            </div>
+        </div>
+    </h:form>
+    </ui:define>
+
+</ui:composition>

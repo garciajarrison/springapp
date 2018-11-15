@@ -255,9 +255,9 @@ public class CentroCostoBB extends SpringBeanAutowiringSupport implements Serial
 			listaValidacion.add(validacion);
 		}
 
-		if (!(sheet.getRow(0).getCell(2)+"").trim().equals("Direccion")) {
+		if (!(sheet.getRow(0).getCell(2)+"").trim().equals("Dirección")) {
 			validacion = new Validacion();
-			validacion.setMensaje("El encabezado de la tercer columna debe ser Direccion");
+			validacion.setMensaje("El encabezado de la tercer columna debe ser Dirección");
 			validacion.setFila("1");
 			validacion.setColumna("C");
 			listaValidacion.add(validacion);
