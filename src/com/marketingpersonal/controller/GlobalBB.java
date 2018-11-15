@@ -41,6 +41,8 @@ public class GlobalBB extends SpringBeanAutowiringSupport implements Serializabl
 	private ListasGenericas listasGenericas;
 	private List<Home> variablesMacroeconomicas;
 	private boolean variasVariables;
+	private boolean aprobadorInicial;
+	private boolean aprobadorFinal;
 		
 	
 	public GlobalBB() {
@@ -52,6 +54,8 @@ public class GlobalBB extends SpringBeanAutowiringSupport implements Serializabl
 	        cargarFotoPerfil();
 	        cargarVariablesMacroeconomicas();
 		}
+		aprobadorInicial = getUsuarioService().isAprobadorInicial(usuario.getId());
+		aprobadorFinal = getUsuarioService().isAprobadorFinal(usuario.getId());
 	}
 	
 	@PostConstruct
@@ -195,6 +199,22 @@ public class GlobalBB extends SpringBeanAutowiringSupport implements Serializabl
 
 	public void setVariasVariables(boolean variasVariables) {
 		this.variasVariables = variasVariables;
+	}
+
+	public boolean isAprobadorInicial() {
+		return aprobadorInicial;
+	}
+
+	public void setAprobadorInicial(boolean aprobadorInicial) {
+		this.aprobadorInicial = aprobadorInicial;
+	}
+
+	public boolean isAprobadorFinal() {
+		return aprobadorFinal;
+	}
+
+	public void setAprobadorFinal(boolean aprobadorFinal) {
+		this.aprobadorFinal = aprobadorFinal;
 	}
 
  }

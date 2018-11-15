@@ -54,9 +54,13 @@
                         
                         <p:menuitem id="menuitem_creacion_presupuesto" value="Creación de Presupuesto" icon="fa fa-circle-o" outcome="/creacion_presupuesto" />
                         
-                        <p:menuitem id="menuitem_aprobacion_inicial_presupuesto" value="Aprobación Inicial de Presupuesto" icon="fa fa-adjust" outcome="/presupuesto_aprobador_inicial" />
+                        <p:menuitem id="menuitem_aprobacion_inicial_presupuesto" value="Aprobación Inicial de Presupuesto" 
+                        		icon="fa fa-adjust" outcome="/presupuesto_aprobador_inicial" 
+                        		rendered="#{globalBB.aprobadorInicial}"/>
                         
-                        <p:menuitem id="menuitem_aprobacion_final_presupuesto" value="Aprobación Final de Presupuesto" icon="fa fa-circle" outcome="/presupuesto_aprobador_final" />
+                        <p:menuitem id="menuitem_aprobacion_final_presupuesto" value="Aprobación Final de Presupuesto" 
+                        		icon="fa fa-circle" outcome="/presupuesto_aprobador_final" 
+                        		rendered="#{globalBB.aprobadorFinal}"/>
                         
                         <p:menuitem id="menuitem_consulta_historico_gastos" value="Consulta Histórico de Gastos" icon="fa fa-file-text" outcome="/consulta_historico_gastos"/>
                         

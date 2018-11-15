@@ -137,6 +137,44 @@ public class UsuarioDAO implements IUsuarioDAO {
 			session.save(usuario);	
 		}
 	}
+
+	@Override
+	public boolean isAprobadorInicial(int idUsuario) {
+		boolean retorno = false;
+		try {
+			Session session = getSessionFactory().getCurrentSession();
+			List<UsuarioPorCentroCosto> objTmp = (List<UsuarioPorCentroCosto>)session
+					.createQuery("from UsuarioPorCentroCosto where usuarioAprobadorInicial = ?")
+					.setParameter(0, idUsuario)
+					.list();
+			
+			if(objTmp != null && !objTmp.isEmpty()) {
+				retorno = true;
+			}
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return retorno;
+	}
+
+	@Override
+	public boolean isAprobadorFinal(int idUsuario) {
+		boolean retorno = false;
+		try {
+			Session session = getSessionFactory().getCurrentSession();
+			List<UsuarioPorCentroCosto> objTmp = (List<UsuarioPorCentroCosto>)session
+					.createQuery("from UsuarioPorCentroCosto where usuarioAprobadorFinal = ?")
+					.setParameter(0, idUsuario)
+					.list();
+			
+			if(objTmp != null && !objTmp.isEmpty()) {
+				retorno = true;
+			}
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return retorno;
+	}
 	
 	
 }

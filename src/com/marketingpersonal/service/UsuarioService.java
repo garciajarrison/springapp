@@ -82,4 +82,14 @@ public class UsuarioService implements IUsuarioService {
 	public void addUsuariosArchivoPlano(XSSFSheet sheet) {
 		getEntityDAO().addUsuariosArchivoPlano(sheet);
 	}
+
+	@Override
+	public boolean isAprobadorInicial(int idUsuario) {
+		return getEntityDAO().isAprobadorInicial(idUsuario);
+	}
+
+	@Override
+	public boolean isAprobadorFinal(int idUsuario) {
+		return getEntityDAO().isAprobadorFinal(idUsuario);
+	}
 }

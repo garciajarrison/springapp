@@ -34,4 +34,8 @@ public interface IUsuarioDAO {
 	List<UsuarioPorCentroCosto> getUsuarioPorCentroCostos();
 
 	void addUsuariosArchivoPlano(XSSFSheet sheet);
+
+	boolean isAprobadorInicial(int idUsuario);
+
+	boolean isAprobadorFinal(int idUsuario);
 }

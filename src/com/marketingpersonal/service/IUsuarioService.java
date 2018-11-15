@@ -35,4 +35,8 @@ public interface IUsuarioService {
 	
 	List<UsuarioPorCentroCosto> getUsuarioPorCentroCostos();
 
+	boolean isAprobadorInicial(int idUsuario);
+
+	boolean isAprobadorFinal(int idUsuario);
+
 }
