@@ -144,7 +144,7 @@ public class UsuarioDAO implements IUsuarioDAO {
 		try {
 			Session session = getSessionFactory().getCurrentSession();
 			List<UsuarioPorCentroCosto> objTmp = (List<UsuarioPorCentroCosto>)session
-					.createQuery("from UsuarioPorCentroCosto where usuarioAprobadorInicial = ?")
+					.createQuery("from UsuarioPorCentroCosto where usuarioAprobadorInicial.id = ?")
 					.setParameter(0, idUsuario)
 					.list();
 			
@@ -163,7 +163,7 @@ public class UsuarioDAO implements IUsuarioDAO {
 		try {
 			Session session = getSessionFactory().getCurrentSession();
 			List<UsuarioPorCentroCosto> objTmp = (List<UsuarioPorCentroCosto>)session
-					.createQuery("from UsuarioPorCentroCosto where usuarioAprobadorFinal = ?")
+					.createQuery("from UsuarioPorCentroCosto where usuarioAprobadorFinal.id = ?")
 					.setParameter(0, idUsuario)
 					.list();
 			
