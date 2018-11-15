@@ -15,6 +15,11 @@ import com.marketingpersonal.common.Util;
 import com.marketingpersonal.model.entity.Usuario;
 import com.marketingpersonal.service.IUsuarioService;
 
+/**
+ * Clase controladora encargada del inicio de session 
+ * Teniendo en cuenta la conexion con LDAP
+ * @author Jarrison Garcia Y Juan Camilo Monsalve
+ */
 @ManagedBean(name = "loginBB")
 @ViewScoped
 public class LoginBB extends SpringBeanAutowiringSupport implements Serializable {
@@ -23,9 +28,7 @@ public class LoginBB extends SpringBeanAutowiringSupport implements Serializable
 	@Autowired
 	private IUsuarioService usuarioService;
 	private Util util;
-	
 	private LoginLDAP ldap ; 
-	
 	private Usuario usuario = new Usuario();
 	
 	public LoginBB() {
@@ -34,7 +37,7 @@ public class LoginBB extends SpringBeanAutowiringSupport implements Serializable
 		cerrarSession();
 		util = Util.getInstance();
 	}
-	
+
 	public void resetCampos() {
 		usuario.setContrasena("");
 	}
