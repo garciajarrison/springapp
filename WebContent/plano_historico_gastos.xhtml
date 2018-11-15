@@ -24,7 +24,7 @@
 							
 		                    <p:fileUpload fileUploadListener="#{presupuestoHistoricoBB.uploadPlanoHistorico}" 
 		                    			update=":#{p:component('tblValidacionPlanoHistorico')}" mode="advanced" dragDropSupport="false" 
-		                    			multiple="false" sizeLimit="100000" allowTypes="/(\.|\/)(xlsx)$/" style="width:100%"
+		                    			multiple="false" sizeLimit="40000000" allowTypes="/(\.|\/)(xlsx)$/" style="width:100%"
 		                    			cancelLabel="Cancelar" uploadLabel="Guardar" label="Seleccionar"   />
 		                 
 		                 	<p:dataTable id="tblValidacionPlanoHistorico" var="validacion" value="#{presupuestoHistoricoBB.listaValidacion}" 
@@ -151,7 +151,7 @@
                                 </p:column>
                                 
                                 <p:column headerText="Mes 2" sortBy="#{presupuestoHistorico.valorM2}">
-                                    <h:outputText value="#{presupuestoHistorico.valorM1}">
+                                    <h:outputText value="#{presupuestoHistorico.valorM2}">
 									    <f:convertNumber maxFractionDigits="2" maxIntegerDigits="12"/>
 									</h:outputText>
                                 </p:column>
