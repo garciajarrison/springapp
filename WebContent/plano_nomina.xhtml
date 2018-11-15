@@ -24,7 +24,7 @@
 							
 		                    <p:fileUpload fileUploadListener="#{presupuestoBB.uploadPlanoNomina}" 
 		                    			update=":#{p:component('tblValidacionPlanoNomina')}" mode="advanced" dragDropSupport="false" 
-		                    			multiple="false" sizeLimit="100000" allowTypes="/(\.|\/)(xlsx)$/" style="width:100%"
+		                    			multiple="false" sizeLimit="40000000" allowTypes="/(\.|\/)(xlsx)$/" style="width:100%"
 		                    			cancelLabel="Cancelar" uploadLabel="Guardar" label="Seleccionar"   />
 		                 
 		                 	<p:dataTable id="tblValidacionPlanoNomina" var="validacion" value="#{presupuestoBB.listaValidacion}" 
