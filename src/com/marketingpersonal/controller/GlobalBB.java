@@ -53,9 +53,15 @@ public class GlobalBB extends SpringBeanAutowiringSupport implements Serializabl
 			listasGenericas = ListasGenericas.getInstance();
 	        cargarFotoPerfil();
 	        cargarVariablesMacroeconomicas();
+	        
+			if("Administrador".equals(usuario.getRol())) {
+				aprobadorInicial = true;
+				aprobadorFinal = true;
+			}else {
+				aprobadorInicial = getUsuarioService().isAprobadorInicial(usuario.getId());
+				aprobadorFinal = getUsuarioService().isAprobadorFinal(usuario.getId());
+			}
 		}
-		aprobadorInicial = getUsuarioService().isAprobadorInicial(usuario.getId());
-		aprobadorFinal = getUsuarioService().isAprobadorFinal(usuario.getId());
 	}
 	
 	@PostConstruct
