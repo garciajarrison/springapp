@@ -7,6 +7,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+/**
+ * Clase que contiene los atributos para la entidad Jefatura
+ * @author Jarrison Garcia, Juan Camilo Monsalve 
+ * @date 30/10/2018
+ */
 @Entity
 @Table(name = "jefatura", schema = "presupuestomd.dbo")
 public class Jefatura implements java.io.Serializable {

@@ -7,6 +7,11 @@ import java.util.Map;
 
 import javax.faces.model.SelectItem;
 
+/**
+ * Clase para manejo de listas genericas comunes en la aplicación
+ * @author Jarrison Garcia, Juan Camilo Monsalve 
+ * @date 30/10/2018
+ */
 public class ListasGenericas {
 	
 	private static ListasGenericas instance;

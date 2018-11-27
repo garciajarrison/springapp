@@ -17,12 +17,18 @@ import com.marketingpersonal.model.entity.Calculadora;
 import com.marketingpersonal.service.ICalculadoraService;
 import com.marketingpersonal.service.IParametroService;
 
+/**
+ * Clase controladora para manejo de la Calculadora
+ * @author Jarrison Garcia, Juan Camilo Monsalve 
+ * @date 30/10/2018
+ */
 @ManagedBean(name = "calculadoraBB")
 @ViewScoped
 public class CalculadoraBB extends SpringBeanAutowiringSupport implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 
+	//Campos de la clase
 	@Autowired
 	private ICalculadoraService calculadoraService;
 	@Autowired
@@ -38,6 +44,9 @@ public class CalculadoraBB extends SpringBeanAutowiringSupport implements Serial
 	private Integer anioGeneral;
 	private Integer anioConsulta;
 	
+	/**
+     * Constructor para controlador de Calculadora
+     */
 	public CalculadoraBB() {
 		util = Util.getInstance();
 		calculadora = new Calculadora();
@@ -50,6 +59,10 @@ public class CalculadoraBB extends SpringBeanAutowiringSupport implements Serial
 		listaAnios = calculadoraService.getListaAnios();
 	}
 	
+	/**
+     * Método que carga la información de la calculadora dependiendo del año seleccionado
+     * @param event variable que contiene el evento ajax
+     */
 	public void cambioAnio(final AjaxBehaviorEvent event){
 		try {
 			cargarListaCalculadora();
@@ -58,6 +71,9 @@ public class CalculadoraBB extends SpringBeanAutowiringSupport implements Serial
 		}
 	}
 	
+	/**
+     * Método que carga la información de la calculadora
+     */
 	public void cargarListaCalculadora() {
 		try {
 			listaCalculadoras = getCalculadoraService().getCalculadoras("CM", anioConsulta);
@@ -112,6 +128,9 @@ public class CalculadoraBB extends SpringBeanAutowiringSupport implements Serial
 		}
 	}
 	
+	/**
+     * Método que añade campañas a la calculadora de manera dinamica
+     */
 	public void agregarCampana() {
 		try {
 			
@@ -130,6 +149,9 @@ public class CalculadoraBB extends SpringBeanAutowiringSupport implements Serial
 		}
 	}
 	
+	/**
+     * Método que permite eliminar campañas 
+     */
 	public void eliminarCampana() {
 		try {
 			
@@ -147,6 +169,10 @@ public class CalculadoraBB extends SpringBeanAutowiringSupport implements Serial
 		}
 	}
 	
+	/**
+     * Método que valida los porcentajes ingresados en la calculadora
+     * @return continuar: variable booleana que indica si los porcentajes ingresados a la calculadora son correctos
+     */
 	private boolean validarCampanas() {
 		boolean continuar = true;
 		try {
@@ -180,6 +206,10 @@ public class CalculadoraBB extends SpringBeanAutowiringSupport implements Serial
 		return continuar;
 	}
 	
+	/**
+     * Método que permite guardar la campaña
+     * @param tipo: variable que indica el tipo de campaña
+     */
 	public void guardarCampana(String tipo) {
 		try {
 			if(validarCampanas()) {
@@ -192,6 +222,11 @@ public class CalculadoraBB extends SpringBeanAutowiringSupport implements Serial
 		}
 	}
 	
+	/**
+     * Método que permite totalizar los valores de porcentaje ingresados en la calculadora
+     * @param tipo: variable que indica el tipo de calculadora(Mensual o Campañal)
+     * @return totales: variable que contiene la lista de totales cargados en la calculadora
+     */
 	public List<Float> totalizar(String tipo) {
 		
 		List<Float> totales = new ArrayList<>();

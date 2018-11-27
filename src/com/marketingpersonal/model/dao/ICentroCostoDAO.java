@@ -6,7 +6,11 @@ import com.marketingpersonal.model.entity.CentroCosto;
 import com.marketingpersonal.model.entity.CentroCostoPorCuenta;
 import com.marketingpersonal.model.entity.Usuario;
 
-
+/**
+ * Interface que contiene los metodos implementados en la clase CentroCostoDAO
+ * @author Jarrison Garcia, Juan Camilo Monsalve 
+ * @date 30/10/2018
+ */
 public interface ICentroCostoDAO {
 	
 	void addCentroCosto(CentroCosto entity);

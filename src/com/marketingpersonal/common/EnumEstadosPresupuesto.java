@@ -1,5 +1,10 @@
 package com.marketingpersonal.common;
 
+/**
+ * Enum para manejo de estados de presupuesto
+ * @author Jarrison Garcia, Juan Camilo Monsalve 
+ * @date 30/10/2018
+ */
 public enum EnumEstadosPresupuesto {
 
 	PENDIENTE("PENDIENTE", "Pendiente de envio"),

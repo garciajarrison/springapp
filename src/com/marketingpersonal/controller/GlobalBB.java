@@ -24,6 +24,11 @@ import com.marketingpersonal.model.entity.Usuario;
 import com.marketingpersonal.service.IHomeService;
 import com.marketingpersonal.service.IUsuarioService;
 
+/**
+ * Clase controladora Global
+ * @author Jarrison Garcia, Juan Camilo Monsalve 
+ * @date 30/10/2018
+ */
 @ManagedBean(name = "globalBB")
 @SessionScoped
 public class GlobalBB extends SpringBeanAutowiringSupport implements Serializable {
@@ -44,7 +49,9 @@ public class GlobalBB extends SpringBeanAutowiringSupport implements Serializabl
 	private boolean aprobadorInicial;
 	private boolean aprobadorFinal;
 		
-	
+	/**
+     * Constructor para controlador Global
+     */
 	public GlobalBB() {
 		locale = new java.util.Locale("es","ES");
 		util = Util.getInstance();
@@ -64,11 +71,17 @@ public class GlobalBB extends SpringBeanAutowiringSupport implements Serializabl
 		}
 	}
 	
+	/**
+     * Metodo para validar Sesion de usuario
+     */
 	@PostConstruct
 	public void validarSession() {
 		util.validarSession();
 	}
 	
+	/**
+     * Metodo para cargar imagenes de variables macroeconomicas
+     */
 	private void cargarVariablesMacroeconomicas() {
 		try {
 			variablesMacroeconomicas = getHomeService().getHomes(true);
@@ -81,6 +94,10 @@ public class GlobalBB extends SpringBeanAutowiringSupport implements Serializabl
 		}
 	}
 	
+	/**
+     * Metodo para actualizar imagenes de perfil del usuario
+     * @param event: variable que contiene la imagen a cargar al perfil del usuario
+     */
 	public void upload(FileUploadEvent event) {
 		foto = event.getFile();
         if(foto != null) {
@@ -89,6 +106,9 @@ public class GlobalBB extends SpringBeanAutowiringSupport implements Serializabl
         }
     }
 	
+	/**
+     * Metodo para cargar imagenes de perfil del usuario
+     */
 	private void cargarFotoPerfil() {
 		
 		ServletContext servletContext = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();

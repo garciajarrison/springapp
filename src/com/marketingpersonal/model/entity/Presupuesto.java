@@ -19,6 +19,11 @@ import org.hibernate.annotations.Formula;
 
 import com.marketingpersonal.common.EnumEstadosPresupuesto;
 
+/**
+ * Clase que contiene los atributos para la entidad Presupuesto
+ * @author Jarrison Garcia, Juan Camilo Monsalve 
+ * @date 30/10/2018
+ */
 @Entity
 @Table(name = "presupuesto", schema = "presupuestomd.dbo")
 public class Presupuesto implements java.io.Serializable {

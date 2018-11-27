@@ -8,6 +8,11 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+/**
+ * Clase que contiene los atributos para la entidad Usuario
+ * @author Jarrison Garcia, Juan Camilo Monsalve 
+ * @date 30/10/2018
+ */
 @Entity
 @Table(name = "usuario", schema = "presupuestomd.dbo")
 public class Usuario implements java.io.Serializable {

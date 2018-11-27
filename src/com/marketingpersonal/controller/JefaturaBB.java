@@ -15,12 +15,18 @@ import com.marketingpersonal.common.Util;
 import com.marketingpersonal.model.entity.Jefatura;
 import com.marketingpersonal.service.IJefaturaService;
 
+/**
+ * Clase controladora para manejo de Jefaturas
+ * @author Jarrison Garcia, Juan Camilo Monsalve 
+ * @date 30/10/2018
+ */
 @ManagedBean(name = "jefaturaBB")
 @ViewScoped
 public class JefaturaBB extends SpringBeanAutowiringSupport implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 
+	//Campos de la clase
 	@Autowired
 	private IJefaturaService jefaturaService;
 	private Util util;
@@ -28,6 +34,9 @@ public class JefaturaBB extends SpringBeanAutowiringSupport implements Serializa
 	private Jefatura selectedJefatura;
 	private List<Jefatura> listaJefaturas;
 	
+	/**
+    * Constructor para controlador de Jefaturas
+    */
 	public JefaturaBB() {
 		util = Util.getInstance();
 		jefatura = new Jefatura();
@@ -35,6 +44,11 @@ public class JefaturaBB extends SpringBeanAutowiringSupport implements Serializa
 		listaJefaturas = getJefaturaService().getJefaturas(false);
 	}
 	
+	/**
+     * Método que valida la obligatoriedad de los campos
+     * @param jef: Variable de tipo Jefatura
+     * @return permiteGuardar: variable booleana que indica si es posible guardar o no la nueva Jefatura
+     */
 	private boolean validar(Jefatura jef) {
 		boolean permiteGuardar = true;
 		
@@ -46,6 +60,9 @@ public class JefaturaBB extends SpringBeanAutowiringSupport implements Serializa
 		return permiteGuardar;
 	}
 	
+	/**
+     *Metodo para crear una nueva Jefatura
+     */
 	public void addJefatura() {
 		try {
 			boolean guardar = true;
@@ -77,6 +94,9 @@ public class JefaturaBB extends SpringBeanAutowiringSupport implements Serializa
 		} 
 	}
 
+	/**
+     *Metodo para modificar una Jefatura
+     */
 	public void updateJefatura() {
 		try {
 			boolean actualizar = true;
@@ -108,6 +128,9 @@ public class JefaturaBB extends SpringBeanAutowiringSupport implements Serializa
 		}		
 	}
 	
+	/**
+     *Metodo para eliminar una Jefatura
+     */
 	public void deleteJefatura() {
 		try {
 			getJefaturaService().deleteJefatura(selectedJefatura);

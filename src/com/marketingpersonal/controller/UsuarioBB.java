@@ -29,7 +29,7 @@ import com.marketingpersonal.model.entity.Validacion;
 import com.marketingpersonal.service.IUsuarioService;
 
 /**
- * Clase para manejo de usuarios Admin
+ * Clase controladora para manejo de Usuarios
  * @author Jarrison Garcia, Juan Camilo Monsalve 
  * @date 30/10/2018
  */
@@ -65,7 +65,8 @@ public class UsuarioBB extends SpringBeanAutowiringSupport implements Serializab
 	
 	/**
      * Método que valida la obligatoriedad de los campos
-     * @return variable booleana que indica si es posible guardar o no el nuevo usuario
+     * @param usu: Variable de tipo Usuario
+     * @return permiteGuardar: variable booleana que indica si es posible guardar o no el nuevo usuario
      */
 	private boolean validar(Usuario usu) {
 		boolean permiteGuardar = true;

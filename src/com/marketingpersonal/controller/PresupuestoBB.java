@@ -45,12 +45,18 @@ import com.marketingpersonal.service.ICuentaService;
 import com.marketingpersonal.service.IParametroService;
 import com.marketingpersonal.service.IPresupuestoService;
 
+/**
+ * Clase controladora para manejo de Presupuesto
+ * @author Jarrison Garcia, Juan Camilo Monsalve 
+ * @date 30/10/2018
+ */
 @ManagedBean(name = "presupuestoBB")
 @ViewScoped
 public class PresupuestoBB extends SpringBeanAutowiringSupport implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 
+	//Campos de la clase
 	@Autowired
 	private IPresupuestoService presupuestoService;
 	@Autowired
@@ -90,6 +96,9 @@ public class PresupuestoBB extends SpringBeanAutowiringSupport implements Serial
 	private List<Cuenta> listaCuentasPlanoNomina;
 	private List<CentroCosto> listaCentroCostosPlanoNomina;
 	
+	/**
+     * Constructor para controlador de Presupuesto
+     */	
 	public PresupuestoBB() {
 		util = Util.getInstance();
 		presupuesto = new Presupuesto();
@@ -116,8 +125,13 @@ public class PresupuestoBB extends SpringBeanAutowiringSupport implements Serial
 		
 	}
 	
+	/**
+     * Metodo que carga información de presupuesto
+     */	
 	private void cargarListaPresupuesto() {
 		try {
+			//Si usuario logeado es Administrador cargar presupuetso d etodos los usuarios, si no carga solo los presupuestos que 
+			//le corresponden al usuario			
 			if("Administrador".equals(usuario.getRol())) {
 				listaPresupuestos = getPresupuestoService().getPresupuestos();
 			}else {
@@ -129,6 +143,9 @@ public class PresupuestoBB extends SpringBeanAutowiringSupport implements Serial
 		}	
 	}
 	
+	/**
+     * Método que calcula el valor total del presupuesto mensual
+     */
 	public void totalizarMes() {
 		try {
 			totalMes = 0d;
@@ -151,6 +168,9 @@ public class PresupuestoBB extends SpringBeanAutowiringSupport implements Serial
 		}
 	}
 	
+	/**
+     * Método que calcula el valor total del presupuesto campañal
+     */
 	public void totalizarCamp() {
 		try {
 			totalCamp = 0d;
@@ -186,6 +206,11 @@ public class PresupuestoBB extends SpringBeanAutowiringSupport implements Serial
 		}
 	}
 	
+	/**
+     * Método que valida la obligatoriedad de los campos
+     * @param pr: Variable de tipo Presupuesto
+     * @return permiteGuardar: variable booleana que indica si es posible guardar o el nuevo presupuesto
+     */
 	private boolean validar(Presupuesto pr) {
 		boolean permiteGuardar = true;
 		
@@ -210,6 +235,9 @@ public class PresupuestoBB extends SpringBeanAutowiringSupport implements Serial
 		return permiteGuardar;
 	}
 
+	/**
+     *Metodo para crear un nuevo Presupuesto
+     */
 	public void addPresupuesto() {
 		try {
 			if(validar(presupuesto)) {
@@ -227,6 +255,13 @@ public class PresupuestoBB extends SpringBeanAutowiringSupport implements Serial
 		} 	
 	}
 	
+	/**
+     * Método que valida la obligatoriedad de los campos
+     * @param detalle: Variable de tipo Presupuesto
+     * @param mes: Variable de tipo PresupuestoDetalleMes
+     * @param campania: Variable de tipo PresupuestoDetalleCampania
+     * @return permiteGuardar: variable booleana que indica si es posible guardar o el nuevo presupuesto
+     */
 	private boolean validarDetalle(Presupuesto detalle, PresupuestoDetalleMes mes, PresupuestoDetalleCampania campania) {
 		
 		boolean permiteGuardar = true;
@@ -254,6 +289,9 @@ public class PresupuestoBB extends SpringBeanAutowiringSupport implements Serial
 		return permiteGuardar;
 	}
 	
+	/**
+     *Metodo para crear un nuevo presupuesto mensual
+     */
 	public void addPresupuestoMes(){
 		try {
 			if(validarDetalle(detalle, presupuestoDetalleMes, null)){
@@ -276,6 +314,9 @@ public class PresupuestoBB extends SpringBeanAutowiringSupport implements Serial
 		}
 	}
 	
+	/**
+     *Metodo para crear un nuevo presupuesto campañal
+     */
 	public void addPresupuestoCampania(){
 		try {
 			if(validarDetalle(detalle, null,  presupuestoDetalleCampania)){
@@ -298,8 +339,8 @@ public class PresupuestoBB extends SpringBeanAutowiringSupport implements Serial
 	}
 	
 	/**
-	 * Actualizaciones
-	 */
+     *Metodo para modificar el encabezado de un presupuesto
+     */
 	public void updatePresupuesto() {
 		try {
 			if(validar(selectedPresupuesto)) {
@@ -315,6 +356,10 @@ public class PresupuestoBB extends SpringBeanAutowiringSupport implements Serial
 		} 	
 	}
 	
+	/**
+     *Metodo para modificar el detalle de un presupuesto mensual
+     *@param detPpto: Variable de tipo PresupuestoDetalleMes
+     */
 	public void actualizarMes(PresupuestoDetalleMes detPpto) {
 		try {
 			this.presupuestoDetalleMes = detPpto;    
@@ -326,6 +371,11 @@ public class PresupuestoBB extends SpringBeanAutowiringSupport implements Serial
 		} 	
 	}
 	
+	
+	/**
+     *Metodo para modificar el detalle de un presupuesto campañal
+     *@param detPpto: Variable de tipo PresupuestoDetalleCampania
+     */
 	public void actualizarCamp(PresupuestoDetalleCampania detPpto) {
 		try {
 			this.presupuestoDetalleCampania = detPpto;
@@ -338,9 +388,8 @@ public class PresupuestoBB extends SpringBeanAutowiringSupport implements Serial
 	}
 	
 	/***
-	 * Elimiaciones de presupuesto y detalle
-	 */
-	
+	 * Metodo para realizar eliminaciones de presupuesto y detalle
+	 */	
 	public void deletePresupuesto() {
 		try {
 			getPresupuestoService().deletePresupuesto(selectedPresupuesto);
@@ -353,6 +402,9 @@ public class PresupuestoBB extends SpringBeanAutowiringSupport implements Serial
 		}
 	}
 	
+	/***
+	 * Metodo para realizar eliminaciones de detalle de presupuesto mes
+	 */	
 	public void deletePresupuestoMes() {
 		try {
 			getPresupuestoService().deletePresupuestoDetalleMes(selectedPresupuestoDetalleMes);
@@ -366,6 +418,9 @@ public class PresupuestoBB extends SpringBeanAutowiringSupport implements Serial
 		}
 	}
 	
+	/***
+	 * Metodo para realizar eliminaciones de detalle de presupuesto campañal
+	 */	
 	public void deletePresupuestoCamp() {
 		try {
 			getPresupuestoService().deletePresupuestoDetalleCampania(selectedPresupuestoDetalleCampania);
@@ -379,6 +434,10 @@ public class PresupuestoBB extends SpringBeanAutowiringSupport implements Serial
 		}
 	}
 	
+	/***
+	 * Metodo para obtener el listado de Centros de Costo por Cuenta para el detalle de presupuesto mensual
+	 * @param actualiza: variable que indica si la lista se va cargar se va actualizar
+	 */	
 	public void cargarListaCuentasPresupuestoMes(String actualiza) {
 		try {
 			PresupuestoDetalleMes prepDetMesTmp = null;
@@ -399,6 +458,10 @@ public class PresupuestoBB extends SpringBeanAutowiringSupport implements Serial
 		} 
 	}
 	
+	/***
+	 * Metodo para obtener el listado de Centros de Costo por Cuenta para el detalle de presupuesto campañal
+	 * @param actualiza: variable que indica si la lista que se va cargar se va actualizar
+	 */	
 	public void cargarListaCuentasPresupuestoCampania(String actualiza) {
 		try {
 			PresupuestoDetalleCampania prepDetCampaniaTmp = null;
@@ -419,6 +482,10 @@ public class PresupuestoBB extends SpringBeanAutowiringSupport implements Serial
 		} 
 	}
 	
+	/***
+	 * Metodo para enviar el presupuetso al aprobador inicial para revisión. Se almacena el encabezado y detalle de presupuesto, se almacenan las observaciones y se envia correo de notificación.
+	 * @param actualiza: variable que indica si la lista se va cargar se va actualizar
+	 */	
 	public void enviarPresupuestoAprobadorInicial(){
 		try {
 			String tipo = this.detalle.getTipo();
@@ -683,6 +750,9 @@ public class PresupuestoBB extends SpringBeanAutowiringSupport implements Serial
 		this.parametroService = parametroService;
 	}
 	
+	/**
+	 *Metodo para descarga de archivo plano de Presupuesto de Nomina de ejemplo
+	 */
 	public StreamedContent getFileDescargar() {
 		InputStream stream = FacesContext.getCurrentInstance().getExternalContext()
 				.getResourceAsStream("/resources/files/Archivo Plano Presupuesto Nómina.xlsx");
@@ -692,6 +762,10 @@ public class PresupuestoBB extends SpringBeanAutowiringSupport implements Serial
 		return fileDescargar;
 	}
 	
+	/**
+     *Metodo para validar y cargar un archivo plano de Nomina
+     *@param event variable que contiene información del archivo plano a cargar
+     */
 	public void uploadPlanoNomina(FileUploadEvent event) {
 
 		try {
@@ -714,6 +788,10 @@ public class PresupuestoBB extends SpringBeanAutowiringSupport implements Serial
 		}
 	}
 	
+	/**
+     *Metodo para validar la información contenida en el archivo plano
+     *@param workbook: variable que contiene libro de excel
+     */
 	private boolean validarArchivoPlano(XSSFWorkbook workbook) {
 		boolean permiteGuardar = true;
 
@@ -939,6 +1017,10 @@ public class PresupuestoBB extends SpringBeanAutowiringSupport implements Serial
 		return permiteGuardar;
 	}
 	
+	/**
+     *Metodo para obtener el id de una Cuenta a partir del codigo
+     *@param cuenta: variable que contiene el numero de cuenta
+     */
 	public int getIdCuentaByCuenta(String cuenta) {
 		for (Cuenta cue : listaCuentasPlanoNomina) {
 			if (cue.getCuenta().equals(cuenta.trim())) {
@@ -948,6 +1030,10 @@ public class PresupuestoBB extends SpringBeanAutowiringSupport implements Serial
 		return 0;
 	}
 
+	/**
+     *Metodo para obtener el id de un Centro de Costo a partir del codigo
+     *@param v: variable que contiene el codigo del centro de costo
+     */
 	public int getIdCentroCostoByCentroCosto(String centroCosto) {
 		for (CentroCosto ceco : listaCentroCostosPlanoNomina) {
 			if (ceco.getCentroCosto().equals(centroCosto.trim())) {
@@ -985,8 +1071,10 @@ public class PresupuestoBB extends SpringBeanAutowiringSupport implements Serial
 		this.fileDescargar = fileDescargar;
 	}
 	
-	//Carga Archivo Plano Nomina
-		
+	/**
+     *Metodo para insertar Presupuesto de Nómina desde archivo plano
+     *@param sheet: variable que contiene la hoja del archivo de excel
+     */
 	public void insertarPlanoPresupuestoNomina(XSSFSheet sheet) {
 		presupuesto.setAnio(anioGeneral);
 		presupuesto.setNombre(sheet.getRow(0).getCell(1).toString().trim());
@@ -998,8 +1086,6 @@ public class PresupuestoBB extends SpringBeanAutowiringSupport implements Serial
 		presupuesto.setUsuario(usuario);
 		
 		getPresupuestoService().addPresupuesto(presupuesto);
-		
-		System.out.println("ID Encabezado: "+presupuesto.getId());
 				
 		Row row;
 		int idCuenta;
@@ -1046,6 +1132,10 @@ public class PresupuestoBB extends SpringBeanAutowiringSupport implements Serial
 		totalMes = 0d;
 	}
 	
+	/**
+     *Metodo para validar si el valor ingresado en una celda es diferente de null
+     *@param valor: variable que contiene el valor a validar
+     */
 	public String validarValor(String valor) {
 		if(valor.equals("null")) {
 			return "0";
@@ -1053,6 +1143,11 @@ public class PresupuestoBB extends SpringBeanAutowiringSupport implements Serial
 		return valor;
 	}
 	
+	/**
+     *Metodo para validar si el valor ingresado en una celda es diferente de null o vacio
+     *@param row: variable que contiene la fila de la hoja de excel
+     *@param col: variable que contiene el numero de columna de la hoja de excel
+     */
 	public String getValorCelda(Row row, int col) {
 		try {	
 			Cell cell = row.getCell(col, MissingCellPolicy.RETURN_NULL_AND_BLANK);

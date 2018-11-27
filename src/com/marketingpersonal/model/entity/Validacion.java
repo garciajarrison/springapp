@@ -1,5 +1,10 @@
 package com.marketingpersonal.model.entity;
 
+/**
+ * Clase que contiene los atributos para la entidad Validacion
+ * @author Jarrison Garcia, Juan Camilo Monsalve 
+ * @date 30/10/2018
+ */
 public class Validacion {
 	
 	private String mensaje;

@@ -26,12 +26,18 @@ import com.marketingpersonal.service.ICentroCostoService;
 import com.marketingpersonal.service.IParametroService;
 import com.marketingpersonal.service.IPresupuestoService;
 
+/**
+ * Clase controladora para manejo de Presupuesto de Aprobador Inicial
+ * @author Jarrison Garcia, Juan Camilo Monsalve 
+ * @date 30/10/2018
+ */
 @ManagedBean(name = "preAprIniBB")
 @ViewScoped
 public class PresupuestoAprobadorInicialBB extends SpringBeanAutowiringSupport implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 
+	//Campos de la clase
 	@Autowired
 	private IPresupuestoService presupuestoService;
 	@Autowired
@@ -59,6 +65,9 @@ public class PresupuestoAprobadorInicialBB extends SpringBeanAutowiringSupport i
 	private Double totalCamp = 0d;
 	private Integer anioGeneral;
 	
+	/**
+     * Constructor para controlador de Presupuesto de Aprobador Inicial
+     */
 	public PresupuestoAprobadorInicialBB() {
 		util = Util.getInstance();
 		usuario = (Usuario) Util.getInstance().getSessionAttribute(EnumSessionAttributes.USUARIO);
@@ -76,6 +85,10 @@ public class PresupuestoAprobadorInicialBB extends SpringBeanAutowiringSupport i
 		mostrarDetalle = false;
 	}
 	
+	/**
+     * Método que actualiza la información de la del presupuesto mensual
+     * @param detPpto: variable que contiene el detalle del presupuesto mensual a actualizar
+     */
 	public void actualizarMes(PresupuestoDetalleMes detPpto) {
 		try {
 			this.presupuestoDetalleMes = detPpto;    
@@ -86,6 +99,10 @@ public class PresupuestoAprobadorInicialBB extends SpringBeanAutowiringSupport i
 		} 	
 	}
 	
+	/**
+     * Método que actualiza la información de la del presupuesto campañal
+     * @param detPpto: variable que contiene el detalle del presupuesto campañal a actualizar
+     */
 	public void actualizarCamp(PresupuestoDetalleCampania detPpto) {
 		try {
 			this.presupuestoDetalleCampania = detPpto;
@@ -96,6 +113,9 @@ public class PresupuestoAprobadorInicialBB extends SpringBeanAutowiringSupport i
 		} 	
 	}
 	
+	/**
+     * Método que calcula el valor total del presupuesto mensual
+     */
 	public void totalizarMes() {
 		try {
 			totalMes = 0d;
@@ -118,6 +138,9 @@ public class PresupuestoAprobadorInicialBB extends SpringBeanAutowiringSupport i
 		}
 	}
 	
+	/**
+     * Método que calcula el valor total del presupuesto campañal
+     */
 	public void totalizarCamp() {
 		try {
 			totalCamp = 0d;
@@ -153,6 +176,9 @@ public class PresupuestoAprobadorInicialBB extends SpringBeanAutowiringSupport i
 		}
 	}
 	
+	/**
+     * Método que se ejecuta cuando el aprobador inicial aprueba el presupuesto. 
+     */
 	public void aprobarPresupuesto(){
 		try {
 			String tipo = this.detalle.getTipo();
@@ -223,6 +249,9 @@ public class PresupuestoAprobadorInicialBB extends SpringBeanAutowiringSupport i
 		} 	
 	}
 	
+	/**
+     * Método que se ejecuta cuando el aprobador inicial rechaza el presupuesto. 
+     */
 	public void rechazarPresupuesto(){
 		try {
 			String tipo = this.detalle.getTipo();

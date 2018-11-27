@@ -25,12 +25,17 @@ import com.marketingpersonal.service.IUsuarioService;
 public class LoginBB extends SpringBeanAutowiringSupport implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
+	
+	//Campos de la clase
 	@Autowired
 	private IUsuarioService usuarioService;
 	private Util util;
 	private LoginLDAP ldap ; 
 	private Usuario usuario = new Usuario();
 	
+	/**
+	* Constructor para controlador de Login
+	*/
 	public LoginBB() {
 		java.util.Locale.setDefault(new java.util.Locale("es","ES"));
 		resetCampos();
@@ -38,10 +43,17 @@ public class LoginBB extends SpringBeanAutowiringSupport implements Serializable
 		util = Util.getInstance();
 	}
 
+	/**
+	* Metodo para resetear la contrasena
+	*/
 	public void resetCampos() {
 		usuario.setContrasena("");
 	}
 	
+	/**
+     * Método que valida la obligatoriedad de los campos
+     * @return retorno: variable booleana que indica si han sido llenados todos los campos obligatorios
+     */
 	private boolean validar() {
 		boolean retorno = true;
 		
@@ -58,6 +70,9 @@ public class LoginBB extends SpringBeanAutowiringSupport implements Serializable
 		return retorno;
 	}
 
+	/**
+     * Método que realiza el loign del usuario validando que este se encuentre matriculado en el aplicativo y que el usuario y contraseña de red sean correctos
+     */
 	public void login() {
 		
 		ldap = new LoginLDAP();
@@ -83,6 +98,9 @@ public class LoginBB extends SpringBeanAutowiringSupport implements Serializable
 		} 	
 	}
 	
+	/**
+     * Método que realiza el cierre de sesion del usuario logeado
+     */
 	public void cerrarSession() {
 		try {
 			FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
