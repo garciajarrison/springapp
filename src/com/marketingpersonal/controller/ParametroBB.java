@@ -14,24 +14,38 @@ import com.marketingpersonal.common.Util;
 import com.marketingpersonal.model.entity.Parametro;
 import com.marketingpersonal.service.IParametroService;
 
+/**
+ * Clase controladora para manejo de Parametros
+ * @author Jarrison Garcia Y Juan Camilo Monsalve
+ * @date 30/10/2018
+ */
 @ManagedBean(name = "parametroBB")
 @ViewScoped
 public class ParametroBB extends SpringBeanAutowiringSupport implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 
+	//Campos de la clase
 	@Autowired
 	private IParametroService parametroService;
 	private Util util;
 	private Parametro selectedParametro;
 	private List<Parametro> listaParametros;
 	
+	/**
+	* Constructor para controlador de Parametros
+	*/
 	public ParametroBB() {
 		util = Util.getInstance();
 		selectedParametro = new Parametro();
 		listaParametros = getParametroService().getParametros();
 	}
 	
+	/**
+     * Método que valida la obligatoriedad de los campos
+     * @param jef: Variable de tipo Parametro
+     * @return permiteGuardar: variable booleana que indica si es posible guardar o no el nuevo Parametro
+     */
 	private boolean validar(Parametro jef) {
 		boolean permiteGuardar = true;
 		
@@ -43,6 +57,9 @@ public class ParametroBB extends SpringBeanAutowiringSupport implements Serializ
 		return permiteGuardar;
 	}
 	
+	/**
+     *Metodo para modificar un Parametro
+     */
 	public void updateParametro() {
 		try {
 			boolean actualizar = true;
@@ -74,6 +91,9 @@ public class ParametroBB extends SpringBeanAutowiringSupport implements Serializ
 		}		
 	}
 	
+	/**
+     *Metodo para eliminar un Parametro
+     */
 	public void deleteParametro() {
 		try {
 			getParametroService().deleteParametro(selectedParametro);

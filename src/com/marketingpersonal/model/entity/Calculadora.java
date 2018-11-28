@@ -7,6 +7,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+/**
+ * Clase que contiene los atributos para la entidad Calculadora
+ * @author Jarrison Garcia, Juan Camilo Monsalve 
+ * @date 30/10/2018
+ */
 @Entity
 @Table(name = "calculadora", schema = "presupuestomd.dbo")
 public class Calculadora implements java.io.Serializable {
@@ -27,6 +32,9 @@ public class Calculadora implements java.io.Serializable {
 	@Column(name = "porcentaje")
 	private float porcentaje;
 	
+	/**
+     * Constructor para entidad Calculadora
+     */
 	public Calculadora() {
 	}
 	

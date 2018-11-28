@@ -7,7 +7,11 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import com.marketingpersonal.model.entity.Usuario;
 import com.marketingpersonal.model.entity.UsuarioPorCentroCosto;
 
-
+/**
+ * Interface que contiene los metodos implementados en la clase UsuarioDAO
+ * @author Jarrison Garcia, Juan Camilo Monsalve 
+ * @date 30/10/2018
+ */
 public interface IUsuarioDAO {
 	
 	Usuario login(Usuario users);

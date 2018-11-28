@@ -6,7 +6,11 @@ import javax.faces.model.SelectItem;
 
 import com.marketingpersonal.model.entity.Calculadora;
 
-
+/**
+ * Interface que contiene los metodos implementados en la clase CalculadoraDAO
+ * @author Jarrison Garcia, Juan Camilo Monsalve 
+ * @date 30/10/2018
+ */
 public interface ICalculadoraDAO {
 	
 	void addCalculadora(Calculadora entity);

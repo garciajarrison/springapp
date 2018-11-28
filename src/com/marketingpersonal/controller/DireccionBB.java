@@ -15,12 +15,18 @@ import com.marketingpersonal.common.Util;
 import com.marketingpersonal.model.entity.Direccion;
 import com.marketingpersonal.service.IDireccionService;
 
+/**
+ * Clase controladora para manejo de Direcciones
+ * @author Jarrison Garcia, Juan Camilo Monsalve 
+ * @date 30/10/2018
+ */
 @ManagedBean(name = "direccionBB")
 @ViewScoped
 public class DireccionBB extends SpringBeanAutowiringSupport implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 
+	//Campos de la clase
 	@Autowired
 	private IDireccionService direccionService;
 	private Util util;
@@ -28,6 +34,9 @@ public class DireccionBB extends SpringBeanAutowiringSupport implements Serializ
 	private Direccion selectedDireccion;
 	private List<Direccion> listaDirecciones;
 	
+	/**
+     * Constructor para controlador de Direcciones
+     */
 	public DireccionBB() {
 		util = Util.getInstance();
 		direccion = new Direccion();
@@ -35,6 +44,11 @@ public class DireccionBB extends SpringBeanAutowiringSupport implements Serializ
 		listaDirecciones = getDireccionService().getDirecciones(false);
 	}
 	
+	/**
+     * Método que valida la obligatoriedad de los campos
+     * @param dir: Variable de tipo Direccion
+     * @return permiteGuardar: variable booleana que indica si es posible guardar o no la nueva Direccion
+     */
 	private boolean validar(Direccion dir) {
 		boolean permiteGuardar = true;
 		
@@ -46,6 +60,9 @@ public class DireccionBB extends SpringBeanAutowiringSupport implements Serializ
 		return permiteGuardar;
 	}
 	
+	/**
+     *Metodo para crear una nueva Direccion
+     */
 	public void addDireccion() {
 		try {
 			boolean guardar = true;
@@ -77,6 +94,9 @@ public class DireccionBB extends SpringBeanAutowiringSupport implements Serializ
 		} 
 	}
 
+	/**
+     *Metodo para modificar una Direccion
+     */
 	public void updateDireccion() {
 		try {
 			boolean actualizar = true;
@@ -108,6 +128,9 @@ public class DireccionBB extends SpringBeanAutowiringSupport implements Serializ
 		}
 	}
 	
+	/**
+     *Metodo para eliminar una Direccion
+     */
 	public void deleteDireccion() {
 		try {
 			getDireccionService().deleteDireccion(selectedDireccion);

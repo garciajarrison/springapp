@@ -10,6 +10,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+/**
+ * Clase que contiene los atributos para la entidad CentroCosto
+ * @author Jarrison Garcia, Juan Camilo Monsalve 
+ * @date 30/10/2018
+ */
 @Entity
 @Table(name = "centrocosto", schema = "presupuestomd.dbo")
 public class CentroCosto implements java.io.Serializable {

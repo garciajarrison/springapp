@@ -3,6 +3,11 @@ package com.marketingpersonal.common;
 import javax.mail.Authenticator;
 import javax.mail.PasswordAuthentication;
 
+/**
+ * Clase para manejo de autenticación para envío de correo
+ * @author Jarrison Garcia, Juan Camilo Monsalve 
+ * @date 30/10/2018
+ */
 class SimpleMailAuthenticator extends Authenticator {
 
 

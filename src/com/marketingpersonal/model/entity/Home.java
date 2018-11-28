@@ -11,6 +11,11 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+/**
+ * Clase que contiene los atributos para la entidad Home
+ * @author Jarrison Garcia, Juan Camilo Monsalve 
+ * @date 30/10/2018
+ */
 @Entity
 @Table(name = "home", schema = "presupuestomd.dbo")
 public class Home implements java.io.Serializable {

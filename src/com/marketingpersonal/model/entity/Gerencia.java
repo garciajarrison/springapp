@@ -12,6 +12,11 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+/**
+ * Clase que contiene los atributos para la entidad Gerencia
+ * @author Jarrison Garcia, Juan Camilo Monsalve 
+ * @date 30/10/2018
+ */
 @Entity
 @Table(name = "gerencia", schema = "presupuestomd.dbo")
 public class Gerencia implements java.io.Serializable {

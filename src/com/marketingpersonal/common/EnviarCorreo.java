@@ -1,5 +1,10 @@
 package com.marketingpersonal.common;
 
+/**
+ * Clase para envio de correos electronicos
+ * @author Jarrison Garcia, Juan Camilo Monsalve 
+ * @date 30/10/2018
+ */
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.NumberFormat;
@@ -19,7 +24,12 @@ public class EnviarCorreo {
 	private String password = "Marketing2018";
 	private String username = "presupuesto@marketingpersonal.com";
     
-	
+	/**
+     * Método que realiza el envío de correo electronico a usuario Responsable
+     * @param presupuesto: Variable de tipo Presupuesto que contiene la información del presupuesto que se enviará en el correo
+     * @param aprobadorInicialFinal: usuario destinatario del correo
+     * @param estado: estado del presupuesto
+     */
 	public void enviaCorreoResponsable(Presupuesto presupuesto, Usuario aprobadorInicialFinal, EnumEstadosPresupuesto estado) {
 		try {
 			String estadotxt = "";
@@ -42,6 +52,7 @@ public class EnviarCorreo {
 
 			String html = "";
 
+			//Almacenamos en variable tipo string codigo html para dar formato al correo a enviar
 			html = leerArchivoLocal(this.getClass(), "htmlResponsable.txt");
 
 			html = html.replace(":responsable", presupuesto.getUsuario().getNombre());
@@ -64,7 +75,7 @@ public class EnviarCorreo {
 
 			messageBody = html;
 
-			// Setup mail server
+			// Datos de conexion al servidor SMTP
 			Properties props = System.getProperties();
 			 props.put("mail.smtp.auth",true);
 		      props.put("mail.smtp.starttls.enable",true);
@@ -74,11 +85,11 @@ public class EnviarCorreo {
 		      props.put("mail.smtp.connectiontimeout", "20000");
 		      props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
 
-		      // Get the Session object.
+		      // Obtenemos el objeto Session
 		      SimpleMailAuthenticator authenticator = new SimpleMailAuthenticator(username, password);
 		      Session session = Session.getInstance(props, authenticator);
 
-			// Define a new mail message
+			// Definicion del mensaje de correo
 			Message message = new MimeMessage(session);
 			message.setFrom(new InternetAddress(from));
 			message.setRecipients(Message.RecipientType.TO, myList);
@@ -86,21 +97,19 @@ public class EnviarCorreo {
 			message.setSubject(subject);
 			message.setSentDate(new Date());
 
-			// Create a message part to represent the body text
+			// Cuerpo del correo
 			BodyPart messageBodyPart = new MimeBodyPart();
 
 			messageBodyPart.setContent(messageBody, "text/html");
 
-			// use a MimeMultipart as we need to handle the file attachments
+			// Variable para manejo de adjuntos
 			Multipart multipart = new MimeMultipart();
 
-			// add the message body to the mime message
 			multipart.addBodyPart(messageBodyPart);
 
-			// Put all message parts in the message
 			message.setContent(multipart);
 
-			// Send the message
+			// Envío de mensaje
 			Transport.send(message);
 			System.out.println("Correo enviado");
 		} catch (Exception e) {
@@ -108,6 +117,13 @@ public class EnviarCorreo {
 		}
 	}
 
+	/**
+     * Método que realiza el envío de correo electronico a usuario Aprobador Inicial
+     * @param presupuesto: Variable de tipo Presupuesto que contiene la información del presupuesto que se enviará en el correo
+     * @param responsable: usuario remitente del correo
+     * @param listaAprobadorInicial: usuarios destinatarios del correo
+     * @param estado: estado del presupuesto
+     */
 	public void enviaCorreoAprobadorInicial(Presupuesto presupuesto, Usuario responsable, List<Usuario> listaAprobadorInicial, EnumEstadosPresupuesto estado) {
 		try {
 			if (responsable.getCorreo() == null || responsable.getCorreo().equals("")) {
@@ -153,7 +169,7 @@ public class EnviarCorreo {
 
 			messageBody = html;
 
-			// Setup mail server
+			// Datos de conexion al servidor SMTP
 			Properties props = System.getProperties();
 			props.put("mail.smtp.auth",true);
 		      props.put("mail.smtp.starttls.enable",true);
@@ -163,11 +179,11 @@ public class EnviarCorreo {
 		      props.put("mail.smtp.connectiontimeout", "20000");
 		      props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
 
-		      // Get the Session object.
+		   // Obtenemos el objeto Session
 		      SimpleMailAuthenticator authenticator = new SimpleMailAuthenticator(username, password);
 		      Session session = Session.getInstance(props, authenticator);
 
-			// Define a new mail message
+		   // Definicion del mensaje de correo
 			Message message = new MimeMessage(session);
 			message.setFrom(new InternetAddress(from));
 			message.setRecipients(Message.RecipientType.TO, myList);
@@ -179,21 +195,19 @@ public class EnviarCorreo {
 			message.setSubject(subject);
 			message.setSentDate(new Date());
 
-			// Create a message part to represent the body text
+			//Variable que respresenta el cuerpo del correo
 			BodyPart messageBodyPart = new MimeBodyPart();
 
 			messageBodyPart.setContent(messageBody, "text/html");
 
-			// use a MimeMultipart as we need to handle the file attachments
+			// Variable para manejo de adjuntos
 			Multipart multipart = new MimeMultipart();
 
-			// add the message body to the mime message
 			multipart.addBodyPart(messageBodyPart);
 
-			// Put all message parts in the message
 			message.setContent(multipart);
 
-			// Send the message
+			// Envío de mensaje
 			Transport.send(message);
 			System.out.println("Correo enviado");
 		} catch (Exception e) {
@@ -201,6 +215,13 @@ public class EnviarCorreo {
 		}
 	}
 	
+	/**
+     * Método que realiza el envío de correo electronico a usuario Aprobador Final
+     * @param presupuesto: Variable de tipo Presupuesto que contiene la información del presupuesto que se enviará en el correo
+     * @param aprobadorInicial: usuario remitente del correo
+     * @param listaAprobadorFinal: usuarios destinatarios del correo
+     * @param estado: estado del presupuesto
+     */
 	public void enviaCorreoAprobadorFinal(Presupuesto presupuesto, Usuario aprobadorInicial, List<Usuario> listaAprobadorFinal, EnumEstadosPresupuesto estado) {
 		try {
 			if (aprobadorInicial.getCorreo() == null || aprobadorInicial.getCorreo().equals("")) {
@@ -246,7 +267,7 @@ public class EnviarCorreo {
 
 			messageBody = html;
 
-			// Setup mail server
+			// Datos de conexion al servidor SMTP
 			Properties props = System.getProperties();
 			props.put("mail.smtp.auth",true);
 		      props.put("mail.smtp.starttls.enable",true);
@@ -256,11 +277,11 @@ public class EnviarCorreo {
 		      props.put("mail.smtp.connectiontimeout", "20000");
 		      props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
 
-		      // Get the Session object.
+		   // Obtenemos el objeto Session
 		      SimpleMailAuthenticator authenticator = new SimpleMailAuthenticator(username, password);
 		      Session session = Session.getInstance(props, authenticator);
 
-			// Define a new mail message
+		   // Definicion del mensaje de correo
 			Message message = new MimeMessage(session);
 			message.setFrom(new InternetAddress(from));
 			message.setRecipients(Message.RecipientType.TO, myList);
@@ -272,21 +293,19 @@ public class EnviarCorreo {
 			message.setSubject(subject);
 			message.setSentDate(new Date());
 
-			// Create a message part to represent the body text
+			//Variable que respresenta el cuerpo del correo
 			BodyPart messageBodyPart = new MimeBodyPart();
 
 			messageBodyPart.setContent(messageBody, "text/html");
 
-			// use a MimeMultipart as we need to handle the file attachments
+			// Variable para manejo de adjuntos
 			Multipart multipart = new MimeMultipart();
 
-			// add the message body to the mime message
 			multipart.addBodyPart(messageBodyPart);
 
-			// Put all message parts in the message
 			message.setContent(multipart);
 
-			// Send the message
+			// Envío de correo
 			Transport.send(message);
 			System.out.println("Correo enviado");
 		} catch (Exception e) {
@@ -294,77 +313,6 @@ public class EnviarCorreo {
 		}
 	}
 	
-	
-	public void enviaCorreoMP() {
-		try {
-			InternetAddress[] myList = new InternetAddress[1];
-			myList[0] = new InternetAddress("camel8160@gmail.com");
-
-			InternetAddress[] listaCorreosAprobadorFinal = null;
-
-			String subject = "Notificación de Presupuesto";
-			String messageBody = "";
-
-			// Formatos de numeros
-			NumberFormat formatoMoneda = NumberFormat.getCurrencyInstance();
-			formatoMoneda.setMaximumFractionDigits(0);
-
-			NumberFormat formatoPorcentaje = NumberFormat.getPercentInstance();
-			formatoPorcentaje.setMaximumFractionDigits(2);
-
-			String html = "";
-
-			html = leerArchivoLocal(this.getClass(), "htmlAprobadorFinal.txt");
-
-
-			messageBody = html;
-
-			// Setup mail server
-			Properties props = System.getProperties();
-			props.put("mail.smtp.auth",true);
-		      props.put("mail.smtp.starttls.enable",true);
-		      props.put("mail.smtp.host", mailServer);
-		      props.put("mail.smtp.port", "587");
-		      props.put("mail.transport.protocol", "smtp");
-		      props.put("mail.smtp.connectiontimeout", "20000");
-		      props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
-
-			// Get the Session object.
-		      SimpleMailAuthenticator authenticator = new SimpleMailAuthenticator(username, password);
-		      Session session = Session.getInstance(props, authenticator);
-
-			// Define a new mail message
-			Message message = new MimeMessage(session);
-			message.setFrom(new InternetAddress(from));
-			message.setRecipients(Message.RecipientType.TO, myList);
-
-			
-			message.setSubject(subject);
-			message.setSentDate(new Date());
-
-			// Create a message part to represent the body text
-			BodyPart messageBodyPart = new MimeBodyPart();
-
-			messageBodyPart.setContent(messageBody, "text/html");
-
-			// use a MimeMultipart as we need to handle the file attachments
-			Multipart multipart = new MimeMultipart();
-
-			// add the message body to the mime message
-			multipart.addBodyPart(messageBodyPart);
-
-			// Put all message parts in the message
-			message.setContent(multipart);
-
-			// Send the message
-			Transport.send(message);
-			System.out.println("Correo enviado");
-		} catch (Exception e) {
-			System.out.println(e);
-		}
-	}
-	
-
 	public static String leerArchivoLocal(Class<?> claseBase, String nombreArchivo) throws IOException {
 		String resultado = "";
 		InputStream is = claseBase.getResourceAsStream(nombreArchivo);
@@ -377,21 +325,22 @@ public class EnviarCorreo {
 		return resultado;
 	}
 	
-	
+	//Metodo MAin para realizar pruebas de envio de correos a traves del metodo sendEmail
 	public static void main(String[] args) {
 		EnviarCorreo a =new EnviarCorreo();
 		a.sendEmail();		
 	}
 	
-	 public static boolean sendEmail() {
-	      String to = "camel8160@gmail.com";
+	public static boolean sendEmail() {
+	      //Correo remitente
+		  String to = "presupuesto@marketingpersonal.com";
 
-	      // Sender's email ID needs to be mentioned
+	      // Correo destinatario
 	      String from = "presupuesto@marketingpersonal.com";
 	      final String username = "presupuesto@marketingpersonal.com";
 	      final String password = "Marketing2018";
 	      	      
-	      // Assuming you are sending email through relay.jangosmtp.net
+	      // Servidor SMTP
 	      String host = "smtp.office365.com";
 
 	      Properties props = new Properties();
@@ -404,7 +353,6 @@ public class EnviarCorreo {
 	      props.put("mail.smtp.connectiontimeout", "20000");
 	      props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
 
-	      // Get the Session object.
 	      SimpleMailAuthenticator authenticator = new SimpleMailAuthenticator(username, password);
 	      Session session = Session.getInstance(props, authenticator);
 
@@ -413,23 +361,21 @@ public class EnviarCorreo {
 	         // Create a default MimeMessage object.
 	         Message message = new MimeMessage(session);
 
-	         // Set From: header field of the header.
 	         message.setFrom(new InternetAddress(from));
 
-	         // Set To: header field of the header.
 	         message.setRecipients(Message.RecipientType.TO,
 	         InternetAddress.parse(to));
 
-	         // Set Subject: header field
+	         // Titulo del correo
 	         message.setSubject("test");
 
-	         // Now set the actual message
+	         // Mensaje del coreeo
 	         message.setText("test");
 
-	         // Send message
+	         // Envío de correo
 	         Transport.send(message);
 
-	         System.out.println("Sent message successfully....");
+	         System.out.println("Mensaje Enviado....");
 
 	      } catch (MessagingException e) {
 	            throw new RuntimeException(e);

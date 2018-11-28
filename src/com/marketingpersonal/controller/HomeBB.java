@@ -17,12 +17,18 @@ import com.marketingpersonal.common.Util;
 import com.marketingpersonal.model.entity.Home;
 import com.marketingpersonal.service.IHomeService;
 
+/**
+ * Clase controladora para manejo del home de la aplicación en el cual se visualizan las variables macroeconomicas
+ * @author Jarrison Garcia, Juan Camilo Monsalve 
+ * @date 30/10/2018
+ */
 @ManagedBean(name = "homeBB")
 @ViewScoped
 public class HomeBB extends SpringBeanAutowiringSupport implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 
+	//Campos de la clase
 	@Autowired
 	private IHomeService homeService;
 	private Util util;
@@ -32,6 +38,9 @@ public class HomeBB extends SpringBeanAutowiringSupport implements Serializable 
 	
 	private UploadedFile imagen;
 	
+	/**
+     * Constructor para controlador de Home
+     */
 	public HomeBB() {
 		util = Util.getInstance();
 		home = new Home();
@@ -39,6 +48,10 @@ public class HomeBB extends SpringBeanAutowiringSupport implements Serializable 
 		listaHomes = getHomeService().getHomes(false);
 	}
 	
+	/**
+     * Metodo para actualizar imagenes de las variables macroeconomicas
+     * @param event: variable que contiene la imagen a cargar al perfil del usuario
+     */
 	public void upload(FileUploadEvent event) {
 		imagen = event.getFile();
         if(imagen != null) {
@@ -47,6 +60,12 @@ public class HomeBB extends SpringBeanAutowiringSupport implements Serializable 
         }
     }
 	
+	/**
+     * Método que valida la obligatoriedad de los campos
+     * @param ho: Variable de tipo Home
+     * @param validaImagen: Variable booleana que indica si la imagen es valida o no
+     * @return permiteGuardar: variable booleana que indica si es posible guardar o no la nueva imagen
+     */
 	private boolean validar(Home ho, boolean validaImagen) {
 		boolean permiteGuardar = true;
 		
@@ -88,6 +107,9 @@ public class HomeBB extends SpringBeanAutowiringSupport implements Serializable 
 		return permiteGuardar;
 	}
 	
+	/**
+     *Metodo para crear una nueva Imagen de variable Macroeconomica
+     */
 	public void addHome() {
 		try {
 			if(validar(home, true)) {
@@ -104,6 +126,9 @@ public class HomeBB extends SpringBeanAutowiringSupport implements Serializable 
 		} 	
 	}
 
+	/**
+     *Metodo para modificar una Imagen de variable Macroeconomica
+     */
 	public void updateHome() {
 		try {
 			if(validar(selectedHome, false)) {
@@ -119,6 +144,9 @@ public class HomeBB extends SpringBeanAutowiringSupport implements Serializable 
 		} 	
 	}
 	
+	/**
+     *Metodo para eliminar una Imagen de variable Macroeconomica
+     */
 	public void deleteHome() {
 		try {
 			getHomeService().deleteHome(selectedHome);

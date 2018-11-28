@@ -20,6 +20,11 @@ import org.mindrot.jbcrypt.BCrypt;
 import org.primefaces.PrimeFaces;
 import org.primefaces.util.ComponentUtils;
 
+/**
+ * Clase para manejo de utilidades comunes y transversales en toda la aplicación
+ * @author Jarrison Garcia, Juan Camilo Monsalve 
+ * @date 30/10/2018
+ */
 public class Util {
 	
 	private static Util instance;
@@ -33,6 +38,7 @@ public class Util {
 
 	public static Util getInstance() {
 		try {
+			//Definición de localización para manejo de formatos de numeros
 			java.util.Locale.setDefault(new java.util.Locale("es","ES"));
 		}catch(Exception e){}
 		if(instance == null)
@@ -40,6 +46,11 @@ public class Util {
 		return instance;
 	}
 	
+	/**
+     * Método que realiza validacion de nulos o vacios en una variable determinada
+     * @param valor: Variable que contiene el valor a validar
+     * @return variable booleana que indica si el valor ingresado es diferente de nulo o vacio
+     */
 	public boolean validaNuloVacio(String valor) {
 		if(valor == null || "".equals(valor)) {
 			return true;
@@ -47,12 +58,18 @@ public class Util {
 		return false;
 	}
 	
+	/**
+     * Método que realiza validacion session del usuario
+     */
 	public void validarSession() {
 		if(this.getSessionAttribute(EnumSessionAttributes.USUARIO) == null) {
 			cerrarSesion();
 		}
 	}
 	
+	/**
+     * Método que realiza el cierre de session del usuario redireccionandolo a la pantalla de login
+     */
 	public void cerrarSesion() {
 		FacesContext fc = FacesContext.getCurrentInstance();
 		ExternalContext extContext = fc.getExternalContext();
@@ -64,18 +81,28 @@ public class Util {
 		this.cerrarSesionHttp();
 	}
 	
+	/**
+     * Método que realiza el seteo de la session del usuario que se logea en la aplicacion
+     */
 	public void setSessionAttribute(EnumSessionAttributes property, Object value){
 		FacesContext facesContext = FacesContext.getCurrentInstance();
 		HttpSession session = (HttpSession) facesContext.getExternalContext().getSession(true);
 		session.setAttribute(property.toString(), value);
 	}
 	
+	/**
+     * Método que obtiene la session del usuario logeado en la aplicacion
+     */
 	public Object getSessionAttribute(EnumSessionAttributes property) {
 		FacesContext facesContext = FacesContext.getCurrentInstance();
 		HttpSession session = (HttpSession) facesContext.getExternalContext().getSession(true);
 		return session.getAttribute(property.toString());
 	}
 	
+	/**
+     * Método que realiza la redirección de una pagina a otra
+     * @param page: Variable que contiene la pagina hacia la cual se va redireccionar
+     */
 	public void redirect(String page) {
 		ExternalContext ec = FacesContext.getCurrentInstance()
 		        .getExternalContext();
@@ -88,7 +115,7 @@ public class Util {
 	}
 	
 	/**
-	 * Ejejcuta codigo javascript en las paginas
+	 * Ejecuta codigo javascript en las paginas
 	 * @param codigoJS codigo javascript a ejecutar
 	 * @return retorna si la peticion era ajax la ejecucion exitosa
 	 */
@@ -103,7 +130,7 @@ public class Util {
 	}
 
 	/**
-	 * Ejejcuta actualiza componentes en la vista
+	 * Ejecuta actualiza componentes en la vista
 	 * @param componente componente a actualizar de la vista
 	 * @return retorna si la peticion era ajax la actualizacion exitosa
 	 */
@@ -118,8 +145,8 @@ public class Util {
 	}
 
 	/**
-	 * obtiene el identificador de la sesión
-	 * @return devuelve el Id de la sesion
+	 * Obtiene el identificador de la sesión
+	 * @return retorna el Id de la sesion
 	 */
 	public String getIdSesion()	{
 		HttpSession sesion = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
@@ -180,32 +207,64 @@ public class Util {
 		return (String) FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get(atributo.toString());
 	}
 	
+	/**
+	 * Metodo para mostrar mensaje de error y redireccionar a otra pagina
+	 * @param msg variable que contiene el mensaje a mostrar
+	 * @param aceptRedirect variable booleana indica si de debe redireccionar o no de pagina
+	 */
 	public void mostrarErrorRedirect(String msg, boolean aceptRedirect) {
 		FacesContext.getCurrentInstance().getExternalContext().getFlash().setKeepMessages(aceptRedirect);
 		mostrarError(msg);
 	}
 	
+	/**
+	 * Metodo para mostrar mensaje de error 
+	 * @param mensaje variable que contiene el mensaje a mostrar
+	 */
 	public void mostrarError(String mensaje) {
 		this.mostrarMsgGeneral(mensaje, FacesMessage.SEVERITY_ERROR);
 	}
 	
+	/**
+	 * Metodo para mostrar mensaje y redireccionar a otra pagina
+	 * @param msg variable que contiene el mensaje a mostrar
+	 * @param aceptRedirect variable booleana indica si de debe redireccionar o no de pagina
+	 */
 	public void mostrarMensajeRedirect(String msg, boolean aceptRedirect) {
 		FacesContext.getCurrentInstance().getExternalContext().getFlash().setKeepMessages(aceptRedirect);
 		mostrarMensaje(msg);
 	}
 	
+	/**
+	 * Metodo para mostrar mensaje de error 
+	 * @param mensaje variable que contiene el mensaje a mostrar
+	 */
 	public void mostrarMensaje(String mensaje) {
 		this.mostrarMsgGeneral(mensaje, FacesMessage.SEVERITY_INFO);
 	}
 	
+	/**
+	 * Metodo para mostrar mensaje 
+	 * @param mensaje variable que contiene el mensaje a mostrar
+	 * @param severidad variable que indica la severidad del mensaje
+	 */
 	private void mostrarMsgGeneral(String mensaje, FacesMessage.Severity severidad) {
 		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severidad, mensaje, ""));  
 	}
 
+	/**
+	 * Metodo para encriptar contraseñas
+	 * @param clave variable que contiene la clave a encriptar
+	 */
 	public String encriptarClave(String clave) {
 		return BCrypt.hashpw(clave, BCrypt.gensalt());
 	}
 	
+	/**
+	 * Metodo para validar contraseñas
+	 * @param plainPassword variable que contiene la clave sin encriptar
+	 * @param hashedPassword variable que contiene la clave encriptada
+	 */
 	public boolean verificarContrasenna(String plainPassword, String hashedPassword) {
 		if (BCrypt.checkpw(plainPassword, hashedPassword))
 			return true;
@@ -272,6 +331,11 @@ public class Util {
 		return retorno;
 	}
 	
+	/**
+	 * Metodo para crear la foto que se visualiza en los datos generales del menú principal
+	 * @param fileName variable que contiene el nombre del archivo de foto
+	 * @param foto variable que contiene la foto a cargar
+	 */
 	public String crearFoto(String fileName, byte[] foto) {
 		
 		ServletContext servletContext = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
@@ -287,7 +351,7 @@ public class Util {
 				.append(fileName).append(".jpg");
 		try {
 			this.crearDirectorio(realPath.toString());
-			// convert byte array back to BufferedImage
+			
 			InputStream in = new ByteArrayInputStream(foto);
 			BufferedImage bImageFromConvert = ImageIO.read(in);
 

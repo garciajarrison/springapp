@@ -34,12 +34,19 @@ import com.marketingpersonal.service.IDireccionService;
 import com.marketingpersonal.service.IGerenciaService;
 import com.marketingpersonal.service.IJefaturaService;
 
+/**
+ * Clase controladora para manejo de Centros de Costo
+ * @author Jarrison Garcia, Juan Camilo Monsalve 
+ * @date 30/10/2018
+ */
+
 @ManagedBean(name = "centroCostoBB")
 @ViewScoped
 public class CentroCostoBB extends SpringBeanAutowiringSupport implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
+	//Campos de la clase
 	@Autowired
 	private ICentroCostoService centroCostoService;
 	@Autowired
@@ -67,6 +74,9 @@ public class CentroCostoBB extends SpringBeanAutowiringSupport implements Serial
 	private Validacion validacion;
 	private List<Validacion> listaValidacion;
 
+	/**
+     * Constructor para controlador de Centros de Costo
+     */
 	public CentroCostoBB() {
 		util = Util.getInstance();
 		centroCosto = new CentroCosto();
@@ -78,6 +88,11 @@ public class CentroCostoBB extends SpringBeanAutowiringSupport implements Serial
 		lstJefaturas = getJefaturaService().getJefaturas(true);
 	}
 
+	/**
+     * Método que valida la obligatoriedad de los campos
+     * @param cc: Variable de tipo Centro de Costo
+     * @return permiteGuardar: variable booleana que indica si es posible guardar o no el nuevo centro de costo
+     */
 	private boolean validar(CentroCosto cc) {
 		boolean permiteGuardar = true;
 
@@ -104,6 +119,9 @@ public class CentroCostoBB extends SpringBeanAutowiringSupport implements Serial
 		return permiteGuardar;
 	}
 
+	/**
+     *Metodo para crear un nuevo Centro de Costo
+     */
 	public void addCentroCosto() {
 		try {
 			boolean guardar = true;
@@ -136,6 +154,9 @@ public class CentroCostoBB extends SpringBeanAutowiringSupport implements Serial
 		}
 	}
 
+	/**
+     *Metodo para modificar un Centro de Costo
+     */
 	public void updateCentroCosto() {
 		try {
 			boolean actualizar = true;
@@ -168,6 +189,9 @@ public class CentroCostoBB extends SpringBeanAutowiringSupport implements Serial
 		}
 	}
 
+	/**
+     *Metodo para eliminar un Centro de Costo
+     */
 	public void deleteCentroCosto() {
 		try {
 			getCentroCostoService().deleteCentroCosto(selectedCentroCosto);
@@ -183,7 +207,11 @@ public class CentroCostoBB extends SpringBeanAutowiringSupport implements Serial
 			}
 		} 
 	}
-
+	
+	/**
+     *Metodo para validar y cargar un archivo plano de Centros de Costo
+     *@param event variable que contiene información del archivo plano a cargar
+     */
 	public void uploadPlanoCentrosCosto(FileUploadEvent event) {
 
 		try {
@@ -207,6 +235,9 @@ public class CentroCostoBB extends SpringBeanAutowiringSupport implements Serial
 		}
 	}
 
+	/**
+	 *Metodo para descarga de archivo plano de Centros de Costo de ejemplo
+	 */
 	public StreamedContent getFileDescargar() {
 		InputStream stream = FacesContext.getCurrentInstance().getExternalContext()
 				.getResourceAsStream("/resources/files/Archivo Plano Centros de Costo.xlsx");
@@ -216,6 +247,10 @@ public class CentroCostoBB extends SpringBeanAutowiringSupport implements Serial
 		return fileDescargar;
 	}
 
+	/**
+     *Metodo para validar Centros de Costo desde archivo plano
+     *@param workbook: variable que contiene libro de excel
+     */
 	private boolean validarArchivoPlano(XSSFWorkbook workbook) {
 		boolean permiteGuardar = true;
 
@@ -356,6 +391,10 @@ public class CentroCostoBB extends SpringBeanAutowiringSupport implements Serial
 		return permiteGuardar;
 	}
 
+	/**
+     *Metodo para insertar Centros de Costo desde archivo plano
+     *@param sheet: variable que contiene la hoja del archivo de excel
+     */
 	public void insertarCentrosCosto(XSSFSheet sheet) {
 		Row row;
 		int numFilas = sheet.getPhysicalNumberOfRows();
@@ -384,6 +423,10 @@ public class CentroCostoBB extends SpringBeanAutowiringSupport implements Serial
 		listaCentroCostos = getCentroCostoService().getCentroCostos(false);
 	}
 
+	/**
+     *Metodo para obtener el id de una gerencia a partir del nombre
+     *@param nombreGerencia: variable que contiene el nombre de la gerencia
+     */
 	public int getIdGerenciaByNombre(String nombreGerencia) {
 		for (Gerencia ger : lstGerencias) {
 			if (ger.getNombre().equals(WordUtils.capitalizeFully(nombreGerencia).trim())) {
@@ -393,6 +436,10 @@ public class CentroCostoBB extends SpringBeanAutowiringSupport implements Serial
 		return 0;
 	}
 
+	/**
+     *Metodo para obtener el id de una direccion a partir del nombre
+     *@param nombreDireccion: variable que contiene el nombre de la direccion
+     */
 	public int getIdDireccionByNombre(String nombreDireccion) {
 		for (Direccion dir : lstDireccions) {
 			if (dir.getNombre().equals(WordUtils.capitalizeFully(nombreDireccion))) {
@@ -402,6 +449,10 @@ public class CentroCostoBB extends SpringBeanAutowiringSupport implements Serial
 		return 0;
 	}
 
+	/**
+     *Metodo para obtener el id de una jefatura a partir del nombre
+     *@param nombreJefatura: variable que contiene el nombre de la jefatura
+     */
 	public int getIdJefaturaByNombre(String nombreJefatura) {
 		for (Jefatura jef : lstJefaturas) {
 			if (jef.getNombre().equals(WordUtils.capitalizeFully(nombreJefatura))) {

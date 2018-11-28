@@ -11,6 +11,11 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+/**
+ * Clase que contiene los atributos para la entidad UsuarioPorCentroCosto
+ * @author Jarrison Garcia, Juan Camilo Monsalve 
+ * @date 30/10/2018
+ */
 @Entity
 @Table(name = "usuario_x_centrocosto", schema = "presupuestomd.dbo")
 public class UsuarioPorCentroCosto implements java.io.Serializable {

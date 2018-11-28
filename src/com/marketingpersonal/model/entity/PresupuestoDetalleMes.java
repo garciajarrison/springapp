@@ -14,6 +14,11 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+/**
+ * Clase que contiene los atributos para la entidad PresupuestoDetalleMes
+ * @author Jarrison Garcia, Juan Camilo Monsalve 
+ * @date 30/10/2018
+ */
 @Entity
 @Table(name = "detalle_presupuesto_mes", schema = "presupuestomd.dbo")
 public class PresupuestoDetalleMes implements java.io.Serializable {

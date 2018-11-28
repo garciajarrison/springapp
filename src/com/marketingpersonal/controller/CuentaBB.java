@@ -27,12 +27,18 @@ import com.marketingpersonal.model.entity.Cuenta;
 import com.marketingpersonal.model.entity.Validacion;
 import com.marketingpersonal.service.ICuentaService;
 
+/**
+ * Clase controladora para manejo de Cuentas
+ * @author Jarrison Garcia, Juan Camilo Monsalve 
+ * @date 30/10/2018
+ */
 @ManagedBean(name = "cuentaBB")
 @ViewScoped
 public class CuentaBB extends SpringBeanAutowiringSupport implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 
+	//Campos de la clase
 	@Autowired
 	private ICuentaService cuentaService;
 	private Util util;
@@ -45,6 +51,9 @@ public class CuentaBB extends SpringBeanAutowiringSupport implements Serializabl
 	private Validacion validacion;
 	private List<Validacion> listaValidacion;
 	
+	/**
+     * Constructor para controlador de Cuentas
+     */
 	public CuentaBB() {
 		util = Util.getInstance();
 		cuenta = new Cuenta();
@@ -52,6 +61,11 @@ public class CuentaBB extends SpringBeanAutowiringSupport implements Serializabl
 		listaCuentas = getCuentaService().getCuentas(false);
 	}
 	
+	/**
+     * Método que valida la obligatoriedad de los campos
+     * @param cue: Variable de tipo Cuenta
+     * @return permiteGuardar: variable booleana que indica si es posible guardar o no la nueva Cuenta
+     */
 	private boolean validar(Cuenta cue) {
 		boolean permiteGuardar = true;		
 
@@ -68,6 +82,9 @@ public class CuentaBB extends SpringBeanAutowiringSupport implements Serializabl
 		return permiteGuardar;
 	}
 	
+	/**
+     *Metodo para crear una nueva Cuenta
+     */
 	public void addCuenta() {
 		try {
 			boolean guardar = true;
@@ -98,6 +115,9 @@ public class CuentaBB extends SpringBeanAutowiringSupport implements Serializabl
 		} 		
 	}
 
+	/**
+     *Metodo para modificar una Cuenta
+     */
 	public void updateCuenta() {
 		try {
 			boolean actualizar = true;
@@ -129,6 +149,9 @@ public class CuentaBB extends SpringBeanAutowiringSupport implements Serializabl
 		} 	
 	}
 	
+	/**
+     *Metodo para eliminar una Cuenta
+     */
 	public void deleteCuenta() {
 		try {
 			getCuentaService().deleteCuenta(selectedCuenta);
@@ -145,6 +168,10 @@ public class CuentaBB extends SpringBeanAutowiringSupport implements Serializabl
 		} 	
 	}
 	
+	/**
+     *Metodo para validar y cargar un archivo plano de Cuentas
+     *@param event variable que contiene información del archivo plano a cargar
+     */
 	public void uploadPlanoCuentas(FileUploadEvent event) {
 		
 		try {
@@ -168,12 +195,19 @@ public class CuentaBB extends SpringBeanAutowiringSupport implements Serializabl
 		
 	}
 	
+	/**
+	 *Metodo para descarga de archivo plano de Cuentas de ejemplo
+	 */
 	public StreamedContent getFileDescargar() {
     	InputStream stream = FacesContext.getCurrentInstance().getExternalContext().getResourceAsStream("/resources/files/Archivo Plano Cuentas.xlsx");
         fileDescargar = new DefaultStreamedContent(stream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Archivo Plano Cuentas.xlsx");
         return fileDescargar;
     }
 	
+	/**
+     *Metodo para validar Cuentas desde archivo plano
+     *@param workbook: variable que contiene libro de excel
+     */
 	private boolean validarArchivoPlano(XSSFWorkbook workbook) {
 		boolean permiteGuardar = true;
 		
@@ -255,6 +289,10 @@ public class CuentaBB extends SpringBeanAutowiringSupport implements Serializabl
 		return permiteGuardar;
 	}
     
+	/**
+     *Metodo para insertar Cuentas desde archivo plano
+     *@param sheet: variable que contiene la hoja del archivo de excel
+     */
     public void insertarCuentas(XSSFSheet sheet) {
 		Row row;
 		int numFilas = sheet.getPhysicalNumberOfRows();	

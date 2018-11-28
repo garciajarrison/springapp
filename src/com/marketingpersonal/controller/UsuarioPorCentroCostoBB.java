@@ -30,12 +30,18 @@ import com.marketingpersonal.model.entity.Validacion;
 import com.marketingpersonal.service.ICentroCostoService;
 import com.marketingpersonal.service.IUsuarioService;
 
+/**
+ * Clase controladora para manejo de Usuarios por Centros de Costo
+ * @author Jarrison Garcia, Juan Camilo Monsalve 
+ * @date 30/10/2018
+ */
 @ManagedBean(name = "usuarioPorCentroCostoBB")
 @ViewScoped
 public class UsuarioPorCentroCostoBB extends SpringBeanAutowiringSupport implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 
+	//Campos de la clase
 	@Autowired
 	private IUsuarioService usuarioService;
 	@Autowired
@@ -63,6 +69,9 @@ public class UsuarioPorCentroCostoBB extends SpringBeanAutowiringSupport impleme
 	private int idf;
 	private int idcc;
 	
+	/**
+     * Constructor para controlador de Usuarios por Centros de Costo
+     */
 	public UsuarioPorCentroCostoBB() {
 		util = Util.getInstance();
 		usuarioPorCentroCosto = new UsuarioPorCentroCosto();
@@ -72,6 +81,11 @@ public class UsuarioPorCentroCostoBB extends SpringBeanAutowiringSupport impleme
 		lstUsuarios = getUsuarioService().getUsuarios();
 	}
 	
+	/**
+     * Método que valida la obligatoriedad de los campos
+     * @param usu: Variable de tipo Usuario por Centro de Costo
+     * @return permiteGuardar: variable booleana que indica si es posible guardar o no el nuevo usuario por centro de costo
+     */
 	private boolean validar(UsuarioPorCentroCosto cue) {
 		boolean permiteGuardar = true;
 		
@@ -98,6 +112,9 @@ public class UsuarioPorCentroCostoBB extends SpringBeanAutowiringSupport impleme
 		return permiteGuardar;
 	}
 	
+	/**
+     *Metodo para crear un nuevo usuario por centro de costo
+     */
 	public void addUsuarioPorCentroCosto() {
 		try {
 			boolean guardar = true;
@@ -129,6 +146,9 @@ public class UsuarioPorCentroCostoBB extends SpringBeanAutowiringSupport impleme
 		}
 	}
 
+	/**
+     *Metodo para modificar un usuario por centro de costo
+     */
 	public void updateUsuarioPorCentroCosto() {
 		try {
 			boolean actualizar = true;
@@ -169,6 +189,9 @@ public class UsuarioPorCentroCostoBB extends SpringBeanAutowiringSupport impleme
 		} 	
 	}
 	
+	/**
+     *Metodo para eliminar un usuario por centro de costo
+     */
 	public void deleteUsuarioPorCentroCosto() {
 		try {
 			getUsuarioService().deleteUsuarioPorCentroCosto(selectedUsuarioPorCentroCosto);
@@ -181,6 +204,9 @@ public class UsuarioPorCentroCostoBB extends SpringBeanAutowiringSupport impleme
 		} 	
 	}
 	
+	/**
+     *Metodo para validar y cargar un archivo plano de usuarios por centros de costo
+     */
 	public void uploadPlanoUsuariosPorCentrosCosto(FileUploadEvent event) {
 		
 		try {
@@ -204,12 +230,18 @@ public class UsuarioPorCentroCostoBB extends SpringBeanAutowiringSupport impleme
 		
 	}
 	
+	/**
+	 *Metodo para descarga de archivo plano de usuarios por cnetros de costo de ejemplo
+	 */
 	public StreamedContent getFileDescargar() {
     	InputStream stream = FacesContext.getCurrentInstance().getExternalContext().getResourceAsStream("/resources/files/Archivo Plano Usuarios por Centros de Costo.xlsx");
         fileDescargar = new DefaultStreamedContent(stream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Archivo Plano Usuarios por Centros de Costo.xlsx");
         return fileDescargar;
     }
 	
+	/**
+     *Metodo para validar usuarios por centros de costo desde archivo plano
+     */
 	private boolean validarArchivoPlano(XSSFWorkbook workbook) {
 		
 		boolean permiteGuardar = true;
@@ -349,6 +381,9 @@ public class UsuarioPorCentroCostoBB extends SpringBeanAutowiringSupport impleme
 		return permiteGuardar;
 	}
     
+	/**
+     *Metodo para insertar usuarios por centros de costo desde archivo plano
+     */
     public void insertarUsuarioPorCentroCosto(XSSFSheet sheet) {
     	Row row;
 		int numFilas = sheet.getPhysicalNumberOfRows();	
@@ -379,6 +414,10 @@ public class UsuarioPorCentroCostoBB extends SpringBeanAutowiringSupport impleme
 		listaUsuarioPorCentroCostos = getUsuarioService().getUsuarioPorCentroCostos();
 	}	
     
+    /**
+     *Metodo para obtener el id de un Centro de Costo a partir del codigo
+     *@param v: variable que contiene el codigo del centro de costo
+     */
     public int getIdCentroCostoByCentroCosto(String centroCosto) {
 		for(CentroCosto ceco : lstCentroCostos) {
 			if(ceco.getCentroCosto().equals(centroCosto.trim())) {
@@ -388,6 +427,10 @@ public class UsuarioPorCentroCostoBB extends SpringBeanAutowiringSupport impleme
 		return 0;
 	}
     
+    /**
+     *Metodo para obtener el id de un Usuario a partir del usuario
+     *@param usuario: variable que contiene el usuario
+     */
     public int getIdUsuarioByUsuario(String usuario) {
 		for(Usuario usu : lstUsuarios) {
 			if(usu.getUsuario().equals(usuario.trim())) {

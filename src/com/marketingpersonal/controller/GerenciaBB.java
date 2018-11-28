@@ -15,12 +15,18 @@ import com.marketingpersonal.common.Util;
 import com.marketingpersonal.model.entity.Gerencia;
 import com.marketingpersonal.service.IGerenciaService;
 
+/**
+ * Clase controladora para manejo de Gerencias
+ * @author Jarrison Garcia, Juan Camilo Monsalve 
+ * @date 30/10/2018
+ */
 @ManagedBean(name = "gerenciaBB")
 @ViewScoped
 public class GerenciaBB extends SpringBeanAutowiringSupport implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 
+	//Campos de la clase
 	@Autowired
 	private IGerenciaService gerenciaService;
 	private Util util;
@@ -28,6 +34,9 @@ public class GerenciaBB extends SpringBeanAutowiringSupport implements Serializa
 	private Gerencia selectedGerencia;
 	private List<Gerencia> listaGerencias;
 	
+	/**
+     * Constructor para controlador de Gerencias
+     */
 	public GerenciaBB() {
 		util = Util.getInstance();
 		gerencia = new Gerencia();
@@ -35,6 +44,11 @@ public class GerenciaBB extends SpringBeanAutowiringSupport implements Serializa
 		listaGerencias = getGerenciaService().getGerencias(false);
 	}
 	
+	/**
+     * Método que valida la obligatoriedad de los campos
+     * @param ger: Variable de tipo Gerencia
+     * @return permiteGuardar: variable booleana que indica si es posible guardar o no la nueva Gerencia
+     */
 	private boolean validar(Gerencia ger) {
 		boolean permiteGuardar = true;
 		
@@ -46,6 +60,9 @@ public class GerenciaBB extends SpringBeanAutowiringSupport implements Serializa
 		return permiteGuardar;
 	}
 	
+	/**
+     *Metodo para crear una nueva Gerencia
+     */
 	public void addGerencia() {
 		try {
 			boolean guardar = true;
@@ -77,6 +94,9 @@ public class GerenciaBB extends SpringBeanAutowiringSupport implements Serializa
 		} 	
 	}
 
+	/**
+     *Metodo para modificar una Gerencia
+     */
 	public void updateGerencia() {
 		try {
 			boolean actualizar = true;
@@ -109,6 +129,9 @@ public class GerenciaBB extends SpringBeanAutowiringSupport implements Serializa
 		}
 	}
 	
+	/**
+     *Metodo para eliminar una Gerencia
+     */
 	public void deleteGerencia() {
 		try {
 			getGerenciaService().deleteGerencia(selectedGerencia);

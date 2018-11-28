@@ -30,12 +30,19 @@ import com.marketingpersonal.model.entity.Validacion;
 import com.marketingpersonal.service.ICentroCostoService;
 import com.marketingpersonal.service.ICuentaService;
 
+/**
+ * Clase controladora para manejo de Centros de Costo por Cuenta
+ * @author Jarrison Garcia, Juan Camilo Monsalve 
+ * @date 30/10/2018
+ */
+
 @ManagedBean(name = "centroCostoPorCuentaBB")
 @ViewScoped
 public class CentroCostoPorCuentaBB extends SpringBeanAutowiringSupport implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
+	//Campos de la clase
 	@Autowired
 	private ICentroCostoService centroCostoService;
 	@Autowired
@@ -56,6 +63,9 @@ public class CentroCostoPorCuentaBB extends SpringBeanAutowiringSupport implemen
 	private Validacion validacion;
 	private List<Validacion> listaValidacion;
 
+	/**
+     * Constructor para controlador de Centros de Costo por Cuenta
+     */
 	public CentroCostoPorCuentaBB() {
 		util = Util.getInstance();
 		centroCostoPorCuenta = new CentroCostoPorCuenta();
@@ -66,6 +76,11 @@ public class CentroCostoPorCuentaBB extends SpringBeanAutowiringSupport implemen
 		lstCentroCosto = getCentroCostoService().getCentroCostos(true);
 	}
 
+	/**
+     * Método que valida la obligatoriedad de los campos
+     * @param cue: Variable de tipo Centro de Costo por Cuenta
+     * @return permiteGuardar: variable booleana que indica si es posible guardar o no el nuevo centro de costo por cuenta
+     */
 	private boolean validar(CentroCostoPorCuenta cue) {
 		boolean permiteGuardar = true;
 
@@ -82,6 +97,9 @@ public class CentroCostoPorCuentaBB extends SpringBeanAutowiringSupport implemen
 		return permiteGuardar;
 	}
 
+	/**
+     *Metodo para crear un nuevo Centro de Costo por Cuenta
+     */
 	public void addCentroCostoPorCuenta() {
 		try {
 			boolean guardar = true;
@@ -111,6 +129,9 @@ public class CentroCostoPorCuentaBB extends SpringBeanAutowiringSupport implemen
 		}
 	}
 
+	/**
+     *Metodo para modificar un Centro de Costo por Cuenta
+     */
 	public void updateCentroCostoPorCuenta() {
 		try {
 			boolean actualizar = true;
@@ -141,6 +162,9 @@ public class CentroCostoPorCuentaBB extends SpringBeanAutowiringSupport implemen
 		}
 	}
 
+	/**
+     *Metodo para eliminar un Centro de Costo por Cuenta
+     */
 	public void deleteCentroCostoPorCuenta() {
 		try {
 			getCentroCostoService().deleteCentroCostoPorCuenta(selectedCentroCostoPorCuenta);
@@ -153,6 +177,10 @@ public class CentroCostoPorCuentaBB extends SpringBeanAutowiringSupport implemen
 		}
 	}
 
+	/**
+     *Metodo para validar y cargar un archivo plano de Centros de Costo por Cuenta
+     *@param event variable que contiene información del archivo plano a cargar
+     */
 	public void uploadPlanoCentrosCostoPorCuenta(FileUploadEvent event) {
 
 		try {
@@ -177,6 +205,9 @@ public class CentroCostoPorCuentaBB extends SpringBeanAutowiringSupport implemen
 
 	}
 
+	/**
+	 *Metodo para descarga de archivo plano de Centros de Costo por Cuenta de ejemplo
+	 */
 	public StreamedContent getFileDescargar() {
 		InputStream stream = FacesContext.getCurrentInstance().getExternalContext()
 				.getResourceAsStream("/resources/files/Archivo Plano Cuentas por Centros de Costo.xlsx");
@@ -186,6 +217,10 @@ public class CentroCostoPorCuentaBB extends SpringBeanAutowiringSupport implemen
 		return fileDescargar;
 	}
 
+	/**
+     *Metodo para validar Centros de Costo por Cuenta desde archivo plano
+     *@param workbook: variable que contiene libro de excel
+     */
 	private boolean validarArchivoPlano(XSSFWorkbook workbook) {
 		boolean permiteGuardar = true;
 
@@ -283,6 +318,10 @@ public class CentroCostoPorCuentaBB extends SpringBeanAutowiringSupport implemen
 		return permiteGuardar;
 	}
 
+	/**
+     *Metodo para insertar Centros de Costo por Cuenta desde archivo plano
+     *@param sheet: variable que contiene la hoja del archivo de excel
+     */
 	public void insertarCentroCostoPorCuenta(XSSFSheet sheet) {
 		Row row;
 		int numFilas = sheet.getPhysicalNumberOfRows();
@@ -305,6 +344,10 @@ public class CentroCostoPorCuentaBB extends SpringBeanAutowiringSupport implemen
 		listaCentroCostoPorCuentas = getCentroCostoService().getCentroCostoPorCuentas();
 	}
 
+	/**
+     *Metodo para obtener el id de una cuenta a partir del nombre
+     *@param cuenta: variable que contiene el nombre de la cuenta
+     */
 	public int getIdCuentaByCuenta(String cuenta) {
 		for (Cuenta cue : lstCuenta) {
 			if (cue.getCuenta().equals(cuenta.trim())) {
@@ -314,6 +357,10 @@ public class CentroCostoPorCuentaBB extends SpringBeanAutowiringSupport implemen
 		return 0;
 	}
 
+	/**
+     *Metodo para obtener el id de un Centro de costo a partir del codigo
+     *@param centroCosto: variable que contiene el Centro de Costo
+     */
 	public int getIdCentroCostoByCentroCosto(String centroCosto) {
 		for (CentroCosto ceco : lstCentroCosto) {
 			if (ceco.getCentroCosto().equals(centroCosto.trim())) {

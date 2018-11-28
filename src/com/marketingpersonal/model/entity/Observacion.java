@@ -14,6 +14,11 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+/**
+ * Clase que contiene los atributos para la entidad Observacion
+ * @author Jarrison Garcia, Juan Camilo Monsalve 
+ * @date 30/10/2018
+ */
 @Entity
 @Table(name = "observacion", schema = "presupuestomd.dbo")
 public class Observacion implements java.io.Serializable {

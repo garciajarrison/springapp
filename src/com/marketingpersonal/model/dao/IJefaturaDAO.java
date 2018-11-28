@@ -4,7 +4,11 @@ import java.util.List;
 
 import com.marketingpersonal.model.entity.Jefatura;
 
-
+/**
+ * Interface que contiene los metodos implementados en la clase JefaturaDAO
+ * @author Jarrison Garcia, Juan Camilo Monsalve 
+ * @date 30/10/2018
+ */
 public interface IJefaturaDAO {
 	
 	void addJefatura(Jefatura entity);

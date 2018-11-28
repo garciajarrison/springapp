@@ -37,12 +37,18 @@ import com.marketingpersonal.service.ICentroCostoService;
 import com.marketingpersonal.service.ICuentaService;
 import com.marketingpersonal.service.IPresupuestoHistoricoService;
 
+/**
+ * Clase controladora para manejo de Histórico de Gastos
+ * @author Jarrison Garcia, Juan Camilo Monsalve 
+ * @date 30/10/2018
+ */
 @ManagedBean(name = "presupuestoHistoricoBB")
 @ViewScoped
 public class PresupuestoHistoricoBB extends SpringBeanAutowiringSupport implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
+	//Campos de la clase
 	@Autowired
 	private IPresupuestoHistoricoService presupuestoHistoricoService;
 	@Autowired
@@ -68,6 +74,9 @@ public class PresupuestoHistoricoBB extends SpringBeanAutowiringSupport implemen
 	private Validacion validacion;
 	private List<Validacion> listaValidacion;
 
+	/**
+     * Constructor para controlador de Historico de Gastos
+     */	
 	public PresupuestoHistoricoBB() {
 		util = Util.getInstance();
 		presupuestoHistorico = new PresupuestoHistorico();
@@ -84,93 +93,22 @@ public class PresupuestoHistoricoBB extends SpringBeanAutowiringSupport implemen
 	}
 
 	/***
-	 * Elimiaciones de presupuesto y detalle
-	 */
-	
+	 * Metodo que realiza la elimiacion de presupuesto y detalle
+	 */	
 	public void deletePresupuesto() {
 		try {
 			getPresupuestoHistoricoService().deletePresupuestoHistorico(selectedPresupuestoHistorico);
-			// cargarListaPresupuesto();
 			util.mostrarMensaje("Registro eliminado con éxito.");
 
 		} catch (DataAccessException e) {
 			e.printStackTrace();
 			util.mostrarError("Error eliminando el registro.");
 		}
-	}
+	}	
 
-	public IPresupuestoHistoricoService getPresupuestoHistoricoService() {
-		return presupuestoHistoricoService;
-	}
-
-	public void setPresupuestoHistoricoService(IPresupuestoHistoricoService presupuestoHistoricoService) {
-		this.presupuestoHistoricoService = presupuestoHistoricoService;
-	}
-
-	public ICuentaService getCuentaService() {
-		return cuentaService;
-	}
-
-	public void setCuentaService(ICuentaService cuentaService) {
-		this.cuentaService = cuentaService;
-	}
-
-	public ICentroCostoService getCentroCostoService() {
-		return centroCostoService;
-	}
-
-	public void setCentroCostoService(ICentroCostoService centroCostoService) {
-		this.centroCostoService = centroCostoService;
-	}
-
-	public Util getUtil() {
-		return util;
-	}
-
-	public void setUtil(Util util) {
-		this.util = util;
-	}
-
-	public PresupuestoHistorico getPresupuestoHistorico() {
-		return presupuestoHistorico;
-	}
-
-	public void setPresupuestoHistorico(PresupuestoHistorico presupuestoHistorico) {
-		this.presupuestoHistorico = presupuestoHistorico;
-	}
-
-	public Usuario getUsuario() {
-		return usuario;
-	}
-
-	public void setUsuario(Usuario usuario) {
-		this.usuario = usuario;
-	}
-
-	public List<Cuenta> getListaCuentas() {
-		return listaCuentas;
-	}
-
-	public void setListaCuentas(List<Cuenta> listaCuentas) {
-		this.listaCuentas = listaCuentas;
-	}
-
-	public List<CentroCosto> getListaCentroCostos() {
-		return listaCentroCostos;
-	}
-
-	public void setListaCentroCostos(List<CentroCosto> listaCentroCostos) {
-		this.listaCentroCostos = listaCentroCostos;
-	}
-
-	public PresupuestoHistorico getSelectedPresupuestoHistorico() {
-		return selectedPresupuestoHistorico;
-	}
-
-	public void setSelectedPresupuestoHistorico(PresupuestoHistorico selectedPresupuestoHistorico) {
-		this.selectedPresupuestoHistorico = selectedPresupuestoHistorico;
-	}
-
+	/**
+	 *Metodo para descarga de archivo plano de Historico de Gastos de ejemplo
+	 */
 	public StreamedContent getFileDescargar() {
 		InputStream stream = FacesContext.getCurrentInstance().getExternalContext()
 				.getResourceAsStream("/resources/files/Archivo Plano Histórico Gastos.xlsx");
@@ -180,6 +118,10 @@ public class PresupuestoHistoricoBB extends SpringBeanAutowiringSupport implemen
 		return fileDescargar;
 	}
 
+	/**
+     *Metodo para validar y cargar un archivo plano del Historico de Gastos
+     *@param event variable que contiene información del archivo plano a cargar
+     */
 	public void uploadPlanoHistorico(FileUploadEvent event) {
 
 		try {
@@ -206,6 +148,10 @@ public class PresupuestoHistoricoBB extends SpringBeanAutowiringSupport implemen
 		}
 	}
 
+	/**
+     *Metodo para validar la información contenida en el archivo plano
+     *@param workbook: variable que contiene libro de excel
+     */
 	private boolean validarArchivoPlano(XSSFWorkbook workbook) {
 		boolean permiteGuardar = true;
 
@@ -391,6 +337,10 @@ public class PresupuestoHistoricoBB extends SpringBeanAutowiringSupport implemen
 		return permiteGuardar;
 	}
 
+	/**
+     *Metodo para obtener el id de una Cuenta a partir del codigo
+     *@param cuenta: variable que contiene el numero de cuenta
+     */
 	public int getIdCuentaByCuenta(String cuenta) {
 		for (Cuenta cue : listaCuentas) {
 			if (cue.getCuenta().equals(cuenta.trim())) {
@@ -400,6 +350,10 @@ public class PresupuestoHistoricoBB extends SpringBeanAutowiringSupport implemen
 		return 0;
 	}
 
+	/**
+     *Metodo para obtener el id de un Centro de Costo a partir del codigo
+     *@param centroCosto: variable que contiene el codigo del centro de costo
+     */
 	public int getIdCentroCostoByCentroCosto(String centroCosto) {
 		for (CentroCosto ceco : listaCentroCostos) {
 			if (ceco.getCentroCosto().equals(centroCosto.trim())) {
@@ -437,8 +391,10 @@ public class PresupuestoHistoricoBB extends SpringBeanAutowiringSupport implemen
 		this.fileDescargar = fileDescargar;
 	}
 
-	// Carga Archivo Plano Nomina
-
+	/**
+     *Metodo para insertar Histórico de Gastos desde archivo plano
+     *@param sheet: variable que contiene la hoja del archivo de excel
+     */
 	public void insertarPlanoPresupuestoHistorico(XSSFSheet sheet) {
 		Row row;
 		int idCuenta;
@@ -480,6 +436,11 @@ public class PresupuestoHistoricoBB extends SpringBeanAutowiringSupport implemen
 		presupuestoHistorico = new PresupuestoHistorico();
 	}
 
+	/**
+     *Metodo para validar si el valor ingresado en una celda es diferente de null o vacio
+     *@param row: variable que contiene la fila de la hoja de excel
+     *@param col: variable que contiene el numero de columna de la hoja de excel
+     */
 	public String getValorCelda(Row row, int col) {
 		try {	
 			Cell cell = row.getCell(col, MissingCellPolicy.RETURN_NULL_AND_BLANK);
@@ -491,6 +452,10 @@ public class PresupuestoHistoricoBB extends SpringBeanAutowiringSupport implemen
 		}
 	}
 	
+	/**
+     *Metodo para convertir un dato de tipo String a Double
+     *@param valor: variable que contiene el valor a convertir
+     */
 	public double convertirADouble(String valor) {
 		if(valor.equals("") || valor == null) {
 			return 0;
@@ -534,5 +499,77 @@ public class PresupuestoHistoricoBB extends SpringBeanAutowiringSupport implemen
 	public void eliminarPresupuestoPorAnio() {
 		this.getPresupuestoHistoricoService().deletePresupuestoHistoricoPorAnio(anioConsulta);
 		listaPresupuestoHistorico = getPresupuestoHistoricoService().getPresupuestosHistoricos();
+	}
+	
+	public IPresupuestoHistoricoService getPresupuestoHistoricoService() {
+		return presupuestoHistoricoService;
+	}
+
+	public void setPresupuestoHistoricoService(IPresupuestoHistoricoService presupuestoHistoricoService) {
+		this.presupuestoHistoricoService = presupuestoHistoricoService;
+	}
+
+	public ICuentaService getCuentaService() {
+		return cuentaService;
+	}
+
+	public void setCuentaService(ICuentaService cuentaService) {
+		this.cuentaService = cuentaService;
+	}
+
+	public ICentroCostoService getCentroCostoService() {
+		return centroCostoService;
+	}
+
+	public void setCentroCostoService(ICentroCostoService centroCostoService) {
+		this.centroCostoService = centroCostoService;
+	}
+
+	public Util getUtil() {
+		return util;
+	}
+
+	public void setUtil(Util util) {
+		this.util = util;
+	}
+
+	public PresupuestoHistorico getPresupuestoHistorico() {
+		return presupuestoHistorico;
+	}
+
+	public void setPresupuestoHistorico(PresupuestoHistorico presupuestoHistorico) {
+		this.presupuestoHistorico = presupuestoHistorico;
+	}
+
+	public Usuario getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
+	}
+
+	public List<Cuenta> getListaCuentas() {
+		return listaCuentas;
+	}
+
+	public void setListaCuentas(List<Cuenta> listaCuentas) {
+		this.listaCuentas = listaCuentas;
+	}
+
+	public List<CentroCosto> getListaCentroCostos() {
+		return listaCentroCostos;
+	}
+
+	public void setListaCentroCostos(List<CentroCosto> listaCentroCostos) {
+		this.listaCentroCostos = listaCentroCostos;
+	}
+
+	public PresupuestoHistorico getSelectedPresupuestoHistorico() {
+		return selectedPresupuestoHistorico;
+	}
+
+	public void setSelectedPresupuestoHistorico(PresupuestoHistorico selectedPresupuestoHistorico) {
+		this.selectedPresupuestoHistorico = selectedPresupuestoHistorico;
 	}
 }

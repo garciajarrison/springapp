@@ -8,7 +8,11 @@ import com.marketingpersonal.model.entity.PresupuestoDetalleCampania;
 import com.marketingpersonal.model.entity.PresupuestoDetalleMes;
 import com.marketingpersonal.model.entity.Usuario;
 
-
+/**
+ * Interface que contiene los metodos implementados en la clase PresupuestoDAO
+ * @author Jarrison Garcia, Juan Camilo Monsalve 
+ * @date 30/10/2018
+ */
 public interface IPresupuestoDAO {
 	
 	void addPresupuesto(Presupuesto entity);

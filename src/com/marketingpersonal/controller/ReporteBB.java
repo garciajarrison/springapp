@@ -24,12 +24,18 @@ import com.marketingpersonal.service.ICalculadoraService;
 import com.marketingpersonal.service.IParametroService;
 import com.marketingpersonal.service.IPresupuestoService;
 
+/**
+ * Clase controladora para manejo de Reporte
+ * @author Jarrison Garcia, Juan Camilo Monsalve 
+ * @date 30/10/2018
+ */
 @ManagedBean(name = "reporteBB")
 @ViewScoped
 public class ReporteBB extends SpringBeanAutowiringSupport implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 
+	//Campos de la clase
 	@Autowired
 	private IPresupuestoService presupuestoService;
 	@Autowired
@@ -56,6 +62,9 @@ public class ReporteBB extends SpringBeanAutowiringSupport implements Serializab
 	private boolean mes = false;
 	private boolean campania = false;
 	
+	/**
+     * Constructor para controlador de Reporte
+     */	
 	public ReporteBB() {
 		util = Util.getInstance();
 		listaAnios = calculadoraService.getListaAnios();
@@ -65,6 +74,10 @@ public class ReporteBB extends SpringBeanAutowiringSupport implements Serializab
 		cargarListasPorAnio(null);
 	}
 	
+	/**
+     *Metodo que carga información de listas de presupuesto por año. Si el usuario es Administrador carga presupuestos de todos los usuarios, si es Usuario carga los presupuestos que le corresponden.
+     *@param event variable que contiene información evento ajax
+     */	
 	public void cargarListasPorAnio(final AjaxBehaviorEvent event) {
 		try {
 			cargarListaCalculadora();
@@ -87,6 +100,9 @@ public class ReporteBB extends SpringBeanAutowiringSupport implements Serializab
 		}
 	}
 	
+	/**
+     *Metodo que realiza la conversión de un presupuesto Mensual a Campañal ó Campañal a Mensual 
+     */	
 	public void cargarReporte() {
 		try {
 			mes = false;
@@ -366,6 +382,9 @@ public class ReporteBB extends SpringBeanAutowiringSupport implements Serializab
 		}
 	}
 	
+	/**
+     *Metodo que realiza la carga d ela información de la calculadora para realizar la conversión 
+     */
 	public void cargarListaCalculadora() {
 		try {
 			listaCalculadoras = getCalculadoraService().getCalculadoras("CM", anioConsulta);
