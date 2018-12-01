@@ -446,7 +446,7 @@
 								        			update="@form" icon="ui-icon-arrowrefresh-1-w" >
 								        </p:menuitem>
 								        <p:menuitem value="Eliminar" 
-								        			rendered="#{presupuestoDetalleMes.estado eq 'PENDIENTE' or presupuestoDetalleMes.estado eq 'RECHAZADO'}"
+								        			rendered="#{presupuestoDetalleMes.estado eq '' or presupuestoDetalleMes.estado eq 'PENDIENTE' or presupuestoDetalleMes.estado eq 'RECHAZADO'}"
 								        			actionListener="#{presupuestoBB.setSelectedPresupuestoDetalleMes(presupuestoDetalleMes)}" 
 								        			update=":#{p:component('dlgEliminarMes')}" oncomplete="PF('dlgEliminarMes').show();"
 								        			icon="ui-icon-close" >
@@ -965,7 +965,7 @@
 								        			update="@form" icon="ui-icon-arrowrefresh-1-w" >
 								        </p:menuitem>
 								        <p:menuitem value="Eliminar" 
-								        			rendered="#{presupuestoDetalleCampania.estado eq 'PENDIENTE' or presupuestoDetalleCampania.estado eq 'RECHAZADO'}"
+								        			rendered="#{presupuestoDetalleCampania.estado eq '' or presupuestoDetalleCampania.estado eq 'PENDIENTE' or presupuestoDetalleCampania.estado eq 'RECHAZADO'}"
 								        			actionListener="#{presupuestoBB.setSelectedPresupuestoDetalleCampania(presupuestoDetalleCampania)}" 
 								        			update=":#{p:component('dlgEliminarCamp')}" oncomplete="PF('dlgEliminarCamp').show();"
 								        			icon="ui-icon-close" >
