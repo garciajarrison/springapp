@@ -36,6 +36,7 @@ public class PresupuestoService implements IPresupuestoService {
 
 	@Transactional(readOnly = false)
 	public void deletePresupuesto(Presupuesto entity) {
+		getEntityDAO().deleteDetallePresupuesto(entity);
 		getEntityDAO().deletePresupuesto(entity);
 	}
 

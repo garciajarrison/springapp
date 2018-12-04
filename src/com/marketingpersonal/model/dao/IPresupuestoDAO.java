@@ -74,5 +74,7 @@ public interface IPresupuestoDAO {
 	List<Presupuesto> getPresupuestosPorAnio(Integer anioConsulta);
 
 	List<Presupuesto> getPresupuestosPorAnioPorUsuario(Integer anioConsulta, int idUsuario);
+
+	void deleteDetallePresupuesto(Presupuesto entity);
 	
 }

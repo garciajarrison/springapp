@@ -88,6 +88,35 @@ public class PresupuestoDAO implements IPresupuestoDAO {
 		Session session = getSessionFactory().getCurrentSession();
 		session.delete(entity);
 	}
+	
+	/**
+     * Método que permite eliminar la información de un Presupuesto de la base de datos
+     * @param entity variable que contiene la información de la entidad Presupuesto a eliminar
+     */
+	public void deleteDetallePresupuesto(Presupuesto entity) {
+		Session session = getSessionFactory().getCurrentSession();
+		
+		if(entity.getDetalleCampania() != null && !entity.getDetalleCampania().isEmpty()) {
+			session.createSQLQuery("delete from dbo.observacion where id_detalle_presupuesto_campania = :id")
+				.setParameter("id", entity.getDetalleCampania().get(0).getId()).executeUpdate();
+			session.flush();
+		}
+		
+		if(entity.getDetalleMes() != null && !entity.getDetalleMes().isEmpty()) {
+			session.createSQLQuery("delete from dbo.observacion where id_detalle_presupuesto_mes = :id")
+				.setParameter("id", entity.getDetalleMes().get(0).getId()).executeUpdate();
+			session.flush();
+		}
+		
+		session.createSQLQuery("delete from dbo.detalle_presupuesto_mes where id_presupuesto = :id")
+			.setParameter("id", entity.getId()).executeUpdate();
+		session.flush();
+
+		session.createSQLQuery("delete from dbo.detalle_presupuesto_campania where id_presupuesto = :id")
+			.setParameter("id", entity.getId()).executeUpdate();
+		session.flush();
+		session.refresh(entity);
+	}
 
 	/**
      * Método que permite actualizar la información de un Presupuesto en la base de datos
