@@ -61,6 +61,11 @@ public class PresupuestoService implements IPresupuestoService {
 
 	@Transactional(readOnly = false)
 	public void deletePresupuestoDetalleMes(PresupuestoDetalleMes entity) {
+		if(entity.getObservaciones() != null && !entity.getObservaciones().isEmpty()) {
+			for(Observacion objTmp : entity.getObservaciones()) {
+				getEntityDAO().deleteObservacion(objTmp);
+			}
+		}
 		getEntityDAO().deletePresupuestoDetalleMes(entity);
 	}
 
@@ -90,6 +95,11 @@ public class PresupuestoService implements IPresupuestoService {
 
 	@Transactional(readOnly = false)
 	public void deletePresupuestoDetalleCampania(PresupuestoDetalleCampania entity) {
+		if(entity.getObservaciones() != null && !entity.getObservaciones().isEmpty()) {
+			for(Observacion objTmp : entity.getObservaciones()) {
+				getEntityDAO().deleteObservacion(objTmp);
+			}
+		}
 		getEntityDAO().deletePresupuestoDetalleCampania(entity);
 	}
 

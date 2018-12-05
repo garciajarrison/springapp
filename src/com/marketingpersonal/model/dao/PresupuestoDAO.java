@@ -482,4 +482,10 @@ public class PresupuestoDAO implements IPresupuestoDAO {
 				.setParameter("idUsuario", usuario.getId()).list();
 	}
 
+	@Override
+	public void deleteObservacion(Observacion entity) {
+		Session session = getSessionFactory().getCurrentSession();
+		session.delete(entity);
+	}
+
 }
