@@ -80,6 +80,7 @@ public class PresupuestoBB extends SpringBeanAutowiringSupport implements Serial
 	private ListasGenericas listasGenericas;
 	private Usuario usuario;
 	private Observacion observacion;
+	private Observacion observacionRestablecer;
 	private List<Cuenta> listaCuentas;
 	private List<CentroCosto> listaCentroCostos;
 	private boolean mostrarDetalle;
@@ -118,6 +119,7 @@ public class PresupuestoBB extends SpringBeanAutowiringSupport implements Serial
 		mostrarDetalle = false;
 		camapanaMaxima = getCalculadoraService().getCampanaMaxima(anioGeneral);
 		observacion = new Observacion();
+		observacionRestablecer = new Observacion();
 		cargarListaPresupuesto();
 		
 		listaCuentasPlanoNomina = this.getCuentaService().getCuentas(true);
@@ -496,7 +498,7 @@ public class PresupuestoBB extends SpringBeanAutowiringSupport implements Serial
 					for(PresupuestoDetalleMes det : detalle.getDetalleMes()) {
 						
 						observacionTmp = new Observacion();
-						observacionTmp.setObservacion(observacion.getObservacion());
+						observacionTmp.setObservacion(observacionRestablecer.getObservacion());
 						det.setEstado(EnumEstadosPresupuesto.PENDIENTE.getCodigo());
 						getPresupuestoService().actualizarEstadoPresupuestoDetalleMes(det);
 						observacionTmp.setPresupuestoDetalleMes(det);
@@ -516,7 +518,7 @@ public class PresupuestoBB extends SpringBeanAutowiringSupport implements Serial
 					for(PresupuestoDetalleCampania det : detalle.getDetalleCampania()) {
 						
 						observacionTmp = new Observacion();
-						observacionTmp.setObservacion(observacion.getObservacion());
+						observacionTmp.setObservacion(observacionRestablecer.getObservacion());
 						det.setEstado(EnumEstadosPresupuesto.PENDIENTE.getCodigo());
 						getPresupuestoService().actualizarEstadoPresupuestoDetalleCampania(det);
 						observacionTmp.setPresupuestoDetalleCampania(det);
@@ -540,6 +542,7 @@ public class PresupuestoBB extends SpringBeanAutowiringSupport implements Serial
 						EnumEstadosPresupuesto.PENDIENTE);
 				
 				observacion = new Observacion();
+				observacionRestablecer = new Observacion();
 				detalle = null;
 				cargarListaPresupuesto();
 				util.mostrarMensaje("El presupuesto fue restablecido con éxito.");
@@ -615,6 +618,7 @@ public class PresupuestoBB extends SpringBeanAutowiringSupport implements Serial
 						EnumEstadosPresupuesto.ENVIADO);
 				
 				observacion = new Observacion();
+				observacionRestablecer = new Observacion();
 				detalle = null;
 				cargarListaPresupuesto();
 				util.mostrarMensaje("El presupuesto fue enviado al aprobador incial con éxito.");
@@ -1230,4 +1234,13 @@ public class PresupuestoBB extends SpringBeanAutowiringSupport implements Serial
 			return "";
 		}
 	}
+
+	public Observacion getObservacionRestablecer() {
+		return observacionRestablecer;
+	}
+
+	public void setObservacionRestablecer(Observacion observacionRestablecer) {
+		this.observacionRestablecer = observacionRestablecer;
+	}
+	
  }

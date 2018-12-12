@@ -164,11 +164,11 @@
 									Tenga en cuenta que tendrá que volver a enviarlo a los aprobadores.
 									<br /><br/>
 									<p:outputLabel value="Observación"/>
-									<p:inputTextarea value="#{presupuestoBB.observacion.observacion}" 
+									<p:inputTextarea value="#{presupuestoBB.observacionRestablecer.observacion}" 
 										maxlength="200" cols="20"/>
 									<br />
 									<br />
-									<p:commandButton id="btnEnviarCamp" process="@form"
+									<p:commandButton id="btnRestablecerEstado" process="@form"
 											actionListener="#{presupuestoBB.restablecerPresupuesto()}" 
 											update="@form" title="Restablecer presupuesto" value="Restablecer presupuesto" />			
 								</div>
