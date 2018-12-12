@@ -145,10 +145,34 @@
 								        			update=":#{p:component('dlgEvniar')}" oncomplete="PF('dlgEvniar').show();"
 								        			icon="ui-icon-send" >
 								        </p:menuitem>
+								        <p:menuitem value="Restablecer estado" 
+								        			rendered="#{presupuesto.estadoDetalle ne 'PENDIENTE'}"
+								        			actionListener="#{presupuestoBB.setDetalle(presupuesto)}" 
+								        			update=":#{p:component('dlgConfirRestablecer')}" oncomplete="PF('dlgConfirRestablecer').show();"
+								        			icon="ui-icon-send" >
+								        </p:menuitem>
 								    </p:splitButton>
                                 </p:column>
                             </p:dataTable>      
                           </div> 
+                          
+                          <p:dialog header="Restablecer estado" id="dlgConfirRestablecer"
+	                            		widgetVar="dlgConfirRestablecer" minHeight="40">
+								<div align="center">
+									<strong>¿Está seguro de restablecer el estado del presupuesto?</strong>
+									<br/>
+									Tenga en cuenta que tendrá que volver a enviarlo a los aprobadores.
+									<br /><br/>
+									<p:outputLabel value="Observación"/>
+									<p:inputTextarea value="#{presupuestoBB.observacion.observacion}" 
+										maxlength="200" cols="20"/>
+									<br />
+									<br />
+									<p:commandButton id="btnEnviarCamp" process="@form"
+											actionListener="#{presupuestoBB.restablecerPresupuesto()}" 
+											update="@form" title="Restablecer presupuesto" value="Restablecer presupuesto" />			
+								</div>
+							</p:dialog>	
                           
                           <p:dialog header="Enviar aprobador inicial" id="dlgEvniar"
 	                            		widgetVar="dlgEvniar" minHeight="40">

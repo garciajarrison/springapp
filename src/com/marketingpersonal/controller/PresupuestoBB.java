@@ -482,6 +482,78 @@ public class PresupuestoBB extends SpringBeanAutowiringSupport implements Serial
 		} 
 	}
 	
+	/**
+	 * Restablece el estado del presupuesto a Pendiente
+	 */
+	public void restablecerPresupuesto() {
+		try {
+			String tipo = this.detalle.getTipo();
+			Integer centroCosto = 0;
+			Observacion observacionTmp = new Observacion();
+			if("Mensual".equals(tipo)) {
+				
+				if(detalle.getDetalleMes() != null && !detalle.getDetalleMes().isEmpty()) {
+					for(PresupuestoDetalleMes det : detalle.getDetalleMes()) {
+						
+						observacionTmp = new Observacion();
+						observacionTmp.setObservacion(observacion.getObservacion());
+						det.setEstado(EnumEstadosPresupuesto.PENDIENTE.getCodigo());
+						getPresupuestoService().actualizarEstadoPresupuestoDetalleMes(det);
+						observacionTmp.setPresupuestoDetalleMes(det);
+						observacionTmp.setUsuarioRecibe(detalle.getUsuario());
+						centroCosto = det.getCentroCosto().getId();
+						observacionTmp.setFecha(new Date());
+						observacionTmp.setEstado(EnumEstadosPresupuesto.PENDIENTE.getCodigo());
+						observacionTmp.setUsuarioEnvia(usuario);
+						
+						getPresupuestoService().addObservacion(observacionTmp);
+						selectedPresupuestoDetalleMes = det;
+					}
+				}
+			}else {
+				
+				if(detalle.getDetalleCampania() != null && !detalle.getDetalleCampania().isEmpty()) {
+					for(PresupuestoDetalleCampania det : detalle.getDetalleCampania()) {
+						
+						observacionTmp = new Observacion();
+						observacionTmp.setObservacion(observacion.getObservacion());
+						det.setEstado(EnumEstadosPresupuesto.PENDIENTE.getCodigo());
+						getPresupuestoService().actualizarEstadoPresupuestoDetalleCampania(det);
+						observacionTmp.setPresupuestoDetalleCampania(det);
+						observacionTmp.setUsuarioRecibe(detalle.getUsuario());
+						centroCosto = det.getCentroCosto().getId();
+						observacionTmp.setFecha(new Date());
+						observacionTmp.setEstado(EnumEstadosPresupuesto.PENDIENTE.getCodigo());
+						observacionTmp.setUsuarioEnvia(usuario);
+						
+						getPresupuestoService().addObservacion(observacionTmp);
+						selectedPresupuestoDetalleCampania = det;
+					}
+				}
+			}
+
+			if(centroCosto > 0) {
+				//Envio de correo
+				EnviarCorreo enviarCorreo = new EnviarCorreo();
+				enviarCorreo.enviaCorreoResponsable(detalle, 
+						detalle.getUsuario(), 
+						EnumEstadosPresupuesto.PENDIENTE);
+				
+				observacion = new Observacion();
+				detalle = null;
+				cargarListaPresupuesto();
+				util.mostrarMensaje("El presupuesto fue restablecido con éxito.");
+			}else {
+				util.mostrarError("El presupuesto no tiene detalle para restablecer.");
+			}
+			
+			
+		} catch (DataAccessException e) {
+			e.printStackTrace();
+			util.mostrarError("Error al restablecer presupuesto.");
+		} 
+	}
+	
 	/***
 	 * Metodo para enviar el presupuetso al aprobador inicial para revisión. Se almacena el encabezado y detalle de presupuesto, se almacenan las observaciones y se envia correo de notificación.
 	 * @param actualiza: variable que indica si la lista se va cargar se va actualizar

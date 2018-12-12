@@ -60,6 +60,8 @@ public class EnviarCorreo {
 			if(EnumEstadosPresupuesto.APROBADO.equals(estado) ||
 					EnumEstadosPresupuesto.FINALIZADO.equals(estado)){
 				estadotxt = "<span style='color:green'>"+estado.getNombre().toUpperCase()+"</span>";
+			}else if(EnumEstadosPresupuesto.PENDIENTE.equals(estado)) {
+				estadotxt = "<strong>"+estado.getNombre().toUpperCase()+"</strong>";
 			}else {
 				estadotxt = "<span style='color:red'>"+estado.getNombre().toUpperCase()+"</span>";
 			}
