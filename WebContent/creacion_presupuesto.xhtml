@@ -146,7 +146,7 @@
 								        			icon="ui-icon-send" >
 								        </p:menuitem>
 								        <p:menuitem value="Restablecer estado" 
-								        			rendered="#{presupuesto.estadoDetalle ne 'PENDIENTE' and 'Administrador' eq usuario.rol}"
+								        			rendered="#{presupuesto.estadoDetalle ne 'PENDIENTE' and 'Administrador' eq presupuestoBB.usuario.rol}"
 								        			actionListener="#{presupuestoBB.setDetalle(presupuesto)}" 
 								        			update=":#{p:component('dlgConfirRestablecer')}" oncomplete="PF('dlgConfirRestablecer').show();"
 								        			icon="ui-icon-send" >
